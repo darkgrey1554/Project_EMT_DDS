@@ -1,0 +1,5 @@
+﻿  HelloWorld.cxx
+  HelloWorldPublisher.cpp
+  HelloWorldPubSubTypes.cxx
+  Создание кода...
+libfastcdrd-1.0.lib(Cdr.obj) : fatal error LNK1112: тип компьютера модуля "x64" конфликтует с типом целевого компьютера "x86"

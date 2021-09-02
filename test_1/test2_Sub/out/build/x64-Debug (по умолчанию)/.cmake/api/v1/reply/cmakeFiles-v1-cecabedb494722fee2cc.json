@@ -1,0 +1,234 @@
+{
+	"inputs" : 
+	[
+		{
+			"path" : "CMakeLists.txt"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug (по умолчанию)/CMakeFiles/3.18.20081302-MSVC_2/CMakeSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeSystemSpecificInitialize.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug (по умолчанию)/CMakeFiles/3.18.20081302-MSVC_2/CMakeCCompiler.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug (по умолчанию)/CMakeFiles/3.18.20081302-MSVC_2/CMakeCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeSystemSpecificInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeGenericSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeInitializeConfigs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/Platform/Windows.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/Platform/WindowsPaths.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/Compiler/MSVC-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/Platform/Windows-MSVC-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/Platform/Windows-MSVC.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "out/build/x64-Debug (по умолчанию)/CMakeFiles/3.18.20081302-MSVC_2/CMakeRCCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeRCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeCXXInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/Compiler/MSVC-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/Platform/Windows-MSVC-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/Platform/Windows-MSVC.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/cmake/fastcdr-config.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastcdr-x64Win64VS2017/cmake/fastcdr-config.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastcdr-x64Win64VS2017/cmake/fastcdr-targets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastcdr-x64Win64VS2017/cmake/fastcdr-targets-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastcdr-x64Win64VS2017/cmake/fastcdr-targets-release.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/cmake/fastrtps-config.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastrtps-x64Win64VS2017/cmake/fastrtps-config.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/cmake/fastcdr-config.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastcdr-x64Win64VS2017/cmake/fastcdr-config.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastcdr-x64Win64VS2017/cmake/fastcdr-targets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/cmake/foonathan_memory-config.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/foonathan_memory-x64Win64VS2017/cmake/foonathan_memory-config.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/foonathan_memory-x64Win64VS2017/cmake/foonathan_memory-config-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/foonathan_memory-x64Win64VS2017/cmake/foonathan_memory-config-release.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/foonathan_memory-x64Win64VS2017/cmake/foonathan_memory-config-version.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastrtps-x64Win64VS2017/cmake/fastrtps-targets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastrtps-x64Win64VS2017/cmake/fastrtps-targets-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastrtps-x64Win64VS2017/cmake/fastrtps-targets-release.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastrtps-x64Win64VS2017/cmake/fast-discovery-server-targets.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastrtps-x64Win64VS2017/cmake/fast-discovery-server-targets-debug.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "C:/Program Files/eProsima/fastrtps 2.3.0/share/fastrtps-x64Win64VS2017/cmake/fast-discovery-server-targets-release.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CheckCXXCompilerFlag.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CheckCXXSourceCompiles.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.18/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake"
+		}
+	],
+	"kind" : "cmakeFiles",
+	"paths" : 
+	{
+		"build" : "D:/CATE_WORK/GATE_EMT_DDS/test_1/test2_Sub/out/build/x64-Debug (по умолчанию)",
+		"source" : "D:/CATE_WORK/GATE_EMT_DDS/test_1/test2_Sub"
+	},
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

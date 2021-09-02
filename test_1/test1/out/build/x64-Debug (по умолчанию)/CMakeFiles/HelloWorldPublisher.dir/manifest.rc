@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "D:/CATE_WORK/GATE_EMT_DDS/test_1/test1/out/build/x64-Debug (по умолчанию)/CMakeFiles/HelloWorldPublisher.dir/embed.manifest"
