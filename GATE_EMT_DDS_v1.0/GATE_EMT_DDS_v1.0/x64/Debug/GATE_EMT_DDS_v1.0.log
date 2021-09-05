@@ -1,5 +1,8 @@
-﻿  HelloWorld.cxx
-  HelloWorldPublisher.cpp
-  HelloWorldPubSubTypes.cxx
+﻿  logger.cpp
+D:\CATE_WORK\logger_crossplatform\logger.cpp(445,82): warning C4267: аргумент: преобразование из "size_t" в "DWORD"; возможна потеря данных
+  Config_Reader.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.h(5,10): fatal error C1083: Не удается открыть файл включение: logger.h: No such file or directory,
+  gate.cpp
+  main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.h(5,10): fatal error C1083: Не удается открыть файл включение: logger.h: No such file or directory,
   Создание кода...
-  GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Debug\GATE_EMT_DDS_v1.0.exe

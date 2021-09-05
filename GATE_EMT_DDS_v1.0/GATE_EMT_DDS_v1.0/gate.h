@@ -2,6 +2,7 @@
 
 #include "structs.h"
 #include "SM_DDS.h"
+#include "Config_Reader.h"
 
 class Gate
 {
@@ -24,7 +25,7 @@ public:
 class DDS_Gate : Gate
 {
 
-	SharedMemoryDDS* sharedmem;
+	ConfigReaderDDS* ConfigReader;
 
 
 
