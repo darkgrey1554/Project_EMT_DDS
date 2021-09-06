@@ -23,6 +23,7 @@
     <ClCompile Include="Config_Reader.cpp" />
     <ClCompile Include="gate.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SM_DDS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\logger_crossplatform\logger.h" />

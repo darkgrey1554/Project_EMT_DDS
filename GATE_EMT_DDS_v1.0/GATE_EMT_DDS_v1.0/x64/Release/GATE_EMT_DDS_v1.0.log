@@ -1,8 +1,43 @@
-﻿  Config_Reader.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.cpp(54,44): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.cpp(204,44): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+﻿  SM_DDS.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(230,36): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(263,36): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(296,36): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(316,15): warning C4018: >: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(337,37): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(349,15): warning C4018: >: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(370,37): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(382,15): warning C4018: >: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(403,37): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(446,48): error C2561: SharedMemoryDDS::ReadHead: функция должна возвращать значение
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(440): message : см. объявление "SharedMemoryDDS::ReadHead"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(457,48): error C2561: SharedMemoryDDS::ReadHead: функция должна возвращать значение
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(440): message : см. объявление "SharedMemoryDDS::ReadHead"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(468,48): error C2561: SharedMemoryDDS::ReadHead: функция должна возвращать значение
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(440): message : см. объявление "SharedMemoryDDS::ReadHead"
   gate.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\gate.h(4,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  main.cpp
   Создание кода...
-  LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
-  GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe

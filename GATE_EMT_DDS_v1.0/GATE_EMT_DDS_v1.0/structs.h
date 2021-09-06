@@ -29,6 +29,12 @@ enum class TypeData
 	BINAR
 };
 
+enum class TypeValue
+{
+	INPUT,
+	OUTPUT
+};
+
 /// <summary>
 /// структура для хранения времени в расшаренной памяти
 /// </summary>
@@ -137,3 +143,4 @@ struct ConfigSubscriber
 	};
 
 };
+
