@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\..\logger_crossplatform\logger.cpp" />
     <ClCompile Include="Config_Reader.cpp" />
     <ClCompile Include="gate.cpp" />
+    <ClCompile Include="KKS_Reader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SM_DDS.cpp" />
   </ItemGroup>
@@ -30,6 +31,7 @@
     <ClInclude Include="Config_Reader.h" />
     <ClInclude Include="DDSUnit.h" />
     <ClInclude Include="gate.h" />
+    <ClInclude Include="KKS_Reader.h" />
     <ClInclude Include="SM_DDS.h" />
     <ClInclude Include="structs.h" />
   </ItemGroup>

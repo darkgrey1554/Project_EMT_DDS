@@ -409,6 +409,7 @@ ResultReqest  SharedMemoryDDS::WriteMemory(TypeData type, void* buf, int size)
 
 	return ResultReqest::OK;
 }
+
 void  SharedMemoryDDS::DeleteMemory(TypeData type)
 {
 
@@ -443,7 +444,7 @@ HeaderSharedMemory SharedMemoryDDS::ReadHead(TypeData type)
 
 	if (type == TypeData::ANALOG)
 	{
-		if (buf_analog == NULL || SM_Analog == NULL) return;
+		if (buf_analog == NULL || SM_Analog == NULL) return head;
 
 		WaitForSingleObject(Mut_Analog, INFINITE);
 
@@ -454,7 +455,7 @@ HeaderSharedMemory SharedMemoryDDS::ReadHead(TypeData type)
 
 	if (type == TypeData::DISCRETE)
 	{
-		if (buf_discrete == NULL || SM_Discrete == NULL) return;
+		if (buf_discrete == NULL || SM_Discrete == NULL) return head;
 
 		WaitForSingleObject(Mut_Discrete, INFINITE);
 
@@ -465,7 +466,7 @@ HeaderSharedMemory SharedMemoryDDS::ReadHead(TypeData type)
 
 	if (type == TypeData::BINAR)
 	{
-		if (buf_binar == NULL || SM_Binar == NULL) return;
+		if (buf_binar == NULL || SM_Binar == NULL) return head;
 
 		WaitForSingleObject(Mut_Binar, INFINITE);
 

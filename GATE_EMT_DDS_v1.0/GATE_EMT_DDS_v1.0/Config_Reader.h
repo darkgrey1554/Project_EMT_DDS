@@ -11,8 +11,8 @@ class ConfigReaderDDS
 
 public:
 
-	std::vector<ConfigSubscriber> SubscribersDDS;
-	std::vector<ConfigPublisher> PublishersDDS;
+	std::vector<ConfigDDSUnit> SubscribersDDS;
+	std::vector<ConfigDDSUnit> PublishersDDS;
 
 
 

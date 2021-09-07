@@ -1,14 +1,32 @@
 #pragma once
 #include "structs.h"
-#include "Config_Reader.h"
+#include "SM_DDS.h"
+#include "KKS_Reader.h"
 
 class DDSUnit
 {
 
-	const Type_Gate typegate = Type_Gate::DDS;
-	ConfigReaderDDS* ConfigReader;
+
+public:
 
 
 
 
+};
+
+class DDSUnit_Subcriber : DDSUnit
+{
+	SharedMemoryDDS* SharedMemoryUnit;
+	KKSReader* readerkks;
+
+public:
+
+	DDSUnit_Subcriber();
+	~DDSUnit_Subcriber();
+
+	void Stop();
+	void Start();
+	void GetCurrentStatus();
+	void GetConfig();
+	void Restart();
 };

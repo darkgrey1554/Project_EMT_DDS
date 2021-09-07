@@ -11,7 +11,7 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
     int pos[2] = { 0,0 };
     int count = 0;
     char status = 0;
-    ConfigSubscriber subscriber;
+    ConfigDDSUnit subscriber;
     
     config_file = fopen(file_name.c_str(), "r");
     if (config_file == NULL)
@@ -35,13 +35,13 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
         {
             if (SubscribersDDS.empty()) 
             {
-                log->WriteLogERR("ERROR READ CONFIG DDS", 2, 0); 
+                log->WriteLogERR("ERROR READ CONFIG DDS", 2, 0);
                 result = ResultReqest::ERR;
             }
             break;
         }
 
-        if (str_info.substr(0, 16) == "[DDS_SUBSCRIBER]")
+        if (str_info.substr(0, 16) == "[SUBSCRIBER]")
         {
             status = 1;
             subscriber.clear();
@@ -50,10 +50,9 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
 
         if (status == 1)
         {
-            
             pos[0] = str_info.find('\t', 0);
             /// чтение IP адреса
-            if (str_info.find("IP_Address") != -1)
+            if (str_info.find("IP_Address_MAIN") != -1)
             {
                 if (pos[0] == -1) 
                 { 
@@ -61,15 +60,26 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
                     result = ResultReqest::ERR;
                     continue; 
                 }                
-                subscriber.IP = str_info.substr((size_t)pos[0] + 1);
+                subscriber.IP_MAIN = str_info.substr((size_t)pos[0] + 1);
+                continue;
+            }
+            if (str_info.find("IP_Address_RESERVE") != -1)
+            {
+                if (pos[0] == -1)
+                {
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 4, 0);
+                    result = ResultReqest::ERR;
+                    continue;
+                }
+                subscriber.IP_RESERVE = str_info.substr((size_t)pos[0] + 1);
                 continue;
             }
             /// чтение порта
-            if (str_info.find("Port") != -1)
+            if (str_info.find("Port_MAIN") != -1)
             {
                 if (pos[0] == -1) 
                 { 
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 4, 0);
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 5, 0);
                     result = ResultReqest::ERR;
                     continue; 
                 }
@@ -77,10 +87,28 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
                 helpstr = str_info.substr((size_t)pos[0] + 1);
                 if (strtol(helpstr.c_str(), NULL, 10) == 0 || strtol(helpstr.c_str(), NULL, 10) > 65535) 
                 { 
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 11, 0);
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 6, 0);
                     continue; 
                 }
-                subscriber.Port = atoi(helpstr.c_str());
+                subscriber.Port_MAIN = atoi(helpstr.c_str());
+                continue;
+            }
+            if (str_info.find("Port_RESERVE") != -1)
+            {
+                if (pos[0] == -1)
+                {
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 7, 0);
+                    result = ResultReqest::ERR;
+                    continue;
+                }
+                helpstr.clear();
+                helpstr = str_info.substr((size_t)pos[0] + 1);
+                if (strtol(helpstr.c_str(), NULL, 10) == 0 || strtol(helpstr.c_str(), NULL, 10) > 65535)
+                {
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 8, 0);
+                    continue;
+                }
+                subscriber.Port_RESERVE = atoi(helpstr.c_str());
                 continue;
             }
             /// чтение домена
@@ -88,7 +116,7 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
             {
                 if (pos[0] == -1)
                 {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 5, 0);
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 9, 0);
                     result = ResultReqest::ERR;
                     continue;
                 }
@@ -96,7 +124,7 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
                 helpstr = str_info.substr((size_t)pos[0] + 1);
                 if (strtol(helpstr.c_str(), NULL, 10) < 0 || strtol(helpstr.c_str(), NULL, 10) > 230) 
                 { 
-                    log->WriteLogWARNING("ERROR READ CONFIG", 6, 0);
+                    log->WriteLogWARNING("ERROR READ CONFIG", 10, 0);
                     result = ResultReqest::ERR;
                     continue; 
                 }
@@ -104,37 +132,29 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
                 continue;
             }
 
-            if (str_info.find("TypeUnit") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 7, 0);
-                    continue;
-                }
-                if (str_info.substr((size_t)pos[0] + 1) == "MAIN") 
-                { 
-                    subscriber.TypeUnit = TypeUnitTransport::MAIN; 
-                    continue; 
-                }
-                if (str_info.substr((size_t)pos[0] + 1) == "RESERVER") 
-                { 
-                    subscriber.TypeUnit = TypeUnitTransport::RESERVER; 
-                    continue; 
-                }
-                log->WriteLogWARNING("ERROR READ CONFIG DDS", 8, 0);
-                result = ResultReqest::ERR;
-                continue;
-            }
-
+            //чтение имени листа KKS
             if (str_info.find("NameListKKSIn") != -1)
             {
                 if (pos[0] == -1)
                 {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 9, 0);
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 11, 0);
                     result = ResultReqest::ERR;
                     continue;
                 }
-                subscriber.NameListKKSIn = str_info.substr((size_t)pos[0] + 1);
+                subscriber.NameListKKS = str_info.substr((size_t)pos[0] + 1);
+                continue;
+            }
+
+            //чтение имени SharedMemory
+            if (str_info.find("NameSharedMemory") != -1)
+            {
+                if (pos[0] == -1)
+                {
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 12, 0);
+                    result = ResultReqest::ERR;
+                    continue;
+                }
+                subscriber.NameMemory = str_info.substr((size_t)pos[0] + 1);
                 continue;
             }
 
@@ -161,7 +181,7 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
     int pos[2] = { 0,0 };
     int count = 0;
     char status = 0;
-    ConfigPublisher publisher;
+    ConfigDDSUnit publisher;
 
     config_file = fopen(file_name.c_str(), "r");
     if (config_file == NULL)
@@ -191,7 +211,7 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
             break;
         }
 
-        if (str_info.substr(0, 16) == "[DDS_PUBLISHER]")
+        if (str_info.substr(0, 16) == "[PUBLISHER]")
         {
             status = 1;
             publisher.clear();
@@ -203,7 +223,7 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
 
             pos[0] = str_info.find('\t', 0);
             /// чтение IP адреса
-            if (str_info.find("IP_Address") != -1)
+            if (str_info.find("IP_Address_MAIN") != -1)
             {
                 if (pos[0] == -1)
                 {
@@ -211,11 +231,10 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
                     result = ResultReqest::ERR;
                     continue;
                 }
-                publisher.IP = str_info.substr((size_t)pos[0] + 1);
+                publisher.IP_MAIN = str_info.substr((size_t)pos[0] + 1);
                 continue;
             }
-            /// чтение порта
-            if (str_info.find("Port") != -1)
+            if (str_info.find("IP_Address_RESERVE") != -1)
             {
                 if (pos[0] == -1)
                 {
@@ -223,18 +242,11 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
                     result = ResultReqest::ERR;
                     continue;
                 }
-                helpstr.clear();
-                helpstr = str_info.substr((size_t)pos[0] + 1);
-                if (strtol(helpstr.c_str(), NULL, 10) == 0 || strtol(helpstr.c_str(), NULL, 10) > 65535)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 11, 0);
-                    continue;
-                }
-                publisher.Port = atoi(helpstr.c_str());
+                publisher.IP_RESERVE = str_info.substr((size_t)pos[0] + 1);
                 continue;
             }
-            /// чтение домена
-            if (str_info.find("Domen") != -1)
+            /// чтение порта
+            if (str_info.find("Port_MAIN") != -1)
             {
                 if (pos[0] == -1)
                 {
@@ -244,39 +256,34 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
                 }
                 helpstr.clear();
                 helpstr = str_info.substr((size_t)pos[0] + 1);
-                if (strtol(helpstr.c_str(), NULL, 10) < 0 || strtol(helpstr.c_str(), NULL, 10) > 230)
+                if (strtol(helpstr.c_str(), NULL, 10) == 0 || strtol(helpstr.c_str(), NULL, 10) > 65535)
                 {
-                    log->WriteLogWARNING("ERROR READ CONFIG", 6, 0);
-                    result = ResultReqest::ERR;
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 6, 0);
                     continue;
                 }
-                publisher.Domen = atoi(helpstr.c_str());
+                publisher.Port_MAIN = atoi(helpstr.c_str());
                 continue;
             }
-
-            if (str_info.find("TypeUnit") != -1)
+            if (str_info.find("Port_RESERVE") != -1)
             {
                 if (pos[0] == -1)
                 {
                     log->WriteLogWARNING("ERROR READ CONFIG DDS", 7, 0);
+                    result = ResultReqest::ERR;
                     continue;
                 }
-                if (str_info.substr((size_t)pos[0] + 1) == "MAIN")
+                helpstr.clear();
+                helpstr = str_info.substr((size_t)pos[0] + 1);
+                if (strtol(helpstr.c_str(), NULL, 10) == 0 || strtol(helpstr.c_str(), NULL, 10) > 65535)
                 {
-                    publisher.TypeUnit = TypeUnitTransport::MAIN;
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 8, 0);
                     continue;
                 }
-                if (str_info.substr((size_t)pos[0] + 1) == "RESERVER")
-                {
-                    publisher.TypeUnit = TypeUnitTransport::RESERVER;
-                    continue;
-                }
-                log->WriteLogWARNING("ERROR READ CONFIG DDS", 8, 0);
-                result = ResultReqest::ERR;
+                publisher.Port_RESERVE = atoi(helpstr.c_str());
                 continue;
             }
-
-            if (str_info.find("NameListKKSOut") != -1)
+            /// чтение домена
+            if (str_info.find("Domen") != -1)
             {
                 if (pos[0] == -1)
                 {
@@ -284,7 +291,39 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
                     result = ResultReqest::ERR;
                     continue;
                 }
-                publisher.NameListKKSOut = str_info.substr((size_t)pos[0] + 1);
+                helpstr.clear();
+                helpstr = str_info.substr((size_t)pos[0] + 1);
+                if (strtol(helpstr.c_str(), NULL, 10) < 0 || strtol(helpstr.c_str(), NULL, 10) > 230)
+                {
+                    log->WriteLogWARNING("ERROR READ CONFIG", 10, 0);
+                    result = ResultReqest::ERR;
+                    continue;
+                }
+                publisher.Domen = atoi(helpstr.c_str());
+                continue;
+            }
+
+            if (str_info.find("NameListKKSOut") != -1)
+            {
+                if (pos[0] == -1)
+                {
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 11, 0);
+                    result = ResultReqest::ERR;
+                    continue;
+                }
+                publisher.NameListKKS = str_info.substr((size_t)pos[0] + 1);
+                continue;
+            }
+
+            if (str_info.find("NameSharedMemory") != -1)
+            {
+                if (pos[0] == -1)
+                {
+                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 12, 0);
+                    result = ResultReqest::ERR;
+                    continue;
+                }
+                publisher.NameMemory = str_info.substr((size_t)pos[0] + 1);
                 continue;
             }
 

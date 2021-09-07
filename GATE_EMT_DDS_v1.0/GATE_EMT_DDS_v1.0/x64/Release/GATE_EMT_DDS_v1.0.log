@@ -1,4 +1,12 @@
-﻿  SM_DDS.cpp
+﻿  logger.cpp
+D:\CATE_WORK\logger_crossplatform\logger.cpp(445,82): warning C4267: аргумент: преобразование из "size_t" в "DWORD"; возможна потеря данных
+  Config_Reader.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.cpp(53,44): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.cpp(224,44): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  gate.cpp
+  KKS_Reader.cpp
+  main.cpp
+  SM_DDS.cpp
 D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(230,36): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
           with
           [
@@ -32,12 +40,7 @@ D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(403,37)
           [
               _Rep=__int64
           ]
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(446,48): error C2561: SharedMemoryDDS::ReadHead: функция должна возвращать значение
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(440): message : см. объявление "SharedMemoryDDS::ReadHead"
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(457,48): error C2561: SharedMemoryDDS::ReadHead: функция должна возвращать значение
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(440): message : см. объявление "SharedMemoryDDS::ReadHead"
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(468,48): error C2561: SharedMemoryDDS::ReadHead: функция должна возвращать значение
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(440): message : см. объявление "SharedMemoryDDS::ReadHead"
-  gate.cpp
-  main.cpp
   Создание кода...
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\KKS_Reader.cpp(146): warning C4715: KKSReader::ReadKKSlist: значение возвращается не при всех путях выполнения
+  LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
+  GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe

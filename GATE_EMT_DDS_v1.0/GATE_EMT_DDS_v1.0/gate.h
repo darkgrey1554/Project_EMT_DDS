@@ -2,7 +2,7 @@
 
 #include "structs.h"
 #include "SM_DDS.h"
-
+#include "Config_Reader.h"
 #include <vector>
 
 class Gate
@@ -26,6 +26,9 @@ public:
 class DDS_Gate : Gate
 {
 
+	std::vector<InfoDDSUnit> Publishers;
+	std::vector<InfoDDSUnit> Subscribers;
+	ConfigReaderDDS reader_config;
 	
 
 public :

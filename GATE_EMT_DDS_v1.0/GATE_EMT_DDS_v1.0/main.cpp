@@ -3,6 +3,7 @@
 #include <memory>
 #include <ctime>
 #include <chrono>
+#include "KKS_Reader.h"
 
 char* c =new char(10);
 
@@ -16,7 +17,9 @@ std::unique_ptr<void*> f()
 
 int main()
 {
-	
+	KKSReader* reader = new KKSReader();
+
+	reader->ReadKKSlist("List_KKS_In.txt");
 	
 
 	for (int i = 0; i < 10; i++)

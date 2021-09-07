@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <mutex>
 
 /// <summary>
 ///  тип шлюза
@@ -70,6 +71,25 @@ enum class TypeUnitTransport
 };
 
 /// <summary>
+/// команды по управлению ДДС subscriber, publisher
+/// </summary>
+enum class CommandControlDDSUnit
+{
+	NONE,
+	RESTART,
+	KILL,
+	STOP,
+	START
+};
+
+enum class StatusDDSUnit
+{
+	EMPTY,
+	DEAD,
+	WORK
+};
+
+/// <summary>
 /// Заголовок расшаренной памяти 
 /// </summary>
 struct HeaderSharedMemory
@@ -89,58 +109,152 @@ struct  ListKKSOut
 	unsigned int pos;
 };
 
+/*
 struct ConfigPublisher
 {
-	std::string IP;
-	unsigned int Port;
+	std::string IP_MAIN;
+	std::string IP_RESERVE;
+	unsigned int Port_MAIN;
+	unsigned int Port_RESERVE;
 	unsigned short Domen;
-	TypeUnitTransport TypeUnit = TypeUnitTransport::ZERO;
+	std::string NameMemory;
 	std::string NameListKKSOut;
 
 	ConfigPublisher()
 	{
-		IP.clear();
-		Port = 0;
+		IP_MAIN.clear();
+		IP_RESERVE.clear();
+		Port_MAIN = 0;
+		Port_RESERVE = 0;
 		Domen = 0;
-		TypeUnit = TypeUnitTransport::ZERO;
+		NameMemory.clear();
 		NameListKKSOut.clear();
 	};
 
 	void clear()
 	{
-		IP.clear();
-		Port = 0;
+		IP_MAIN.clear();
+		IP_RESERVE.clear();
+		Port_MAIN = 0;
+		Port_RESERVE = 0;
 		Domen = 0;
-		TypeUnit = TypeUnitTransport::ZERO;
+		NameMemory.clear();
 		NameListKKSOut.clear();
 	};
 };
 
 struct ConfigSubscriber
 {
-	std::string IP;
-	unsigned int Port;
+	std::string IP_MAIN;
+	std::string IP_RESERVE;
+	unsigned int Port_MAIN;
+	unsigned int Port_RESERVE;
 	unsigned short Domen;
-	TypeUnitTransport TypeUnit = TypeUnitTransport::ZERO;
-	std::string NameListKKSIn;
+	std::string NameMemory;
+	std::string NameListKKS;
 
 	ConfigSubscriber()
 	{
-		IP.clear();
-		Port = 0;
+		IP_MAIN.clear();
+		IP_RESERVE.clear();
+		Port_MAIN = 0;
+		Port_RESERVE = 0;
 		Domen = 0;
-		TypeUnit = TypeUnitTransport::ZERO;
-		NameListKKSIn.clear();
+		NameMemory.clear();
+		NameListKKS.clear();
 	};
 
 	void clear()
 	{
-		IP.clear();
-		Port = 0;
+		IP_MAIN.clear();
+		IP_RESERVE.clear();
+		Port_MAIN = 0;
+		Port_RESERVE = 0;
 		Domen = 0;
-		TypeUnit = TypeUnitTransport::ZERO;
-		NameListKKSIn.clear();
+		NameMemory.clear();
+		NameListKKS.clear();
 	};
 
 };
+*/
 
+struct ConfigDDSUnit
+{
+	std::string IP_MAIN;
+	std::string IP_RESERVE;
+	unsigned int Port_MAIN;
+	unsigned int Port_RESERVE;
+	unsigned short Domen;
+	std::string NameMemory;
+	std::string NameListKKS;
+
+	ConfigDDSUnit()
+	{
+		IP_MAIN.clear();
+		IP_RESERVE.clear();
+		Port_MAIN = 0;
+		Port_RESERVE = 0;
+		Domen = 0;
+		NameMemory.clear();
+		NameListKKS.clear();
+	};
+
+	void clear()
+	{
+		IP_MAIN.clear();
+		IP_RESERVE.clear();
+		Port_MAIN = 0;
+		Port_RESERVE = 0;
+		Domen = 0;
+		NameMemory.clear();
+		NameListKKS.clear();
+	};
+};
+
+struct ControlDDSUnit
+{
+	void setCommand(CommandControlDDSUnit com)
+	{
+		std::lock_guard<std::mutex> guard(mut_command);
+		command = com;
+		return;
+	};
+
+	CommandControlDDSUnit getCommand()
+	{
+		std::lock_guard<std::mutex> guard(mut_command);
+		return command;
+	};
+
+	void setStatus(StatusDDSUnit status)
+	{
+		std::lock_guard<std::mutex> guard(mut_status);
+		current_status = status;
+		return;
+	};
+
+	StatusDDSUnit getStatus()
+	{
+		std::lock_guard<std::mutex> guard(mut_status);
+		return current_status;
+	};
+
+protected:
+
+	std::mutex mut_command;
+	std::mutex mut_status;
+	CommandControlDDSUnit command = CommandControlDDSUnit::NONE;
+	StatusDDSUnit current_status = StatusDDSUnit::EMPTY;
+};
+
+struct InfoDDSUnit
+{
+	ControlDDSUnit control;
+	ConfigDDSUnit config;
+};
+
+struct KKSUnit
+{
+	std::string KKS;
+	unsigned int position;
+};
