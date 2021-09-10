@@ -167,15 +167,15 @@ unsigned int KKSReader::ReturnMaxPosition(TypeData type)
 unsigned int KKSReader::size_analog()
 {
 	if (vector_analog.empty()) return 0;
-	return vector_analog.back().position;
+	return vector_analog.back().position + 1;
 }
 unsigned int KKSReader::size_discrete()
 {
 	if (vector_discrete.empty()) return 0;
-	return vector_discrete.back().position;
+	return vector_discrete.back().position + 1;
 }
 unsigned int KKSReader::size_binar()
 {
 	if (vector_binar.empty()) return 0;
-	return vector_binar.back().position;
+	return vector_binar.back().position + 1;
 }

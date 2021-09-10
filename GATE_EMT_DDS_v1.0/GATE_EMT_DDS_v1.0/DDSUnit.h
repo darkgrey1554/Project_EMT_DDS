@@ -5,6 +5,8 @@
 #include <atomic>
 #include <vector>
 #include <logger.h>
+#include <thread>#
+#include <chrono>
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
@@ -13,7 +15,11 @@
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
+#include <fastdds/dds/publisher/DataWriter.hpp>
+#include <fastdds/dds/publisher/DataWriterListener.hpp>
+#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 #include <fastdds/dds/subscriber/SampleInfo.hpp>
+#include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastrtps/types/DynamicType.h>
 #include <fastrtps/types/DynamicData.h>
 #include <fastrtps/types/DynamicDataFactory.h>
@@ -24,10 +30,12 @@
 #include <fastrtps/attributes/SubscriberAttributes.h>
 #include <fastrtps/Domain.h>
 
+
 using namespace eprosima::fastdds::dds;
 using namespace eprosima::fastrtps::types;
 using namespace eprosima::fastrtps;
 using namespace eprosima::fastrtps::rtps;
+using namespace std::chrono_literals;
 
 class DDSUnit
 {
@@ -45,7 +53,7 @@ public:
 };
 
 
-class DDSUnit_Subcriber : public DDSUnit
+class DDSUnit_Subscriber : public DDSUnit
 {
 	ConfigDDSUnit config;
 	SharedMemoryDDS* SharedMemoryUnit;
@@ -53,27 +61,36 @@ class DDSUnit_Subcriber : public DDSUnit
 	std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
 	LoggerSpace::Logger* log;
 
-	eprosima::fastrtps::Participant* participant_;
-	eprosima::fastrtps::Subscriber* subscriber_;
-	DataReader* reader_analog;
-	DataReader* reader_discrete;
-	DataReader* reader_binar;
-	Topic * topic_;
+	DomainParticipant* participant_;
+	eprosima::fastdds::dds::Subscriber* subscriber_;
+	Topic* topic_analog;
+	Topic* topic_discrete;
+	Topic* topic_binar;
 	TypeSupport type_;
 
 	DynamicData_ptr data_analog;
 	DynamicData_ptr data_discrete;
 	DynamicData_ptr data_binar;
 
+	DynamicType_ptr base_type_array_analog;
+	DynamicType_ptr base_type_array_discrete;
+	DynamicType_ptr base_type_array_binar;
+
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_analog;
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_discrete;
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_binar;
 
+	std::atomic<int> control_analog_thread = 0;
+	std::atomic<int> control_discrete_thread = 0;
+	std::atomic<int> control_binar_thread = 0;
+
+	void thread_transmite(TypeData type_data_thread);
+
 
 public:
 
-	DDSUnit_Subcriber(ConfigDDSUnit config);
-	~DDSUnit_Subcriber();
+	DDSUnit_Subscriber(ConfigDDSUnit config);
+	~DDSUnit_Subscriber();
 
 	ResultReqest Stop();
 	ResultReqest Start();
@@ -95,10 +112,8 @@ class DDSUnit_Publisher : public DDSUnit
 	LoggerSpace::Logger* log;
 
 	DomainParticipant* participant_;
-	eprosima::fastrtps::Subscriber* subscriber_;
-	DataReader* reader_analog;
-	DataReader* reader_discrete;
-	DataReader* reader_binar;
+	eprosima::fastdds::dds::Publisher* publisher_;
+
 	Topic* topic_analog;
 	Topic* topic_discrete;
 	Topic* topic_binar;
@@ -111,6 +126,16 @@ class DDSUnit_Publisher : public DDSUnit
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_analog;
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_discrete;
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_binar;
+
+	DynamicType_ptr base_type_array_analog;
+	DynamicType_ptr base_type_array_discrete;
+	DynamicType_ptr base_type_array_binar;
+
+	std::atomic<int> control_analog_thread = 0;
+	std::atomic<int> control_discrete_thread = 0;
+	std::atomic<int> control_binar_thread = 0;
+
+	void thread_transmite(TypeData type_data_thread);
 
 public:
 
@@ -133,7 +158,7 @@ DDSUnit* CreateDDSUnit(TypeDDSUnit type, ConfigDDSUnit config)
 	switch (type)
 	{
 	case TypeDDSUnit::SUBSCRIBER:
-		p = new DDSUnit_Subcriber(config);
+		p = new DDSUnit_Subscriber(config);
 		break;
 	case TypeDDSUnit::PUBLISHER:
 		p = new DDSUnit_Publisher(config);
