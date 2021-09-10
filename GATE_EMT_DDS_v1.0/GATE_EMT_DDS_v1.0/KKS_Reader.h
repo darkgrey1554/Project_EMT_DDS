@@ -17,5 +17,8 @@ public :
 	
 	ResultReqest ReadKKSlist(std::string file_name);
 	unsigned int ReturnMaxPosition(TypeData type);
+	unsigned int size_analog();
+	unsigned int size_discrete();
+	unsigned int size_binar();
 
 };

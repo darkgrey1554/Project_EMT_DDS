@@ -163,3 +163,19 @@ unsigned int KKSReader::ReturnMaxPosition(TypeData type)
 		return vector_binar.back().position;
 	}
 }
+
+unsigned int KKSReader::size_analog()
+{
+	if (vector_analog.empty()) return 0;
+	return vector_analog.back().position;
+}
+unsigned int KKSReader::size_discrete()
+{
+	if (vector_discrete.empty()) return 0;
+	return vector_discrete.back().position;
+}
+unsigned int KKSReader::size_binar()
+{
+	if (vector_binar.empty()) return 0;
+	return vector_binar.back().position;
+}

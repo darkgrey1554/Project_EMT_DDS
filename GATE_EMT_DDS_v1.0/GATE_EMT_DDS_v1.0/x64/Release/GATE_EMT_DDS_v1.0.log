@@ -3,6 +3,7 @@ D:\CATE_WORK\logger_crossplatform\logger.cpp(445,82): warning C4267: аргум�
   Config_Reader.cpp
 D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.cpp(53,44): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
 D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.cpp(224,44): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  DDSUnit.cpp
   gate.cpp
   KKS_Reader.cpp
   main.cpp
@@ -41,6 +42,22 @@ D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SM_DDS.cpp(403,37)
               _Rep=__int64
           ]
   Создание кода...
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\KKS_Reader.cpp(146): warning C4715: KKSReader::ReadKKSlist: значение возвращается не при всех путях выполнения
-  LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
-  GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\KKS_Reader.cpp(165): warning C4715: KKSReader::ReturnMaxPosition: значение возвращается не при всех путях выполнения
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\KKS_Reader.cpp(144): warning C4715: KKSReader::ReadKKSlist: значение возвращается не при всех путях выполнения
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum ResultReqest __cdecl DDSUnit_Subcriber::Stop(void)" (?Stop@DDSUnit_Subcriber@@UEAA?AW4ResultReqest@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum ResultReqest __cdecl DDSUnit_Subcriber::Start(void)" (?Start@DDSUnit_Subcriber@@UEAA?AW4ResultReqest@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum StatusDDSUnit __cdecl DDSUnit_Subcriber::GetCurrentStatus(void)" (?GetCurrentStatus@DDSUnit_Subcriber@@UEAA?AW4StatusDDSUnit@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual struct ConfigDDSUnit __cdecl DDSUnit_Subcriber::GetConfig(void)" (?GetConfig@DDSUnit_Subcriber@@UEAA?AUConfigDDSUnit@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum ResultReqest __cdecl DDSUnit_Subcriber::SetConfig(void)" (?SetConfig@DDSUnit_Subcriber@@UEAA?AW4ResultReqest@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum ResultReqest __cdecl DDSUnit_Subcriber::Restart(void)" (?Restart@DDSUnit_Subcriber@@UEAA?AW4ResultReqest@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual void __cdecl DDSUnit_Subcriber::Delete(void)" (?Delete@DDSUnit_Subcriber@@UEAAXXZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum TypeDDSUnit __cdecl DDSUnit_Subcriber::MyType(void)" (?MyType@DDSUnit_Subcriber@@UEAA?AW4TypeDDSUnit@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum ResultReqest __cdecl DDSUnit_Publisher::Stop(void)" (?Stop@DDSUnit_Publisher@@UEAA?AW4ResultReqest@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum ResultReqest __cdecl DDSUnit_Publisher::Start(void)" (?Start@DDSUnit_Publisher@@UEAA?AW4ResultReqest@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum StatusDDSUnit __cdecl DDSUnit_Publisher::GetCurrentStatus(void)" (?GetCurrentStatus@DDSUnit_Publisher@@UEAA?AW4StatusDDSUnit@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual struct ConfigDDSUnit __cdecl DDSUnit_Publisher::GetConfig(void)" (?GetConfig@DDSUnit_Publisher@@UEAA?AUConfigDDSUnit@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum ResultReqest __cdecl DDSUnit_Publisher::SetConfig(void)" (?SetConfig@DDSUnit_Publisher@@UEAA?AW4ResultReqest@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum ResultReqest __cdecl DDSUnit_Publisher::Restart(void)" (?Restart@DDSUnit_Publisher@@UEAA?AW4ResultReqest@@XZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual void __cdecl DDSUnit_Publisher::Delete(void)" (?Delete@DDSUnit_Publisher@@UEAAXXZ).
+DDSUnit.obj : error LNK2001: неразрешенный внешний символ "public: virtual enum TypeDDSUnit __cdecl DDSUnit_Publisher::MyType(void)" (?MyType@DDSUnit_Publisher@@UEAA?AW4TypeDDSUnit@@XZ).
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe : fatal error LNK1120: неразрешенных внешних элементов: 16

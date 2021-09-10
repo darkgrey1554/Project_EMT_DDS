@@ -85,8 +85,17 @@ enum class CommandControlDDSUnit
 enum class StatusDDSUnit
 {
 	EMPTY,
+	ERROR_INIT,
+	STOP,
+	START,
 	DEAD,
 	WORK
+};
+
+enum class TypeDDSUnit
+{
+	SUBSCRIBER,
+	PUBLISHER
 };
 
 /// <summary>
