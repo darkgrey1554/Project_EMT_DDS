@@ -141,6 +141,7 @@ ResultReqest KKSReader::ReadKKSlist(std::string file_name)
 	}
 
 	file.close();
+	return ResultReqest::OK;
 }
 
 unsigned int KKSReader::ReturnMaxPosition(TypeData type)

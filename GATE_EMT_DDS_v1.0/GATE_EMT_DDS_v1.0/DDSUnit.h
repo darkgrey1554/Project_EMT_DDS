@@ -8,6 +8,7 @@
 #include <thread>#
 #include <chrono>
 
+#include <fastrtps/xmlparser/XMLProfileManager.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
@@ -37,6 +38,7 @@ using namespace eprosima::fastrtps;
 using namespace eprosima::fastrtps::rtps;
 using namespace std::chrono_literals;
 
+
 class DDSUnit
 {
 
@@ -52,6 +54,7 @@ public:
 	virtual TypeDDSUnit MyType() = 0;
 };
 
+DDSUnit* CreateDDSUnit(TypeDDSUnit type, ConfigDDSUnit config);
 
 class DDSUnit_Subscriber : public DDSUnit
 {
@@ -102,7 +105,6 @@ public:
 	TypeDDSUnit MyType();
 };
 
-
 class DDSUnit_Publisher : public DDSUnit
 {
 	ConfigDDSUnit config;
@@ -152,19 +154,4 @@ public:
 	TypeDDSUnit MyType();
 };
 
-DDSUnit* CreateDDSUnit(TypeDDSUnit type, ConfigDDSUnit config)
-{
-	DDSUnit* p = NULL;
-	switch (type)
-	{
-	case TypeDDSUnit::SUBSCRIBER:
-		p = new DDSUnit_Subscriber(config);
-		break;
-	case TypeDDSUnit::PUBLISHER:
-		p = new DDSUnit_Publisher(config);
-		break;
-	default:
-		p = NULL;
-	}
-	return p;
-}
+
