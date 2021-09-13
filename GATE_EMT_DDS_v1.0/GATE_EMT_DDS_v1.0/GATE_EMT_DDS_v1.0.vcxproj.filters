@@ -36,6 +36,12 @@
     <ClCompile Include="DDSUnit.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
+    <ClCompile Include="HelloWorldSubscriber.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="HelloWorldPublisher.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gate.h">
@@ -59,5 +65,16 @@
     <ClInclude Include="KKS_Reader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="HelloWorldSubscriber.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="HelloWorldPublisher.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="List_KKS_In.txt">
+      <Filter>Файлы заголовков</Filter>
+    </Text>
   </ItemGroup>
 </Project>

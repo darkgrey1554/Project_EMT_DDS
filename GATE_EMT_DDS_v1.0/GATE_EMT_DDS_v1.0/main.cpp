@@ -7,17 +7,70 @@
 #include "DDSUnit.h"
 #include "logger.h"
 
-char* c =new char(10);
+#include "HelloWorldPublisher.h"
+#include "HelloWorldSubscriber.h"
 
-std::unique_ptr<void*> f()
+//#include <fastrtps/log/Log.h>
+
+//using eprosima::fastdds::dds::Log;
+
+/*int main(int argc, char** argv)
 {
-	
-	std::unique_ptr<void*> v = std::make_unique<void*>((void*)c);
-	return std::move(v);
-}
+	std::cout << "Starting " << std::endl;
+	int type = 1;
+	int count = 5;
+	long sleep = 100;
+	if (argc > 1)
+	{
+		if (strcmp(argv[1], "publisher") == 0)
+		{
+			type = 1;
+			if (argc >= 3)
+			{
+				count = atoi(argv[2]);
+				if (argc == 4)
+				{
+					sleep = atoi(argv[3]);
+				}
+			}
+		}
+		else if (strcmp(argv[1], "subscriber") == 0)
+			type = 2;
+	}
+	else
+	{
+		std::cout << "publisher OR subscriber argument needed" << std::endl;
+		Log::Reset();
+		return 0;
+	}
+
+	switch (type)
+	{
+	case 1:
+	{
+		HelloWorldPublisher mypub;
+		if (mypub.init())
+		{
+			mypub.run(count, sleep);
+		}
+		break;
+	}
+	case 2:
+	{
+		HelloWorldSubscriber mysub;
+		if (mysub.init())
+		{
+			mysub.run();
+		}
+		break;
+	}
+	}
+	Log::Reset();
+	return 0;
+}*/
 
 
-int main()
+int main(int argc, char** argv)
 {
 	LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
 
@@ -42,10 +95,38 @@ int main()
 	config_sub.Port_MAIN = 40000;
 	config_sub.Port_RESERVE = 40001;
 
-	
-	DDSUnit* sub = CreateDDSUnit(TypeDDSUnit::SUBSCRIBER, config_sub);
 	DDSUnit* pub = CreateDDSUnit(TypeDDSUnit::PUBLISHER, config_pub);
+	DDSUnit* sub = CreateDDSUnit(TypeDDSUnit::SUBSCRIBER, config_sub);
 	
+	/*HelloWorldPublisher mypub;
+	if (mypub.init())
+	{
+		mypub.run(10, 100);
+	}*/
+
+	/*HelloWorldSubscriber mysub;
+	if (mysub.init())
+	{
+		mysub.run();
+	}*/
+
+	/*if (argc > 1)
+	{
+		HelloWorldPublisher mypub;
+		if (mypub.init())
+		{
+			mypub.run(10, 100);
+		}
+	}
+	else
+	{
+		HelloWorldSubscriber mysub;
+		if (mysub.init())
+		{
+			mysub.run();
+		}
+	}*/
+		
 	int asd = 0;
 
 	while (1)
@@ -53,19 +134,7 @@ int main()
 		asd++;
 		std::this_thread::sleep_for(1000ms);
 	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		c[i] = i+0x30;
-	}
-
-	std::unique_ptr<void*> a = f();
-
-	char* s = (char*)*a.get();
-
-	std::cout << *s << std::endl;
-	std::cout << *(s+1) << std::endl;
-
+	
 
 	ConfigReaderDDS* conf = new ConfigReaderDDS();
 	conf->ReadConfigDDS();

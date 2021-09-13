@@ -5,7 +5,7 @@
 #include <atomic>
 #include <vector>
 #include <logger.h>
-#include <thread>#
+#include <thread>
 #include <chrono>
 
 #include <fastrtps/xmlparser/XMLProfileManager.h>
@@ -79,6 +79,8 @@ class DDSUnit_Subscriber : public DDSUnit
 	DynamicType_ptr base_type_array_discrete;
 	DynamicType_ptr base_type_array_binar;
 
+	eprosima::fastdds::dds::DataReader* readerr;
+
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_analog;
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_discrete;
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_binar;
@@ -89,6 +91,58 @@ class DDSUnit_Subscriber : public DDSUnit
 
 	void thread_transmite(TypeData type_data_thread);
 
+	class SubListener : public DataReaderListener
+     {
+     public:
+ 
+         SubListener()
+             : samples_(0)
+         {
+         }
+ 
+         ~SubListener() override
+         {
+         }
+ 
+         void on_subscription_matched(
+                 DataReader*,
+                 const SubscriptionMatchedStatus& info) override
+         {
+             if (info.current_count_change == 1)
+             {
+                 std::cout << "Subscriber matched." << std::endl;
+             }
+             else if (info.current_count_change == -1)
+             {
+                 std::cout << "Subscriber unmatched." << std::endl;
+             }
+             else
+             {
+                 std::cout << info.current_count_change
+                         << " is not a valid value for SubscriptionMatchedStatus current count change" << std::endl;
+             }
+         }
+ 
+         void on_data_available(
+                 DataReader* reader) override
+         {
+             SampleInfo info;
+             if (reader->take_next_sample(hello_.get(), &info) == ReturnCode_t::RETCODE_OK)
+             {
+                 if (info.valid_data)
+                 {
+                    samples_++;
+					std::cout << "Message: " << hello_->get_string_value(1) << " with index: " << hello_->get_uint32_value(0)
+                                 << " RECEIVED." << std::endl;
+                 }
+             }
+         }
+ 
+		 DynamicData_ptr hello_;
+ 
+         std::atomic_int samples_;
+ 
+     } listener_;
 
 public:
 
@@ -124,6 +178,8 @@ class DDSUnit_Publisher : public DDSUnit
 	DynamicData_ptr data_analog;
 	DynamicData_ptr data_discrete;
 	DynamicData_ptr data_binar;
+
+	DataWriter* writerr = nullptr;
 
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_analog;
 	eprosima::fastrtps::types::DynamicPubSubType m_DynType_discrete;
