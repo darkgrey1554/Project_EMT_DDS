@@ -1,0 +1,7 @@
+﻿  HelloWorldPublisher.cpp
+  HelloWorldSubscriber.cpp
+  HelloWorld_main.cpp
+  Создание кода...
+D:\CATE_WORK\GATE_EMT_DDS\DDS_Laboratory\DDS_Laboratory\HelloWorldPublisher.cpp(130): warning C4715: HelloWorldPublisher::init: значение возвращается не при всех путях выполнения
+  LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
+  DDS_Laboratory.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\DDS_Laboratory\x64\Release\DDS_Laboratory.exe

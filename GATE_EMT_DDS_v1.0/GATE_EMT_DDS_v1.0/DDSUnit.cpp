@@ -56,8 +56,13 @@ DDSUnit_Subscriber::DDSUnit_Subscriber(ConfigDDSUnit config) : config(config)
 			GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
 		}
 
-		DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
+		/*DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
 		DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_sequence_builder(base_type, 10);
+		DynamicType_ptr array_type = builder->build();*/
+
+		std::vector<uint32_t> lengths = {1,10};
+		DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
+		DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type, lengths);
 		DynamicType_ptr array_type = builder->build();
 
 		DynamicTypeBuilder_ptr struct_type_builder(DynamicTypeBuilderFactory::get_instance()->create_struct_builder());
@@ -161,7 +166,7 @@ void DDSUnit_Subscriber::thread_transmite(TypeData type_data_thread)
 		array = data->loan_value(2);
 		for (unsigned int i = 0; i < 10; i++)
 		{
-			ff = array->get_uint32_value(i);//array->get_array_index({ i }));
+			ff = array->get_uint32_value( array->get_array_index({ 0 , i }));
 			std::cout << "index: " << i << "value: " << ff << std::endl;
 
 		}	
@@ -266,8 +271,13 @@ DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : config(config)
 			GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
 		}
 
+		/*DynamicType_ptr base_type2 = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
+		DynamicTypeBuilder_ptr builder2 = DynamicTypeBuilderFactory::get_instance()->create_sequence_builder(base_type2, 10);
+		DynamicType_ptr array_type2 = builder2->build();*/
+
+		std::vector<uint32_t> lengths = { 1 , 10 };
 		DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
-		DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_sequence_builder(base_type, 10);
+		DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type, lengths);
 		DynamicType_ptr array_type = builder->build();
 
 		DynamicTypeBuilder_ptr struct_type_builder(DynamicTypeBuilderFactory::get_instance()->create_struct_builder());
@@ -398,7 +408,7 @@ void DDSUnit_Publisher::thread_transmite(TypeData type_data_thread)
 	array = data->loan_value(2);
 	for (unsigned int i = 0; i < 10; i++)
 	{
-		array->set_uint32_value(iteri + 10 * i, i);//array->get_array_index({ i }));
+		array->set_uint32_value(iteri + 10 * i, array->get_array_index({ 0, i }));
 	}
 	data->return_loaned_value(array);
 
@@ -410,7 +420,7 @@ void DDSUnit_Publisher::thread_transmite(TypeData type_data_thread)
 		array = data->loan_value(2);
 		for (unsigned int i = 0; i < 10; i++)
 		{
-			array->set_uint32_value(iteri + 10 * i, array->get_array_index({ i }));
+			array->set_uint32_value(iteri + 10 * i, array->get_array_index({ 0, i }));
 		}
 		data->return_loaned_value(array);
 
