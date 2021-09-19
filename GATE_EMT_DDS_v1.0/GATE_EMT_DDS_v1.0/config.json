@@ -1,0 +1,10 @@
+{
+  "Domen": 0,
+  "IPAddressSubscribtion": "192.168.0.100",
+  "PortSubscribtion": 51100,
+  "TopicSubscritionCommand": "CommandForGates",
+  "TopicSubscribtionInfoConfig": "InfoConfigGates",
+  "IPPublication": "192.168.0.100",
+  "PortPublication": 51101,
+  "TopicPublicationAnswer": "AnswerOnCommand"
+}
