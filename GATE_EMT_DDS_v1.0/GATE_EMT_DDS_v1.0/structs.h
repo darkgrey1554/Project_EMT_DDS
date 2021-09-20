@@ -94,8 +94,23 @@ enum class StatusDDSUnit
 
 enum class TypeDDSUnit
 {
+	Empty,
 	SUBSCRIBER,
 	PUBLISHER
+};
+
+struct ConfigGate
+{
+	unsigned int IdGate = 0;
+	unsigned int Domen = 0;
+	std::string TypeTransmite;
+	std::string IPSubscribtion;
+	unsigned int PortSubscribtion;
+	std::string TopicSubscritionCommand;
+	std::string TopicSubscribtionInfoConfig;
+	std::string IPPublication;
+	unsigned int PortPublication;
+	std::string TopicPublicationAnswer;
 };
 
 /// <summary>
@@ -189,35 +204,17 @@ struct ConfigSubscriber
 
 struct ConfigDDSUnit
 {
+	unsigned short Domen;
+	TypeDDSUnit TypeUnit;
+	std::string TopicName;
+	std::string SMName;
+	TypeData Typedata;
+	unsigned int Size;
+	unsigned int Frequency;
 	std::string IP_MAIN;
 	std::string IP_RESERVE;
 	unsigned int Port_MAIN;
 	unsigned int Port_RESERVE;
-	unsigned short Domen;
-	std::string NameMemory;
-	std::string NameListKKS;
-
-	ConfigDDSUnit()
-	{
-		IP_MAIN.clear();
-		IP_RESERVE.clear();
-		Port_MAIN = 0;
-		Port_RESERVE = 0;
-		Domen = 0;
-		NameMemory.clear();
-		NameListKKS.clear();
-	};
-
-	void clear()
-	{
-		IP_MAIN.clear();
-		IP_RESERVE.clear();
-		Port_MAIN = 0;
-		Port_RESERVE = 0;
-		Domen = 0;
-		NameMemory.clear();
-		NameListKKS.clear();
-	};
 };
 
 struct ControlDDSUnit

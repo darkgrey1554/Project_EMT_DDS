@@ -29,37 +29,34 @@ DDSUnit_Subscriber::DDSUnit_Subscriber(ConfigDDSUnit config) : config(config)
 	log = LoggerSpace::Logger::getpointcontact();
 
 
-	if (readerkks->ReadKKSlist(config.NameListKKS) != ResultReqest::OK)
+	/*if (readerkks->ReadKKSlist(config.NameListKKS) != ResultReqest::OK)
 	{
 		GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-	}
-	else
+	}*/
+	//else
 	{
 		helpstr.clear();
-		helpstr += CreateNameMemoryDDS(TypeData::ANALOG, TypeDirection::EMTfromDDS, config.Domen) + "_" + config.NameMemory;
+		helpstr += CreateNameMemoryDDS(TypeData::ANALOG, TypeDirection::EMTfromDDS, config.Domen) + "_";
 		if (SharedMemoryUnit->CreateMemory(TypeData::ANALOG, TypeDirection::EMTfromDDS, readerkks->size_analog(), helpstr) != ResultReqest::OK)
 		{
 			GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
 		}
 
 		helpstr.clear();
-		helpstr += CreateNameMemoryDDS(TypeData::DISCRETE, TypeDirection::EMTfromDDS, config.Domen) + "_" + config.NameMemory;
+		helpstr += CreateNameMemoryDDS(TypeData::DISCRETE, TypeDirection::EMTfromDDS, config.Domen) + "_";
 		if (SharedMemoryUnit->CreateMemory(TypeData::DISCRETE, TypeDirection::EMTfromDDS, readerkks->size_discrete(), helpstr) != ResultReqest::OK)
 		{
 			GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
 		}
 
 		helpstr.clear();
-		helpstr += CreateNameMemoryDDS(TypeData::BINAR, TypeDirection::EMTfromDDS, config.Domen) + "_" + config.NameMemory;
+		helpstr += CreateNameMemoryDDS(TypeData::BINAR, TypeDirection::EMTfromDDS, config.Domen) + "_";
 		if (SharedMemoryUnit->CreateMemory(TypeData::BINAR, TypeDirection::EMTfromDDS, readerkks->size_discrete(), helpstr) != ResultReqest::OK)
 		{
 			GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
 		}
 
-		/*DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
-		DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_sequence_builder(base_type, 10);
-		DynamicType_ptr array_type = builder->build();*/
-
+		
 		std::vector<uint32_t> lengths = {1,10};
 		DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
 		DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type, lengths);
@@ -89,7 +86,7 @@ DDSUnit_Subscriber::DDSUnit_Subscriber(ConfigDDSUnit config) : config(config)
 		res = m_type.register_type(participant_);
 		
 		helpstr.clear();
-		helpstr += config.NameMemory + "Analog_Data";
+		helpstr += "Analog_Data";
 		topic_analog = participant_->create_topic(helpstr, "HelloWorld", TOPIC_QOS_DEFAULT);
 		if (topic_analog == nullptr)
 		{
@@ -244,36 +241,32 @@ DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : config(config)
 	log = LoggerSpace::Logger::getpointcontact();
 
 
-	if (readerkks->ReadKKSlist(config.NameListKKS) != ResultReqest::OK)
+	/*if (readerkks->ReadKKSlist(config.NameListKKS) != ResultReqest::OK)
 	{
 		GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-	}
-	else
+	}*/
+	//else
 	{
 		helpstr.clear();
-		helpstr += CreateNameMemoryDDS(TypeData::ANALOG, TypeDirection::EMTtoDDS, config.Domen) + "_" + config.NameMemory;
+		helpstr += CreateNameMemoryDDS(TypeData::ANALOG, TypeDirection::EMTtoDDS, config.Domen) + "_";
 		if (SharedMemoryUnit->CreateMemory(TypeData::ANALOG, TypeDirection::EMTtoDDS, readerkks->size_analog(), helpstr) != ResultReqest::OK)
 		{
 			GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
 		}
 
 		helpstr.clear();
-		helpstr += CreateNameMemoryDDS(TypeData::DISCRETE, TypeDirection::EMTtoDDS, config.Domen) + "_" + config.NameMemory;
+		helpstr += CreateNameMemoryDDS(TypeData::DISCRETE, TypeDirection::EMTtoDDS, config.Domen) + "_";
 		if (SharedMemoryUnit->CreateMemory(TypeData::DISCRETE, TypeDirection::EMTtoDDS, readerkks->size_discrete(), helpstr) != ResultReqest::OK)
 		{
 			GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
 		}
 
 		helpstr.clear();
-		helpstr += CreateNameMemoryDDS(TypeData::BINAR, TypeDirection::EMTtoDDS, config.Domen) + "_" + config.NameMemory;
+		helpstr += CreateNameMemoryDDS(TypeData::BINAR, TypeDirection::EMTtoDDS, config.Domen) + "_";
 		if (SharedMemoryUnit->CreateMemory(TypeData::BINAR, TypeDirection::EMTtoDDS, readerkks->size_discrete(), helpstr) != ResultReqest::OK)
 		{
 			GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
 		}
-
-		/*DynamicType_ptr base_type2 = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
-		DynamicTypeBuilder_ptr builder2 = DynamicTypeBuilderFactory::get_instance()->create_sequence_builder(base_type2, 10);
-		DynamicType_ptr array_type2 = builder2->build();*/
 
 		std::vector<uint32_t> lengths = { 1 , 10 };
 		DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
@@ -304,7 +297,7 @@ DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : config(config)
 		m_type.register_type(participant_);
 
 		helpstr.clear();
-		helpstr += config.NameMemory + "Analog_Data";
+		helpstr +="Analog_Data";
 		topic_analog = participant_->create_topic(helpstr,"HelloWorld", TOPIC_QOS_DEFAULT);
 		if (topic_analog == nullptr)
 		{

@@ -1,0 +1,59 @@
+[SUBSCRIBER]
+IP_Address_MAIN	127.0.0.1
+IP_Address_RESERVE	127.0.0.1
+Port_MAIN	20000
+Port_RESERVE	20001
+Domen	0
+NameSharedMemory	sm_000
+NameListKKSIn	ListKKSIn_0.txt
+[END]
+
+[SUBSCRIBER]
+IP_Address_MAIN	127.0.0.1
+IP_Address_RESERVE	127.0.0.1
+Port_MAIN	30000
+Port_RESERVE	30001
+Domen	1
+NameSharedMemory	sm_001
+NameListKKSIn	ListKKSIn_1.txt
+[END]
+
+[DDS_SUBSCRIBER]
+IP_Address	127.0.0.1
+Port	20001
+Domen	1
+TypeUnit	RESERVER
+NameListKKSIn	ListKKSIn_1.txt
+[END]
+
+[DDS_PUBLISHER]
+IP_Address	127.0.0.1
+Port	20000
+Domen	0
+TypeUnit	MAIN
+NameListKKSOut	ListKKSOut_0.txt
+[END]
+
+[DDS_PUBLISHER]
+IP_Address	127.0.0.1
+Port	20000
+Domen	0
+TypeUnit	RESERVER
+NameListKKSOut	ListKKSOut_0.txt
+[END]
+
+[DDS_PUBLISHER]
+IP_Address	127.0.0.1
+Port	20001
+Domen	1
+TypeUnit	MAIN
+NameListKKSOut	ListKKSOut_1.txt
+[END]
+
+[DDS_PUBLISHER]
+IP_Address	127.0.0.1
+Port	20001
+Domen	1
+TypeUnit	RESERVER
+NameListKKSOut	ListKKSOut_1.txt
+[END]

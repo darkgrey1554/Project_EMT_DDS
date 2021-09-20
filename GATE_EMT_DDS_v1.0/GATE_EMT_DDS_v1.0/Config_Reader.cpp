@@ -1,6 +1,131 @@
 #include "Config_Reader.h"
 
-ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
+
+ConfigReader<ConfigDDSUnit>* CreateConfigReader(Type_Gate type)
+{
+    ConfigReader<ConfigDDSUnit>* res = new ConfigReaderDDS();
+    return  res;
+};
+
+ConfigReaderDDS::ConfigReaderDDS()
+{
+    log = LoggerSpace::Logger::getpointcontact();
+}
+
+ResultReqest ConfigReaderDDS::ReadConfigFile()
+{
+    unsigned int Domen;
+    std::ifstream file;
+    file.open(name_config, std::ios::in);
+    if (!file.is_open())
+    {
+        log->WriteLogERR("ERROR READ CONFIG FILE", 1, 0);
+        return ResultReqest::ERR;
+    }
+
+    std::string str((std::istreambuf_iterator<char>(file)),
+        std::istreambuf_iterator<char>());   
+    
+    try 
+    {
+        rapidjson::Document document;
+        document.Parse(str.c_str());
+        config.IdGate = document["IdGate"].GetUint();
+        config.Domen = document["Domen"].GetUint();
+        config.TypeTransmite = document["TypeTransmite"].GetString();;
+        config.IPSubscribtion = document["IPSubscribtion"].GetString();
+        config.PortSubscribtion = document["PortSubscribtion"].GetUint();
+        config.TopicSubscritionCommand = document["TopicSubscritionCommand"].GetString();
+        config.TopicSubscribtionInfoConfig = document["TopicSubscribtionInfoConfig"].GetString();
+        config.IPPublication = document["IPPublication"].GetString();
+        config.PortPublication = document["PortPublication"].GetUint();
+        config.TopicPublicationAnswer = document["TopicPublicationAnswer"].GetString();
+    }
+    catch(...)
+    {
+        log->WriteLogERR("ERROR READ CONFIG FILE", 2, 0);
+        file.close();
+        return ResultReqest::ERR;
+    }
+   
+    file.close();
+    return ResultReqest::OK;
+}
+
+ResultReqest ConfigReaderDDS::ReadConfigSpecial()
+{
+    unsigned int Domen;
+    std::ifstream file;
+    file.open(name_configunits, std::ios::in);
+    if (!file.is_open())
+    {
+        log->WriteLogERR("ERROR READ CONFIGUNITS FILE", 1, 0);
+        return ResultReqest::ERR;
+    }
+
+    std::string str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());    
+
+    try
+    {
+        rapidjson::Document document;
+        document.Parse(str.c_str());
+
+        if (document["Units"].IsArray())
+        {
+            for (rapidjson::SizeType i = 0; i < document["Units"].Size(); i++)
+            {               
+                {
+                    ConfigDDSUnit unit;
+                    std::string helpstr;
+                    unit.Domen = document["Units"][i]["Domen"].GetUint();
+                    helpstr = document["Units"][i]["TypeUnit"].GetString();
+                    unit.TypeUnit = helpstr == "Publisher" ? TypeDDSUnit::PUBLISHER : helpstr == "Subscriber" ? TypeDDSUnit::SUBSCRIBER : TypeDDSUnit::Empty;
+                    unit.TopicName = document["Units"][i]["TopicName"].GetString();
+                    unit.SMName = document["Units"][i]["SMName"].GetString();
+                    helpstr.clear();
+                    helpstr = document["Units"][i]["TypeUnit"].GetString();
+                    unit.Typedata = helpstr == "Analog" ? TypeData::ANALOG : helpstr == "Discrete" ? TypeData::DISCRETE : helpstr == "Binar" ? TypeData::BINAR : TypeData::ZERO;
+                    unit.Size = document["Units"][i]["Size"].GetUint();
+                    unit.Frequency = document["Units"][i]["Frequency"].GetUint();
+                    unit.IP_MAIN = document["Units"][i]["IP_Main"].GetString();
+                    unit.Port_MAIN = document["Units"][i]["Port_Main"].GetUint();
+                    unit.IP_RESERVE = document["Units"][i]["IP_Reserve"].GetString();
+                    unit.Port_RESERVE = document["Units"][i]["Port_Reserve"].GetUint();
+                    vector_data.push_back(unit);
+                }
+            }
+        }
+    }
+    catch (...)
+    {
+        log->WriteLogERR("ERROR READ CONFIG FILE", 2, 0);
+        file.close();
+        return ResultReqest::ERR;
+    }
+
+    file.close();
+    return ResultReqest::OK;
+
+
+
+    return ResultReqest::ERR;
+};
+
+ResultReqest ConfigReaderDDS::GetResult(std::vector<ConfigDDSUnit>& vector_result)
+{
+    return ResultReqest::ERR;
+};
+ResultReqest ConfigReaderDDS::SetNameConfigFile(std::string name)
+{
+    return ResultReqest::ERR;
+};
+
+ResultReqest ConfigReaderDDS::WriteConfigFile() 
+{
+    return ResultReqest::ERR;
+};
+
+/*ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
 {
     FILE* config_file = NULL;
     ResultReqest result = ResultReqest::OK;
@@ -168,9 +293,9 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
     }
     fclose(config_file);
     return result;
-}
+}*/
 
-ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
+/*ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
 {
     FILE* config_file = NULL;
     ResultReqest result = ResultReqest::OK;
@@ -337,12 +462,13 @@ ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
     }
     fclose(config_file);
     return result;
-}
+}*/
 
-ResultReqest ConfigReaderDDS::ReadConfigDDS(std::string file_name)
+/*ResultReqest ConfigReaderDDS::ReadConfigDDS(std::string file_name)
 {
     ResultReqest res = ResultReqest::OK;
     res=this->ReadConfigDDS_Publishers(file_name);
     res=this->ReadConfigDDS_Subscribers(file_name);
     return res;
-};
+};*/
+

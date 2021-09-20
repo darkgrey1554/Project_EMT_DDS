@@ -1,0 +1,88 @@
+{
+	"DDS_GATES": [
+		{
+			"id": 45555,
+			"Units": [
+				{
+					"Domen": 0,
+					"TypeUnit": "Publisher",
+					"TopicName": "topic_sm000",
+					"SMName": "sm000",
+					"TypeData": "Analog",
+					"Size": 100,
+					"Frequency": 350
+				},
+				{
+					"Domen": 0,
+					"TypeUnit": "Publisher",
+					"TopicName": "topic_sm001",
+					"SMName": "sm001",
+					"TypeData": "Discrete",
+					"Size": 100,
+					"Frequency": 350
+				},
+				{
+					"Domen": 0,
+					"TypeUnit": "Subscriber",
+					"TopicName": "topic_sm002",
+					"SMName": "sm002",
+					"TypeData": "Analog",
+					"Size": 100,
+					"Frequency": 350
+				},
+				{
+					"Domen": 0,
+					"TypeUnit": "Publisher",
+					"TopicName": "topic_sm003",
+					"SMName": "sm003",
+					"TypeData": "Discrete",
+					"Size": 100,
+					"Frequency": 350
+				}
+
+		},
+		{
+			"id": 45556,
+			"Units": [
+				{
+					"Domen": 0,
+					"TypeUnit": "Publisher",
+					"TopicName": "topic_sm000",
+					"SMName": "sm000",
+					"TypeData": "Analog",
+					"Size": 100,
+					"Frequency": 350
+				},
+				{
+					"Domen": 0,
+					"TypeUnit": "Publisher",
+					"TopicName": "topic_sm001",
+					"SMName": "sm001",
+					"TypeData": "Discrete",
+					"Size": 100,
+					"Frequency": 350
+				},
+				{
+					"Domen": 0,
+					"TypeUnit": "Subscriber",
+					"TopicName": "topic_sm002",
+					"SMName": "sm002",
+					"TypeData": "Analog",
+					"Size": 100,
+					"Frequency": 350
+				},
+				{
+					"Domen": 0,
+					"TypeUnit": "Publisher",
+					"TopicName": "topic_sm003",
+					"SMName": "sm003",
+					"TypeData": "Discrete",
+					"Size": 100,
+					"Frequency": 350
+				}
+			]
+		}
+	]
+}
+
+			
