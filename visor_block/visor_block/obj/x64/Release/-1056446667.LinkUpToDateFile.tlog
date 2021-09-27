@@ -1,0 +1,1 @@
+g++ -o "/home/user/projects/visor_block/bin/x64/Release/visor_block.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack /home/user/projects/visor_block/obj/x64/Release/main.o

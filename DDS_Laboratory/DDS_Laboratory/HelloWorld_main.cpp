@@ -34,11 +34,11 @@ int main(int argc, char** argv)
         mypub.run(count, sleep);
     }
     
-    HelloWorldSubscriber mysub;
+    /*HelloWorldSubscriber mysub;
     if (mysub.init())
     {
         mysub.run();
-    }
+    }*/
 
     for (;;)
     {

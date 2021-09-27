@@ -1,0 +1,3 @@
+﻿  Проверка исходных файлов
+  Удаленное копирование исходных файлов в "192.168.56.108"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Application Type\Linux\1.0\Linux.targets(240,5): error : При копировании исходных файлов на удаленный компьютер возникло исключение: Не удалось создать каталоги. Код завершения mkdir: 1

@@ -38,16 +38,15 @@ bool HelloWorldPublisher::init()
 {
     
     {
-        std::vector<uint32_t> lengths = { 1,4 };
+       /* std::vector<uint32_t> lengths = { 1,4 };
         DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
         DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type, lengths);
-        DynamicType_ptr array_type = builder->build();
+        DynamicType_ptr array_type = builder->build();*/
 
         DynamicTypeBuilder_ptr struct_type_builder(DynamicTypeBuilderFactory::get_instance()->create_struct_builder());
         struct_type_builder->add_member(0, "index", DynamicTypeBuilderFactory::get_instance()->create_uint32_type());
         struct_type_builder->add_member(1, "message", DynamicTypeBuilderFactory::get_instance()->create_string_type());
-        struct_type_builder->add_member(2, "array", array_type);
-        struct_type_builder->set_name("HelloWorld_1");
+        struct_type_builder->set_name("AZ");
         dyn_type1 = struct_type_builder->build();
     }
 
@@ -184,8 +183,8 @@ void HelloWorldPublisher::PubListener::on_publication_matched(
 
 void HelloWorldPublisher::runThread( uint32_t samples, uint32_t sleep)
 {
-    topic_1 = mp_participant->create_topic("topic_number_1", "HelloWorld_1", TOPIC_QOS_DEFAULT);
-    topic_2 = mp_participant->create_topic("topic_number_2", "HelloWorld_2", TOPIC_QOS_DEFAULT);
+    topic_1 = mp_participant->create_topic("topic1", "AZ", TOPIC_QOS_DEFAULT);
+    //topic_2 = mp_participant->create_topic("topic1", "AZ", TOPIC_QOS_DEFAULT);
     
     ReturnCode_t res;
     std::vector<InstanceHandle_t> topvec;
@@ -197,14 +196,25 @@ void HelloWorldPublisher::runThread( uint32_t samples, uint32_t sleep)
     eprosima::fastrtps::types::DynamicData* array;
 
     int count = 0;
-    uint32_t index = 0;;
+    uint32_t index = 0;
+
+    writer_1 = mp_publisher->create_datawriter(topic_1, DATAWRITER_QOS_DEFAULT, nullptr);
+    writer_2 = mp_publisher->create_datawriter(topic_1, DATAWRITER_QOS_DEFAULT, nullptr);
 
     for (;;)
     {
-
-        res = mp_participant->get_discovered_topics(topvec);
-
-        if (count == 0)
+        data_1->set_string_value("QWEERTASDF", 1);
+        data_1->set_uint32_value(count, 0);
+        count++;
+        writer_1->write(data_1.get());
+        std::this_thread::sleep_for(400ms);
+        data_1->set_string_value("QWEERTASDF", 1);
+        data_1->set_uint32_value(count, 0);
+        count++;
+        writer_2->write(data_1.get());
+        std::this_thread::sleep_for(1000ms);
+        if (count > 20) break;
+        /*if (count == 0)
         {
             writer_1 = mp_publisher->create_datawriter(topic_1, DATAWRITER_QOS_DEFAULT, nullptr);
             data_1->set_string_value("QWEERTASDF", 1);
@@ -262,11 +272,16 @@ void HelloWorldPublisher::runThread( uint32_t samples, uint32_t sleep)
             }
             data_2->return_loaned_value(array);
             writer_2->write(data_2.get());
-        }
+        }*/
 
-        count++;
-        std::this_thread::sleep_for(1000ms);
+        //count++;
+       // std::this_thread::sleep_for(1000ms);
     }
+
+    mp_publisher->delete_datawriter(writer_1);
+    mp_publisher->delete_datawriter(writer_2);
+    mp_participant->delete_topic(topic_1);
+    mp_participant->delete_publisher(mp_publisher);
 }
 
 void HelloWorldPublisher::run(

@@ -1,88 +1,58 @@
 {
-	"DDS_GATES": [
+	"id": 51101,
+	"Units": [
 		{
-			"id": 45555,
-			"Units": [
-				{
-					"Domen": 0,
-					"TypeUnit": "Publisher",
-					"TopicName": "topic_sm000",
-					"SMName": "sm000",
-					"TypeData": "Analog",
-					"Size": 100,
-					"Frequency": 350
-				},
-				{
-					"Domen": 0,
-					"TypeUnit": "Publisher",
-					"TopicName": "topic_sm001",
-					"SMName": "sm001",
-					"TypeData": "Discrete",
-					"Size": 100,
-					"Frequency": 350
-				},
-				{
-					"Domen": 0,
-					"TypeUnit": "Subscriber",
-					"TopicName": "topic_sm002",
-					"SMName": "sm002",
-					"TypeData": "Analog",
-					"Size": 100,
-					"Frequency": 350
-				},
-				{
-					"Domen": 0,
-					"TypeUnit": "Publisher",
-					"TopicName": "topic_sm003",
-					"SMName": "sm003",
-					"TypeData": "Discrete",
-					"Size": 100,
-					"Frequency": 350
-				}
-
+			"Domen": 0,
+			"TypeUnit": "Publisher",
+			"TypeTransmite": "TCP",
+			"SMName": "sm000",
+			"TypeData": "Analog",
+			"Size": 100,
+			"Frequency": 350,
+			"IP_Main": "192.168.0.101",
+			"Port_Main": 51201,
+			"IP_Reserve": "192.168.0.101",
+			"Port_Reserve": 51202
 		},
 		{
-			"id": 45556,
-			"Units": [
-				{
-					"Domen": 0,
-					"TypeUnit": "Publisher",
-					"TopicName": "topic_sm000",
-					"SMName": "sm000",
-					"TypeData": "Analog",
-					"Size": 100,
-					"Frequency": 350
-				},
-				{
-					"Domen": 0,
-					"TypeUnit": "Publisher",
-					"TopicName": "topic_sm001",
-					"SMName": "sm001",
-					"TypeData": "Discrete",
-					"Size": 100,
-					"Frequency": 350
-				},
-				{
-					"Domen": 0,
-					"TypeUnit": "Subscriber",
-					"TopicName": "topic_sm002",
-					"SMName": "sm002",
-					"TypeData": "Analog",
-					"Size": 100,
-					"Frequency": 350
-				},
-				{
-					"Domen": 0,
-					"TypeUnit": "Publisher",
-					"TopicName": "topic_sm003",
-					"SMName": "sm003",
-					"TypeData": "Discrete",
-					"Size": 100,
-					"Frequency": 350
-				}
-			]
+			"Domen": 0,
+			"TypeUnit": "Publisher",
+			"TypeTransmite": "TCP",
+			"SMName": "sm001",
+			"TypeData": "Discrete",
+			"Size": 100,
+			"Frequency": 350,
+			"IP_Main": "192.168.0.101",
+			"Port_Main": 51203,
+			"IP_Reserve": "192.168.0.101",
+			"Port_Reserve": 51204
+		},
+		{
+			"Domen": 0,
+			"TypeUnit": "Publisher",
+			"TypeTransmite": "TCP",
+			"SMName": "sm002",
+			"TypeData": "Binar",
+			"Size": 100,
+			"Frequency": 350,
+			"IP_Main": "192.168.0.101",
+			"Port_Main": 51205,
+			"IP_Reserve": "192.168.0.101",
+			"Port_Reserve": 51206
+		},
+		{
+			"Domen": 0,
+			"TypeUnit": "Subscriber",
+			"TypeTransmite": "TCP",
+			"SMName": "sm003",
+			"TypeData": "Analog",
+			"Size": 100,
+			"Frequency": 350,
+			"IP_Main": "192.168.0.101",
+			"Port_Main": 51207,
+			"IP_Reserve": "192.168.0.101",
+			"Port_Reserve": 51208
 		}
 	]
 }
-
 			

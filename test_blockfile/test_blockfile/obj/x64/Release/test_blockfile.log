@@ -1,0 +1,90 @@
+﻿  Очистка удаленного каталога проекта
+  Проверка исходных файлов
+  Удаленное копирование исходных файлов в "192.168.56.109"
+  Проверка архитектуры
+  Проверка архитектуры
+  Запуск удаленной сборки.
+  Компиляция исходных файлов:
+  logger.cpp
+D:\CATE_WORK\logger_crossplatform\logger.cpp(177,23): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(177,23): warning :   177 |         try { LogList[work_list].push_back(helpstr); }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(177,23): warning :       |                       ^~~~~~~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(239,26): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(239,26): warning :   239 |         try { LogSysList[work_syslist].push_back(msng); }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(239,26): warning :       |                          ^~~~~~~~~~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(292,27): warning : NULL used in arithmetic [-Wpointer-arith]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(292,27): warning :   292 |         if (code_error == NULL) { str += "NULL\t"; }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(292,27): warning :       |                           ^~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(295,30): warning : NULL used in arithmetic [-Wpointer-arith]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(295,30): warning :   295 |         if (syscode_error == NULL) { str += "NULL\t"; }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(295,30): warning :       |                              ^~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(309,27): warning : NULL used in arithmetic [-Wpointer-arith]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(309,27): warning :   309 |         if (code_error == NULL) { str += "NULL\t"; }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(309,27): warning :       |                           ^~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(312,30): warning : NULL used in arithmetic [-Wpointer-arith]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(312,30): warning :   312 |         if (syscode_error == NULL) { str += "NULL\t"; }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(312,30): warning :       |                              ^~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(326,27): warning : NULL used in arithmetic [-Wpointer-arith]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(326,27): warning :   326 |         if (code_error == NULL) { str += "NULL\t"; }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(326,27): warning :       |                           ^~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(329,30): warning : NULL used in arithmetic [-Wpointer-arith]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(329,30): warning :   329 |         if (syscode_error == NULL) { str += "NULL\t"; }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(329,30): warning :       |                              ^~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(343,27): warning : NULL used in arithmetic [-Wpointer-arith]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(343,27): warning :   343 |         if (code_error == NULL) { str += "NULL\t"; }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(343,27): warning :       |                           ^~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(346,30): warning : NULL used in arithmetic [-Wpointer-arith]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(346,30): warning :   346 |         if (syscode_error == NULL) { str += "NULL\t"; }
+D:\CATE_WORK\logger_crossplatform\logger.cpp(346,30): warning :       |                              ^~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(429,30): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(429,30): warning :   429 |                 if (!LogList[numlist].empty())
+D:\CATE_WORK\logger_crossplatform\logger.cpp(429,30): warning :       |                              ^~~~~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(440,37): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(440,37): warning :   440 |                     while (!LogList[numlist].empty())
+D:\CATE_WORK\logger_crossplatform\logger.cpp(440,37): warning :       |                                     ^~~~~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(443,39): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(443,39): warning :   443 |                         str = LogList[numlist].front();
+D:\CATE_WORK\logger_crossplatform\logger.cpp(443,39): warning :       |                                       ^~~~~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(450,33): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(450,33): warning :   450 |                         LogList[numlist].pop_front();
+D:\CATE_WORK\logger_crossplatform\logger.cpp(450,33): warning :       |                                 ^~~~~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(552,33): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(552,33): warning :   552 |                 if (!LogSysList[numlist].empty())
+D:\CATE_WORK\logger_crossplatform\logger.cpp(552,33): warning :       |                                 ^~~~~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(556,40): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(556,40): warning :   556 |                     while (!LogSysList[numlist].empty())
+D:\CATE_WORK\logger_crossplatform\logger.cpp(556,40): warning :       |                                        ^~~~~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(559,42): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(559,42): warning :   559 |                         msg = LogSysList[numlist].front();
+D:\CATE_WORK\logger_crossplatform\logger.cpp(559,42): warning :       |                                          ^~~~~~~
+D:\CATE_WORK\logger_crossplatform\logger.cpp(567,36): warning : array subscript has type ‘char’ [-Wchar-subscripts]
+D:\CATE_WORK\logger_crossplatform\logger.cpp(567,36): warning :   567 |                         LogSysList[numlist].pop_front();
+D:\CATE_WORK\logger_crossplatform\logger.cpp(567,36): warning :       |                                    ^~~~~~~
+  daemon_init.cpp
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(59,23): warning : comparison of integer expressions of different signedness: ‘int’ and ‘rlim_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(59,23): warning :    59 |     for (int i = 0; i < rl.rlim_max; i++)
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(59,23): warning :       |                     ~~^~~~~~~~~~~~~
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(33,9): warning : variable ‘fd0’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(33,9): warning :    33 |     int fd0, fd1, fd2;
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(33,9): warning :       |         ^~~
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(33,14): warning : variable ‘fd1’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(33,14): warning :    33 |     int fd0, fd1, fd2;
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(33,14): warning :       |              ^~~
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(33,19): warning : variable ‘fd2’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(33,19): warning :    33 |     int fd0, fd1, fd2;
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(33,19): warning :       |                   ^~~
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(69,9): warning : variable ‘res’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(69,9): warning :    69 |     int res;
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(69,9): warning :       |         ^~~
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(76,16): warning : ‘f’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(76,16): warning :    76 |     res = fcntl(f, F_SETLK, &lock);
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\daemon_init.cpp(76,16): warning :       |           ~~~~~^~~~~~~~~~~~~~~~~~~
+  main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\main.cpp(22,10): warning : variable ‘error_block_file’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\main.cpp(22,10): warning :    22 |     char error_block_file = 0;
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\main.cpp(22,10): warning :       |          ^~~~~~~~~~~~~~~~
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\main.cpp(23,9): warning : variable ‘sys_error_block_file’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\main.cpp(23,9): warning :    23 |     int sys_error_block_file = 0;
+D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\main.cpp(23,9): warning :       |         ^~~~~~~~~~~~~~~~~~~~
+  Связывание объектов
+  test_blockfile.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\test_blockfile\test_blockfile\bin\x64\Release\test_process.out

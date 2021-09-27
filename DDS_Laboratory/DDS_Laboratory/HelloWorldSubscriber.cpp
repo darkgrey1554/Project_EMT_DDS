@@ -210,38 +210,31 @@ void HelloWorldSubscriber::run_thread()
     ReturnCode_t res;
     eprosima::fastdds::dds::builtin::TopicBuiltinTopicData topic_data;
     Topic* topic_1;
+    DataReader* reader;
+    eprosima::fastdds::dds::Subscriber* sub;
 
     DynamicTypeBuilder_ptr struct_type_builder(DynamicTypeBuilderFactory::get_instance()->create_struct_builder());
     struct_type_builder->add_member(0, "index", DynamicTypeBuilderFactory::get_instance()->create_uint32_type());
     struct_type_builder->add_member(1, "message", DynamicTypeBuilderFactory::get_instance()->create_string_type());
-    struct_type_builder->set_name("asas");
+    struct_type_builder->set_name("AZ");
     DynamicType_ptr dynType = struct_type_builder->build();
     TypeSupport m_type(new eprosima::fastrtps::types::DynamicPubSubType(dynType));
 
-    res = mp_participant->register_type(m_type);
+    DynamicData_ptr data;
+    data = DynamicDataFactory::get_instance()->create_data(dynType);
 
-    topic_1 = mp_participant->create_topic("qweasd", "asas", TOPIC_QOS_DEFAULT);
+    res = mp_participant->register_type(m_type);
+    topic_1 = mp_participant->create_topic("topic1", "AZ", TOPIC_QOS_DEFAULT);
+    sub = mp_participant->create_subscriber(SUBSCRIBER_QOS_DEFAULT);
+    reader = sub->create_datareader(topic_1, DATAREADER_QOS_DEFAULT);
 
     for (;;)
     {
-        res = mp_participant->get_discovered_topics(vec_topic);
-        if (vec_topic.empty())
-        {
-            std::cout << "VECTOR DISCROVERED TOPICS EMPTY" <<std::endl;
-        }
-        else
-        {
-            for(InstanceHandle_t var : vec_topic)
-            {
-                res = mp_participant->get_discovered_topic_data(topic_data ,var);
-                std::cout << "TOPIC_DATA:" <<std::endl;
-                std::cout << "NAME:" << topic_data.name << std::endl;
-                std::cout << "NAME:" << topic_data.type_name << std::endl;
-            }
+        SampleInfo info;
+        reader->take_next_sample(data.get(),&info);
 
-        }
+        std::cout << data->get_uint32_value(0) << std::endl;
 
-        std::this_thread::sleep_for(1000ms);
-
+        std::this_thread::sleep_for(100ms);
     }
 }

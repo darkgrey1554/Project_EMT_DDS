@@ -4,7 +4,7 @@
 		{
 			"Domen": 0,
 			"TypeUnit": "Publisher",
-			"TopicName": "topic_sm000",
+			"TypeTransmite": "TCP",
 			"SMName": "sm000",
 			"TypeData": "Analog",
 			"Size": 100,
@@ -17,7 +17,7 @@
 		{
 			"Domen": 0,
 			"TypeUnit": "Publisher",
-			"TopicName": "topic_sm001",
+			"TypeTransmite": "TCP",
 			"SMName": "sm001",
 			"TypeData": "Discrete",
 			"Size": 100,
@@ -30,7 +30,7 @@
 		{
 			"Domen": 0,
 			"TypeUnit": "Publisher",
-			"TopicName": "topic_sm002",
+			"TypeTransmite": "TCP",
 			"SMName": "sm002",
 			"TypeData": "Binar",
 			"Size": 100,
@@ -43,7 +43,7 @@
 		{
 			"Domen": 0,
 			"TypeUnit": "Subscriber",
-			"TopicName": "topic_sm003",
+			"TypeTransmite": "TCP",
 			"SMName": "sm003",
 			"TypeData": "Analog",
 			"Size": 100,

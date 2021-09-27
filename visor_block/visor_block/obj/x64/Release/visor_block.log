@@ -1,0 +1,18 @@
+﻿  Проверка исходных файлов
+  Удаленное копирование исходных файлов в "192.168.56.109"
+  Проверка архитектуры
+  Проверка архитектуры
+  Запуск удаленной сборки.
+  Компиляция исходных файлов:
+  main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\main.cpp(23,10): warning : variable ‘error_block_file’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\main.cpp(23,10): warning :    23 |     char error_block_file = 0;
+D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\main.cpp(23,10): warning :       |          ^~~~~~~~~~~~~~~~
+D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\main.cpp(24,9): warning : variable ‘sys_error_block_file’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\main.cpp(24,9): warning :    24 |     int sys_error_block_file = 0;
+D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\main.cpp(24,9): warning :       |         ^~~~~~~~~~~~~~~~~~~~
+D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\main.cpp(147,14): warning : ‘pid’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\main.cpp(147,14): warning :   147 |         else if (pid == -1)
+D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\main.cpp(147,14): warning :       |              ^~
+  Связывание объектов
+  visor_block.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\visor_block\visor_block\bin\x64\Release\visor_block.out

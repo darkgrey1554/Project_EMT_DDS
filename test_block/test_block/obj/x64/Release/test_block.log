@@ -1,0 +1,25 @@
+﻿  Проверка исходных файлов
+  Удаленное копирование исходных файлов в "192.168.56.109"
+  Проверка архитектуры
+  Проверка архитектуры
+  Запуск удаленной сборки.
+  Компиляция исходных файлов:
+  main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(3,20): warning : missing terminating " character
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(3,20): warning :     3 | #include <logger.h>"
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(3,20): warning :       |                    ^
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(3,20): warning : extra tokens at end of #include directive
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(58,52): warning : comparison of integer expressions of different signedness: ‘ssize_t’ {aka ‘long int’} and ‘std::__cxx11::basic_string<char>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(58,52): warning :    58 |     if (write(block_file, str.c_str(), str.size()) != str.size())
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(58,52): warning :       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(23,10): warning : variable ‘error_block_file’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(23,10): warning :    23 |     char error_block_file = 0;
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(23,10): warning :       |          ^~~~~~~~~~~~~~~~
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(24,9): warning : variable ‘sys_error_block_file’ set but not used [-Wunused-but-set-variable]
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(24,9): warning :    24 |     int sys_error_block_file = 0;
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(24,9): warning :       |         ^~~~~~~~~~~~~~~~~~~~
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(14,10): warning : ignoring return value of ‘int chdir(const char*)’, declared with attribute warn_unused_result [-Wunused-result]
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(14,10): warning :    14 |     chdir("/home/user/log");
+D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\main.cpp(14,10): warning :       |     ~~~~~^~~~~~~~~~~~~~~~~~
+  Связывание объектов
+  test_block.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\test_block\test_block\bin\x64\Release\test_block.out

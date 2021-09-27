@@ -1,0 +1,1 @@
+g++ -o "/home/user/projects/test_block/bin/x64/Release/test_block.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack -pthread /home/user/projects/test_block/obj/x64/Release/logger.o /home/user/projects/test_block/obj/x64/Release/daemon_init.o /home/user/projects/test_block/obj/x64/Release/main.o

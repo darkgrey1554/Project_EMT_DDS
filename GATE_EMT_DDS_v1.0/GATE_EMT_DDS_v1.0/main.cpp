@@ -14,10 +14,15 @@ int main(int argc, char** argv)
 	LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
 	log->TurnOnLog();
 
-	ConfigReader<ConfigDDSUnit>* ConfReader = CreateConfigReader(Type_Gate::DDS);
+	ConfigReaderDDS* ConfReader = new ConfigReaderDDS();
 
-	ConfReader->ReadConfigFile();
-	ConfReader->ReadConfigSpecial();
+
+
+	ConfigGate r;
+	std::vector<ConfigDDSUnit> rr;
+
+	ConfReader->ReadConfigGate(r);
+	ConfReader->ReadConfigTransferUnits(rr);
 
 	ConfigDDSUnit config_sub;
 	ConfigDDSUnit config_pub;

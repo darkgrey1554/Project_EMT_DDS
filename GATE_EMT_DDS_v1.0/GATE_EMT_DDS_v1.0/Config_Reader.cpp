@@ -1,18 +1,18 @@
 #include "Config_Reader.h"
 
 
-ConfigReader<ConfigDDSUnit>* CreateConfigReader(Type_Gate type)
+/*ConfigReader<ConfigDDSUnit>* CreateConfigReader(Type_Gate type)
 {
     ConfigReader<ConfigDDSUnit>* res = new ConfigReaderDDS();
     return  res;
-};
+};*/
 
 ConfigReaderDDS::ConfigReaderDDS()
 {
     log = LoggerSpace::Logger::getpointcontact();
 }
 
-ResultReqest ConfigReaderDDS::ReadConfigFile()
+ResultReqest ConfigReaderDDS::ReadConfigGate(ConfigGate& conf)
 {
     unsigned int Domen;
     std::ifstream file;
@@ -52,7 +52,7 @@ ResultReqest ConfigReaderDDS::ReadConfigFile()
     return ResultReqest::OK;
 }
 
-ResultReqest ConfigReaderDDS::ReadConfigSpecial()
+ResultReqest ConfigReaderDDS::ReadConfigTransferUnits(std::vector<ConfigDDSUnit>& vector_result)
 {
     unsigned int Domen;
     std::ifstream file;
@@ -64,7 +64,7 @@ ResultReqest ConfigReaderDDS::ReadConfigSpecial()
     }
 
     std::string str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());    
-
+    vector_result.clear();
     try
     {
         rapidjson::Document document;
@@ -91,14 +91,14 @@ ResultReqest ConfigReaderDDS::ReadConfigSpecial()
                     unit.Port_MAIN = document["Units"][i]["Port_Main"].GetUint();
                     unit.IP_RESERVE = document["Units"][i]["IP_Reserve"].GetString();
                     unit.Port_RESERVE = document["Units"][i]["Port_Reserve"].GetUint();
-                    vector_data.push_back(unit);
+                    vector_result.push_back(unit);
                 }
             }
         }
     }
     catch (...)
     {
-        log->WriteLogERR("ERROR READ CONFIG FILE", 2, 0);
+        log->WriteLogERR("ERROR READ CONFIGUNITS FILE", 2, 0);
         file.close();
         return ResultReqest::ERR;
     }
@@ -111,19 +111,19 @@ ResultReqest ConfigReaderDDS::ReadConfigSpecial()
     return ResultReqest::ERR;
 };
 
-ResultReqest ConfigReaderDDS::GetResult(std::vector<ConfigDDSUnit>& vector_result)
+/*ResultReqest ConfigReaderDDS::GetResult(std::vector<ConfigDDSUnit>& vector_result)
 {
     return ResultReqest::ERR;
-};
-ResultReqest ConfigReaderDDS::SetNameConfigFile(std::string name)
+};*/
+/*ResultReqest ConfigReaderDDS::SetNameConfigFile(std::string name)
 {
     return ResultReqest::ERR;
-};
+};*/
 
-ResultReqest ConfigReaderDDS::WriteConfigFile() 
+/*ResultReqest ConfigReaderDDS::WriteConfigFile() 
 {
     return ResultReqest::ERR;
-};
+};*/
 
 /*ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
 {
