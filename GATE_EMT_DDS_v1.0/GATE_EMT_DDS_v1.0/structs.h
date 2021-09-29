@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <mutex>
+#include <logger.h>
 
 /// <summary>
 ///  тип шлюза
@@ -99,11 +100,28 @@ enum class TypeDDSUnit
 	PUBLISHER
 };
 
+enum class TypeTransmiter
+{
+	TCP,
+	UDP,
+	Broadcast
+};
+
+enum class TypeAdapter
+{
+	SharedMemory,
+	DDS,
+	DTS,
+	OPC_UA,
+	SMTP,
+	Null
+};
+
 struct ConfigGate
 {
 	unsigned int IdGate = 0;
 	unsigned int Domen = 0;
-	std::string TypeTransmite;
+	TypeTransmiter TypeTransmite;
 	std::string IPSubscribtion;
 	unsigned int PortSubscribtion;
 	std::string TopicSubscritionCommand;
@@ -112,6 +130,24 @@ struct ConfigGate
 	unsigned int PortPublication;
 	std::string TopicPublicationAnswer;
 };
+
+struct ConfigLogger
+{
+	std::string LogName;
+	std::string SysLogName;
+	LoggerSpace::LogMode LogMode;
+	LoggerSpace::Status StatusLog;
+	LoggerSpace::Status StatusSysLog;
+	unsigned SizeLogFile;
+};
+
+struct ConfigManager
+{
+	std::string IP;
+	unsigned int Port;
+};
+
+
 
 /// <summary>
 /// Заголовок расшаренной памяти 
@@ -206,8 +242,9 @@ struct ConfigDDSUnit
 {
 	unsigned short Domen;
 	TypeDDSUnit TypeUnit;
-	std::string TopicName;
-	std::string SMName;
+	TypeTransmiter Transmiter;
+	TypeAdapter Adapter;
+	std::string PointName;
 	TypeData Typedata;
 	unsigned int Size;
 	unsigned int Frequency;

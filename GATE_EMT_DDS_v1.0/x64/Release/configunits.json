@@ -1,11 +1,11 @@
 {
-	"id": 51101,
 	"Units": [
 		{
 			"Domen": 0,
 			"TypeUnit": "Publisher",
-			"TypeTransmite": "TCP",
-			"SMName": "sm000",
+			"TypeTransmite": "Broadcast",
+			"TypeAdapter": "SharedMemory",
+			"PointName": "sm000",
 			"TypeData": "Analog",
 			"Size": 100,
 			"Frequency": 350,
@@ -17,8 +17,9 @@
 		{
 			"Domen": 0,
 			"TypeUnit": "Publisher",
-			"TypeTransmite": "TCP",
-			"SMName": "sm001",
+			"TypeTransmite": "Broadcast",
+			"TypeAdapter": "SharedMemory",
+			"PointName": "sm001",
 			"TypeData": "Discrete",
 			"Size": 100,
 			"Frequency": 350,
@@ -30,8 +31,9 @@
 		{
 			"Domen": 0,
 			"TypeUnit": "Publisher",
-			"TypeTransmite": "TCP",
-			"SMName": "sm002",
+			"TypeTransmite": "Broadcast",
+			"TypeAdapter": "SharedMemory",
+			"PointName": "sm002",
 			"TypeData": "Binar",
 			"Size": 100,
 			"Frequency": 350,
@@ -43,8 +45,9 @@
 		{
 			"Domen": 0,
 			"TypeUnit": "Subscriber",
-			"TypeTransmite": "TCP",
-			"SMName": "sm003",
+			"TypeTransmite": "Broadcast",
+			"TypeAdapter": "SharedMemory",
+			"PointName": "sm003",
 			"TypeData": "Analog",
 			"Size": 100,
 			"Frequency": 350,

@@ -21,9 +21,9 @@ ResultReqest DDS_Gate::init_gate()
 {
 	ResultReqest result = ResultReqest::OK;
 	DomainParticipantQos participantQos;
-	config_reader = new ConfigReaderDDS();
+	config_reader = new ConfigReader();
 
-	if (config_reader->ReadConfigGate(config) == ResultReqest::ERR)
+	if (config_reader->ReadConfigGATE(config) == ResultReqest::ERR)
 	{
 		result = ResultReqest::ERR;
 		return result;
@@ -45,3 +45,22 @@ ResultReqest DDS_Gate::init_gate()
 	}
 	
 };
+
+
+DDS_Gate::SubListener::SubListener() {};
+DDS_Gate::SubListener::~SubListener() {};
+
+void DDS_Gate::SubListener::on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info) {};
+void DDS_Gate::SubListener::on_data_available(DataReader* reader) {};
+
+void DDS_Gate::GetInfoAboutGate() {};
+void DDS_Gate::GetStatusGate() {};
+void DDS_Gate::StartGate() {};
+void DDS_Gate::StopGate() {};
+void DDS_Gate::RestartGate() {};
+void DDS_Gate::RebornGate() {};
+
+void DDS_Gate::TakeConfigUnits() {};
+void DDS_Gate::WriteConfigUnitsInFile() {};
+void DDS_Gate::ParseCommand() {};
+void DDS_Gate::AnswerCommand() {};

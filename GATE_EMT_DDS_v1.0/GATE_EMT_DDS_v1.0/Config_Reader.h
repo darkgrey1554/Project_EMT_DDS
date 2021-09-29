@@ -20,7 +20,7 @@ public:
 };*/
 
 
-class ConfigReaderDDS //public ConfigReader<ConfigDDSUnit>
+class ConfigReader//public ConfigReader<ConfigDDSUnit>
 {
 	ResultReqest WriteConfigFile();
 	LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
@@ -30,9 +30,11 @@ class ConfigReaderDDS //public ConfigReader<ConfigDDSUnit>
 
 public:
 
-	ConfigReaderDDS();
-	ResultReqest ReadConfigGate(ConfigGate& conf);
+	ConfigReader();
+	ResultReqest ReadConfigGATE(ConfigGate& conf);
 	ResultReqest ReadConfigTransferUnits(std::vector<ConfigDDSUnit>& vector_result);
+	ResultReqest ReadConfigLOGGER(ConfigLogger& conf);
+	ResultReqest ReadConfigMANAGER(ConfigManager& conf);
 	//ResultReqest GetResult(ConfigDDSUnit& vector_result);
 	//ResultReqest SetNameConfigFile(std::string name);
 

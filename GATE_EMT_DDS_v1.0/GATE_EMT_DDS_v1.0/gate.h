@@ -49,9 +49,9 @@ class DDS_Gate : public Gate
 {
 
 	LoggerSpace::Logger* log;
-	ConfigReaderDDS* config_reader;
+	ConfigReader* config_reader;
 	ConfigGate config;
-	ConfigDDSUnit config_units;
+	std::vector<ConfigDDSUnit> config_units;
 
 
 	
@@ -86,7 +86,7 @@ public :
 	DDS_Gate();
 	~DDS_Gate();
 	ResultReqest init_gate();
-	void GetInfoAboutGate();
+ 	void GetInfoAboutGate();
 	void GetStatusGate();
 	void StartGate();
 	void StopGate();

@@ -1,12 +1,26 @@
 {
-  "IdGate": 51101,
-  "Domen": 0,
-  "TypeTransmite": "TCP",
-  "IPSubscribtion": "192.168.0.100",
-  "PortSubscribtion": 51100,
-  "TopicSubscritionCommand": "CommandForGates",
-  "TopicSubscribtionInfoConfig": "InfoConfigGates",
-  "IPPublication": "192.168.0.101",
-  "PortPublication": 51101,
-  "TopicPublicationAnswer": "AnswerOnCommand"
+  "GATE": {
+    "IdGate": 5101,
+    "Domen": 0,
+    "TypeTransmite": "TCP",
+    "IPSubscribtion": "192.168.0.100",
+    "PortSubscribtion": 51100,
+    "TopicSubscritionCommand": "CommandForGates",
+    "TopicSubscribtionInfoConfig": "InfoConfigGates",
+    "IPPublication": "192.168.0.101",
+    "PortPublication": 51101,
+    "TopicPublicationAnswer": "AnswerOnCommand"
+  },
+  "LOGGER": {
+    "LogName": "log_gate_scada",
+    "SysLogName": "log_gate_scada",
+    "LogMode": "Debug",
+    "StatusLog": "TURN",
+    "StatusSysLog": "OFF",
+    "SizeLogFile": 10
+  },
+  "MANAGER": {
+    "IP": "*IP",
+    "Port": "*Port"
+  }
 }

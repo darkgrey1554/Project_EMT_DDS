@@ -1,6 +1,6 @@
 {
   "GATE": {
-    "IdGate": 51101,
+    "IdGate": 5101,
     "Domen": 0,
     "TypeTransmite": "TCP",
     "IPSubscribtion": "192.168.0.100",
@@ -12,11 +12,11 @@
     "TopicPublicationAnswer": "AnswerOnCommand"
   },
   "LOGGER": {
-    "LogName": "*log_gate_scada",
-    "SysLogName": "*log_gate_scada",
-    "LogMode": "*Mode",
-    "StatusLog": "*TURN",
-    "StatusSysLog": "*TURN",
+    "LogName": "log_gate_scada",
+    "SysLogName": "log_gate_scada",
+    "LogMode": "Debug",
+    "StatusLog": "TURN",
+    "StatusSysLog": "OFF",
     "SizeLogFile": 10
   },
   "MANAGER": {

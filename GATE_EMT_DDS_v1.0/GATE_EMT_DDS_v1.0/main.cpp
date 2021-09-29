@@ -8,23 +8,74 @@
 #include "logger.h"
 #include "Config_Reader.h"
 
+class A
+{
+public:
+	virtual void f() { std::cout << "f-A" << std::endl; };
+	virtual ~A()
+	{
+		std::cout << "delete A" << std::endl;
+	};
+};
+
+class B: public A
+{
+public:
+	void f() override
+	{
+		std::cout << "f - B" << std::endl;
+	}
+	~B()
+	{
+		std::cout << "delete B" << std::endl;
+	}
+};
 
 int main(int argc, char** argv)
 {
 	LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
 	log->TurnOnLog();
 
-	ConfigReaderDDS* ConfReader = new ConfigReaderDDS();
+	ConfigReader* ConfReader = new ConfigReader();
+
+	A* test = new B();
+	test->f();
+	delete test;
 
 
-
+	ConfigLogger l;
 	ConfigGate r;
 	std::vector<ConfigDDSUnit> rr;
 
-	ConfReader->ReadConfigGate(r);
-	ConfReader->ReadConfigTransferUnits(rr);
+	if (ConfReader->ReadConfigLOGGER(l) == ResultReqest::OK)
+	{
+		log->WriteLogINFO("READ LOGGER SUCCESS");
+	}
+	else
+	{
+		log->WriteLogINFO("READ LOGGER FAIL");
+	}
 
-	ConfigDDSUnit config_sub;
+	if (ConfReader->ReadConfigGATE(r) == ResultReqest::OK)
+	{
+		log->WriteLogINFO("READ GATE SUCCESS");
+	}
+	else
+	{
+		log->WriteLogINFO("READ GATE FAIL");
+	}
+
+	if (ConfReader->ReadConfigTransferUnits(rr) == ResultReqest::OK)
+	{
+		log->WriteLogINFO("READ UNITS SUCCESS");
+	}
+	else
+	{
+		log->WriteLogINFO("READ UNITS FAIL");
+	}
+
+
+	/*ConfigDDSUnit config_sub;
 	ConfigDDSUnit config_pub;
 
 	config_pub.Domen = 0;
@@ -44,7 +95,7 @@ int main(int argc, char** argv)
 	config_sub.Port_RESERVE = 40001;
 
 	DDSUnit* pub = CreateDDSUnit(TypeDDSUnit::PUBLISHER, config_pub);
-	DDSUnit* sub = CreateDDSUnit(TypeDDSUnit::SUBSCRIBER, config_sub);
+	DDSUnit* sub = CreateDDSUnit(TypeDDSUnit::SUBSCRIBER, config_sub);*/
 	
 	/*HelloWorldPublisher mypub;
 	if (mypub.init())
