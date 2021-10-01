@@ -8,28 +8,7 @@
 #include "logger.h"
 #include "Config_Reader.h"
 
-class A
-{
-public:
-	virtual void f() { std::cout << "f-A" << std::endl; };
-	virtual ~A()
-	{
-		std::cout << "delete A" << std::endl;
-	};
-};
-
-class B: public A
-{
-public:
-	void f() override
-	{
-		std::cout << "f - B" << std::endl;
-	}
-	~B()
-	{
-		std::cout << "delete B" << std::endl;
-	}
-};
+c
 
 int main(int argc, char** argv)
 {
@@ -38,9 +17,7 @@ int main(int argc, char** argv)
 
 	ConfigReader* ConfReader = new ConfigReader();
 
-	A* test = new B();
-	test->f();
-	delete test;
+
 
 
 	ConfigLogger l;

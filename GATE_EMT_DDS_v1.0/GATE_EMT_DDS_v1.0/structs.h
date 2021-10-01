@@ -301,3 +301,10 @@ struct KKSUnit
 	std::string KKS;
 	unsigned int position;
 };
+
+struct ConfigSharedMemoryAdapter
+{
+	TypeData DataType;
+	unsigned size;
+	std::string NameMemory;
+};

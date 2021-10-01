@@ -1,10 +1,10 @@
 #pragma once
 #include "structs.h"
 
-namespace Gate
+namespace gate
 {
 
-	class Adaptor
+	class Adapter
 	{
 	public:
 
@@ -12,10 +12,10 @@ namespace Gate
 		virtual ResultReqest ReadData(TypeData type, void* buf, unsigned int size) = 0;
 		virtual ResultReqest WriteData(TypeData type, void* buf, unsigned int size) = 0;
 		virtual ResultReqest GetInfoAdaptor() = 0;
-		virtual ~Adaptor() {};
+		virtual ~Adapter() {};
 	};
 
-	Adaptor* CreateAdaptor(TypeAdapter type);
+	Adapter* CreateAdaptor(TypeAdapter type);
 	
 }
 

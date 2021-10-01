@@ -1,7 +1,63 @@
-#include "SM_DDS.h"
+#include "SharedMemoryAdaptor.h"
+
+namespace gate
+{
+
+	std::string CreatePointName(std::string source)
+	{
+			return source;
+	}
+
+	SharedMemoryAdaptor::SharedMemoryAdaptor()
+	{
+		log = LoggerSpace::Logger::getpointcontact();
+	};
+
+	SharedMemoryAdaptor::~SharedMemoryAdaptor()
+	{
+
+	}
+
+	ResultReqest SharedMemoryAdaptor::InitAdaptor(void* conf)
+	{
+		ResultReqest res = ResultReqest::OK;
+		ConfigSharedMemoryAdapter* config_point = static_cast<ConfigSharedMemoryAdapter*>(conf);
+		std::string namememory;
+		std::string mutex_name;
+		
+		this->config.DataType = config_point->DataType;
+		this->config.NameMemory = config_point->NameMemory;
+		this->config.size = config_point->size;
+
+		/// --- русские коменты ? --- /// 
+
+		int size_type = 0;
+		if (config.DataType == TypeData::ANALOG) { size_type = sizeof(float); }
+		else if (config.DataType == TypeData::DISCRETE) { size_type = sizeof(int); }
+		else if (config.DataType == TypeData::BINAR) { size_type = sizeof(char); }
+		else { size_type = 0; };
+
+		if (SM_Handle != NULL)
+		{
+			log->WriteLogWARNING("ERROR INIT SHARED MEMORY", 1, 0);
+			res = ResultReqest::ERR;
+			return res;
+		}
+
+		namememory = "Global\\" + CreatePointName(config.NameMemory);
+		mutex_name = "Global\\Mutex_" + CreatePointName(config.NameMemory);
 
 
-std::string CreateNameMemoryDDS(TypeData type, TypeDirection val, unsigned int domen)
+
+	}
+	
+
+}
+
+
+
+
+/*std::string CreateNameMemoryDDS(TypeData type, TypeDirection val, unsigned int domen)
 {
 	std::string str;
 	str.clear();
@@ -15,19 +71,9 @@ std::string CreateNameMemoryDDS(TypeData type, TypeDirection val, unsigned int d
 	str += std::to_string(domen);
 
 	return str;
-}
+}*/
 
-SharedMemoryDDS::SharedMemoryDDS()
-{
-	log = LoggerSpace::Logger::getpointcontact();
-};
 
-SharedMemoryDDS::~SharedMemoryDDS()
-{
-	DeleteMemory(TypeData::ANALOG);
-	DeleteMemory(TypeData::DISCRETE);
-	DeleteMemory(TypeData::BINAR);
-}
 
 
 ResultReqest SharedMemoryDDS::CreateMemoryAnalog(TypeDirection val, unsigned int size, std::string name)

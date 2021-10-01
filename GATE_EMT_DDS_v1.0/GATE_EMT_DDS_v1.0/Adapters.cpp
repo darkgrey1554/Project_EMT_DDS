@@ -2,14 +2,14 @@
 #include "SharedMemoryAdaptor.h" 
 
 
-namespace Gate
+namespace gate
 {
-	Adaptor* CreateAdaptor(TypeAdapter type)
+	Adapter* CreateAdapter(TypeAdapter type)
 	{
-		Adaptor* adaptor = nullptr;
+		Adapter* adapter = nullptr;
 
-		if (type == TypeAdapter::SharedMemory) adaptor = new SharedMemoryAdaptor();
+		if (type == TypeAdapter::SharedMemory) adapter = new SharedMemoryAdaptor();
 
-		return adaptor;
+		return adapter;
 	}
 }

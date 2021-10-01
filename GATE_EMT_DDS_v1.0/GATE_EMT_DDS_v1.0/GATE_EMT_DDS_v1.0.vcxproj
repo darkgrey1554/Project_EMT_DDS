@@ -26,6 +26,7 @@
     <ClCompile Include="gate.cpp" />
     <ClCompile Include="KKS_Reader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="security_handle.cpp" />
     <ClCompile Include="SharedMemoryAdaptor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +36,7 @@
     <ClInclude Include="gate.h" />
     <ClInclude Include="Adapters.h" />
     <ClInclude Include="KKS_Reader.h" />
+    <ClInclude Include="security_handle.h" />
     <ClInclude Include="SharedMemoryAdaptor.h" />
     <ClInclude Include="structs.h" />
   </ItemGroup>
