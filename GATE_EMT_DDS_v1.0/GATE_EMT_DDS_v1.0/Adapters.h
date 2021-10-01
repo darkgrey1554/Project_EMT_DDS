@@ -9,9 +9,9 @@ namespace gate
 	public:
 
 		virtual ResultReqest InitAdaptor(void* config) = 0;
-		virtual ResultReqest ReadData(TypeData type, void* buf, unsigned int size) = 0;
-		virtual ResultReqest WriteData(TypeData type, void* buf, unsigned int size) = 0;
-		virtual ResultReqest GetInfoAdaptor() = 0;
+		virtual ResultReqest ReadData(void* buf, unsigned int size) = 0;
+		virtual ResultReqest WriteData(void* buf, unsigned int size) = 0;
+		virtual std::unique_ptr<void> GetInfoAdaptor(ParamInfoAdapter param) = 0;
 		virtual ~Adapter() {};
 	};
 

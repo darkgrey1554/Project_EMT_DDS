@@ -1,6 +1,6 @@
 #pragma once
 #include "structs.h"
-#include "SM_DDS.h"
+#include "Adapters.h"
 #include "KKS_Reader.h"
 #include <atomic>
 #include <vector>
@@ -59,7 +59,7 @@ DDSUnit* CreateDDSUnit(TypeDDSUnit type, ConfigDDSUnit config);
 class DDSUnit_Subscriber : public DDSUnit
 {
 	ConfigDDSUnit config;
-	SharedMemoryDDS* SharedMemoryUnit;
+	gate::Adapter* SharedMemoryUnit;
 	KKSReader* readerkks;
 	std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
 	LoggerSpace::Logger* log;
@@ -162,7 +162,7 @@ public:
 class DDSUnit_Publisher : public DDSUnit
 {
 	ConfigDDSUnit config;
-	SharedMemoryDDS* SharedMemoryUnit;
+	gate::Adapter* SharedMemoryUnit;
 	KKSReader* readerkks;
 	std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
 	LoggerSpace::Logger* log;

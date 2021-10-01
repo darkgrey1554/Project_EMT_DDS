@@ -10,6 +10,6 @@ namespace gate
 
 		if (type == TypeAdapter::SharedMemory) adapter = new SharedMemoryAdaptor();
 
-		return adapter;
+		return std::move(adapter);
 	}
 }

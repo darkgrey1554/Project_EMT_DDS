@@ -1,141 +1,49 @@
-﻿  Adapters.cpp
-  Config_Reader.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.cpp(203,18): warning C4101: Domen: неиспользованная локальная переменная
-  DDSUnit.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(3,10): fatal error C1083: Не удается открыть файл включение: SM_DDS.h: No such file or directory,
+﻿  DDSUnit.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(27,25): error C2061: синтаксическая ошибка: идентификатор "SharedMemoryDDS"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(39,14): error C3861: CreateNameMemoryDDS: идентификатор не найден
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(40,25): error C2039: "CreateMemory": не является членом "gate::Adapter".
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Adapters.h(7): message : см. объявление "gate::Adapter"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(46,14): error C3861: CreateNameMemoryDDS: идентификатор не найден
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(47,25): error C2039: "CreateMemory": не является членом "gate::Adapter".
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Adapters.h(7): message : см. объявление "gate::Adapter"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(53,14): error C3861: CreateNameMemoryDDS: идентификатор не найден
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(54,25): error C2039: "CreateMemory": не является членом "gate::Adapter".
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Adapters.h(7): message : см. объявление "gate::Adapter"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(238,25): error C2061: синтаксическая ошибка: идентификатор "SharedMemoryDDS"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(251,14): error C3861: CreateNameMemoryDDS: идентификатор не найден
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(252,25): error C2039: "CreateMemory": не является членом "gate::Adapter".
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Adapters.h(7): message : см. объявление "gate::Adapter"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(258,14): error C3861: CreateNameMemoryDDS: идентификатор не найден
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(259,25): error C2039: "CreateMemory": не является членом "gate::Adapter".
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Adapters.h(7): message : см. объявление "gate::Adapter"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(265,14): error C3861: CreateNameMemoryDDS: идентификатор не найден
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(266,25): error C2039: "CreateMemory": не является членом "gate::Adapter".
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Adapters.h(7): message : см. объявление "gate::Adapter"
   gate.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(3,10): fatal error C1083: Не удается открыть файл включение: SM_DDS.h: No such file or directory,
   KKS_Reader.cpp
   main.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(3,10): fatal error C1083: Не удается открыть файл включение: SM_DDS.h: No such file or directory,
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(13,1): error C2144: синтаксическая ошибка: перед "int" требуется ";"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(13,5): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
   security_handle.cpp
   SharedMemoryAdaptor.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(79,14): error C2653: SharedMemoryDDS: не является именем класса или пространства имен
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(81,6): error C2065: SM_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(91,2): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(92,6): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(98,2): error C2065: SM_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(99,6): error C2065: SM_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(102,16): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(103,15): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(107,2): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(107,36): error C2065: SM_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(108,6): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(111,16): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(112,15): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(113,15): error C2065: SM_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(119,13): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(122,30): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(127,15): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(131,14): error C2653: SharedMemoryDDS: не является именем класса или пространства имен
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(133,6): error C2065: SM_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(143,2): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(144,6): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(150,2): error C2065: SM_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(151,6): error C2065: SM_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(154,16): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(155,15): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(159,2): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(159,38): error C2065: SM_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(160,6): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(163,16): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(164,15): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(165,15): error C2065: SM_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(171,13): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(174,30): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(179,15): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(183,14): error C2653: SharedMemoryDDS: не является именем класса или пространства имен
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(185,6): error C2065: SM_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(195,2): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(196,6): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(202,2): error C2065: SM_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(203,6): error C2065: SM_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(206,16): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(207,15): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(211,2): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(211,35): error C2065: SM_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(212,6): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(215,16): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(216,15): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(217,15): error C2065: SM_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(223,13): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(226,30): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(231,15): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(235,14): error C2653: SharedMemoryDDS: не является именем класса или пространства имен
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(245,14): error C2653: SharedMemoryDDS: не является именем класса или пространства имен
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(253,7): error C2065: SM_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(253,28): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(255,17): error C2065: size_analog_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(255,38): error C2065: size_analog_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(257,23): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(261,33): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(263,31): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(276,36): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(3119,1): error C2070: _Ty: недопустимый оператор sizeof
           with
           [
-              _Rep=__int64
+              _Ty=void
           ]
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(279,16): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(286,7): error C2065: SM_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(286,30): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(288,17): error C2065: size_discrete_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(288,40): error C2065: size_discrete_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(290,23): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(294,33): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(296,31): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(309,36): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(3118): message : во время компиляции функции-члена класс шаблон "void std::default_delete<void>::operator ()(_Ty *) noexcept const"
           with
           [
-              _Rep=__int64
+              _Ty=void
           ]
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(312,16): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(319,7): error C2065: SM_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(319,27): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(321,17): error C2065: size_binar_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(321,37): error C2065: size_binar_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(323,23): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(327,33): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(329,31): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(342,36): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(3230): message : выполняется компиляция ссылки на экземпляр шаблон функции "void std::default_delete<void>::operator ()(_Ty *) noexcept const"
           with
           [
-              _Rep=__int64
+              _Ty=void
           ]
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(345,16): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(352,15): error C2653: SharedMemoryDDS: не является именем класса или пространства имен
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(360,7): error C2065: SM_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(360,28): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(362,17): error C2065: size_analog_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(362,38): error C2065: size_analog_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(364,23): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(368,13): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(370,31): error C2065: buf_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(383,37): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
-          with
-          [
-              _Rep=__int64
-          ]
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(386,16): error C2065: Mut_Analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(393,7): error C2065: SM_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(393,30): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(395,17): error C2065: size_discrete_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(395,40): error C2065: size_discrete_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(397,23): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(401,13): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(403,31): error C2065: buf_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(416,37): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
-          with
-          [
-              _Rep=__int64
-          ]
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(419,16): error C2065: Mut_Discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(426,7): error C2065: SM_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(426,27): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(428,17): error C2065: size_binar_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(428,37): error C2065: size_binar_memory: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(430,23): error C2065: Mut_Binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(434,13): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(436,31): error C2065: buf_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(436,40): fatal error C1003: число ошибок превышает 100; остановка компиляции
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(3157): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::default_delete<void>"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(96): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::unique_ptr<void,std::default_delete<void>>"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(3119,25): error C2338: can't delete an incomplete type
   Создание кода...
 D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\KKS_Reader.cpp(166): warning C4715: KKSReader::ReturnMaxPosition: значение возвращается не при всех путях выполнения
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\gate.cpp(47): warning C4715: DDS_Gate::init_gate: значение возвращается не при всех путях выполнения

@@ -4,11 +4,12 @@
 #include <ctime>
 #include <chrono>
 #include "KKS_Reader.h"
-#include "DDSUnit.h"
 #include "logger.h"
 #include "Config_Reader.h"
+#include "Adapters.h"
+#include <memory>
 
-c
+using namespace std::chrono_literals;
 
 int main(int argc, char** argv)
 {
@@ -51,7 +52,19 @@ int main(int argc, char** argv)
 		log->WriteLogINFO("READ UNITS FAIL");
 	}
 
+	gate::Adapter* sm = gate::CreateAdaptor(TypeAdapter::SharedMemory);
 
+	ConfigSharedMemoryAdapter conf;
+	conf.DataType = TypeData::ANALOG;
+	conf.NameMemory = "asd";
+	conf.size = 100;
+
+	sm->InitAdaptor(&conf);
+
+	std::unique_ptr<void> p = sm->GetInfoAdaptor(ParamInfoAdapter::Type);
+	std::unique_ptr<TypeAdapter> pp(std::static_pointer_cast<std::unique_ptr<TypeAdapter>>(p.release());
+
+	TypeAdapter we = *pp;
 	/*ConfigDDSUnit config_sub;
 	ConfigDDSUnit config_pub;
 

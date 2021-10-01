@@ -33,9 +33,6 @@
     <ClCompile Include="KKS_Reader.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="DDSUnit.cpp">
-      <Filter>Файлы ресурсов</Filter>
-    </ClCompile>
     <ClCompile Include="Adapters.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="structs.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="DDSUnit.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="SharedMemoryAdaptor.h">

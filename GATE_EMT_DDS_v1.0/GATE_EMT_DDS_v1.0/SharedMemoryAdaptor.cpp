@@ -3,7 +3,7 @@
 namespace gate
 {
 
-	std::string CreatePointName(std::string source)
+	std::string CreateSMName(std::string source)
 	{
 			return source;
 	}
@@ -15,233 +15,108 @@ namespace gate
 
 	SharedMemoryAdaptor::~SharedMemoryAdaptor()
 	{
-
+		UnmapViewOfFile(buf_data);
+		CloseHandle(SM_Handle);
+		CloseHandle(Mutex_SM);
 	}
 
 	ResultReqest SharedMemoryAdaptor::InitAdaptor(void* conf)
 	{
 		ResultReqest res = ResultReqest::OK;
+		unsigned int result = 0;
 		ConfigSharedMemoryAdapter* config_point = static_cast<ConfigSharedMemoryAdapter*>(conf);
 		std::string namememory;
-		std::string mutex_name;
-		
+		std::string namemutex;
+
+		/// --- coping of configuration --- ///
 		this->config.DataType = config_point->DataType;
 		this->config.NameMemory = config_point->NameMemory;
 		this->config.size = config_point->size;
 
-		/// --- русские коменты ? --- /// 
-
+		/// --- initialization of security attributes --- ///
+		result = security_attr.InitSecurityAttrubuts();
+		if (result != 0)
+		{
+			log->WriteLogERR("Error init sharedmemory: error of security attributs", result, security_attr.getlasterror());
+			res = ResultReqest::ERR;
+			return res;
+		}
+		
+		/// --- defining units of data --- ///
 		int size_type = 0;
 		if (config.DataType == TypeData::ANALOG) { size_type = sizeof(float); }
 		else if (config.DataType == TypeData::DISCRETE) { size_type = sizeof(int); }
 		else if (config.DataType == TypeData::BINAR) { size_type = sizeof(char); }
 		else { size_type = 0; };
 
+		/// --- initialization handle of shared memory --- ///
 		if (SM_Handle != NULL)
 		{
-			log->WriteLogWARNING("ERROR INIT SHARED MEMORY", 1, 0);
+			log->WriteLogWARNING("Error init shared memory", 1, 0);
 			res = ResultReqest::ERR;
 			return res;
 		}
 
-		namememory = "Global\\" + CreatePointName(config.NameMemory);
-		mutex_name = "Global\\Mutex_" + CreatePointName(config.NameMemory);
+		namememory = "Global\\" + CreateSMName(config.NameMemory);
+		namemutex = "Global\\Mutex_" + CreateSMName(config.NameMemory);
+
+		Mutex_SM = CreateMutexA(&security_attr.getsecurityattrebut(), TRUE, namemutex.c_str());
+		if (Mutex_SM == NULL)
+		{
+			log->WriteLogERR("Error init shared memory", 2, GetLastError());
+			res = ResultReqest::ERR;
+			return res;
+		}
+
+		SM_Handle = CreateFileMappingA(&security_attr.getsecurityattrebut(), NULL, PAGE_READWRITE, 0, config.size*size_type + sizeof(HeaderSharedMemory), namememory.c_str());
+		if (SM_Handle == NULL)
+		{
+			log->WriteLogERR("Error init shared memory", 3, GetLastError());
+			ReleaseMutex(Mutex_SM);
+			CloseHandle(Mutex_SM);
+			res = ResultReqest::ERR;
+			return res;
+		}
+
+		buf_data = (char*)MapViewOfFile(SM_Handle, FILE_MAP_ALL_ACCESS, 0, 0, config.size * size_type + sizeof(HeaderSharedMemory) * sizeof(float) + sizeof(HeaderSharedMemory));
+		if (buf_data == NULL)
+		{
+			log->WriteLogERR("Error init shared memory", 4, GetLastError());
+			ReleaseMutex(Mutex_SM);
+			CloseHandle(Mutex_SM);
+			CloseHandle(SM_Handle);
+			res = ResultReqest::ERR;
+			return res;
+		}
+		
+		return res;
+	}
+
+	std::unique_ptr<void> SharedMemoryAdaptor::GetInfoAdaptor(ParamInfoAdapter param)
+	{
+		std::string str;
+		if (param == ParamInfoAdapter::Type)
+		{
+			std::unique_ptr<TypeAdapter> point= std::make_unique<TypeAdapter>(TypeAdapter::SharedMemory);
+			return std::move(point);
+		}
 
 
-
+		return nullptr;
 	}
 	
+	ResultReqest SharedMemoryAdaptor::ReadData(void* buf, unsigned int size)
+	{
+		return ResultReqest::ERR;
+	}
 
+	ResultReqest SharedMemoryAdaptor::WriteData(void* buf, unsigned int size)
+	{
+		return ResultReqest::ERR;
+	}
 }
 
-
-
-
-/*std::string CreateNameMemoryDDS(TypeData type, TypeDirection val, unsigned int domen)
-{
-	std::string str;
-	str.clear();
-	str += "SM_";
-	if (type == TypeData::ANALOG) str += "ANALOG_";
-	if (type == TypeData::DISCRETE) str += "DISCRETE_";
-	if (type == TypeData::BINAR) str += "BINAR_";
-	if (val == TypeDirection::EMTtoDDS) str += "EMTtoDDS_";
-	if (val == TypeDirection::EMTfromDDS) str += "EMTfromDDS_";
-	str += "DOMEN_";
-	str += std::to_string(domen);
-
-	return str;
-}*/
-
-
-
-
-ResultReqest SharedMemoryDDS::CreateMemoryAnalog(TypeDirection val, unsigned int size, std::string name)
-{
-	if (SM_Analog != NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 1, 0);
-		return ResultReqest::ERR;
-	}
-	
-	std::string name_mutex = "Mutex_" + name;
-	HeaderSharedMemory* head;
-
-
-	Mut_Analog = CreateMutexA(NULL, TRUE, name_mutex.c_str());
-	if (Mut_Analog == NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 2, GetLastError());
-		return ResultReqest::ERR;
-	}
-
-	SM_Analog = CreateFileMappingA(NULL, NULL, PAGE_READWRITE, 0, size*sizeof(float)+sizeof(HeaderSharedMemory), name.c_str());
-	if (SM_Analog == NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 3, GetLastError());
-		ReleaseMutex(Mut_Analog);
-		CloseHandle(Mut_Analog);
-		return ResultReqest::ERR;
-	}
-
-	buf_analog = (char*)MapViewOfFile(SM_Analog, FILE_MAP_ALL_ACCESS, 0, 0, size * sizeof(float) + sizeof(HeaderSharedMemory));
-	if (buf_analog == NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 4, GetLastError());
-		ReleaseMutex(Mut_Analog);
-		CloseHandle(Mut_Analog);
-		CloseHandle(SM_Analog);
-		return ResultReqest::ERR;
-	}
-
-	for (unsigned int i = 0; i < size * sizeof(float) + sizeof(HeaderSharedMemory); i++)
-	{
-		*(((char*)buf_analog) + i) = 0;
-	}
-
-	head = (HeaderSharedMemory*)buf_analog;
-	head->size_data = size;
-	head->typedata = TypeData::ANALOG;
-	head->typedirection = val;
-	
-	ReleaseMutex(Mut_Analog);
-	return  ResultReqest::OK;
-}
-
-ResultReqest SharedMemoryDDS::CreateMemoryDiscrete(TypeDirection val, unsigned int size, std::string name)
-{
-	if (SM_Discrete != NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 1, 0);
-		return ResultReqest::ERR;
-	}
-
-	std::string name_mutex = "Mutex_" + name;
-	HeaderSharedMemory* head;
-
-
-	Mut_Discrete = CreateMutexA(NULL, TRUE, name_mutex.c_str());
-	if (Mut_Discrete == NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 2, GetLastError());
-		return ResultReqest::ERR;
-	}
-
-	SM_Discrete = CreateFileMappingA(NULL, NULL, PAGE_READWRITE, 0, size * sizeof(int) + sizeof(HeaderSharedMemory), name.c_str());
-	if (SM_Discrete == NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 3, GetLastError());
-		ReleaseMutex(Mut_Discrete);
-		CloseHandle(Mut_Discrete);
-		return ResultReqest::ERR;
-	}
-
-	buf_discrete = (char*)MapViewOfFile(SM_Analog, FILE_MAP_ALL_ACCESS, 0, 0, size * sizeof(int) + sizeof(HeaderSharedMemory));
-	if (buf_discrete == NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 4, GetLastError());
-		ReleaseMutex(Mut_Discrete);
-		CloseHandle(Mut_Discrete);
-		CloseHandle(SM_Discrete);
-		return ResultReqest::ERR;
-	}
-
-	for (unsigned int i = 0; i < size * sizeof(int) + sizeof(HeaderSharedMemory); i++)
-	{
-		*(((char*)buf_discrete) + i) = 0;
-	}
-
-	head = (HeaderSharedMemory*)buf_discrete;
-	head->size_data = size;
-	head->typedata = TypeData::DISCRETE;
-	head->typedirection = val;
-
-	ReleaseMutex(Mut_Discrete);
-	return  ResultReqest::OK;
-}
-
-ResultReqest SharedMemoryDDS::CreateMemoryBinar(TypeDirection val, unsigned int size, std::string name)
-{
-	if (SM_Binar != NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 1, 0);
-		return ResultReqest::ERR;
-	}
-
-	std::string name_mutex = "Mutex_" + name;
-	HeaderSharedMemory* head;
-
-
-	Mut_Binar = CreateMutexA(NULL, TRUE, name_mutex.c_str());
-	if (Mut_Binar == NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 2, GetLastError());
-		return ResultReqest::ERR;
-	}
-
-	SM_Binar = CreateFileMappingA(NULL, NULL, PAGE_READWRITE, 0, size * sizeof(char) + sizeof(HeaderSharedMemory), name.c_str());
-	if (SM_Binar == NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 3, GetLastError());
-		ReleaseMutex(Mut_Binar);
-		CloseHandle(Mut_Binar);
-		return ResultReqest::ERR;
-	}
-
-	buf_binar = (char*)MapViewOfFile(SM_Analog, FILE_MAP_ALL_ACCESS, 0, 0, size * sizeof(char) + sizeof(HeaderSharedMemory));
-	if (buf_binar == NULL)
-	{
-		log->WriteLogERR("ERROR INIT SHARED MEMORY", 4, GetLastError());
-		ReleaseMutex(Mut_Binar);
-		CloseHandle(Mut_Binar);
-		CloseHandle(SM_Binar);
-		return ResultReqest::ERR;
-	}
-
-	for (unsigned int i = 0; i < size * sizeof(float) + sizeof(HeaderSharedMemory); i++)
-	{
-		*(((char*)buf_binar) + i) = 0;
-	}
-
-	head = (HeaderSharedMemory*)buf_binar;
-	head->size_data = size;
-	head->typedata = TypeData::BINAR;
-	head->typedirection = val;
-
-	ReleaseMutex(Mut_Binar);
-	return  ResultReqest::OK;
-}
-
-ResultReqest SharedMemoryDDS::CreateMemory(TypeData type, TypeDirection val, unsigned int size, std::string name)
-{
-	ResultReqest result = ResultReqest::ERR;
-	if (type == TypeData::ANALOG) result = CreateMemoryAnalog(val, size, name);
-	if (type == TypeData::DISCRETE) result = CreateMemoryDiscrete(val, size, name);
-	if (type == TypeData::BINAR) result = CreateMemoryBinar(val, size, name);
-
-	return result;
-}
-
+/*
 ResultReqest SharedMemoryDDS::ReadMemory(TypeData type , void* buf, unsigned int size)
 {
 	unsigned int iter;
@@ -523,4 +398,4 @@ HeaderSharedMemory SharedMemoryDDS::ReadHead(TypeData type)
 
 	return head;
 }
-
+*/

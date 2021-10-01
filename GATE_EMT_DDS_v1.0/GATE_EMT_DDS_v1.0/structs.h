@@ -117,6 +117,12 @@ enum class TypeAdapter
 	Null
 };
 
+enum class ParamInfoAdapter
+{
+	Type,
+	Config
+};
+
 struct ConfigGate
 {
 	unsigned int IdGate = 0;
@@ -308,3 +314,4 @@ struct ConfigSharedMemoryAdapter
 	unsigned size;
 	std::string NameMemory;
 };
+

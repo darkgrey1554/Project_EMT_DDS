@@ -15,13 +15,13 @@
 
 namespace gate
 {
-	std::string CreatePointName(std::string source);
+	std::string CreateSMName(std::string source);
 
 	class SharedMemoryAdaptor : public Adapter
 	{
 
 		HANDLE SM_Handle = NULL;
-		void* buf_data = NULL;
+		char* buf_data = NULL;
 		unsigned int size_memory = 0;
 		HANDLE Mutex_SM = NULL;
 		ConfigSharedMemoryAdapter config;
@@ -36,9 +36,9 @@ namespace gate
 	public:
 
 		ResultReqest InitAdaptor(void* config);
-		ResultReqest ReadData(TypeData type, void* buf, unsigned int size);
-		ResultReqest WriteData(TypeData type, void* buf, unsigned int size);
-		ResultReqest GetInfoAdaptor();
+		ResultReqest ReadData(void* buf, unsigned int size);
+		ResultReqest WriteData(void* buf, unsigned int size);
+		std::unique_ptr<void> GetInfoAdaptor(ParamInfoAdapter param);
 
 		//ResultReqest CreateMemory(TypeData type, TypeDirection val, unsigned int size, std::string name);
 		//ResultReqest ReadMemory(TypeData type, void* buf, unsigned int size);
