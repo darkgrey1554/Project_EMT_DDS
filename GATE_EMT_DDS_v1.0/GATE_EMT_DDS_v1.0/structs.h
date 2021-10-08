@@ -20,7 +20,8 @@ enum class Type_Gate
 enum class ResultReqest
 {
 	OK = 0,
-	ERR = 1
+	ERR = 1,
+	IGNOR = 2
 };
 
 enum class TypeData
@@ -117,10 +118,30 @@ enum class TypeAdapter
 	Null
 };
 
+enum class StatusAdapter
+{
+	OK,
+	ERROR_INIT,
+	INITIALIZATION,
+	Null
+};
+
 enum class ParamInfoAdapter
 {
 	Type,
-	Config
+	Config,
+	HeaderData
+};
+
+struct BaseAnswer
+{
+	TypeAdapter typeadapter;
+	ParamInfoAdapter param;
+	ResultReqest result;
+
+	BaseAnswer() 
+	{
+	}
 };
 
 struct ConfigGate
@@ -161,12 +182,11 @@ struct ConfigManager
 struct HeaderSharedMemory
 {
 	TypeData typedata = TypeData::ZERO;
-	TypeDirection  typedirection = TypeDirection::ZERO;
 	TimeUnit TimeLastWrite;
 	TimeUnit TimeLastRead;
 	unsigned int size_data = 0;
-	unsigned int count_write = 0;
-	unsigned int count_read = 0;
+	unsigned long count_write = 0;
+	unsigned long count_read = 0;
 };
 
 struct  ListKKSOut
@@ -315,3 +335,8 @@ struct ConfigSharedMemoryAdapter
 	std::string NameMemory;
 };
 
+
+struct HeaderDataAnswerSM : public BaseAnswer
+{
+	HeaderSharedMemory header;
+};

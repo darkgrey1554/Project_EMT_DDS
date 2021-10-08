@@ -6,6 +6,7 @@
 #include <chrono>
 #include <time.h>
 #include <stdio.h>
+#include <atomic>
 #include "Adapters.h"
 #include "security_handle.h"
 
@@ -23,11 +24,14 @@ namespace gate
 		HANDLE SM_Handle = NULL;
 		char* buf_data = NULL;
 		unsigned int size_memory = 0;
+		unsigned int size_type = 0;
 		HANDLE Mutex_SM = NULL;
-		ConfigSharedMemoryAdapter config;
-
-		LoggerSpace::Logger* log;
 		SecurityHandle security_attr;
+
+		ConfigSharedMemoryAdapter config;
+		std::atomic<StatusAdapter> current_status = StatusAdapter::Null;
+		LoggerSpace::Logger* log;
+
 
 		//ResultReqest CreateMemoryAnalog(TypeDirection val, unsigned int size, std::string name);
 		//ResultReqest CreateMemoryDiscrete(TypeDirection val, unsigned int size, std::string name);
@@ -35,10 +39,12 @@ namespace gate
 
 	public:
 
-		ResultReqest InitAdaptor(void* config);
+		ResultReqest InitAdapter(void* config);
 		ResultReqest ReadData(void* buf, unsigned int size);
 		ResultReqest WriteData(void* buf, unsigned int size);
-		std::unique_ptr<void> GetInfoAdaptor(ParamInfoAdapter param);
+		TypeAdapter GetTypeAdapter();
+		StatusAdapter GetStatusAdapter();
+		std::shared_ptr<BaseAnswer> GetInfoAdapter(ParamInfoAdapter param);
 
 		//ResultReqest CreateMemory(TypeData type, TypeDirection val, unsigned int size, std::string name);
 		//ResultReqest ReadMemory(TypeData type, void* buf, unsigned int size);

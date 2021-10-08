@@ -8,22 +8,120 @@
 #include "Config_Reader.h"
 #include "Adapters.h"
 #include <memory>
+#include <typeinfo>
 
 using namespace std::chrono_literals;
 
+struct A
+{
+	int first = 0;
+};
+
+struct B : public A
+{
+	int second = 0;
+};
+
+std::shared_ptr<A> fun()
+{
+	std::shared_ptr<B> as = std::make_unique<B>();
+	as->first = 10;
+	as->second = 20;
+	return std::move(as);
+}
+
 int main(int argc, char** argv)
 {
+
+	///////////
+
+	std::shared_ptr<B> bb = nullptr;
+
+	{
+		std::shared_ptr<A> aa = fun();
+		bb = std::reinterpret_pointer_cast<B>(aa);
+		std::cout << bb.use_count() << std::endl;
+		std::cout << bb->first << std::endl;
+		std::cout << bb->second << std::endl;
+
+	}
+	std::cout << bb.use_count() << std::endl;
+	
+
+	///////////
+
 	LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
 	log->TurnOnLog();
 
 	ConfigReader* ConfReader = new ConfigReader();
 
-
-
-
 	ConfigLogger l;
+	ConfigLogger* ll;
+	ConfigLogger lll;
 	ConfigGate r;
 	std::vector<ConfigDDSUnit> rr;
+
+	ResultReqest res;
+
+	int data_out[100];
+	int data_in[100];
+
+	ConfigSharedMemoryAdapter confwriter;
+	ConfigSharedMemoryAdapter confreader;
+
+	confwriter.DataType = TypeData::DISCRETE;
+	confwriter.NameMemory = "sm001";
+	confwriter.size = 100;
+
+	confreader.DataType = TypeData::DISCRETE;
+	confreader.NameMemory = "sm001";
+	confreader.size = 100;
+
+	gate::Adapter* reader = gate::CreateAdapter(TypeAdapter::SharedMemory);
+	gate::Adapter* writer = gate::CreateAdapter(TypeAdapter::SharedMemory);
+
+
+	res = writer->InitAdapter(&confwriter);
+	if (res == ResultReqest::OK) { std::cout << "WRITER OK" << std::endl; }
+	else { std::cout << "WRITER ERR" << std::endl; }
+	
+	res = reader->InitAdapter(&confreader);
+	if (res == ResultReqest::OK) { std::cout << "READER OK" << std::endl; }
+	else { std::cout << "READER ERR" << std::endl; }
+
+	for (int i = 0; i < 100; i++)
+	{
+		data_out[i] = i;
+		data_in[i] = 0;
+	}
+
+	while (1)
+	{
+		res = writer->WriteData(data_out, 100);
+		if (res == ResultReqest::OK) { std::cout << "WRITER WRITE OK" << std::endl; }
+		else { std::cout << "WRITER WRITE ERR" << std::endl; }
+
+		res = reader->ReadData(data_in, 100);
+		if (res == ResultReqest::OK) { std::cout << "READER READ OK" << std::endl; }
+		else { std::cout << "READER READ ERR" << std::endl; }
+
+		std::cout << "DATA_OUT:\tDATA_IN:" << std::endl;
+		std::cout << data_out[0] << "\t" << data_in[0] << std::endl;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+
+		for (int i = 0; i < 100; i++)
+		{
+			data_out[i]++;
+		}
+
+		std::unique_ptr<BaseAnswer> anc = reader->GetInfoAdapter(ParamInfoAdapter::HeaderData);
+
+
+
+	}
+
+
+
 
 	if (ConfReader->ReadConfigLOGGER(l) == ResultReqest::OK)
 	{
@@ -52,19 +150,19 @@ int main(int argc, char** argv)
 		log->WriteLogINFO("READ UNITS FAIL");
 	}
 
-	gate::Adapter* sm = gate::CreateAdaptor(TypeAdapter::SharedMemory);
+	//gate::Adapter* sm = gate::CreateAdaptor(TypeAdapter::SharedMemory);
 
-	ConfigSharedMemoryAdapter conf;
+	/*ConfigSharedMemoryAdapter conf;
 	conf.DataType = TypeData::ANALOG;
 	conf.NameMemory = "asd";
-	conf.size = 100;
+	conf.size = 100;*/
 
-	sm->InitAdaptor(&conf);
+	//sm->InitAdaptor(&conf);
 
-	std::unique_ptr<void> p = sm->GetInfoAdaptor(ParamInfoAdapter::Type);
-	std::unique_ptr<TypeAdapter> pp(std::static_pointer_cast<std::unique_ptr<TypeAdapter>>(p.release());
+	//std::unique_ptr<void> p = sm->GetInfoAdaptor(ParamInfoAdapter::Type);
+	//std::unique_ptr<TypeAdapter> pp(std::static_pointer_cast<std::unique_ptr<TypeAdapter>>(p.release());
 
-	TypeAdapter we = *pp;
+	//TypeAdapter we = *pp;
 	/*ConfigDDSUnit config_sub;
 	ConfigDDSUnit config_pub;
 

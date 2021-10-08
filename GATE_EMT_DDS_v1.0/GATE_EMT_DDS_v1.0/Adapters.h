@@ -8,14 +8,16 @@ namespace gate
 	{
 	public:
 
-		virtual ResultReqest InitAdaptor(void* config) = 0;
+		virtual ResultReqest InitAdapter(void* config) = 0;
 		virtual ResultReqest ReadData(void* buf, unsigned int size) = 0;
 		virtual ResultReqest WriteData(void* buf, unsigned int size) = 0;
-		virtual std::unique_ptr<void> GetInfoAdaptor(ParamInfoAdapter param) = 0;
+		virtual TypeAdapter GetTypeAdapter() = 0;
+		virtual StatusAdapter GetStatusAdapter() = 0;
+		virtual std::shared_ptr<BaseAnswer> GetInfoAdapter(ParamInfoAdapter param) = 0;
 		virtual ~Adapter() {};
 	};
 
-	Adapter* CreateAdaptor(TypeAdapter type);
-	
+	Adapter* CreateAdapter(TypeAdapter type);
+
 }
 
