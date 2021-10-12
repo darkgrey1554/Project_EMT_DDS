@@ -30,9 +30,6 @@
     <ClCompile Include="SharedMemoryAdaptor.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="KKS_Reader.cpp">
-      <Filter>Файлы ресурсов</Filter>
-    </ClCompile>
     <ClCompile Include="Adapters.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
@@ -54,9 +51,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\logger_crossplatform\logger.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="KKS_Reader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Adapters.h">

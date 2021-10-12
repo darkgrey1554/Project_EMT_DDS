@@ -81,6 +81,7 @@ class DDS_Gate : public Gate
 
     } listener_;
 
+
 public :
 
 	DDS_Gate();

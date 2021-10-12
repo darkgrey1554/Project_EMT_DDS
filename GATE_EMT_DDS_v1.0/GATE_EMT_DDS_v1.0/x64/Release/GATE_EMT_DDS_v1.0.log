@@ -1,4 +1,6 @@
 ﻿  main.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(59,16): warning C4101: ll: неиспользованная локальная переменная
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(12,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(35,77): warning C4554: "<<": проверьте приоритет операторов на ошибки; для уточнения приоритета используйте скобки
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(68,16): warning C4101: ll: неиспользованная локальная переменная
   LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
   GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe

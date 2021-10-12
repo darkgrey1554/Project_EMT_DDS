@@ -9,6 +9,7 @@
 #include "Adapters.h"
 #include <memory>
 #include <typeinfo>
+#include <bitset>;
 
 using namespace std::chrono_literals;
 
@@ -30,10 +31,11 @@ std::shared_ptr<A> fun()
 	return std::move(as);
 }
 
+
 int main(int argc, char** argv)
 {
 
-	///////////
+
 
 	std::shared_ptr<B> bb = nullptr;
 
@@ -95,6 +97,8 @@ int main(int argc, char** argv)
 		data_in[i] = 0;
 	}
 
+	std::shared_ptr<BaseAnswer> anc = nullptr;
+
 	while (1)
 	{
 		res = writer->WriteData(data_out, 100);
@@ -114,8 +118,22 @@ int main(int argc, char** argv)
 			data_out[i]++;
 		}
 
-		std::unique_ptr<BaseAnswer> anc = reader->GetInfoAdapter(ParamInfoAdapter::HeaderData);
+		anc = reader->GetInfoAdapter(ParamInfoAdapter::HeaderData);
 
+		{
+			std::shared_ptr<HeaderDataAnswerSM> anc1 = std::reinterpret_pointer_cast<HeaderDataAnswerSM>(anc);
+			std::cout << "-------------HEADER-------------" << std::endl;
+			std::cout << "counter read: " << (int) anc1->header.count_read <<std::endl;
+			std::cout << "counter write: " << (int) anc1->header.count_write << std::endl;
+			std::cout << "TimeLastRead: " << (int) anc1->header.TimeLastRead.h
+				<< ":" << (int) anc1->header.TimeLastRead.m 
+				<< ":" << (int) anc1->header.TimeLastRead.s
+				<< "."  << (int) anc1->header.TimeLastRead.ms << std::endl;
+			std::cout << "TimeLastWrite: " << (int)anc1->header.TimeLastWrite.h
+				<< ":" << (int)anc1->header.TimeLastWrite.m
+				<< ":" << (int)anc1->header.TimeLastWrite.s
+				<< "." << (int)anc1->header.TimeLastWrite.ms << std::endl;
+		}
 
 
 	}

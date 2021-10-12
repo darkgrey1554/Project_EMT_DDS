@@ -2,16 +2,32 @@
 
 namespace gate
 {
-
+	////////////////////////////////////////
+	/// --- задает имя shared memory --- ///
+	///////////////////////////////////////
+	/// <param>
+	/// source - уникальная часть имени памяти
+	/// </param>
+	/// <result> 
+	/// - имя shared memory
+	/// 
 	std::string CreateSMName(std::string source)
 	{
 			return source;
 	}
 
+	/////////////////////////////////////////////////
+	/// --- конструктор адаптера SharedMemory --- ///
+	////////////////////////////////////////////////
+
 	SharedMemoryAdaptor::SharedMemoryAdaptor()
 	{
 		log = LoggerSpace::Logger::getpointcontact();
 	};
+
+	/////////////////////////////////////////////////
+	/// --- деструктор адаптера SharedMemory --- ///
+	////////////////////////////////////////////////
 
 	SharedMemoryAdaptor::~SharedMemoryAdaptor()
 	{
@@ -20,6 +36,16 @@ namespace gate
 		CloseHandle(Mutex_SM);
 	}
 
+	/////////////////////////////////////////////////
+	/// --- деструктор адаптера SharedMemory --- ///
+	////////////////////////////////////////////////
+	/// <param>
+	/// conf - указатель на конфигурация адаптера (conf должен иметь тип ConfigSharedMemoryAdapter*)
+	/// </param>
+	/// <result> 
+	/// - результаи операции в типе ResultReqest. В случаи ести результат равен ResultReqest::ERR 
+	/// инициальзация прошла с ошибкой, подробности описанны в логировании.
+	
 	ResultReqest SharedMemoryAdaptor::InitAdapter(void* conf)
 	{
 		current_status.store(StatusAdapter::INITIALIZATION, std::memory_order_relaxed);
@@ -111,48 +137,75 @@ namespace gate
 		return res;
 	}
 
+	///////////////////////////////////////////////////////////////////
+	/// --- запрос специфичного параметра адаптера SharedMemory --- ///
+	//////////////////////////////////////////////////////////////////
+	/// <param>
+	/// param - запрашиваемый параметр (enum ParamInfoAdapter) 
+	/// </param>
+	/// <result> 
+	/// - возвращает информацию в типе std::shared_ptr<BaseAnswer>, который является родительским для типа std::shared_ptr<HeaderDataAnswerSM>
+
 	std::shared_ptr<BaseAnswer> SharedMemoryAdaptor::GetInfoAdapter(ParamInfoAdapter param)
 	{
 		std::shared_ptr<BaseAnswer> answer = nullptr;
+		std::shared_ptr<HeaderDataAnswerSM> answerHeaderData = nullptr;
 
 		switch (param)
 		{
+
+		/// --- ответ на запрос Header DATA --- ///
 		case ParamInfoAdapter::HeaderData:
 
-			std::shared_ptr<HeaderDataAnswerSM> answer_point = std::make_shared<HeaderDataAnswerSM>();
-			answer_point->param = param;
-			answer_point->typeadapter = TypeAdapter::SharedMemory;
-			answer_point->result = ResultReqest::OK;
-
-			WaitForSingleObject(Mutex_SM, INFINITY);
-			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
-			answer_point->header.count_read = head->count_read;
-			answer_point->header.count_write = head->count_write;
-			answer_point->header.size_data = head->size_data;
-			answer_point->header.TimeLastRead = head->TimeLastRead;
-			answer_point->header.TimeLastWrite = head->TimeLastWrite;
-			answer_point->header.typedata = head->typedata;
-			ReleaseMutex(Mutex_SM);
-			answer = std::reinterpret_pointer_cast<BaseAnswer>(answer_point);
+			answerHeaderData = AnswerRequestHeaderData();
+			answer = std::reinterpret_pointer_cast<BaseAnswer>(answerHeaderData);
 			break;
 
+		/// --- ответ не предусмотрен данным типом адапрета (ResultReqest::IGNOR) --- ///
 		default:
+
+			answer = std::make_shared<BaseAnswer>();
+			answer->param = param;
+			answer->result = ResultReqest::IGNOR;
+			answer->typeadapter = TypeAdapter::SharedMemory;
+
 			break;
 		}
 				
 		return answer;
 	}
 
+	/////////////////////////////////////////////////
+	/// --- запрос типа адаптера SharedMemory --- ///
+	/////////////////////////////////////////////////
+	/// <result> 
+	/// - возвращает тип адаптера (TypeAdapter::SharedMemory;)
+
 	TypeAdapter SharedMemoryAdaptor::GetTypeAdapter()
 	{
 		return TypeAdapter::SharedMemory;
 	}
-
+	
+	/////////////////////////////////////////////////////////////
+	/// --- запрос текущего статуса адаптера SharedMemory --- ///
+	////////////////////////////////////////////////////////////
+	/// <result> 
+	/// - возвращает статус адаптера (StatusAdapter)
 	StatusAdapter SharedMemoryAdaptor::GetStatusAdapter()
 	{
 		return current_status.load(std::memory_order::memory_order_relaxed);
 	}
 	
+	//////////////////////////////////////////////////////
+	/// --- функция чтения данных из SharedMemory --- ///
+	/////////////////////////////////////////////////////
+	/// <param>
+	/// buf - буфер, куда будут записаны читаемые данные  (размер буфера должен соотвествовать типу и количеству данных, size*size_type байт)
+	/// size -  количество данных (ед.)
+	/// </param>
+	/// <result> 
+	/// - возвращает результат выполнения функции в типе ResultReqest
+	/// 
 	ResultReqest SharedMemoryAdaptor::ReadData(void* buf, unsigned int size)
 	{
 		
@@ -210,7 +263,15 @@ namespace gate
 
 	}
 
-
+	//////////////////////////////////////////////////////
+	/// --- функция записи данных в SharedMemory --- ///
+	/////////////////////////////////////////////////////
+	/// <param>
+	/// buf - буфер, откуда будут считаны записываемые данные  (размер буфера должен соотвествовать типу и количеству данных, size*size_type байт)
+	/// size -  количество данных (ед.)
+	/// </param>
+	/// <result> 
+	/// - возвращает результат выполнения функции в типе ResultReqest
 	ResultReqest SharedMemoryAdaptor::WriteData(void* buf, unsigned int size)
 	{
 		if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
@@ -265,6 +326,47 @@ namespace gate
 
 		return ResultReqest::OK;
 
+	}
+
+	//////////////////////////////////////////////////////
+	/// --- функция чтения заголовка SharedMemory --- ///
+	/////////////////////////////////////////////////////
+	/// <result> 
+	/// - возвращает данные в виде указателя на структуру HeaderDataAnswerSM
+
+	std::shared_ptr<HeaderDataAnswerSM> SharedMemoryAdaptor::AnswerRequestHeaderData()
+	{
+		std::shared_ptr<HeaderDataAnswerSM> point = std::make_shared<HeaderDataAnswerSM>();
+		HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
+
+		if (buf_data == nullptr)
+		{
+			point->header.count_read = 0;
+			point->header.count_write = 0;
+			point->header.size_data = 0;
+			point->header.TimeLastRead.h = 0; point->header.TimeLastRead.m = 0;
+			point->header.TimeLastRead.s = 0; point->header.TimeLastRead.ms = 0;
+			point->header.typedata = TypeData::ZERO;
+			point->param = ParamInfoAdapter::HeaderData;
+			point->typeadapter = TypeAdapter::SharedMemory;
+			point->result = ResultReqest::ERR;
+			return point;
+		}
+
+		WaitForSingleObject(Mutex_SM, INFINITY);		
+		point->header.count_read = head->count_read;
+		point->header.count_write = head->count_write;
+		point->header.size_data = head->size_data;
+		point->header.TimeLastRead = head->TimeLastRead;
+		point->header.TimeLastWrite = head->TimeLastWrite;
+		point->header.typedata = head->typedata;
+		ReleaseMutex(Mutex_SM);
+
+		point->param = ParamInfoAdapter::HeaderData;
+		point->typeadapter = TypeAdapter::SharedMemory;
+		point->result = ResultReqest::OK;
+
+		return point;
 	}
 
 }
