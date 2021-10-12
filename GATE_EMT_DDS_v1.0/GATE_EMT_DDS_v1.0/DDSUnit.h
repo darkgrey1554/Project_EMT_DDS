@@ -1,7 +1,6 @@
 #pragma once
 #include "structs.h"
 #include "Adapters.h"
-#include "KKS_Reader.h"
 #include <atomic>
 #include <vector>
 #include <logger.h>
@@ -38,176 +37,108 @@ using namespace eprosima::fastrtps::types;
 //using namespace eprosima::fastrtps::rtps;
 using namespace std::chrono_literals;
 
-
-class DDSUnit
+namespace gate
 {
+	class DDSUnit
+	{
 
-public:
+	public:
 
-	virtual ResultReqest Stop() = 0;
-	virtual ResultReqest Start() = 0;
-	virtual StatusDDSUnit GetCurrentStatus() = 0;
-	virtual ConfigDDSUnit GetConfig() = 0;
-	virtual ResultReqest SetConfig() = 0;
-	virtual ResultReqest Restart() = 0;
-	virtual void Delete() = 0;
-	virtual TypeDDSUnit MyType() = 0;
-};
+		virtual ResultReqest Stop() = 0;
+		virtual ResultReqest Start() = 0;
+		virtual StatusDDSUnit GetCurrentStatus() = 0;
+		virtual ConfigDDSUnit GetConfig() = 0;
+		virtual ResultReqest SetConfig() = 0;
+		virtual ResultReqest Restart() = 0;
+		virtual void Delete() = 0;
+		virtual TypeDDSUnit GetType() = 0;
+		virtual ~DDSUnit() {};
+	};
 
-DDSUnit* CreateDDSUnit(TypeDDSUnit type, ConfigDDSUnit config);
+	std::shared_ptr<DDSUnit> CreateDDSUnit(ConfigDDSUnit config);
 
-class DDSUnit_Subscriber : public DDSUnit
-{
-	ConfigDDSUnit config;
-	gate::Adapter* SharedMemoryUnit;
-	KKSReader* readerkks;
-	std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
-	LoggerSpace::Logger* log;
+	class DDSUnit_Subscriber : public DDSUnit
+	{
+		ConfigDDSUnit config;
+		gate::Adapter* Adapter;
 
-	DomainParticipant* participant_;
-	eprosima::fastdds::dds::Subscriber* subscriber_;
-	Topic* topic_analog;
-	Topic* topic_discrete;
-	Topic* topic_binar;
-	TypeSupport type_;
+		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
+		LoggerSpace::Logger* log;
 
-	DynamicData_ptr data_analog;
-	DynamicData_ptr data_discrete;
-	DynamicData_ptr data_binar;
+		std::shared_ptr<DomainParticipant> participant_ = nullptr;
+		std::shared_ptr<eprosima::fastdds::dds::Subscriber> subscriber_ = nullptr;
+		std::shared_ptr <Topic> topic_data;
+		TypeSupport type_;
+		DynamicData_ptr type_data;
+		DynamicType_ptr base_type_data;
 
-	DynamicType_ptr base_type_array_analog;
-	DynamicType_ptr base_type_array_discrete;
-	DynamicType_ptr base_type_array_binar;
+		std::shared_ptr<eprosima::fastdds::dds::DataReader> readerr;
 
-	eprosima::fastdds::dds::DataReader* readerr;
+		void thread_transmite(TypeData type_data_thread);
+		void SetStatus(StatusDDSUnit status);
 
-	eprosima::fastrtps::types::DynamicPubSubType m_DynType_analog;
-	eprosima::fastrtps::types::DynamicPubSubType m_DynType_discrete;
-	eprosima::fastrtps::types::DynamicPubSubType m_DynType_binar;
+		class SubListener : public DataReaderListener
+		{
+		public:
 
-	std::atomic<int> control_analog_thread = 0;
-	std::atomic<int> control_discrete_thread = 0;
-	std::atomic<int> control_binar_thread = 0;
+			SubListener() : samples_(0) {};
+			~SubListener() override {};
+			void on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info) override;
+			void on_data_available(DataReader* reader) override;
+			std::atomic_int samples_;
+		} listener_;
 
-	void thread_transmite(TypeData type_data_thread);
+	public:
 
-	class SubListener : public DataReaderListener
-     {
-     public:
- 
-         SubListener()
-             : samples_(0)
-         {
-         }
- 
-         ~SubListener() override
-         {
-         }
- 
-         void on_subscription_matched(
-                 DataReader*,
-                 const SubscriptionMatchedStatus& info) override
-         {
-             if (info.current_count_change == 1)
-             {
-                 std::cout << "Subscriber matched." << std::endl;
-             }
-             else if (info.current_count_change == -1)
-             {
-                 std::cout << "Subscriber unmatched." << std::endl;
-             }
-             else
-             {
-                 std::cout << info.current_count_change
-                         << " is not a valid value for SubscriptionMatchedStatus current count change" << std::endl;
-             }
-         }
- 
-         void on_data_available(
-                 DataReader* reader) override
-         {
-             SampleInfo info;
-             if (reader->take_next_sample(hello_.get(), &info) == ReturnCode_t::RETCODE_OK)
-             {
-                 if (info.valid_data)
-                 {
-                    samples_++;
-					std::cout << "Message: " << hello_->get_string_value(1) << " with index: " << hello_->get_uint32_value(0)
-                                 << " RECEIVED." << std::endl;
-                 }
-             }
-         }
- 
-		 DynamicData_ptr hello_;
- 
-         std::atomic_int samples_;
- 
-     } listener_;
+		DDSUnit_Subscriber(ConfigDDSUnit config);
+		~DDSUnit_Subscriber();
 
-public:
+		ResultReqest Stop();
+		ResultReqest Start();
+		StatusDDSUnit GetCurrentStatus();
+		ConfigDDSUnit GetConfig();
+		ResultReqest SetConfig();
+		ResultReqest Restart();
+		void Delete();
+		TypeDDSUnit GetType();
 
-	DDSUnit_Subscriber(ConfigDDSUnit config);
-	~DDSUnit_Subscriber();
+	};
 
-	ResultReqest Stop();
-	ResultReqest Start();
-	StatusDDSUnit GetCurrentStatus();
-	ConfigDDSUnit GetConfig();
-	ResultReqest SetConfig();
-	ResultReqest Restart();
-	void Delete();
-	TypeDDSUnit MyType();
-};
+	class DDSUnit_Publisher : public DDSUnit
+	{
+		ConfigDDSUnit config;
+		gate::Adapter* Adapter;
 
-class DDSUnit_Publisher : public DDSUnit
-{
-	ConfigDDSUnit config;
-	gate::Adapter* SharedMemoryUnit;
-	KKSReader* readerkks;
-	std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
-	LoggerSpace::Logger* log;
+		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
+		LoggerSpace::Logger* log;
 
-	DomainParticipant* participant_;
-	eprosima::fastdds::dds::Publisher* publisher_;
+		DomainParticipant* participant_;
+		eprosima::fastdds::dds::Publisher* publisher_;
 
-	Topic* topic_analog;
-	Topic* topic_discrete;
-	Topic* topic_binar;
-	TypeSupport type_;
+		Topic* topic_data;
+		TypeSupport type_;
+		DynamicData_ptr type_data;
+		DynamicType_ptr base_type_data;
 
-	DynamicData_ptr data_analog;
-	DynamicData_ptr data_discrete;
-	DynamicData_ptr data_binar;
+		DataWriter* writerr = nullptr;
 
-	DataWriter* writerr = nullptr;
+		void thread_transmite(TypeData type_data_thread);
 
-	eprosima::fastrtps::types::DynamicPubSubType m_DynType_analog;
-	eprosima::fastrtps::types::DynamicPubSubType m_DynType_discrete;
-	eprosima::fastrtps::types::DynamicPubSubType m_DynType_binar;
+	public:
 
-	DynamicType_ptr base_type_array_analog;
-	DynamicType_ptr base_type_array_discrete;
-	DynamicType_ptr base_type_array_binar;
+		DDSUnit_Publisher(ConfigDDSUnit config);
+		~DDSUnit_Publisher();
 
-	std::atomic<int> control_analog_thread = 0;
-	std::atomic<int> control_discrete_thread = 0;
-	std::atomic<int> control_binar_thread = 0;
+		ResultReqest Stop();
+		ResultReqest Start();
+		StatusDDSUnit GetCurrentStatus();
+		ConfigDDSUnit GetConfig();
+		ResultReqest SetConfig();
+		ResultReqest Restart();
+		void Delete();
+		TypeDDSUnit GetType();
+	};
+}
 
-	void thread_transmite(TypeData type_data_thread);
-
-public:
-
-	DDSUnit_Publisher(ConfigDDSUnit config);
-	~DDSUnit_Publisher();
-
-	ResultReqest Stop();
-	ResultReqest Start();
-	StatusDDSUnit GetCurrentStatus();
-	ConfigDDSUnit GetConfig();
-	ResultReqest SetConfig();
-	ResultReqest Restart();
-	void Delete();
-	TypeDDSUnit MyType();
-};
 
 

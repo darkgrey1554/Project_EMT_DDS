@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\..\logger_crossplatform\logger.cpp" />
     <ClCompile Include="Adapters.cpp" />
     <ClCompile Include="Config_Reader.cpp" />
+    <ClCompile Include="DDSUnit.cpp" />
     <ClCompile Include="gate.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="security_handle.cpp" />
@@ -30,6 +31,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\logger_crossplatform\logger.h" />
     <ClInclude Include="Config_Reader.h" />
+    <ClInclude Include="DDSUnit.h" />
     <ClInclude Include="gate.h" />
     <ClInclude Include="Adapters.h" />
     <ClInclude Include="security_handle.h" />
