@@ -10,6 +10,37 @@
 #include <memory>
 #include <typeinfo>
 #include <bitset>;
+#include "HelloWorldPubSubTypes.h"
+
+//#include <fastrtps/xmlparser/XMLProfileManager.h>
+#include <fastdds/dds/domain/DomainParticipantFactory.hpp>
+#include <fastdds/dds/domain/DomainParticipant.hpp>
+#include <fastdds/dds/topic/TypeSupport.hpp>
+#include <fastdds/dds/subscriber/Subscriber.hpp>
+#include <fastdds/dds/subscriber/DataReader.hpp>
+//#include <fastdds/dds/subscriber/DataReaderListener.hpp>
+//#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
+#include <fastdds/dds/publisher/DataWriter.hpp>
+//#include <fastdds/dds/publisher/DataWriterListener.hpp>
+//#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
+//#include <fastdds/dds/subscriber/SampleInfo.hpp>
+#include <fastdds/dds/publisher/Publisher.hpp>
+#include <fastrtps/types/DynamicType.h>
+#include <fastrtps/types/DynamicData.h>
+#include <fastrtps/types/DynamicDataFactory.h>
+#include <fastrtps/types/DynamicTypeBuilderFactory.h>
+#include <fastrtps/types/DynamicTypeBuilderPtr.h>
+#include <fastrtps/types/DynamicTypeBuilder.h>
+//#include <fastrtps/attributes/ParticipantAttributes.h>
+//#include <fastrtps/attributes/SubscriberAttributes.h>
+//#include <fastrtps/Domain.h>
+
+
+using namespace eprosima::fastdds::dds;
+using namespace eprosima::fastrtps::types;
+//using namespace eprosima::fastrtps;
+//using namespace eprosima::fastrtps::rtps;
+using namespace std::chrono_literals;
 
 using namespace std::chrono_literals;
 
@@ -34,8 +65,60 @@ std::shared_ptr<A> fun()
 
 int main(int argc, char** argv)
 {
+	/*for (;;)
+	{
 
+		{
+			std::string helpstr;
+			DynamicTypeBuilder_ptr created_type_typedata = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_h = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_m = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_s = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_ms = DynamicTypeBuilderFactory::get_instance()->create_uint16_builder();
+			DynamicTypeBuilder_ptr created_type_size_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
+			DynamicTypeBuilder_ptr created_type_count_write = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
 
+			std::vector<uint32_t> lengths = { 1, 100 };
+			DynamicType_ptr base_type_array_data;
+			switch (TypeData::ANALOG)
+			{
+			case TypeData::ANALOG:
+				base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_float32_type();
+				break;
+			case TypeData::DISCRETE:
+				base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
+				break;
+			case TypeData::BINAR:
+				base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
+				break;
+			default:
+				base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
+				break;
+			}
+			DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type_array_data, lengths);
+			DynamicType_ptr array_type = builder->build();
+
+			DynamicTypeBuilder_ptr struct_type_builder = DynamicTypeBuilderFactory::get_instance()->create_struct_builder();
+			struct_type_builder->add_member(0, "typedata", created_type_typedata.get());
+			struct_type_builder->add_member(1, "TimeLastUpdate_h", created_type_TimeLastUpdate_h.get());
+			struct_type_builder->add_member(2, "TimeLastUpdate_m", created_type_TimeLastUpdate_m.get());
+			struct_type_builder->add_member(3, "TimeLastUpdate_s", created_type_TimeLastUpdate_s.get());
+			struct_type_builder->add_member(4, "TimeLastUpdate_ms", created_type_TimeLastUpdate_ms.get());
+			struct_type_builder->add_member(5, "size_data", created_type_size_data.get());
+			struct_type_builder->add_member(6, "count_write", created_type_count_write.get());
+			struct_type_builder->add_member(7, "data", array_type);
+
+			helpstr.clear();
+			helpstr += "typedataDDS_";
+			struct_type_builder->set_name(helpstr);
+			auto type_data = struct_type_builder->build();
+			TypeSupport PtrSupporType = (eprosima::fastrtps::types::DynamicPubSubType(type_data));
+
+			PtrSupporType.get()->auto_fill_type_information(false);
+			PtrSupporType.get()->auto_fill_type_object(true);
+			
+		}
+	}*/
 
 	std::shared_ptr<B> bb = nullptr;
 
@@ -45,7 +128,6 @@ int main(int argc, char** argv)
 		std::cout << bb.use_count() << std::endl;
 		std::cout << bb->first << std::endl;
 		std::cout << bb->second << std::endl;
-
 	}
 	std::cout << bb.use_count() << std::endl;
 	

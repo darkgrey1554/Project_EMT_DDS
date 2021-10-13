@@ -15,7 +15,7 @@ namespace gate
 			p = std::make_shared<DDSUnit_Publisher>(config);
 			break;
 		default:
-			p = NULL;
+			p = nullptr;
 		}
 		return p;
 	}
@@ -27,37 +27,22 @@ namespace gate
 		SetStatus(StatusDDSUnit::START);
 		log = LoggerSpace::Logger::getpointcontact();
 		std::string helpstr;
-
-		/// --- инициализация транспортного уровня --- ///
-		///--------------------------------------------///
-		//////////////////////////////////////////////////
+		ReturnCode_t res_dds;
+		ResultReqest result_command;
 
 		/// --- иницализация participant --- /// 
-
-		participant_ = std::make_shared<DomainParticipant>
-			(DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, PARTICIPANT_QOS_DEFAULT, nullptr));
-		if (!participant_)
+		result_command = init_participant();
+		if (result_command == ResultReqest::ERR)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: error create of participant, name units: " + this->config.PointName;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
 			SetStatus(StatusDDSUnit::ERROR_INIT);
 			return;
 		}
 
+
+
 		/// --- инициализация subscriber --- ///
 
-		if (this->config.Frequency > 0)
-		{
-			subscriber_ = std::make_shared<eprosima::fastdds::dds::Subscriber>
-				(participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr));
-		}
-		else
-		{
-			subscriber_ = std::make_shared<eprosima::fastdds::dds::Subscriber>
-				(participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, (SubscriberListener*)&listener_));
-		}
-
+		subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
 		if (!subscriber_)
 		{
 			helpstr.clear();
@@ -66,6 +51,8 @@ namespace gate
 			SetStatus(StatusDDSUnit::ERROR_INIT);
 			return;
 		}
+
+
 
 		/// --- создание динамического типа --- ///
 		/* struct:
@@ -89,23 +76,23 @@ namespace gate
 		DynamicTypeBuilder_ptr created_type_count_write = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
 		
 		std::vector<uint32_t> lengths = { 1, this->config.Size};
-		DynamicType_ptr base_type_data;
+		DynamicType_ptr base_type_array_data;
 		switch (this->config.Typedata)
 		{
 		case TypeData::ANALOG:
-			base_type_data = DynamicTypeBuilderFactory::get_instance()->create_float32_type();
+			base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_float32_type();
 			break;
 		case TypeData::DISCRETE:
-			base_type_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
+			base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
 			break;
 		case TypeData::BINAR:
-			base_type_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
+			base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
 			break;
 		default:
-			base_type_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
+			base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
 			break;
 		}
-		DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type_data, lengths);
+		DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type_array_data, lengths);
 		DynamicType_ptr array_type = builder->build();
 		
 		DynamicTypeBuilder_ptr struct_type_builder = DynamicTypeBuilderFactory::get_instance()->create_struct_builder();
@@ -119,24 +106,88 @@ namespace gate
 		struct_type_builder->add_member(7, "data", array_type);
 
 		helpstr.clear();
-		helpstr += "typedataDDS" + this->config.PointName;
+		helpstr += "typedataDDS_" + this->config.PointName;
 		struct_type_builder->set_name(helpstr);
-		DynamicType_ptr dynType = struct_type_builder->build();
+		type_data = struct_type_builder->build();
 
-		Domain::registerDynamicType(participant_, &dynType);
+		/// --- регистрация типа ---- ///
+		TypeSupport PtrSupporType = eprosima::fastrtps::types::DynamicPubSubType(type_data);
+		PtrSupporType.get()->auto_fill_type_information(false);
+		PtrSupporType.get()->auto_fill_type_object(true);
+		res_dds = PtrSupporType.register_type(participant_);
+		if (res_dds != ReturnCode_t::RETCODE_OK)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: error registration of type, name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return;
+		}
 
+		/// --- регистрация топика --- ///
 
+		topic_data = participant_->create_topic(CreateNameTopic(this->config.PointName), CreateNameType(this->config.PointName), TOPIC_QOS_DEFAULT);
+		if (topic_data == nullptr)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: error registration of topic, name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+		}
 
+		/// --- регистрация DataReader --- /// 
 
+		if (this->config.Frequency <= 0)
+		{
+			reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, &listener_);
+		}
+		else
+		{
+			reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, nullptr);
+			thread_transmite = std::thread(&function_thread_transmite, this);
+		}
 
+		/// --- создание адаптера --- /// 
+		AdapterUnit = std::make_shared<gate::Adapter>(CreateAdapter(this->config.Adapter));
+		if (AdapterUnit == nullptr)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: error initional adapter, name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+		}
 
+		
 
-
+		SetStatus(StatusDDSUnit::WORK);
+		return;
 	};
 
-	void DDSUnit_Subscriber::thread_transmite(TypeData type_data_thread)
-	{
+	ResultReqest DDSUnit_Subscriber::init_participant()
+	{	
 
+		/// --- инициализация транспортного уровня --- ///
+		///--------------------------------------------///
+		//////////////////////////////////////////////////
+
+		/// --- иницализация participant --- /// 
+
+		std::string helpstr;
+		participant_ =
+			DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, PARTICIPANT_QOS_DEFAULT, nullptr);
+		if (!participant_)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: error create of participant, name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+		return ResultReqest::OK;
+	}
+
+	void DDSUnit_Subscriber::function_thread_transmite()
+	{
+		
 	};
 
 
@@ -154,13 +205,13 @@ namespace gate
 		return ResultReqest::ERR;
 	};
 
-	StatusDDSUnit DDSUnit_Subscriber::GetCurrentStatus()
+	StatusDDSUnit DDSUnit_Subscriber::GetCurrentStatus() const
 	{
 		StatusDDSUnit a = StatusDDSUnit::EMPTY;
 		return a;
 	};
 
-	ConfigDDSUnit DDSUnit_Subscriber::GetConfig()
+	ConfigDDSUnit DDSUnit_Subscriber::GetConfig() const
 	{
 		ConfigDDSUnit a;
 		return a;
@@ -181,7 +232,7 @@ namespace gate
 		return;
 	};
 
-	TypeDDSUnit DDSUnit_Subscriber::GetType()
+	TypeDDSUnit DDSUnit_Subscriber::GetType() const
 	{
 		TypeDDSUnit a = TypeDDSUnit::SUBSCRIBER;
 		return a;
@@ -191,6 +242,16 @@ namespace gate
 	{
 		GlobalStatus.store(status, std::memory_order_relaxed);
 	};
+
+	std::string DDSUnit_Subscriber::CreateNameTopic(std::string short_name)
+	{
+		return "TopicdataDDS_" + short_name;
+	}
+
+	std::string DDSUnit_Subscriber::CreateNameType(std::string short_name)
+	{
+		return "TypedataDDS_" + short_name;
+	}
 
 
 
@@ -432,11 +493,6 @@ namespace gate
 		return;
 	};
 
-	TypeDDSUnit DDSUnit_Publisher::MyType()
-	{
-		TypeDDSUnit a = TypeDDSUnit::PUBLISHER;
-		return a;
-	};
 }
 
 

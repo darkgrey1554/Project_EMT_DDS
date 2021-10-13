@@ -46,12 +46,12 @@ namespace gate
 
 		virtual ResultReqest Stop() = 0;
 		virtual ResultReqest Start() = 0;
-		virtual StatusDDSUnit GetCurrentStatus() = 0;
-		virtual ConfigDDSUnit GetConfig() = 0;
+		virtual StatusDDSUnit GetCurrentStatus() const = 0;
+		virtual ConfigDDSUnit GetConfig() const = 0;
 		virtual ResultReqest SetConfig() = 0;
 		virtual ResultReqest Restart() = 0;
 		virtual void Delete() = 0;
-		virtual TypeDDSUnit GetType() = 0;
+		virtual TypeDDSUnit GetType() const = 0;
 		virtual ~DDSUnit() {};
 	};
 
@@ -59,23 +59,24 @@ namespace gate
 
 	class DDSUnit_Subscriber : public DDSUnit
 	{
+	private:
+
 		ConfigDDSUnit config;
-		gate::Adapter* Adapter;
+		std::shared_ptr<gate::Adapter> AdapterUnit;
 
 		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
 		LoggerSpace::Logger* log;
 
-		std::shared_ptr<DomainParticipant> participant_ = nullptr;
-		std::shared_ptr<eprosima::fastdds::dds::Subscriber> subscriber_ = nullptr;
-		std::shared_ptr <Topic> topic_data;
-		TypeSupport type_;
-		DynamicData_ptr type_data;
-		DynamicType_ptr base_type_data;
+		DomainParticipant* participant_ = nullptr;
+		eprosima::fastdds::dds::Subscriber* subscriber_ = nullptr;
+		Topic* topic_data;
+		DynamicData_ptr data;
+		DynamicType_ptr type_data;
 
-		std::shared_ptr<eprosima::fastdds::dds::DataReader> readerr;
+		eprosima::fastdds::dds::DataReader* reader_data = nullptr;
+		std::thread thread_transmite;
 
-		void thread_transmite(TypeData type_data_thread);
-		void SetStatus(StatusDDSUnit status);
+
 
 		class SubListener : public DataReaderListener
 		{
@@ -88,6 +89,32 @@ namespace gate
 			std::atomic_int samples_;
 		} listener_;
 
+		void function_thread_transmite();
+		void SetStatus(StatusDDSUnit status);
+		std::string CreateNameTopic(std::string short_name);
+		std::string CreateNameType(std::string short_name);
+
+		/// --- функция инициализации participant --- ///
+		ResultReqest init_participant();
+
+		/// --- функция инициализации subscriber --- ///
+		ResultReqest init_subscriber();
+
+		/// --- функция инициализации DynamicDataType --- ///
+		ResultReqest create_dynamic_data_type();
+
+		/// --- функция регистрации топика --- ///
+		ResultReqest init_subscriber();
+
+		/// --- функция создания топика --- ///
+		ResultReqest init_topic();
+
+		/// --- функция создания reader --- ///
+		ResultReqest init_reader_data();
+
+		/// --- функция создания топика --- ///
+		ResultReqest init_adapter();
+
 	public:
 
 		DDSUnit_Subscriber(ConfigDDSUnit config);
@@ -95,12 +122,12 @@ namespace gate
 
 		ResultReqest Stop();
 		ResultReqest Start();
-		StatusDDSUnit GetCurrentStatus();
-		ConfigDDSUnit GetConfig();
+		StatusDDSUnit GetCurrentStatus() const;
+		ConfigDDSUnit GetConfig() const;
 		ResultReqest SetConfig();
 		ResultReqest Restart();
 		void Delete();
-		TypeDDSUnit GetType();
+		TypeDDSUnit GetType() const;
 
 	};
 

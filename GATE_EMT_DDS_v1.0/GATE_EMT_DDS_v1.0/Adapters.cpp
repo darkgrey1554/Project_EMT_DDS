@@ -4,11 +4,11 @@
 
 namespace gate
 {
-	Adapter* CreateAdapter(TypeAdapter type)
+	std::shared_ptr<Adapter> CreateAdapter(TypeAdapter type)
 	{
-		Adapter* adapter = nullptr;
+		std::shared_ptr<Adapter> adapter = nullptr;
 
-		if (type == TypeAdapter::SharedMemory) adapter = new SharedMemoryAdaptor();
+		if (type == TypeAdapter::SharedMemory) adapter = std::make_shared<SharedMemoryAdaptor>();
 
 		return adapter;
 	}

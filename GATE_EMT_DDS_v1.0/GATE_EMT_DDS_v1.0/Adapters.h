@@ -17,7 +17,7 @@ namespace gate
 		virtual ~Adapter() {};
 	};
 
-	Adapter* CreateAdapter(TypeAdapter type);
+	std::shared_ptr<Adapter> CreateAdapter(TypeAdapter type);
 
 }
 
