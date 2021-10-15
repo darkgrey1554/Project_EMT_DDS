@@ -67,38 +67,30 @@ namespace gate
 
 		/// --- регистрация топика --- ///
 
-		topic_data = participant_->create_topic(CreateNameTopic(this->config.PointName), CreateNameType(this->config.PointName), TOPIC_QOS_DEFAULT);
-		if (topic_data == nullptr)
+		result_command = register_topic();
+		if (result_command != ResultReqest::OK)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: error registration of topic, name units: " + this->config.PointName;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
 			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return;
 		}
 
 		/// --- регистрация DataReader --- /// 
 
-		if (this->config.Frequency <= 0)
+		result_command = init_reader_data();
+		if (result_command != ResultReqest::OK)
 		{
-			reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, &listener_);
-		}
-		else
-		{
-			reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, nullptr);
-			thread_transmite = std::thread(&function_thread_transmite, this);
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return;
 		}
 
 		/// --- создание адаптера --- /// 
-		AdapterUnit = std::make_shared<gate::Adapter>(CreateAdapter(this->config.Adapter));
-		if (AdapterUnit == nullptr)
-		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: error initional adapter, name units: " + this->config.PointName;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-		}
 
-		
+		result_command = init_adapter();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return;
+		}	
 
 		SetStatus(StatusDDSUnit::WORK);
 		return;
@@ -285,9 +277,108 @@ namespace gate
 		return ResultReqest::OK;
 	}
 
+	ResultReqest DDSUnit_Subscriber::register_type()
+	{
+		try
+		{
+			topic_data = participant_->create_topic(CreateNameTopic(this->config.PointName), CreateNameType(this->config.PointName), TOPIC_QOS_DEFAULT);
+			if (topic_data == nullptr) throw - 1;
+		}
+		catch (...)
+		{
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error registration of topic, name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	};
+
+	ResultReqest DDSUnit_Subscriber::init_reader_data()
+	{
+		std::string helpstr;
+
+		try
+		{
+			if (this->config.Frequency <= 0)
+			{
+				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, &listener_);
+				if (reader_data == nullptr) throw - 1;
+			}
+			else
+			{
+				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, nullptr);
+				if (reader_data == nullptr) throw - 1;
+				thread_transmite = std::thread(&function_thread_transmite, this);
+			}
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error create of reader_data: name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	};
+
+	std::shared_ptr<ConfigAdapter>  DDSUnit_Subscriber::create_config_adapter()
+	{
+
+		if (config.Adapter == TypeAdapter::SharedMemory)
+		{
+			std::shared_ptr<ConfigSharedMemoryAdapter> config_sm = std::make_shared<ConfigSharedMemoryAdapter>();
+			
+			config_sm->type_adapter = TypeAdapter::SharedMemory;
+			config_sm->NameMemory = this->config.PointName;
+			config_sm->size = this->config.Size;
+			config_sm->DataType = this->config.Typedata;
+
+			return config_sm;
+		}
+
+		return nullptr;
+	};
+
+	ResultReqest DDSUnit_Subscriber::init_adapter()
+	{
+		std::string helpstr;
+		ResultReqest res;
+
+		try
+		{
+			AdapterUnit = CreateAdapter(this->config.Adapter);
+			if (AdapterUnit == nullptr) throw 1;
+			std::shared_ptr<ConfigAdapter> conf_adater = create_config_adapter();
+			res = AdapterUnit->InitAdapter(conf_adater);
+			if (res != ResultReqest::OK) throw 2;
+		}
+		catch (int& e_int)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error initional adapter, name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), e_int, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error initional adapter, name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	}
+
 	void DDSUnit_Subscriber::function_thread_transmite()
 	{
-		
+		std::chrono::steady_clock::time_point start, end;
+
+
 	};
 
 

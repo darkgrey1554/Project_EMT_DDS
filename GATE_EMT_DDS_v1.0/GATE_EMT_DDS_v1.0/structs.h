@@ -259,7 +259,12 @@ struct KKSUnit
 	unsigned int position;
 };
 
-struct ConfigSharedMemoryAdapter
+struct ConfigAdapter
+{
+	TypeAdapter type_adapter;
+};
+
+struct ConfigSharedMemoryAdapter : public ConfigAdapter
 {
 	TypeData DataType;
 	unsigned size;

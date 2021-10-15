@@ -8,7 +8,7 @@ namespace gate
 	{
 	public:
 
-		virtual ResultReqest InitAdapter(void* config) = 0;
+		virtual ResultReqest InitAdapter(std::shared_ptr<ConfigAdapter> config) = 0;
 		virtual ResultReqest ReadData(void* buf, unsigned int size) = 0;
 		virtual ResultReqest WriteData(void* buf, unsigned int size) = 0;
 		virtual TypeAdapter GetTypeAdapter() = 0;

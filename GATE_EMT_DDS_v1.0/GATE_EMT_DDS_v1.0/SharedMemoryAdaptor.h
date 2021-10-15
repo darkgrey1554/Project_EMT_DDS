@@ -36,10 +36,11 @@ namespace gate
 
 		/// --- функция формарования структуры ответа на запрос HeaderData --- ///
 		std::shared_ptr<HeaderDataAnswerSM> AnswerRequestHeaderData();
+		std::string CreateSMName(std::string source);
 
 	public:
 
-		ResultReqest InitAdapter(void* config);
+		ResultReqest InitAdapter(std::shared_ptr<ConfigAdapter> config);
 		ResultReqest ReadData(void* buf, unsigned int size);
 		ResultReqest WriteData(void* buf, unsigned int size);
 		TypeAdapter GetTypeAdapter();

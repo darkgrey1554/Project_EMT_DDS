@@ -11,7 +11,7 @@ namespace gate
 	/// <result> 
 	/// - имя shared memory
 	/// 
-	std::string CreateSMName(std::string source)
+	std::string SharedMemoryAdaptor::CreateSMName(std::string source)
 	{
 			return source;
 	}
@@ -46,12 +46,13 @@ namespace gate
 	/// - результаи операции в типе ResultReqest. В случаи ести результат равен ResultReqest::ERR 
 	/// инициальзация прошла с ошибкой, подробности описанны в логировании.
 	
-	ResultReqest SharedMemoryAdaptor::InitAdapter(void* conf)
+	ResultReqest SharedMemoryAdaptor::InitAdapter(std::shared_ptr<ConfigAdapter> conf)
 	{
 		current_status.store(StatusAdapter::INITIALIZATION, std::memory_order_relaxed);
 		ResultReqest res = ResultReqest::OK;
 		unsigned int result = 0;
-		ConfigSharedMemoryAdapter* config_point = static_cast<ConfigSharedMemoryAdapter*>(conf);
+		std::shared_ptr<ConfigSharedMemoryAdapter> config_point = std::dynamic_pointer_cast<ConfigSharedMemoryAdapter>(conf);
+		if (config_point == nullptr) { res = ResultReqest::ERR; return res; }
 		std::string namememory;
 		std::string namemutex;
 
