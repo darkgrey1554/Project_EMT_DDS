@@ -16,7 +16,7 @@
 
 namespace gate
 {
-	std::string CreateSMName(std::string source);
+	
 
 	class SharedMemoryAdaptor : public Adapter
 	{

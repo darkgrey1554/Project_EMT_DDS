@@ -107,13 +107,15 @@ namespace gate
 		ResultReqest register_type();
 
 		/// --- функция создания топика --- ///
-		ResultReqest init_topic();
+		ResultReqest register_topic();
 
 		/// --- функция создания reader --- ///
 		ResultReqest init_reader_data();
 
 		/// --- функция создания топика --- ///
 		ResultReqest init_adapter();
+
+		std::shared_ptr<ConfigAdapter> create_config_adapter();
 
 	public:
 
