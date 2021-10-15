@@ -10,34 +10,8 @@
 #include <memory>
 #include <typeinfo>
 #include <bitset>;
-#include "HelloWorldPubSubTypes.h"
-
-//#include <fastrtps/xmlparser/XMLProfileManager.h>
-#include <fastdds/dds/domain/DomainParticipantFactory.hpp>
-#include <fastdds/dds/domain/DomainParticipant.hpp>
-#include <fastdds/dds/topic/TypeSupport.hpp>
-#include <fastdds/dds/subscriber/Subscriber.hpp>
-#include <fastdds/dds/subscriber/DataReader.hpp>
-//#include <fastdds/dds/subscriber/DataReaderListener.hpp>
-//#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
-#include <fastdds/dds/publisher/DataWriter.hpp>
-//#include <fastdds/dds/publisher/DataWriterListener.hpp>
-//#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
-//#include <fastdds/dds/subscriber/SampleInfo.hpp>
-#include <fastdds/dds/publisher/Publisher.hpp>
-#include <fastrtps/types/DynamicType.h>
-#include <fastrtps/types/DynamicData.h>
-#include <fastrtps/types/DynamicDataFactory.h>
-#include <fastrtps/types/DynamicTypeBuilderFactory.h>
-#include <fastrtps/types/DynamicTypeBuilderPtr.h>
-#include <fastrtps/types/DynamicTypeBuilder.h>
-//#include <fastrtps/attributes/ParticipantAttributes.h>
-//#include <fastrtps/attributes/SubscriberAttributes.h>
-//#include <fastrtps/Domain.h>
 
 
-using namespace eprosima::fastdds::dds;
-using namespace eprosima::fastrtps::types;
 //using namespace eprosima::fastrtps;
 //using namespace eprosima::fastrtps::rtps;
 using namespace std::chrono_literals;
@@ -65,6 +39,24 @@ std::shared_ptr<A> fun()
 
 int main(int argc, char** argv)
 {
+
+	try
+	{
+		try
+		{
+			throw -1;
+		}
+		catch(...)
+		{
+			throw int(1);
+		}
+	}
+	catch (const int& e)
+	{
+		std::cout << e <<std::endl;
+	}
+
+
 	/*for (;;)
 	{
 
@@ -161,8 +153,8 @@ int main(int argc, char** argv)
 	confreader.NameMemory = "sm001";
 	confreader.size = 100;
 
-	gate::Adapter* reader = gate::CreateAdapter(TypeAdapter::SharedMemory);
-	gate::Adapter* writer = gate::CreateAdapter(TypeAdapter::SharedMemory);
+	std::shared_ptr<gate::Adapter> reader = gate::CreateAdapter(TypeAdapter::SharedMemory);
+	std::shared_ptr<gate::Adapter> writer = gate::CreateAdapter(TypeAdapter::SharedMemory);
 
 
 	res = writer->InitAdapter(&confwriter);

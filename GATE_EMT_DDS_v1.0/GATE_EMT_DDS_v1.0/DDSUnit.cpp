@@ -32,97 +32,38 @@ namespace gate
 
 		/// --- иницализация participant --- /// 
 		result_command = init_participant();
-		if (result_command == ResultReqest::ERR)
+		if (result_command != ResultReqest::OK)
 		{
 			SetStatus(StatusDDSUnit::ERROR_INIT);
 			return;
 		}
-
-
 
 		/// --- инициализация subscriber --- ///
 
-		subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
-		if (!subscriber_)
+		result_command = init_subscriber();
+		if (result_command != ResultReqest::OK)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: error create of subscriber, name units: " + this->config.PointName;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
 			SetStatus(StatusDDSUnit::ERROR_INIT);
 			return;
 		}
-
-
 
 		/// --- создание динамического типа --- ///
-		/* struct:
-		*	typedata : uint8; (parent TypeData)
-		*	TimeLastUpdate :
-				h : char8;
-				m : char8;
-				s : char8;
-				ms: unit16;
-			size_data : uint32;
-			count_write : uint32;
-			data [size_data] : uint32/float;
-		*/
-
-		DynamicTypeBuilder_ptr created_type_typedata = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-		DynamicTypeBuilder_ptr created_type_TimeLastUpdate_h = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-		DynamicTypeBuilder_ptr created_type_TimeLastUpdate_m = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-		DynamicTypeBuilder_ptr created_type_TimeLastUpdate_s = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-		DynamicTypeBuilder_ptr created_type_TimeLastUpdate_ms = DynamicTypeBuilderFactory::get_instance()->create_uint16_builder();
-		DynamicTypeBuilder_ptr created_type_size_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
-		DynamicTypeBuilder_ptr created_type_count_write = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
 		
-		std::vector<uint32_t> lengths = { 1, this->config.Size};
-		DynamicType_ptr base_type_array_data;
-		switch (this->config.Typedata)
+		result_command = create_dynamic_data_type();
+		if (result_command != ResultReqest::OK)
 		{
-		case TypeData::ANALOG:
-			base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_float32_type();
-			break;
-		case TypeData::DISCRETE:
-			base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
-			break;
-		case TypeData::BINAR:
-			base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
-			break;
-		default:
-			base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
-			break;
-		}
-		DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type_array_data, lengths);
-		DynamicType_ptr array_type = builder->build();
-		
-		DynamicTypeBuilder_ptr struct_type_builder = DynamicTypeBuilderFactory::get_instance()->create_struct_builder();
-		struct_type_builder->add_member(0, "typedata", created_type_typedata.get());
-		struct_type_builder->add_member(1, "TimeLastUpdate_h", created_type_TimeLastUpdate_h.get());
-		struct_type_builder->add_member(2, "TimeLastUpdate_m", created_type_TimeLastUpdate_m.get());
-		struct_type_builder->add_member(3, "TimeLastUpdate_s", created_type_TimeLastUpdate_s.get());
-		struct_type_builder->add_member(4, "TimeLastUpdate_ms", created_type_TimeLastUpdate_ms.get());
-		struct_type_builder->add_member(5, "size_data", created_type_size_data.get());
-		struct_type_builder->add_member(6, "count_write", created_type_count_write.get());
-		struct_type_builder->add_member(7, "data", array_type);
-
-		helpstr.clear();
-		helpstr += "typedataDDS_" + this->config.PointName;
-		struct_type_builder->set_name(helpstr);
-		type_data = struct_type_builder->build();
-
-		/// --- регистрация типа ---- ///
-		TypeSupport PtrSupporType = eprosima::fastrtps::types::DynamicPubSubType(type_data);
-		PtrSupporType.get()->auto_fill_type_information(false);
-		PtrSupporType.get()->auto_fill_type_object(true);
-		res_dds = PtrSupporType.register_type(participant_);
-		if (res_dds != ReturnCode_t::RETCODE_OK)
-		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: error registration of type, name units: " + this->config.PointName;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
 			SetStatus(StatusDDSUnit::ERROR_INIT);
 			return;
 		}
+
+		/// --- регистрация типа ---- ///
+
+		result_command = register_type();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return;
+		}		
 
 		/// --- регистрация топика --- ///
 
@@ -166,22 +107,181 @@ namespace gate
 	ResultReqest DDSUnit_Subscriber::init_participant()
 	{	
 
+		std::string helpstr;
+
 		/// --- инициализация транспортного уровня --- ///
 		///--------------------------------------------///
 		//////////////////////////////////////////////////
 
-		/// --- иницализация participant --- /// 
+		/// --- иницализация participant --- /// 	
 
-		std::string helpstr;
-		participant_ =
-			DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, PARTICIPANT_QOS_DEFAULT, nullptr);
-		if (!participant_)
+		try
+		{
+			participant_ =
+				DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, PARTICIPANT_QOS_DEFAULT, nullptr);
+			if (!participant_) throw - 1;
+		}
+		catch (...)
 		{
 			helpstr.clear();
-			helpstr += "Error init DDSUnit: error create of participant, name units: " + this->config.PointName;
+			helpstr += "Error init DDSUnit: Error create of participant: name units: " + this->config.PointName;
 			log->WriteLogERR(helpstr.c_str(), 0, 0);
 			return ResultReqest::ERR;
 		}
+
+		return ResultReqest::OK;
+	}
+
+	ResultReqest DDSUnit_Subscriber::init_subscriber()
+	{
+		std::string helpstr;
+
+		try
+		{
+			subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
+			if (!subscriber_) throw - 1;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error create of subscriber: name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	}
+
+	ResultReqest DDSUnit_Subscriber::create_dynamic_data_type()
+	{
+		/* struct:
+		*	typedata : uint8; (parent TypeData)
+		*	TimeLastUpdate :
+				h : char8;
+				m : char8;
+				s : char8;
+				ms: unit16;
+			size_data : uint32;
+			count_write : uint32;
+			data [size_data] : uint32/float;
+		*/
+		std::string helpstr;
+
+		try
+		{
+			
+			DynamicTypeBuilder_ptr created_type_typedata;
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_h;
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_m;
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_s;
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_ms;
+			DynamicTypeBuilder_ptr created_type_size_data;
+			DynamicTypeBuilder_ptr created_type_count_write;
+			DynamicType_ptr base_type_array_data;
+			DynamicTypeBuilder_ptr builder;
+			DynamicType_ptr array_type;
+			DynamicTypeBuilder_ptr struct_type_builder;
+
+			try
+			{
+				created_type_typedata = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+				created_type_TimeLastUpdate_h = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+				created_type_TimeLastUpdate_m = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+				created_type_TimeLastUpdate_s = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+				created_type_TimeLastUpdate_ms = DynamicTypeBuilderFactory::get_instance()->create_uint16_builder();
+				created_type_size_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
+				created_type_count_write = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
+
+				std::vector<uint32_t> lengths = { 1, this->config.Size };
+				switch (this->config.Typedata)
+				{
+				case TypeData::ANALOG:
+					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_float32_type();
+					break;
+				case TypeData::DISCRETE:
+					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
+					break;
+				case TypeData::BINAR:
+					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
+					break;
+				default:
+					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
+					break;
+				}
+
+				builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type_array_data, lengths);
+				array_type = builder->build();
+			}
+			catch (...)
+			{
+				throw 1;
+			}			
+
+			try
+			{
+				struct_type_builder = DynamicTypeBuilderFactory::get_instance()->create_struct_builder();
+				struct_type_builder->add_member(0, "typedata", created_type_typedata.get());
+				struct_type_builder->add_member(1, "TimeLastUpdate_h", created_type_TimeLastUpdate_h.get());
+				struct_type_builder->add_member(2, "TimeLastUpdate_m", created_type_TimeLastUpdate_m.get());
+				struct_type_builder->add_member(3, "TimeLastUpdate_s", created_type_TimeLastUpdate_s.get());
+				struct_type_builder->add_member(4, "TimeLastUpdate_ms", created_type_TimeLastUpdate_ms.get());
+				struct_type_builder->add_member(5, "size_data", created_type_size_data.get());
+				struct_type_builder->add_member(6, "count_write", created_type_count_write.get());
+				struct_type_builder->add_member(7, "data", array_type);
+				helpstr.clear();
+				helpstr += "typedataDDS_" + this->config.PointName;
+				struct_type_builder->set_name(helpstr);
+			}
+			catch (...)
+			{
+				throw 2;
+			}
+
+			try
+			{
+				type_data = struct_type_builder->build();
+			}
+			catch(...)
+			{
+				throw 3;
+			}			
+		}
+		catch (const int& e_int)
+		{
+			helpstr.clear();
+			helpstr = "Error init DDSUnit : Error create dynamic type : name units : " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), e_int, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr = "Error init DDSUnit : Error create dynamic type : name units : " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	}
+
+	ResultReqest DDSUnit_Subscriber::register_type()
+	{
+		try
+		{
+			TypeSupport PtrSupporType = eprosima::fastrtps::types::DynamicPubSubType(type_data);
+			PtrSupporType.get()->auto_fill_type_information(false);
+			PtrSupporType.get()->auto_fill_type_object(true);
+			if (PtrSupporType.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw - 1;
+		}
+		catch (...)
+		{
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error registration of type: name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}		
+
 		return ResultReqest::OK;
 	}
 

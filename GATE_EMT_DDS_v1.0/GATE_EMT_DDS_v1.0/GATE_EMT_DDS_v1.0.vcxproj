@@ -100,13 +100,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.3.0\lib\x64Win64VS2017;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Program Files\eProsima\fastrtps 2.3.0\include\fastrtps\transport;C:\Program Files\eProsima\fastrtps 2.3.0\include\foonathan_memory\comp\foonathan;C:\Program Files\eProsima\fastrtps 2.3.0\include\foonathan_memory\foonathan;C:\Program Files\eProsima\fastrtps 2.3.0\include\foonathan_memory\foonathan\memory;C:\Program Files\eProsima\fastrtps 2.3.0\include\foonathan_memory\foonathan\memory\detail;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.4.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\CATE_WORK\logger_crossplatform;D:\CATE_WORK\rapidjson\include;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\transport;C:\Program Files\eProsima\fastrtps 2.4.0\include\foonathan_memory\comp\foonathan;C:\Program Files\eProsima\fastrtps 2.4.0\include\foonathan_memory\foonathan;C:\Program Files\eProsima\fastrtps 2.4.0\include\foonathan_memory\foonathan\memory;C:\Program Files\eProsima\fastrtps 2.4.0\include\foonathan_memory\foonathan\memory\detail;$(IncludePath)</IncludePath>
+    <ExecutablePath>C:\Program Files\eProsima\fastrtps 2.4.0\lib\x64Win64VS2019;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>C:\Program Files\eProsima\fastrtps 2.4.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\CATE_WORK\rapidjson\include;D:\CATE_WORK\logger_crossplatform;C:\Program Files\eProsima\fastrtps 2.3.4\include\fastrtps\transport;C:\Program Files\eProsima\fastrtps 2.3.4\include\foonathan_memory\comp\foonathan;C:\Program Files\eProsima\fastrtps 2.3.4\include\foonathan_memory\foonathan;C:\Program Files\eProsima\fastrtps 2.3.4\include\foonathan_memory\foonathan\memory;C:\Program Files\eProsima\fastrtps 2.3.4\include\foonathan_memory\foonathan\memory\detail;$(IncludePath)</IncludePath>
+    <IncludePath>D:\CATE_WORK\logger_crossplatform;D:\CATE_WORK\rapidjson\include;D:\CATE_WORK\rapidjson\include;D:\CATE_WORK\logger_crossplatform;C:\Program Files\eProsima\fastrtps 2.3.4\include\fastrtps\transport;C:\Program Files\eProsima\fastrtps 2.3.4\include\foonathan_memory\comp\foonathan;C:\Program Files\eProsima\fastrtps 2.3.4\include\foonathan_memory\foonathan;C:\Program Files\eProsima\fastrtps 2.3.4\include\foonathan_memory\foonathan\memory;C:\Program Files\eProsima\fastrtps 2.3.4\include\foonathan_memory\foonathan\memory\detail;$(IncludePath)</IncludePath>
     <ExecutablePath>C:\Program Files\eProsima\fastrtps 2.4.0\lib\x64Win64VS2019;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

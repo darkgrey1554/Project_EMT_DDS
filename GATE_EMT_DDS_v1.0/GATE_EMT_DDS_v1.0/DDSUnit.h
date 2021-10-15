@@ -103,8 +103,8 @@ namespace gate
 		/// --- функция инициализации DynamicDataType --- ///
 		ResultReqest create_dynamic_data_type();
 
-		/// --- функция регистрации топика --- ///
-		ResultReqest init_subscriber();
+		/// --- функция регистрации типа --- ///
+		ResultReqest register_type();
 
 		/// --- функция создания топика --- ///
 		ResultReqest init_topic();

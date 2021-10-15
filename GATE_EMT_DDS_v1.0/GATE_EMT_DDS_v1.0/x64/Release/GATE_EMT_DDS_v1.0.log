@@ -1,43 +1,27 @@
-﻿  Adapters.cpp
-  DDSUnit.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(151,35): error C2276: &: недопустимая операция с выражением привязанной функции-члена
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(257,15): error C3861: CreateNameMemoryDDS: идентификатор не найден
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(258,8): error C2065: SharedMemoryUnit: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(258,82): error C2065: readerkks: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(264,15): error C3861: CreateNameMemoryDDS: идентификатор не найден
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(265,8): error C2065: SharedMemoryUnit: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(265,84): error C2065: readerkks: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(271,15): error C3861: CreateNameMemoryDDS: идентификатор не найден
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(272,8): error C2065: SharedMemoryUnit: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(272,81): error C2065: readerkks: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(288,4): error C2065: base_type_array_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(307,4): error C2065: topic_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(308,8): error C2065: topic_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(337,44): error C2065: topic_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(369,43): error C2065: topic_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(370,59): error C2065: base_type_array_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(375,43): error C2065: topic_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(376,59): error C2065: base_type_array_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(381,43): error C2065: topic_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(382,59): error C2065: base_type_array_binar: необъявленный идентификатор
+﻿  DDSUnit.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(107,33): error C2535: ResultReqest gate::DDSUnit_Subscriber::init_subscriber(void): функция-член уже определена или объявлена
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(101): message : см. объявление "gate::DDSUnit_Subscriber::init_subscriber"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(89,35): error C2276: &: недопустимая операция с выражением привязанной функции-члена
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(310,15): error C3861: CreateNameMemoryDDS: идентификатор не найден
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(311,8): error C2065: SharedMemoryUnit: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(311,82): error C2065: readerkks: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(317,15): error C3861: CreateNameMemoryDDS: идентификатор не найден
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(318,8): error C2065: SharedMemoryUnit: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(318,84): error C2065: readerkks: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(324,15): error C3861: CreateNameMemoryDDS: идентификатор не найден
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(325,8): error C2065: SharedMemoryUnit: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(325,81): error C2065: readerkks: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(341,4): error C2065: base_type_array_analog: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(360,4): error C2065: topic_analog: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(361,8): error C2065: topic_analog: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(390,44): error C2065: topic_analog: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(422,43): error C2065: topic_analog: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(423,59): error C2065: base_type_array_analog: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(428,43): error C2065: topic_discrete: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(429,59): error C2065: base_type_array_discrete: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(434,43): error C2065: topic_binar: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(435,59): error C2065: base_type_array_binar: необъявленный идентификатор
   main.cpp
 D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(12,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(164,72): error C2440: инициализация: невозможно преобразовать "std::shared_ptr<gate::Adapter>" в "gate::Adapter *"
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(164,24): message : Для выполнения данного преобразования нет доступного оператора преобразования, определенного пользователем, или вызов оператора невозможен
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(165,72): error C2440: инициализация: невозможно преобразовать "std::shared_ptr<gate::Adapter>" в "gate::Adapter *"
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(165,24): message : Для выполнения данного преобразования нет доступного оператора преобразования, определенного пользователем, или вызов оператора невозможен
-  SharedMemoryAdaptor.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(238,21): warning C4018: <: несоответствие типов со знаком и без знака
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(258,37): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
-          with
-          [
-              _Rep=__int64
-          ]
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(303,21): warning C4018: <: несоответствие типов со знаком и без знака
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(323,38): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
-          with
-          [
-              _Rep=__int64
-          ]
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(356,33): warning C4244: аргумент: преобразование "float" в "DWORD", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(135,16): warning C4101: ll: неиспользованная локальная переменная
   Создание кода...
