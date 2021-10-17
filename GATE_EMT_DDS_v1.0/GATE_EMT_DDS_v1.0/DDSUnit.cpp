@@ -74,6 +74,15 @@ namespace gate
 			return;
 		}
 
+		/// --- создание адаптера --- /// 
+
+		result_command = init_adapter();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return;
+		}
+
 		/// --- регистрация DataReader --- /// 
 
 		result_command = init_reader_data();
@@ -83,14 +92,7 @@ namespace gate
 			return;
 		}
 
-		/// --- создание адаптера --- /// 
 
-		result_command = init_adapter();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return;
-		}	
 
 		SetStatus(StatusDDSUnit::WORK);
 		return;
@@ -277,7 +279,7 @@ namespace gate
 		return ResultReqest::OK;
 	}
 
-	ResultReqest DDSUnit_Subscriber::register_type()
+	ResultReqest DDSUnit_Subscriber::register_topic()
 	{
 		try
 		{
@@ -311,7 +313,8 @@ namespace gate
 			{
 				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, nullptr);
 				if (reader_data == nullptr) throw - 1;
-				thread_transmite = std::thread(&function_thread_transmite, this);
+				control_thread.store(ControlThreadDSSUnit::WORK, std::memory_order_relaxed);
+				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
 			}
 		}
 		catch (...)
@@ -374,10 +377,30 @@ namespace gate
 		return ResultReqest::OK;
 	}
 
-	void DDSUnit_Subscriber::function_thread_transmite()
+	void DDSUnit_Subscriber::function_thread_transmite(std::stop_token stop_token)
 	{
 		std::chrono::steady_clock::time_point start, end;
+		std::chrono::microseconds delta_ms;
+		start = std::chrono::steady_clock::now();
 
+
+		eprosima::fastrtps::types::DynamicData_ptr data;
+		data = DynamicDataFactory::get_instance()->create_data(type_data);
+		SampleInfo info;
+		
+		std::shared_ptr<void> data_bufer = nullptr;
+		
+		while (1)
+		{
+			if (!stop_token.stop_requested()) break;
+
+			end = std::chrono::steady_clock::now();
+			delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+			if (delta_ms.count() < this->config.Frequency - frequency_scatter) continue;
+			reader_data->take_next_sample(data.get(), &info);
+
+			//AdapterUnit->WriteData();
+		}
 
 	};
 
@@ -450,116 +473,12 @@ namespace gate
 
 		DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : config(config)
 	{
-		GlobalStatus.store(StatusDDSUnit::START);
-		std::string helpstr;
-
-		log = LoggerSpace::Logger::getpointcontact();
-
-
-		/*if (readerkks->ReadKKSlist(config.NameListKKS) != ResultReqest::OK)
-		{
-			GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-		}*/
-		//else
-		{
-			helpstr.clear();
-			helpstr += CreateNameMemoryDDS(TypeData::ANALOG, TypeDirection::EMTtoDDS, config.Domen) + "_";
-			if (SharedMemoryUnit->CreateMemory(TypeData::ANALOG, TypeDirection::EMTtoDDS, readerkks->size_analog(), helpstr) != ResultReqest::OK)
-			{
-				GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-			}
-
-			helpstr.clear();
-			helpstr += CreateNameMemoryDDS(TypeData::DISCRETE, TypeDirection::EMTtoDDS, config.Domen) + "_";
-			if (SharedMemoryUnit->CreateMemory(TypeData::DISCRETE, TypeDirection::EMTtoDDS, readerkks->size_discrete(), helpstr) != ResultReqest::OK)
-			{
-				GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-			}
-
-			helpstr.clear();
-			helpstr += CreateNameMemoryDDS(TypeData::BINAR, TypeDirection::EMTtoDDS, config.Domen) + "_";
-			if (SharedMemoryUnit->CreateMemory(TypeData::BINAR, TypeDirection::EMTtoDDS, readerkks->size_discrete(), helpstr) != ResultReqest::OK)
-			{
-				GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-			}
-
-			std::vector<uint32_t> lengths = { 1 , 10 };
-			DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
-			DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type, lengths);
-			DynamicType_ptr array_type = builder->build();
-
-			DynamicTypeBuilder_ptr struct_type_builder(DynamicTypeBuilderFactory::get_instance()->create_struct_builder());
-			struct_type_builder->add_member(0, "index", DynamicTypeBuilderFactory::get_instance()->create_uint32_type());
-			struct_type_builder->add_member(1, "message", DynamicTypeBuilderFactory::get_instance()->create_string_type());
-			struct_type_builder->add_member(2, "array", array_type);
-			struct_type_builder->set_name("HelloWorld");
-			DynamicType_ptr dynType = struct_type_builder->build();
-			base_type_array_analog = struct_type_builder->build();
-			TypeSupport m_type(new eprosima::fastrtps::types::DynamicPubSubType(dynType));
-
-			DomainParticipantQos participantQos;
-			participantQos.name("Participant_publisher");
-			participant_ = DomainParticipantFactory::get_instance()->create_participant(config.Domen, participantQos);
-			if (participant_ == nullptr)
-			{
-				GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-				log->WriteLogWARNING("ERROR_INIT_PARTICIANT_PUBLISHER", 0, 0);
-				return;
-			}
-
-			m_type.get()->auto_fill_type_information(false);
-			m_type.get()->auto_fill_type_object(true);
-			m_type.register_type(participant_);
-
-			helpstr.clear();
-			helpstr += "Analog_Data";
-			topic_analog = participant_->create_topic(helpstr, "HelloWorld", TOPIC_QOS_DEFAULT);
-			if (topic_analog == nullptr)
-			{
-				log->WriteLogWARNING("ERROR CREATE TOPIC ANALOG (PUBLISHER)", 0, 0);
-			}
-
-			/*helpstr.clear();
-			helpstr += config.NameMemory + "Discrete_Data";
-			topic_discrete = participant_->create_topic(helpstr, "discrete_data", TOPIC_QOS_DEFAULT);
-			if (topic_discrete == nullptr)
-			{
-				log->WriteLogWARNING("ERROR CREATE TOPIC DISCRETE (PUBLISHER)", 0, 0);
-			}
-
-			helpstr.clear();
-			helpstr += config.NameMemory + "Binar_Data";
-			topic_binar = participant_->create_topic(helpstr, "binar_data", TOPIC_QOS_DEFAULT);
-			if (topic_binar == nullptr)
-			{
-				log->WriteLogWARNING("ERROR CREATE TOPIC BINAR (PUBLISHER)", 0, 0);
-			}*/
-
-			publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
-
-			if (publisher_ == nullptr)
-			{
-				log->WriteLogWARNING("ERROR INIT PUBSISHER", 0, 0);
-				return;
-			}
-
-			writerr = publisher_->create_datawriter(topic_analog, DATAWRITER_QOS_DEFAULT, nullptr);
-
-			std::thread t;
-			t = std::thread(&DDSUnit_Publisher::thread_transmite, this, TypeData::ANALOG);
-			t.detach();
-			/*t = std::thread(&DDSUnit_Publisher::thread_transmite, this, TypeData::DISCRETE);
-			t.detach();
-			t = std::thread(&DDSUnit_Publisher::thread_transmite, this, TypeData::BINAR);
-			t.detach();*/
-
-		}
-
+		
 	}
 
 	void DDSUnit_Publisher::thread_transmite(TypeData type_data_thread)
 	{
-		DataWriter* writer = nullptr;
+		/*DataWriter* writer = nullptr;
 		DynamicData_ptr data;
 		float iterf = 0.0;
 		unsigned int iteri = 0;
@@ -610,7 +529,7 @@ namespace gate
 		array->set_uint32_value(100, array->get_array_index({ 4, 1 }));
 		m_Hello->return_loaned_value(array);*/
 
-		std::string str = "AZAZAZAZA";
+		/*std::string str = "AZAZAZAZA";
 		data->set_string_value(str, 1);
 		res = data->set_uint32_value(iteri, 0);
 		array = data->loan_value(2);
@@ -640,7 +559,7 @@ namespace gate
 
 		writer->~DataWriter();
 		return;
-
+		*/
 	};
 
 	DDSUnit_Publisher::~DDSUnit_Publisher()

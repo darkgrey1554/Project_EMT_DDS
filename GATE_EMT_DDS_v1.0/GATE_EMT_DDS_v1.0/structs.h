@@ -133,6 +133,14 @@ enum class ParamInfoAdapter
 	HeaderData
 };
 
+enum ControlThreadDSSUnit
+{
+	NONE,
+	WORK,
+	STOP,
+	TERMINATE
+};
+
 struct BaseAnswer
 {
 	TypeAdapter typeadapter;

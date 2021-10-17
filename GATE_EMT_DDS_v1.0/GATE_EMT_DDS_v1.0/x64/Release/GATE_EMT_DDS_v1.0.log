@@ -1,27 +1,21 @@
 ﻿  DDSUnit.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(107,33): error C2535: ResultReqest gate::DDSUnit_Subscriber::init_subscriber(void): функция-член уже определена или объявлена
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(101): message : см. объявление "gate::DDSUnit_Subscriber::init_subscriber"
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(89,35): error C2276: &: недопустимая операция с выражением привязанной функции-члена
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(310,15): error C3861: CreateNameMemoryDDS: идентификатор не найден
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(311,8): error C2065: SharedMemoryUnit: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(311,82): error C2065: readerkks: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(317,15): error C3861: CreateNameMemoryDDS: идентификатор не найден
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(318,8): error C2065: SharedMemoryUnit: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(318,84): error C2065: readerkks: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(324,15): error C3861: CreateNameMemoryDDS: идентификатор не найден
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(325,8): error C2065: SharedMemoryUnit: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(325,81): error C2065: readerkks: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(341,4): error C2065: base_type_array_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(360,4): error C2065: topic_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(361,8): error C2065: topic_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(390,44): error C2065: topic_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(422,43): error C2065: topic_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(423,59): error C2065: base_type_array_analog: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(428,43): error C2065: topic_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(429,59): error C2065: base_type_array_discrete: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(434,43): error C2065: topic_binar: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(435,59): error C2065: base_type_array_binar: необъявленный идентификатор
-  main.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(12,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(135,16): warning C4101: ll: неиспользованная локальная переменная
-  Создание кода...
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): error C2259: "gate::DDSUnit_Publisher": невозможно создать экземпляр абстрактного класса
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(144): message : см. объявление "gate::DDSUnit_Publisher"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : из-за следующих членов:
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : StatusDDSUnit gate::DDSUnit::GetCurrentStatus(void) const: абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(54): message : см. объявление "gate::DDSUnit::GetCurrentStatus"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : ConfigDDSUnit gate::DDSUnit::GetConfig(void) const: абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(55): message : см. объявление "gate::DDSUnit::GetConfig"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : TypeDDSUnit gate::DDSUnit::GetType(void) const: абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(59): message : см. объявление "gate::DDSUnit::GetType"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2042): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_Wrap<_Ty>"
+          with
+          [
+              _Ty=gate::DDSUnit_Publisher
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2747): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_Ref_count_obj2<_Ty>"
+          with
+          [
+              _Ty=gate::DDSUnit_Publisher
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(15): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::shared_ptr<gate::DDSUnit_Publisher> std::make_shared<gate::DDSUnit_Publisher,ConfigDDSUnit&>(ConfigDDSUnit &)"

@@ -51,7 +51,7 @@ namespace gate
 		current_status.store(StatusAdapter::INITIALIZATION, std::memory_order_relaxed);
 		ResultReqest res = ResultReqest::OK;
 		unsigned int result = 0;
-		std::shared_ptr<ConfigSharedMemoryAdapter> config_point = std::dynamic_pointer_cast<ConfigSharedMemoryAdapter>(conf);
+		std::shared_ptr<ConfigSharedMemoryAdapter> config_point = std::reinterpret_pointer_cast<ConfigSharedMemoryAdapter>(conf);
 		if (config_point == nullptr) { res = ResultReqest::ERR; return res; }
 		std::string namememory;
 		std::string namemutex;

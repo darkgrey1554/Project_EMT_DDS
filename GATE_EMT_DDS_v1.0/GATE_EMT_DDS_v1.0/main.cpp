@@ -145,7 +145,7 @@ int main(int argc, char** argv)
 	ConfigSharedMemoryAdapter confwriter;
 	ConfigSharedMemoryAdapter confreader;
 
-	confwriter.DataType = TypeData::DISCRETE;
+	/*confwriter.DataType = TypeData::DISCRETE;
 	confwriter.NameMemory = "sm001";
 	confwriter.size = 100;
 

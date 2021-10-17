@@ -39,8 +39,13 @@ using namespace std::chrono_literals;
 
 namespace gate
 {
+
 	class DDSUnit
 	{
+
+	protected:
+
+		const unsigned int frequency_scatter = 25; // 25 ms 
 
 	public:
 
@@ -66,6 +71,7 @@ namespace gate
 
 		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
 		LoggerSpace::Logger* log;
+		std::atomic <ControlThreadDSSUnit> control_thread = ControlThreadDSSUnit::NONE;
 
 		DomainParticipant* participant_ = nullptr;
 		eprosima::fastdds::dds::Subscriber* subscriber_ = nullptr;
@@ -74,8 +80,8 @@ namespace gate
 		DynamicType_ptr type_data;
 
 		eprosima::fastdds::dds::DataReader* reader_data = nullptr;
-		std::thread thread_transmite;
-
+		std::jthread thread_transmite;
+		
 
 
 		class SubListener : public DataReaderListener
@@ -89,7 +95,7 @@ namespace gate
 			std::atomic_int samples_;
 		} listener_;
 
-		void function_thread_transmite();
+		void function_thread_transmite(std::stop_token stop_token);
 		void SetStatus(StatusDDSUnit status);
 		std::string CreateNameTopic(std::string short_name);
 		std::string CreateNameType(std::string short_name);
@@ -116,6 +122,8 @@ namespace gate
 		ResultReqest init_adapter();
 
 		std::shared_ptr<ConfigAdapter> create_config_adapter();
+
+		std::shared_ptr<void>  create_buffer();
 
 	public:
 
