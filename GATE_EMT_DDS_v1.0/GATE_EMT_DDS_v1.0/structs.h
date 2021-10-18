@@ -141,6 +141,14 @@ enum ControlThreadDSSUnit
 	TERMINATE
 };
 
+enum StatusThreadDSSUnit
+{
+	NONE,
+	WORK,
+	TERMINATE,
+	FAIL
+};
+
 struct BaseAnswer
 {
 	TypeAdapter typeadapter;

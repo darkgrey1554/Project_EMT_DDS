@@ -193,7 +193,7 @@ namespace gate
 					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_float32_type();
 					break;
 				case TypeData::DISCRETE:
-					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
+					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_int32_type();
 					break;
 				case TypeData::BINAR:
 					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
@@ -313,7 +313,6 @@ namespace gate
 			{
 				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, nullptr);
 				if (reader_data == nullptr) throw - 1;
-				control_thread.store(ControlThreadDSSUnit::WORK, std::memory_order_relaxed);
 				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
 			}
 		}
@@ -377,32 +376,115 @@ namespace gate
 		return ResultReqest::OK;
 	}
 
+	inline unsigned char DDSUnit::size_type_data_baits(TypeData type)
+	{
+		unsigned char result = 0;
+		if (type == TypeData::ANALOG) { result = sizeof(float); }
+		else if (type == TypeData::DISCRETE) { result = sizeof(int); }
+		else if (type == TypeData::BINAR) { result = sizeof(char); }
+
+		return result;
+	};
+
+	inline void  DDSUnit_Subscriber::mirror_data_form_DDS(void* buf, eprosima::fastrtps::types::DynamicData* array_dds, unsigned int i)
+	{
+		if (config.Typedata == TypeData::ANALOG)
+		{
+			*(reinterpret_cast<float*>(buf)+i) = array_dds->get_float32_value(array_dds->get_array_index({ 0, i }));
+		}
+		else if (config.Typedata == TypeData::DISCRETE)
+		{
+			*(reinterpret_cast<int*>(buf) + i) = array_dds->get_int32_value(array_dds->get_array_index({ 0, i }));
+		}
+		else if (config.Typedata == TypeData::BINAR)
+		{
+			*(reinterpret_cast<char*>(buf) + i) = array_dds->get_char8_value(array_dds->get_array_index({ 0, i }));
+		}		
+	}
+
 	void DDSUnit_Subscriber::function_thread_transmite(std::stop_token stop_token)
 	{
 		std::chrono::steady_clock::time_point start, end;
-		std::chrono::microseconds delta_ms;
+		std::chrono::milliseconds delta_ms;
 		start = std::chrono::steady_clock::now();
-
-
-		eprosima::fastrtps::types::DynamicData_ptr data;
-		data = DynamicDataFactory::get_instance()->create_data(type_data);
+		eprosima::fastrtps::types::DynamicData* array = nullptr;
 		SampleInfo info;
-		
-		std::shared_ptr<void> data_bufer = nullptr;
-		
-		while (1)
+		ResultReqest res;
+		std::string helpstr;
+
+		status_thread.store(StatusThreadDSSUnit::WORK, std::memory_order_relaxed);
+
+		try
 		{
-			if (!stop_token.stop_requested()) break;
+			try
+			{
+				data = DynamicDataFactory::get_instance()->create_data(type_data);
+			}
+			catch (...)
+			{
+				throw 1;
+			}
 
-			end = std::chrono::steady_clock::now();
-			delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-			if (delta_ms.count() < this->config.Frequency - frequency_scatter) continue;
-			reader_data->take_next_sample(data.get(), &info);
+			int size_type_data = size_type_data_baits(config.Typedata);
+			std::shared_ptr<char> mass_data(new char[size_type_data * config.Size], std::default_delete<char[]>());
+			for (int i = 0; i < size_type_data * config.Size; i++) *(mass_data.get() + i) = 0;
 
-			//AdapterUnit->WriteData();
+			while (1)
+			{
+				if (stop_token.stop_requested()) break;
+
+				end = std::chrono::steady_clock::now();
+				delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+				if (delta_ms.count() < config.Frequency - frequency_scatter) continue;
+
+				if (reader_data->take_next_sample(data.get(), &info) != ReturnCode_t::RETCODE_OK) throw 2;
+				array = data->loan_value(7);
+				if (array == nullptr) throw 3;
+
+				/// --- тутуту тут надо подумать (пока тупо в лоб)--- /// 
+
+				for (int i = 0; i < config.Size; i++)
+				{
+					mirror_data_form_DDS(mass_data.get(), array, i);
+				}
+				if (data->return_loaned_value(array) != ReturnCode_t::RETCODE_OK) throw 5;
+				if (AdapterUnit->WriteData(mass_data.get(), config.Size) != ResultReqest::OK) throw 4;
+
+				start = std::chrono::steady_clock::now();
+			}
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error in thread of thransfer: name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
+			return;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error in thread of thransfer: name units: " + this->config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
+			data->return_loaned_value(array);
+			return;
 		}
 
+		status_thread.store(StatusThreadDSSUnit::TERMINATE, std::memory_order_relaxed);
 	};
+
+	void DDSUnit_Subscriber::SubListener::on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info)
+	{
+		////////////////////////
+		////////////////////////
+		////////////////////////
+	}
+
+	void DDSUnit_Subscriber::SubListener::on_data_available(DataReader* reader)
+	{
+
+	}
 
 
 	DDSUnit_Subscriber::~DDSUnit_Subscriber()
@@ -471,95 +553,14 @@ namespace gate
 
 		/// --- PUBLISHER --- ///
 
-		DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : config(config)
+	DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : config(config)
 	{
 		
 	}
 
 	void DDSUnit_Publisher::thread_transmite(TypeData type_data_thread)
 	{
-		/*DataWriter* writer = nullptr;
-		DynamicData_ptr data;
-		float iterf = 0.0;
-		unsigned int iteri = 0;
-		char iterc = 0;
-		ReturnCode_t res;
-		bool res_write = 0;
-		eprosima::fastrtps::types::DynamicData* array;
 
-
-		switch (type_data_thread)
-		{
-		case TypeData::ZERO:
-			break;
-		case TypeData::ANALOG:
-
-			writer = publisher_->create_datawriter(topic_analog, DATAWRITER_QOS_DEFAULT, nullptr);
-			data = DynamicDataFactory::get_instance()->create_data(base_type_array_analog);
-
-			break;
-		case TypeData::DISCRETE:
-
-			writer = publisher_->create_datawriter(topic_discrete, DATAWRITER_QOS_DEFAULT);
-			data = DynamicDataFactory::get_instance()->create_data(base_type_array_discrete);
-
-			break;
-		case TypeData::BINAR:
-
-			writer = publisher_->create_datawriter(topic_binar, DATAWRITER_QOS_DEFAULT);
-			data = DynamicDataFactory::get_instance()->create_data(base_type_array_binar);
-
-			break;
-		default:
-			break;
-		}
-
-		if (writer == nullptr) return;
-
-		/*eprosima::fastrtps::types::DynamicData* array = m_Hello->loan_value(2);
-		array->set_uint32_value(10, array->get_array_index({ 0, 0 }));
-		array->set_uint32_value(20, array->get_array_index({ 1, 0 }));
-		array->set_uint32_value(30, array->get_array_index({ 2, 0 }));
-		array->set_uint32_value(40, array->get_array_index({ 3, 0 }));
-		array->set_uint32_value(50, array->get_array_index({ 4, 0 }));
-		array->set_uint32_value(60, array->get_array_index({ 0, 1 }));
-		array->set_uint32_value(70, array->get_array_index({ 1, 1 }));
-		array->set_uint32_value(80, array->get_array_index({ 2, 1 }));
-		array->set_uint32_value(90, array->get_array_index({ 3, 1 }));
-		array->set_uint32_value(100, array->get_array_index({ 4, 1 }));
-		m_Hello->return_loaned_value(array);*/
-
-		/*std::string str = "AZAZAZAZA";
-		data->set_string_value(str, 1);
-		res = data->set_uint32_value(iteri, 0);
-		array = data->loan_value(2);
-		for (unsigned int i = 0; i < 10; i++)
-		{
-			array->set_uint32_value(iteri + 10 * i, array->get_array_index({ 0, i }));
-		}
-		data->return_loaned_value(array);
-
-		for (;;)
-		{
-			res = data->get_uint32_value(iteri, 0);
-			res = data->set_uint32_value(iteri + 1, 0);
-
-			array = data->loan_value(2);
-			for (unsigned int i = 0; i < 10; i++)
-			{
-				array->set_uint32_value(iteri + 10 * i, array->get_array_index({ 0, i }));
-			}
-			data->return_loaned_value(array);
-
-			res_write = writerr->write(data.get());
-
-			std::this_thread::sleep_for(1000ms);
-
-		}
-
-		writer->~DataWriter();
-		return;
-		*/
 	};
 
 	DDSUnit_Publisher::~DDSUnit_Publisher()

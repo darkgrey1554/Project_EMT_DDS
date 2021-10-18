@@ -24,10 +24,6 @@
 #include <chrono>
 
 
-
-
-
-
 HelloWorldPublisher::HelloWorldPublisher()
     : mp_participant(nullptr)
     , mp_publisher(nullptr)
@@ -183,8 +179,8 @@ void HelloWorldPublisher::PubListener::on_publication_matched(
 
 void HelloWorldPublisher::runThread( uint32_t samples, uint32_t sleep)
 {
-    topic_1 = mp_participant->create_topic("topic1", "AZ", TOPIC_QOS_DEFAULT);
-    //topic_2 = mp_participant->create_topic("topic1", "AZ", TOPIC_QOS_DEFAULT);
+    //topic_1 = mp_participant->create_topic("topic1", "AZ", TOPIC_QOS_DEFAULT);
+    topic_2 = mp_participant->create_topic("topic2", "HelloWorld_2", TOPIC_QOS_DEFAULT);
     
     ReturnCode_t res;
     std::vector<InstanceHandle_t> topvec;
@@ -198,22 +194,34 @@ void HelloWorldPublisher::runThread( uint32_t samples, uint32_t sleep)
     int count = 0;
     uint32_t index = 0;
 
-    writer_1 = mp_publisher->create_datawriter(topic_1, DATAWRITER_QOS_DEFAULT, nullptr);
-    writer_2 = mp_publisher->create_datawriter(topic_1, DATAWRITER_QOS_DEFAULT, nullptr);
+    //writer_1 = mp_publisher->create_datawriter(topic_1, DATAWRITER_QOS_DEFAULT, nullptr);
+    writer_2 = mp_publisher->create_datawriter(topic_2, DATAWRITER_QOS_DEFAULT, nullptr);
 
     for (;;)
     {
-        data_1->set_string_value("QWEERTASDF", 1);
-        data_1->set_uint32_value(count, 0);
+        /*data_2->set_string_value("QWEERTASDF", 1);
+        data_2->set_uint32_value(count, 0);
         count++;
-        writer_1->write(data_1.get());
+        writer_2->write(data_2.get());
         std::this_thread::sleep_for(400ms);
-        data_1->set_string_value("QWEERTASDF", 1);
-        data_1->set_uint32_value(count, 0);
+        data_2->set_string_value("QWEERTASDF", 1);
+        data_2->set_uint32_value(count, 0);
         count++;
-        writer_2->write(data_1.get());
+        writer_2->write(data_2.get());*/
+
+        data_2->set_string_value("QWEERTASDF", 1);
+        data_2->set_uint32_value(count, 0);
+        array = data_2->loan_value(2);
+        for (uint32_t i = 0; i < 4; i++)
+        {
+            array->set_uint32_value(10 * i + count, array->get_array_index({ 0, i }));
+        }
+        data_2->return_loaned_value(array);
+        writer_2->write(data_2.get());
+
         std::this_thread::sleep_for(1000ms);
-        if (count > 20) break;
+        count++;
+        if (count > 30) break;
         /*if (count == 0)
         {
             writer_1 = mp_publisher->create_datawriter(topic_1, DATAWRITER_QOS_DEFAULT, nullptr);

@@ -46,6 +46,7 @@ namespace gate
 	protected:
 
 		const unsigned int frequency_scatter = 25; // 25 ms 
+		inline unsigned char size_type_data_baits(TypeData type);
 
 	public:
 
@@ -81,6 +82,7 @@ namespace gate
 
 		eprosima::fastdds::dds::DataReader* reader_data = nullptr;
 		std::jthread thread_transmite;
+		std::atomic<StatusThreadDSSUnit> status_thread = StatusThreadDSSUnit::NONE;
 		
 
 
@@ -88,11 +90,10 @@ namespace gate
 		{
 		public:
 
-			SubListener() : samples_(0) {};
-			~SubListener() override {};
+			SubListener(){};
+			~SubListener(){};
 			void on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info) override;
 			void on_data_available(DataReader* reader) override;
-			std::atomic_int samples_;
 		} listener_;
 
 		void function_thread_transmite(std::stop_token stop_token);
@@ -121,9 +122,13 @@ namespace gate
 		/// --- функция создания топика --- ///
 		ResultReqest init_adapter();
 
+		/// --- функция формирования конфигурации адаптера --- /// 
 		std::shared_ptr<ConfigAdapter> create_config_adapter();
 
-		std::shared_ptr<void>  create_buffer();
+		/// --- функция копирования днанных из массива DDS в промежуточный массив --- /// 
+		inline void  mirror_data_form_DDS(void* buf, eprosima::fastrtps::types::DynamicData* array_dds, unsigned int i);
+
+
 
 	public:
 

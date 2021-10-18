@@ -28,17 +28,17 @@ int main(int argc, char** argv)
     int count = 5;
     long sleep = 100;
 
-    HelloWorldPublisher mypub;
+    /*HelloWorldPublisher mypub;
     if (mypub.init())
     {
         mypub.run(count, sleep);
-    }
+    }*/
     
-    /*HelloWorldSubscriber mysub;
+    HelloWorldSubscriber mysub;
     if (mysub.init())
     {
         mysub.run();
-    }*/
+    }
 
     for (;;)
     {

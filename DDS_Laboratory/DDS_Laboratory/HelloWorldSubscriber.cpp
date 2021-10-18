@@ -213,18 +213,26 @@ void HelloWorldSubscriber::run_thread()
     DataReader* reader;
     eprosima::fastdds::dds::Subscriber* sub;
 
+    std::vector<uint32_t> lengths = { 1,10 };
+    DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
+    DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type, lengths);
+    DynamicType_ptr array_type = builder->build();
+
     DynamicTypeBuilder_ptr struct_type_builder(DynamicTypeBuilderFactory::get_instance()->create_struct_builder());
     struct_type_builder->add_member(0, "index", DynamicTypeBuilderFactory::get_instance()->create_uint32_type());
     struct_type_builder->add_member(1, "message", DynamicTypeBuilderFactory::get_instance()->create_string_type());
-    struct_type_builder->set_name("AZ");
+    struct_type_builder->add_member(2, "array", array_type);
+    struct_type_builder->set_name("HelloWorld_2");
+
     DynamicType_ptr dynType = struct_type_builder->build();
     TypeSupport m_type(new eprosima::fastrtps::types::DynamicPubSubType(dynType));
 
     DynamicData_ptr data;
+    DynamicData* array;
     data = DynamicDataFactory::get_instance()->create_data(dynType);
 
     res = mp_participant->register_type(m_type);
-    topic_1 = mp_participant->create_topic("topic1", "AZ", TOPIC_QOS_DEFAULT);
+    topic_1 = mp_participant->create_topic("topic2", "HelloWorld_2", TOPIC_QOS_DEFAULT);
     sub = mp_participant->create_subscriber(SUBSCRIBER_QOS_DEFAULT);
     reader = sub->create_datareader(topic_1, DATAREADER_QOS_DEFAULT);
 
@@ -232,9 +240,17 @@ void HelloWorldSubscriber::run_thread()
     {
         SampleInfo info;
         reader->take_next_sample(data.get(),&info);
+        int val;
 
-        std::cout << data->get_uint32_value(0) << std::endl;
-
-        std::this_thread::sleep_for(100ms);
+        std::cout << "count:" << data->get_uint32_value(0) << std::endl;
+        array = data->loan_value(2);
+        for (unsigned int i = 0; i < 10; i++)
+        {
+            val = array->get_uint32_value(array->get_array_index({ 0, i }));
+            std::cout << "data[" << i << "]:"<< val << std::endl;
+        }
+        data->return_loaned_value(array);
+        std::cout << "///////////////////////////////" << std::endl;
+        std::this_thread::sleep_for(800ms);
     }
 }

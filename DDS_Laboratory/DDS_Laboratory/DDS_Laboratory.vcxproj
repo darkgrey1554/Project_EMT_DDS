@@ -87,8 +87,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\eProsima\fastrtps 2.3.4\include\fastrtps\types;C:\Program Files\eProsima\fastrtps 2.3.4\include\foonathan_memory;C:\Program Files\eProsima\fastrtps 2.3.4\include\fastdds\statistics;C:\Program Files\eProsima\fastrtps 2.3.4\include\fastdds\rtps;C:\Program Files\eProsima\fastrtps 2.3.4\include\fastdds;C:\Program Files\eProsima\fastrtps 2.3.4\include\fastdds\dds;C:\Program Files\eProsima\fastrtps 2.3.4\include\fastcdr\exceptions;C:\Program Files\eProsima\fastrtps 2.3.4\include\fastcdr;C:\Program Files\eProsima\fastrtps 2.3.4\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.3.4\bin\x64Win64VS2019;C:\Program Files\eProsima\fastrtps 2.3.4\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types;C:\Program Files\eProsima\fastrtps 2.4.0\include\foonathan_memory;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds\statistics;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds\rtps;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds\dds;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\exceptions;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr;C:\Program Files\eProsima\fastrtps 2.4.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.4.0\bin\x64Win64VS2019;C:\Program Files\eProsima\fastrtps 2.4.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,7 +142,7 @@
       <ConformanceMode>true</ConformanceMode>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>C:\Program Files\eProsima\fastrtps 2.3.4\lib\x64Win64VS2019;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\eProsima\fastrtps 2.4.0\lib\x64Win64VS2019;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
