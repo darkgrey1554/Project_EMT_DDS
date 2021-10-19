@@ -133,20 +133,19 @@ enum class ParamInfoAdapter
 	HeaderData
 };
 
-enum ControlThreadDSSUnit
-{
-	NONE,
-	WORK,
-	STOP,
-	TERMINATE
-};
-
-enum StatusThreadDSSUnit
+enum class StatusThreadDSSUnit
 {
 	NONE,
 	WORK,
 	TERMINATE,
 	FAIL
+};
+
+enum class CommandListenerSubscriber
+{
+	NONE,
+	START,
+	STOP
 };
 
 struct BaseAnswer

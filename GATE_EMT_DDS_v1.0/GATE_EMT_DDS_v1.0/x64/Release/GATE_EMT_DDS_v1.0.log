@@ -1,21 +1,52 @@
-﻿  DDSUnit.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): error C2259: "gate::DDSUnit_Publisher": невозможно создать экземпляр абстрактного класса
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(144): message : см. объявление "gate::DDSUnit_Publisher"
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : из-за следующих членов:
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : StatusDDSUnit gate::DDSUnit::GetCurrentStatus(void) const: абстрактный
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(54): message : см. объявление "gate::DDSUnit::GetCurrentStatus"
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : ConfigDDSUnit gate::DDSUnit::GetConfig(void) const: абстрактный
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(55): message : см. объявление "gate::DDSUnit::GetConfig"
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : TypeDDSUnit gate::DDSUnit::GetType(void) const: абстрактный
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(59): message : см. объявление "gate::DDSUnit::GetType"
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2042): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_Wrap<_Ty>"
+﻿  Adapters.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(146,2): error C2365: NONE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(138): message : см. объявление "NONE"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(147,2): error C2365: WORK: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(139): message : см. объявление "WORK"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(148,2): error C2365: TERMINATE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(141): message : см. объявление "TERMINATE"
+  Config_Reader.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(146,2): error C2365: NONE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(138): message : см. объявление "NONE"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(147,2): error C2365: WORK: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(139): message : см. объявление "WORK"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(148,2): error C2365: TERMINATE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(141): message : см. объявление "TERMINATE"
+  DDSUnit.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(146,2): error C2365: NONE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(138): message : см. объявление "NONE"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(147,2): error C2365: WORK: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(139): message : см. объявление "WORK"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(148,2): error C2365: TERMINATE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(141): message : см. объявление "TERMINATE"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(430,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(446,23): warning C4018: <: несоответствие типов со знаком и без знака
+  main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(146,2): error C2365: NONE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(138): message : см. объявление "NONE"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(147,2): error C2365: WORK: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(139): message : см. объявление "WORK"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(148,2): error C2365: TERMINATE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(141): message : см. объявление "TERMINATE"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(12,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  SharedMemoryAdaptor.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(146,2): error C2365: NONE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(138): message : см. объявление "NONE"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(147,2): error C2365: WORK: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(139): message : см. объявление "WORK"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(148,2): error C2365: TERMINATE: переопределение; предыдущим определением было "перечислитель"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\structs.h(141): message : см. объявление "TERMINATE"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(239,21): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(259,37): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
           with
           [
-              _Ty=gate::DDSUnit_Publisher
+              _Rep=__int64
           ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2747): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_Ref_count_obj2<_Ty>"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(304,21): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(324,38): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
           with
           [
-              _Ty=gate::DDSUnit_Publisher
+              _Rep=__int64
           ]
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.cpp(15): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::shared_ptr<gate::DDSUnit_Publisher> std::make_shared<gate::DDSUnit_Publisher,ConfigDDSUnit&>(ConfigDDSUnit &)"
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(357,33): warning C4244: аргумент: преобразование "float" в "DWORD", возможна потеря данных
+  Создание кода...

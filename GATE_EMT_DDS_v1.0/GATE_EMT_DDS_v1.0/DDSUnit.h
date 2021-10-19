@@ -7,18 +7,12 @@
 #include <thread>
 #include <chrono>
 
-//#include <fastrtps/xmlparser/XMLProfileManager.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
 #include <fastdds/dds/subscriber/Subscriber.hpp>
 #include <fastdds/dds/subscriber/DataReader.hpp>
-//#include <fastdds/dds/subscriber/DataReaderListener.hpp>
-//#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 #include <fastdds/dds/publisher/DataWriter.hpp>
-//#include <fastdds/dds/publisher/DataWriterListener.hpp>
-//#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
-//#include <fastdds/dds/subscriber/SampleInfo.hpp>
 #include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastrtps/types/DynamicType.h>
 #include <fastrtps/types/DynamicData.h>
@@ -26,9 +20,7 @@
 #include <fastrtps/types/DynamicTypeBuilderFactory.h>
 #include <fastrtps/types/DynamicTypeBuilderPtr.h>
 #include <fastrtps/types/DynamicTypeBuilder.h>
-//#include <fastrtps/attributes/ParticipantAttributes.h>
-//#include <fastrtps/attributes/SubscriberAttributes.h>
-//#include <fastrtps/Domain.h>
+
 
 
 using namespace eprosima::fastdds::dds;
@@ -54,9 +46,9 @@ namespace gate
 		virtual ResultReqest Start() = 0;
 		virtual StatusDDSUnit GetCurrentStatus() const = 0;
 		virtual ConfigDDSUnit GetConfig() const = 0;
-		virtual ResultReqest SetConfig() = 0;
+		virtual ResultReqest SetNewConfig() = 0;
 		virtual ResultReqest Restart() = 0;
-		virtual void Delete() = 0;
+		virtual ResultReqest Delete() = 0;
 		virtual TypeDDSUnit GetType() const = 0;
 		virtual ~DDSUnit() {};
 	};
@@ -68,33 +60,35 @@ namespace gate
 	private:
 
 		ConfigDDSUnit config;
-		std::shared_ptr<gate::Adapter> AdapterUnit;
+		std::shared_ptr<gate::Adapter> AdapterUnit = nullptr;
 
 		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
 		LoggerSpace::Logger* log;
-		std::atomic <ControlThreadDSSUnit> control_thread = ControlThreadDSSUnit::NONE;
-
+		std::jthread thread_transmite;
+		std::atomic<StatusThreadDSSUnit> status_thread = StatusThreadDSSUnit::NONE;
+		
 		DomainParticipant* participant_ = nullptr;
 		eprosima::fastdds::dds::Subscriber* subscriber_ = nullptr;
 		Topic* topic_data;
 		DynamicData_ptr data;
 		DynamicType_ptr type_data;
-
 		eprosima::fastdds::dds::DataReader* reader_data = nullptr;
-		std::jthread thread_transmite;
-		std::atomic<StatusThreadDSSUnit> status_thread = StatusThreadDSSUnit::NONE;
 		
-
-
+		
 		class SubListener : public DataReaderListener
 		{
+			std::atomic<CommandListenerSubscriber> status = CommandListenerSubscriber::NONE;
 		public:
-
-			SubListener(){};
+			DDSUnit_Subscriber* master;
+			SubListener(DDSUnit_Subscriber* master) : master(master){};
 			~SubListener(){};
+			void Start();
+			void Stop();
 			void on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info) override;
 			void on_data_available(DataReader* reader) override;
-		} listener_;
+		};
+		friend class SubListener;
+		std::shared_ptr<SubListener> listener_ = std::make_shared<SubListener>(this);
 
 		void function_thread_transmite(std::stop_token stop_token);
 		void SetStatus(StatusDDSUnit status);
@@ -139,10 +133,11 @@ namespace gate
 		ResultReqest Start();
 		StatusDDSUnit GetCurrentStatus() const;
 		ConfigDDSUnit GetConfig() const;
-		ResultReqest SetConfig();
+		ResultReqest SetNewConfig();
 		ResultReqest Restart();
-		void Delete();
+		ResultReqest Delete();
 		TypeDDSUnit GetType() const;
+
 
 	};
 

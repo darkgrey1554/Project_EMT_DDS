@@ -47,6 +47,7 @@ namespace gate
 		StatusAdapter GetStatusAdapter();
 		std::shared_ptr<BaseAnswer> GetInfoAdapter(ParamInfoAdapter param);
 
+
 		SharedMemoryAdaptor();
 		~SharedMemoryAdaptor();
 

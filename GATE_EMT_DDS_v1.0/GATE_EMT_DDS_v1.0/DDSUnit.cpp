@@ -238,7 +238,18 @@ namespace gate
 			catch(...)
 			{
 				throw 3;
-			}			
+			}
+
+			try
+			{
+				data = DynamicDataFactory::get_instance()->create_data(type_data);
+			}
+			catch (...)
+			{
+				throw 4;
+			}
+
+			
 		}
 		catch (const int& e_int)
 		{
@@ -306,7 +317,7 @@ namespace gate
 		{
 			if (this->config.Frequency <= 0)
 			{
-				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, &listener_);
+				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, listener_.get());
 				if (reader_data == nullptr) throw - 1;
 			}
 			else
@@ -352,6 +363,8 @@ namespace gate
 
 		try
 		{
+			if (AdapterUnit != nullptr) throw 3;
+
 			AdapterUnit = CreateAdapter(this->config.Adapter);
 			if (AdapterUnit == nullptr) throw 1;
 			std::shared_ptr<ConfigAdapter> conf_adater = create_config_adapter();
@@ -416,15 +429,6 @@ namespace gate
 
 		try
 		{
-			try
-			{
-				data = DynamicDataFactory::get_instance()->create_data(type_data);
-			}
-			catch (...)
-			{
-				throw 1;
-			}
-
 			int size_type_data = size_type_data_baits(config.Typedata);
 			std::shared_ptr<char> mass_data(new char[size_type_data * config.Size], std::default_delete<char[]>());
 			for (int i = 0; i < size_type_data * config.Size; i++) *(mass_data.get() + i) = 0;
@@ -472,48 +476,142 @@ namespace gate
 		}
 
 		status_thread.store(StatusThreadDSSUnit::TERMINATE, std::memory_order_relaxed);
+		return;
 	};
 
 	void DDSUnit_Subscriber::SubListener::on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info)
 	{
-		////////////////////////
-		////////////////////////
-		////////////////////////
+
 	}
 
 	void DDSUnit_Subscriber::SubListener::on_data_available(DataReader* reader)
 	{
+		SampleInfo info;
+		eprosima::fastrtps::types::DynamicData* array = nullptr;
+		std::string helpstr;
+		if ( status.load(std::memory_order_relaxed) != CommandListenerSubscriber::START) return;
 
+		try
+		{
+			int size_type_data = master->size_type_data_baits(master->config.Typedata);
+			std::shared_ptr<char> mass_data(new char[size_type_data * master->config.Size], std::default_delete<char[]>());
+			for (int i = 0; i < size_type_data * master->config.Size; i++) *(mass_data.get() + i) = 0;
+
+			if (reader->take_next_sample(master->data.get(), &info) != ReturnCode_t::RETCODE_OK) throw 2;
+			array = master->data->loan_value(7);
+			if (array == nullptr) throw 3;
+
+			for (int i = 0; i < master->config.Size; i++)
+			{
+				master->mirror_data_form_DDS(mass_data.get(), array, i);
+			}
+			if (master->data->return_loaned_value(array) != ReturnCode_t::RETCODE_OK) throw 5;
+			if (master->AdapterUnit->WriteData(mass_data.get(), master->config.Size) != ResultReqest::OK) throw 4;
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error in listener_: name units: " + master->config.PointName;
+			master->log->WriteLogERR(helpstr.c_str(), e, 0);
+			return;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error in listener_: name units: " + master->config.PointName;
+			master->log->WriteLogERR(helpstr.c_str(), 0, 0);
+			master->data->return_loaned_value(array);
+			return;
+		}
+
+		return;
 	}
 
-
-	DDSUnit_Subscriber::~DDSUnit_Subscriber()
+	void DDSUnit_Subscriber::SubListener::Stop()
 	{
+		status.store(CommandListenerSubscriber::STOP);
+	}
+
+	void DDSUnit_Subscriber::SubListener::Start()
+	{
+		status.store(CommandListenerSubscriber::START);
 	}
 
 	ResultReqest DDSUnit_Subscriber::Stop()
 	{
-		return ResultReqest::ERR;
+		std::string helpstr;
+		try
+		{
+			listener_->Stop();
+
+			if (thread_transmite.joinable())
+			{
+				thread_transmite.request_stop();
+				thread_transmite.join();
+			}
+
+			GlobalStatus.store(StatusDDSUnit::STOP, std::memory_order_relaxed);
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error to command Stop: name units: " + config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		helpstr.clear();
+		helpstr += "DDSUnit: command Stop done: name units: " + config.PointName;
+		log->WriteLogINFO(helpstr.c_str(), 0, 0);
+		return ResultReqest::OK;
 	};
 
 	ResultReqest DDSUnit_Subscriber::Start()
 	{
-		return ResultReqest::ERR;
+		std::string helpstr;
+		try
+		{
+			listener_->Start();
+			if (thread_transmite.joinable())
+			{
+				if (status_thread.load(std::memory_order_relaxed) != StatusThreadDSSUnit::WORK)
+				{
+					thread_transmite.join();
+					thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
+				}
+			}
+			else
+			{
+				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
+			}
+
+			GlobalStatus.store(StatusDDSUnit::WORK, std::memory_order_relaxed);
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error to command Start: name units: " + config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		helpstr.clear();
+		helpstr += "DDSUnit: command Start done: name units: " + config.PointName;
+		log->WriteLogINFO(helpstr.c_str(), 0, 0);
+		return ResultReqest::OK;
 	};
 
 	StatusDDSUnit DDSUnit_Subscriber::GetCurrentStatus() const
 	{
-		StatusDDSUnit a = StatusDDSUnit::EMPTY;
-		return a;
+		return GlobalStatus.load(std::memory_order_relaxed);
 	};
 
 	ConfigDDSUnit DDSUnit_Subscriber::GetConfig() const
 	{
-		ConfigDDSUnit a;
-		return a;
+		return config;
 	};
 
-	ResultReqest DDSUnit_Subscriber::SetConfig()
+	ResultReqest DDSUnit_Subscriber::SetNewConfig()
 	{
 		return ResultReqest::ERR;
 	};
@@ -523,10 +621,72 @@ namespace gate
 		return ResultReqest::ERR;
 	};
 
-	void DDSUnit_Subscriber::Delete()
+	ResultReqest DDSUnit_Subscriber::Delete()
 	{
-		return;
+		std::string helpstr;
+
+		try
+		{
+			if (Stop() == ResultReqest::ERR) throw 1;
+
+			if (reader_data != nullptr)
+			{
+				if (subscriber_->delete_datareader(reader_data) != ReturnCode_t::RETCODE_OK) throw 2;
+				reader_data = nullptr;
+			}
+			if (topic_data != nullptr)
+			{
+				if (participant_->delete_topic(topic_data) != ReturnCode_t::RETCODE_OK) throw 3;
+				topic_data = nullptr;
+			}
+			if (subscriber_ != nullptr)
+			{
+				if (participant_->delete_subscriber(subscriber_) != ReturnCode_t::RETCODE_OK) throw 4;
+				subscriber_ = nullptr;
+			}
+			if (DomainParticipantFactory::get_instance()->delete_participant(participant_) != ReturnCode_t::RETCODE_OK) throw 4;
+			participant_ = nullptr;
+
+			try
+			{
+				AdapterUnit.~shared_ptr();
+				AdapterUnit = nullptr;
+			}
+			catch (...)
+			{
+				throw 5;
+			}
+
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error to command Delete: name units: " + config.PointName;
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			return ResultReqest::ERR;
+		}
+		catch(...)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error to command Delete: name units: " + config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
 	};
+
+	DDSUnit_Subscriber::~DDSUnit_Subscriber()
+	{
+		std::string helpstr;
+
+		if (Delete() == ResultReqest::ERR)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error Destructor : name units: " + config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+		}
+	}
 
 	TypeDDSUnit DDSUnit_Subscriber::GetType() const
 	{
@@ -605,94 +765,3 @@ namespace gate
 	};
 
 }
-
-
-
-
-
-
-
-/*
-* DDSUnit_Subscriber::DDSUnit_Subscriber(ConfigDDSUnit config) : config(config)
-{
-	GlobalStatus.store(StatusDDSUnit::START);
-	std::string helpstr;
-	readerkks = new KKSReader();
-	SharedMemoryUnit = new SharedMemoryDDS();
-	ReturnCode_t res;
-	log = LoggerSpace::Logger::getpointcontact();
-
-
-	/*if (readerkks->ReadKKSlist(config.NameListKKS) != ResultReqest::OK)
-	{
-		GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-	}
-	//else
-{
-	helpstr.clear();
-	helpstr += CreateNameMemoryDDS(TypeData::ANALOG, TypeDirection::EMTfromDDS, config.Domen) + "_";
-	if (SharedMemoryUnit->CreateMemory(TypeData::ANALOG, TypeDirection::EMTfromDDS, readerkks->size_analog(), helpstr) != ResultReqest::OK)
-	{
-		GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-	}
-
-	helpstr.clear();
-	helpstr += CreateNameMemoryDDS(TypeData::DISCRETE, TypeDirection::EMTfromDDS, config.Domen) + "_";
-	if (SharedMemoryUnit->CreateMemory(TypeData::DISCRETE, TypeDirection::EMTfromDDS, readerkks->size_discrete(), helpstr) != ResultReqest::OK)
-	{
-		GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-	}
-
-	helpstr.clear();
-	helpstr += CreateNameMemoryDDS(TypeData::BINAR, TypeDirection::EMTfromDDS, config.Domen) + "_";
-	if (SharedMemoryUnit->CreateMemory(TypeData::BINAR, TypeDirection::EMTfromDDS, readerkks->size_discrete(), helpstr) != ResultReqest::OK)
-	{
-		GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-	}
-
-
-	std::vector<uint32_t> lengths = { 1,10 };
-	DynamicType_ptr base_type = DynamicTypeBuilderFactory::get_instance()->create_uint32_type();
-	DynamicTypeBuilder_ptr builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type, lengths);
-	DynamicType_ptr array_type = builder->build();
-
-	DynamicTypeBuilder_ptr struct_type_builder(DynamicTypeBuilderFactory::get_instance()->create_struct_builder());
-	struct_type_builder->add_member(0, "index", DynamicTypeBuilderFactory::get_instance()->create_uint32_type());
-	struct_type_builder->add_member(1, "message", DynamicTypeBuilderFactory::get_instance()->create_string_type());
-	struct_type_builder->add_member(2, "array", array_type);
-	struct_type_builder->set_name("HelloWorld");
-	DynamicType_ptr dynType = struct_type_builder->build();
-	base_type_array_analog = struct_type_builder->build();
-	TypeSupport m_type(new eprosima::fastrtps::types::DynamicPubSubType(dynType));
-
-
-	DomainParticipantQos participantQos;
-	participantQos.name("Participant_subscriber");
-	participant_ = DomainParticipantFactory::get_instance()->create_participant(config.Domen, participantQos);
-	if (participant_ == nullptr)
-	{
-		GlobalStatus.store(StatusDDSUnit::ERROR_INIT);
-		log->WriteLogWARNING("ERROR_INIT_PARTICIANT_PUBLISHER", 0, 0);
-	}
-
-	m_type.get()->auto_fill_type_information(false);
-	m_type.get()->auto_fill_type_object(true);
-	res = m_type.register_type(participant_);
-
-	helpstr.clear();
-	helpstr += "Analog_Data";
-	topic_analog = participant_->create_topic(helpstr, "HelloWorld", TOPIC_QOS_DEFAULT);
-	if (topic_analog == nullptr)
-	{
-		log->WriteLogWARNING("ERROR CREATE TOPIC ANALOG (SUBSCRIBER)", 0, 0);
-	}
-
-	subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
-	listener_.hello_ = DynamicDataFactory::get_instance()->create_data(base_type_array_analog);
-	readerr = subscriber_->create_datareader(topic_analog, DATAREADER_QOS_DEFAULT, nullptr);// &listener_);
-
-	std::thread t(&DDSUnit_Subscriber::thread_transmite, this, TypeData::ANALOG);
-	t.detach();
-}
-}
-*/
