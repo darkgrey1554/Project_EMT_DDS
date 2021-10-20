@@ -772,8 +772,6 @@ namespace gate
 		}
 	}
 
-
-
 	void DDSUnit_Subscriber::SetStatus(StatusDDSUnit status)
 	{
 		GlobalStatus.store(status, std::memory_order_relaxed);
@@ -795,18 +793,394 @@ namespace gate
 	}
 
 
+	/////////////////////////////////////////////////
+	/// -------------- PUBLISHER --------------- ///
+	////////////////////////////////////////////////
 
-		/// --- PUBLISHER --- ///
-
-	DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : config(config)
+	DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : start_config(config)
 	{
-		
+		SetStatus(StatusDDSUnit::EMPTY);
+		log = LoggerSpace::Logger::getpointcontact();
+		name_unit = CreateNameUnit(start_config.PointName);
 	}
 
-	void DDSUnit_Publisher::thread_transmite(TypeData type_data_thread)
+	ResultReqest DDSUnit_Publisher::Initialization()
+	{
+		std::string helpstr;
+		ResultReqest result_command;
+		StatusDDSUnit status_unit = GetCurrentStatus();
+
+		if (status_unit != StatusDDSUnit::EMPTY &&
+			status_unit != StatusDDSUnit::ERROR_INIT &&
+			status_unit != StatusDDSUnit::DESTROYED)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Initialization already done: name units: " + this->name_unit;
+			log->WriteLogWARNING(helpstr.c_str(), 0, 0);
+			return ResultReqest::IGNOR;
+		}
+
+		config = start_config;
+		name_unit = CreateNameUnit(config.PointName);
+
+		/// --- иницализация participant --- /// 
+		result_command = init_participant();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return ResultReqest::ERR;
+		}
+
+		/// --- инициализация subscriber --- ///
+
+		result_command = init_publisher();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return ResultReqest::ERR;
+		}
+
+		/// --- создание динамического типа --- ///
+
+		result_command = create_dynamic_data_type();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return ResultReqest::ERR;
+		}
+
+		/// --- регистрация типа ---- ///
+
+		result_command = register_type();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return ResultReqest::ERR;
+		}
+
+		/// --- регистрация топика --- ///
+
+		result_command = register_topic();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return ResultReqest::ERR;
+		}
+
+		/// --- создание адаптера --- /// 
+
+		result_command = init_adapter();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return ResultReqest::ERR;
+		}
+
+		/// --- регистрация DataReader --- /// 
+
+		result_command = init_writer_data();
+		if (result_command != ResultReqest::OK)
+		{
+			SetStatus(StatusDDSUnit::ERROR_INIT);
+			return ResultReqest::ERR;
+		}
+
+		SetStatus(StatusDDSUnit::WORK);
+		helpstr.clear();
+		helpstr += "Info DDSUnit: Initialization done: name units: " + this->name_unit;
+		log->WriteLogINFO(helpstr.c_str(), 0, 0);
+
+		return ResultReqest::OK;
+	}
+
+	ResultReqest DDSUnit_Publisher::init_participant()
 	{
 
+		std::string helpstr;
+
+		/// --- инициализация транспортного уровня --- ///
+		///--------------------------------------------///
+		//////////////////////////////////////////////////
+
+		/// --- иницализация participant --- /// 	
+
+		try
+		{
+			participant_ =
+				DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, PARTICIPANT_QOS_DEFAULT, nullptr);
+			if (!participant_) throw - 1;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error create of participant: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	}
+
+	ResultReqest DDSUnit_Publisher::init_publisher()
+	{
+		std::string helpstr;
+
+		try
+		{
+			publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
+			if (!publisher_) throw - 1;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error create of publisher: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	}
+
+	ResultReqest DDSUnit_Publisher::create_dynamic_data_type()
+	{
+		/* struct:
+		*	typedata : uint8; (parent TypeData)
+		*	TimeLastUpdate :
+				h : char8;
+				m : char8;
+				s : char8;
+				ms: unit16;
+			size_data : uint32;
+			count_write : uint32;
+			data [size_data] : uint32/float;
+		*/
+		std::string helpstr;
+
+		try
+		{
+
+			DynamicTypeBuilder_ptr created_type_typedata;
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_h;
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_m;
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_s;
+			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_ms;
+			DynamicTypeBuilder_ptr created_type_size_data;
+			DynamicTypeBuilder_ptr created_type_count_write;
+			DynamicType_ptr base_type_array_data;
+			DynamicTypeBuilder_ptr builder;
+			DynamicType_ptr array_type;
+			DynamicTypeBuilder_ptr struct_type_builder;
+
+			try
+			{
+				created_type_typedata = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+				created_type_TimeLastUpdate_h = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+				created_type_TimeLastUpdate_m = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+				created_type_TimeLastUpdate_s = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
+				created_type_TimeLastUpdate_ms = DynamicTypeBuilderFactory::get_instance()->create_uint16_builder();
+				created_type_size_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
+				created_type_count_write = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
+
+				std::vector<uint32_t> lengths = { 1, this->config.Size };
+				switch (this->config.Typedata)
+				{
+				case TypeData::ANALOG:
+					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_float32_type();
+					break;
+				case TypeData::DISCRETE:
+					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_int32_type();
+					break;
+				case TypeData::BINAR:
+					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
+					break;
+				default:
+					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
+					break;
+				}
+
+				builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type_array_data, lengths);
+				array_type = builder->build();
+			}
+			catch (...)
+			{
+				throw 1;
+			}
+
+			try
+			{
+				struct_type_builder = DynamicTypeBuilderFactory::get_instance()->create_struct_builder();
+				struct_type_builder->add_member(0, "typedata", created_type_typedata.get());
+				struct_type_builder->add_member(1, "TimeLastUpdate_h", created_type_TimeLastUpdate_h.get());
+				struct_type_builder->add_member(2, "TimeLastUpdate_m", created_type_TimeLastUpdate_m.get());
+				struct_type_builder->add_member(3, "TimeLastUpdate_s", created_type_TimeLastUpdate_s.get());
+				struct_type_builder->add_member(4, "TimeLastUpdate_ms", created_type_TimeLastUpdate_ms.get());
+				struct_type_builder->add_member(5, "size_data", created_type_size_data.get());
+				struct_type_builder->add_member(6, "count_write", created_type_count_write.get());
+				struct_type_builder->add_member(7, "data", array_type);
+				helpstr.clear();
+				helpstr += "typedataDDS_" + this->config.PointName;
+				struct_type_builder->set_name(helpstr);
+			}
+			catch (...)
+			{
+				throw 2;
+			}
+
+			try
+			{
+				type_data = struct_type_builder->build();
+			}
+			catch (...)
+			{
+				throw 3;
+			}
+
+			try
+			{
+				data = DynamicDataFactory::get_instance()->create_data(type_data);
+			}
+			catch (...)
+			{
+				throw 4;
+			}
+
+
+		}
+		catch (const int& e_int)
+		{
+			helpstr.clear();
+			helpstr = "Error init DDSUnit : Error create dynamic type : name units : " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), e_int, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr = "Error init DDSUnit : Error create dynamic type : name units : " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	}
+
+	ResultReqest DDSUnit_Publisher::register_type()
+	{
+		try
+		{
+			TypeSupport PtrSupporType = eprosima::fastrtps::types::DynamicPubSubType(type_data);
+			PtrSupporType.get()->auto_fill_type_information(false);
+			PtrSupporType.get()->auto_fill_type_object(true);
+			if (PtrSupporType.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw - 1;
+		}
+		catch (...)
+		{
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error registration of type: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	}
+
+	ResultReqest DDSUnit_Publisher::register_topic()
+	{
+		try
+		{
+			topic_data = participant_->create_topic(CreateNameTopic(this->config.PointName), CreateNameType(this->config.PointName), TOPIC_QOS_DEFAULT);
+			if (topic_data == nullptr) throw - 1;
+		}
+		catch (...)
+		{
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error registration of topic, name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
 	};
+
+	ResultReqest DDSUnit_Publisher::init_writer_data()
+	{
+		std::string helpstr;
+
+		try
+		{
+			writer_data = publisher_->create_datawriter(topic_data, DATAWRITER_QOS_DEFAULT);
+			if (writer_data == nullptr) throw -1;			
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error create of writer_data: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	}
+
+	void DDSUnit_Publisher::function_thread_transmite(std::stop_token stop_token)
+	{
+		std::chrono::steady_clock::time_point start, end;
+		std::chrono::milliseconds delta_ms;
+		start = std::chrono::steady_clock::now();
+		eprosima::fastrtps::types::DynamicData* array = nullptr;
+		SampleInfo info;
+		ResultReqest res;
+		std::string helpstr;
+
+		status_thread.store(StatusThreadDSSUnit::WORK, std::memory_order_relaxed);
+
+		int size_type_data = size_type_data_baits(config.Typedata);
+		std::shared_ptr<char> mass_data(new char[size_type_data * config.Size], std::default_delete<char[]>());
+		for (int i = 0; i < size_type_data * config.Size; i++) *(mass_data.get() + i) = 0;
+
+		while (1)
+		{
+			if (stop_token.stop_requested()) break;
+
+			end = std::chrono::steady_clock::now();
+			delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+			if (delta_ms.count() < config.Frequency - frequency_scatter) continue;
+
+			array = data->loan_value(7);
+			if (array == nullptr) throw 3;
+
+			if (AdapterUnit->ReadData(mass_data.get(), config.Size) != ResultReqest::OK) throw 4;
+						
+			for (int i = 0; i < config.Size; i++)
+			{
+				mirror_data_to_DDS(mass_data.get(), array, i);
+			}
+
+			
+
+		}
+		
+		return;
+	};
+
+	inline void  DDSUnit_Publisher::mirror_data_to_DDS(void* buf, eprosima::fastrtps::types::DynamicData* array_dds, unsigned int i)
+	{
+		if (config.Typedata == TypeData::ANALOG)
+		{
+			array_dds->set_float32_value(*(reinterpret_cast<float*>(buf) + i), array_dds->get_array_index({ 0, i }));
+		}
+		else if (config.Typedata == TypeData::DISCRETE)
+		{
+			array_dds->set_int32_value(*(reinterpret_cast<int*>(buf) + i), array_dds->get_array_index({ 0, i }));
+		}
+		else if (config.Typedata == TypeData::BINAR)
+		{
+			array_dds->set_char8_value(*(reinterpret_cast<char*>(buf) + i), array_dds->get_array_index({ 0, i }));
+		}
+	}
+
 
 	DDSUnit_Publisher::~DDSUnit_Publisher()
 	{
@@ -848,5 +1222,10 @@ namespace gate
 	{
 		return;
 	};
+
+	std::string DDSUnit_Publisher::CreateNameUnit(std::string short_name)
+	{
+		return "Publisher_" + short_name;
+	}
 
 }

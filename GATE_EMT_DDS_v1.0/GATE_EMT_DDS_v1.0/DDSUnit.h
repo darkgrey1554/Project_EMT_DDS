@@ -21,8 +21,6 @@
 #include <fastrtps/types/DynamicTypeBuilderPtr.h>
 #include <fastrtps/types/DynamicTypeBuilder.h>
 
-
-
 using namespace eprosima::fastdds::dds;
 using namespace eprosima::fastrtps::types;
 //using namespace eprosima::fastrtps;
@@ -31,7 +29,9 @@ using namespace std::chrono_literals;
 
 namespace gate
 {
-
+	/////////////////////////////////////////////////////////////
+	///--------------- Interface DDSUnit -----------------------
+	/////////////////////////////////////////////////////////////
 	class DDSUnit
 	{
 
@@ -56,6 +56,10 @@ namespace gate
 
 	std::shared_ptr<DDSUnit> CreateDDSUnit(ConfigDDSUnit config);
 
+	/////////////////////////////////////////////////////////////
+	///--------------- Interface DDSUnit_Subcriber---------------
+	/////////////////////////////////////////////////////////////
+
 	class DDSUnit_Subscriber : public DDSUnit
 	{
 	private:
@@ -64,9 +68,9 @@ namespace gate
 		ConfigDDSUnit config;
 		std::shared_ptr<gate::Adapter> AdapterUnit = nullptr;
 		std::string name_unit;
-
 		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
 		LoggerSpace::Logger* log;
+		
 		std::jthread thread_transmite;
 		std::atomic<StatusThreadDSSUnit> status_thread = StatusThreadDSSUnit::NONE;
 		
@@ -146,25 +150,62 @@ namespace gate
 
 	};
 
+	/////////////////////////////////////////////////////////////
+	///--------------- Interface DDSUnit_Publisher---------------
+	/////////////////////////////////////////////////////////////
+
 	class DDSUnit_Publisher : public DDSUnit
 	{
+		ConfigDDSUnit start_config;
 		ConfigDDSUnit config;
-		gate::Adapter* Adapter;
-
+		std::shared_ptr<gate::Adapter> AdapterUnit = nullptr;
+		std::string name_unit;
 		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
 		LoggerSpace::Logger* log;
 
-		DomainParticipant* participant_;
-		eprosima::fastdds::dds::Publisher* publisher_;
+		std::jthread thread_transmite;
+		std::atomic<StatusThreadDSSUnit> status_thread = StatusThreadDSSUnit::NONE;
 
-		Topic* topic_data;
-		TypeSupport type_;
-		DynamicData_ptr type_data;
-		DynamicType_ptr base_type_data;
+		DomainParticipant* participant_ = nullptr;
+		eprosima::fastdds::dds::Publisher* publisher_ = nullptr;
+		Topic* topic_data = nullptr;
+		DynamicData_ptr data;
+		DynamicType_ptr type_data;
+		eprosima::fastdds::dds::DataWriter* writer_data = nullptr;
 
-		DataWriter* writerr = nullptr;
 
-		void thread_transmite(TypeData type_data_thread);
+		void function_thread_transmite(std::stop_token stop_token);
+		void SetStatus(StatusDDSUnit status);
+		std::string CreateNameTopic(std::string short_name);
+		std::string CreateNameType(std::string short_name);
+		std::string CreateNameUnit(std::string short_name);
+
+		/// --- функция инициализации participant --- ///
+		ResultReqest init_participant();
+
+		/// --- функция инициализации subscriber --- ///
+		ResultReqest init_publisher();
+
+		/// --- функция инициализации DynamicDataType --- ///
+		ResultReqest create_dynamic_data_type();
+
+		/// --- функция регистрации типа --- ///
+		ResultReqest register_type();
+
+		/// --- функция создания топика --- ///
+		ResultReqest register_topic();
+
+		/// --- функция создания reader --- ///
+		ResultReqest init_writer_data();
+
+		/// --- функция создания топика --- ///
+		ResultReqest init_adapter();
+
+		/// --- функция формирования конфигурации адаптера --- /// 
+		std::shared_ptr<ConfigAdapter> create_config_adapter();
+
+		/// --- функция копирования днанных из массива DDS в промежуточный массив --- /// 
+		inline void  mirror_data_to_DDS(void* buf, eprosima::fastrtps::types::DynamicData* array_dds, unsigned int i);
 
 	public:
 
