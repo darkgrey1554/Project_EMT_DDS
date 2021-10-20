@@ -42,11 +42,12 @@ namespace gate
 
 	public:
 
+		virtual ResultReqest Initialization() = 0;
 		virtual ResultReqest Stop() = 0;
 		virtual ResultReqest Start() = 0;
 		virtual StatusDDSUnit GetCurrentStatus() const = 0;
 		virtual ConfigDDSUnit GetConfig() const = 0;
-		virtual ResultReqest SetNewConfig() = 0;
+		virtual ResultReqest SetNewConfig(ConfigDDSUnit config) = 0;
 		virtual ResultReqest Restart() = 0;
 		virtual ResultReqest Delete() = 0;
 		virtual TypeDDSUnit GetType() const = 0;
@@ -59,8 +60,10 @@ namespace gate
 	{
 	private:
 
+		ConfigDDSUnit start_config;
 		ConfigDDSUnit config;
 		std::shared_ptr<gate::Adapter> AdapterUnit = nullptr;
+		std::string name_unit;
 
 		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
 		LoggerSpace::Logger* log;
@@ -94,6 +97,7 @@ namespace gate
 		void SetStatus(StatusDDSUnit status);
 		std::string CreateNameTopic(std::string short_name);
 		std::string CreateNameType(std::string short_name);
+		std::string CreateNameUnit(std::string short_name);
 
 		/// --- функция инициализации participant --- ///
 		ResultReqest init_participant();
@@ -129,11 +133,12 @@ namespace gate
 		DDSUnit_Subscriber(ConfigDDSUnit config);
 		~DDSUnit_Subscriber();
 
+		ResultReqest Initialization();
 		ResultReqest Stop();
 		ResultReqest Start();
 		StatusDDSUnit GetCurrentStatus() const;
 		ConfigDDSUnit GetConfig() const;
-		ResultReqest SetNewConfig();
+		ResultReqest SetNewConfig(ConfigDDSUnit config);
 		ResultReqest Restart();
 		ResultReqest Delete();
 		TypeDDSUnit GetType() const;
@@ -166,13 +171,14 @@ namespace gate
 		DDSUnit_Publisher(ConfigDDSUnit config);
 		~DDSUnit_Publisher();
 
+		ResultReqest Initialization();
 		ResultReqest Stop();
 		ResultReqest Start();
 		StatusDDSUnit GetCurrentStatus();
 		ConfigDDSUnit GetConfig();
-		ResultReqest SetConfig();
+		ResultReqest SetNewConfig(ConfigDDSUnit config);
 		ResultReqest Restart();
-		void Delete();
+		ResultReqest Delete();
 		TypeDDSUnit GetType();
 	};
 }

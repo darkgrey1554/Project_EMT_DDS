@@ -88,9 +88,10 @@ enum class StatusDDSUnit
 {
 	EMPTY,
 	ERROR_INIT,
+	ERR,
 	STOP,
 	START,
-	DEAD,
+	DESTROYED,
 	WORK
 };
 
