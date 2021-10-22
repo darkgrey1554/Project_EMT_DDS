@@ -223,6 +223,7 @@ namespace gate
 		
 		std::time_t time_p;
 		std::tm* time_now;
+		std::chrono::system_clock::time_point time;
 		std::chrono::milliseconds msec;
 
 		result_win32=WaitForSingleObject(Mutex_SM, 5000);
@@ -245,11 +246,12 @@ namespace gate
 
 		/// --- take time --- /// 
 
-		time_p = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-		time_now = std::localtime(&time_p);		
-		msec = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
+		time = std::chrono::system_clock::now();
+		time_p = std::chrono::system_clock::to_time_t(time);
+		time_now = std::localtime(&time_p);
+		msec = std::chrono::duration_cast<std::chrono::milliseconds>(time.time_since_epoch())
 			- std::chrono::duration_cast<std::chrono::milliseconds>
-			(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()));
+			(std::chrono::duration_cast<std::chrono::seconds>(time.time_since_epoch()));
 
 		/// --- write time in header --- /// 
 		head->count_read++;
@@ -288,7 +290,9 @@ namespace gate
 
 		std::time_t time_p;
 		std::tm* time_now;
+		std::chrono::system_clock::time_point time;
 		std::chrono::milliseconds msec;
+
 
 		result_win32 = WaitForSingleObject(Mutex_SM, 5000);
 		if (result_win32 != WAIT_OBJECT_0)
@@ -309,12 +313,12 @@ namespace gate
 		HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
 
 		/// --- take time --- /// 
-
-		time_p = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+		time = std::chrono::system_clock::now();
+		time_p = std::chrono::system_clock::to_time_t(time);
 		time_now = std::localtime(&time_p);		
-		msec = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
+		msec = std::chrono::duration_cast<std::chrono::milliseconds>(time.time_since_epoch())
 			- std::chrono::duration_cast<std::chrono::milliseconds>
-			(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()));
+			(std::chrono::duration_cast<std::chrono::seconds>(time.time_since_epoch()));
 
 		/// --- write time in header --- /// 
 		head->count_write++;

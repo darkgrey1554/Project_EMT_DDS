@@ -346,7 +346,7 @@ namespace gate
 			{
 				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, nullptr);
 				if (reader_data == nullptr) throw - 1;
-				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
+				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this, std::stop_token());
 			}
 		}
 		catch (...)
@@ -515,7 +515,7 @@ namespace gate
 
 		try
 		{
-			int size_type_data = master->size_type_data_baits(master->config.Typedata);
+			unsigned int size_type_data = master->size_type_data_baits(master->config.Typedata);
 			std::shared_ptr<char> mass_data(new char[size_type_data * master->config.Size], std::default_delete<char[]>());
 			for (int i = 0; i < size_type_data * master->config.Size; i++) *(mass_data.get() + i) = 0;
 
@@ -610,12 +610,12 @@ namespace gate
 				if (status_thread.load(std::memory_order_relaxed) != StatusThreadDSSUnit::WORK)
 				{
 					thread_transmite.join();
-					thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
+					thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this, std::stop_token());
 				}
 			}
 			else
 			{
-				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
+				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this, std::stop_token());
 			}
 
 			SetStatus(StatusDDSUnit::WORK);
@@ -1104,6 +1104,39 @@ namespace gate
 		return ResultReqest::OK;
 	};
 
+	ResultReqest DDSUnit_Publisher::init_adapter()
+	{
+		std::string helpstr;
+		ResultReqest res;
+
+		try
+		{
+			if (AdapterUnit != nullptr) throw 3;
+
+			AdapterUnit = CreateAdapter(this->config.Adapter);
+			if (AdapterUnit == nullptr) throw 1;
+			std::shared_ptr<ConfigAdapter> conf_adater = create_config_adapter();
+			res = AdapterUnit->InitAdapter(conf_adater);
+			if (res != ResultReqest::OK) throw 2;
+		}
+		catch (int& e_int)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error initialization of adapter, name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), e_int, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error init DDSUnit: Error initialization of adapter, name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	}
+
 	ResultReqest DDSUnit_Publisher::init_writer_data()
 	{
 		std::string helpstr;
@@ -1111,7 +1144,8 @@ namespace gate
 		try
 		{
 			writer_data = publisher_->create_datawriter(topic_data, DATAWRITER_QOS_DEFAULT);
-			if (writer_data == nullptr) throw -1;			
+			if (writer_data == nullptr) throw -1;		
+			thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite, this, std::stop_token());
 		}
 		catch (...)
 		{
@@ -1134,34 +1168,82 @@ namespace gate
 		ResultReqest res;
 		std::string helpstr;
 
+		std::time_t time_p;
+		std::tm* time_now;
+		std::chrono::system_clock::time_point time;
+		std::chrono::milliseconds msec;
+		unsigned int count_write = 0;
+
 		status_thread.store(StatusThreadDSSUnit::WORK, std::memory_order_relaxed);
 
 		int size_type_data = size_type_data_baits(config.Typedata);
 		std::shared_ptr<char> mass_data(new char[size_type_data * config.Size], std::default_delete<char[]>());
 		for (int i = 0; i < size_type_data * config.Size; i++) *(mass_data.get() + i) = 0;
 
-		while (1)
+		try
 		{
-			if (stop_token.stop_requested()) break;
+			data->set_char8_value((char)config.Typedata, 0);
+			data->set_uint32_value(config.Size, 5);
 
-			end = std::chrono::steady_clock::now();
-			delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-			if (delta_ms.count() < config.Frequency - frequency_scatter) continue;
-
-			array = data->loan_value(7);
-			if (array == nullptr) throw 3;
-
-			if (AdapterUnit->ReadData(mass_data.get(), config.Size) != ResultReqest::OK) throw 4;
-						
-			for (int i = 0; i < config.Size; i++)
+			while (1)
 			{
-				mirror_data_to_DDS(mass_data.get(), array, i);
+				if (stop_token.stop_requested()) break;
+
+				end = std::chrono::steady_clock::now();
+				delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+				if (delta_ms.count() < config.Frequency - frequency_scatter) continue;
+
+				array = data->loan_value(7);
+				if (array == nullptr) throw 3;
+
+				if (AdapterUnit->ReadData(mass_data.get(), config.Size) != ResultReqest::OK)
+				{
+					data->return_loaned_value(array);
+					throw 4;
+				}
+
+				for (int i = 0; i < config.Size; i++)
+				{
+					mirror_data_to_DDS(mass_data.get(), array, i);
+				}
+
+				data->return_loaned_value(array);
+
+				time = std::chrono::system_clock::now();
+				time_p = std::chrono::system_clock::to_time_t(time);
+				time_now = std::localtime(&time_p);
+				msec = std::chrono::duration_cast<std::chrono::milliseconds>(time.time_since_epoch())
+					- std::chrono::duration_cast<std::chrono::milliseconds>
+					(std::chrono::duration_cast<std::chrono::seconds>(time.time_since_epoch()));
+				count_write++;
+
+				data->set_char8_value((char)time_now->tm_hour, 1);
+				data->set_char8_value((char)time_now->tm_min, 2);
+				data->set_char8_value((char)time_now->tm_sec, 3);
+				data->set_char8_value(msec.count(), 1);
+				data->set_uint32_value(count_write, 6);
+
+				if (!writer_data->write(data.get())) throw 5;
 			}
-
-			
-
 		}
-		
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
+			return;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
+			return;
+		}
+			
+		status_thread.store(StatusThreadDSSUnit::TERMINATE, std::memory_order_relaxed);
 		return;
 	};
 
@@ -1181,51 +1263,249 @@ namespace gate
 		}
 	}
 
-
 	DDSUnit_Publisher::~DDSUnit_Publisher()
 	{
+		std::string helpstr;
+
+		if (Delete() == ResultReqest::ERR)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error Destructor : name units: " + config.PointName;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+		}
 	}
 
 	ResultReqest DDSUnit_Publisher::Stop()
 	{
-		return ResultReqest::ERR;
+		std::string helpstr;
+		try
+		{
+			if (GetCurrentStatus() != StatusDDSUnit::WORK) throw 1;
+
+			if (thread_transmite.joinable())
+			{
+				thread_transmite.request_stop();
+				thread_transmite.join();
+			}
+			SetStatus(StatusDDSUnit::STOP);
+
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Stop command error: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Stop command error: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		helpstr.clear();
+		helpstr += "DDSUnit: Stop command done: name units: " + this->name_unit;
+		log->WriteLogINFO(helpstr.c_str(), 0, 0);
+		return ResultReqest::OK;
 	};
 
 	ResultReqest DDSUnit_Publisher::Start()
 	{
-		return ResultReqest::ERR;
+		std::string helpstr;
+		try
+		{
+			if (GetCurrentStatus() != StatusDDSUnit::STOP) throw 1;
+
+			if (thread_transmite.joinable())
+			{
+				if (status_thread.load(std::memory_order_relaxed) != StatusThreadDSSUnit::WORK)
+				{
+					thread_transmite.join();
+					thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite, this, std::stop_token());
+				}
+			}
+			else
+			{
+				thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite, this, std::stop_token());
+			}
+
+			SetStatus(StatusDDSUnit::WORK);
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Start command error: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Start command error: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		helpstr.clear();
+		helpstr += "DDSUnit: command Start done: name units: " + this->name_unit;
+		log->WriteLogINFO(helpstr.c_str(), 0, 0);
+		return ResultReqest::OK;
 	};
 
-	StatusDDSUnit DDSUnit_Publisher::GetCurrentStatus()
+	StatusDDSUnit DDSUnit_Publisher::GetCurrentStatus() const
 	{
-		StatusDDSUnit a = StatusDDSUnit::EMPTY;
-		return a;
+		return GlobalStatus.load(std::memory_order_relaxed);
 	};
 
-	ConfigDDSUnit DDSUnit_Publisher::GetConfig()
+	ConfigDDSUnit DDSUnit_Publisher::GetConfig() const
 	{
-		ConfigDDSUnit a;
-		return a;
+		return config;
 	};
 
-	ResultReqest DDSUnit_Publisher::SetConfig()
+	ResultReqest DDSUnit_Publisher::SetNewConfig(ConfigDDSUnit conf)
 	{
-		return ResultReqest::ERR;
+		start_config = conf;
+		return ResultReqest::OK;
 	};
 
 	ResultReqest DDSUnit_Publisher::Restart()
 	{
-		return ResultReqest::ERR;
+		std::string helpstr;
+
+		try
+		{
+			if (Delete() != ResultReqest::OK) throw 1;
+			if (Initialization() != ResultReqest::OK) throw 2;
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error command Restart: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error command Restart: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		helpstr.clear();
+		helpstr += "Info DDSUnit: Restart command done: name units: " + this->name_unit;
+		log->WriteLogINFO(helpstr.c_str(), 0, 0);
+		return ResultReqest::OK;
 	};
 
-	void DDSUnit_Publisher::Delete()
+	ResultReqest DDSUnit_Publisher::Delete()
 	{
-		return;
+		std::string helpstr;
+
+		try
+		{
+			if (thread_transmite.joinable())
+			{
+				thread_transmite.request_stop();
+				thread_transmite.join();
+			}
+
+			if (writer_data != nullptr)
+			{
+				if (publisher_->delete_datawriter(writer_data) != ReturnCode_t::RETCODE_OK) throw 2;
+				writer_data = nullptr;
+			}
+			if (topic_data != nullptr)
+			{
+				if (participant_->delete_topic(topic_data) != ReturnCode_t::RETCODE_OK) throw 3;
+				topic_data = nullptr;
+			}
+			if (publisher_ != nullptr)
+			{
+				if (participant_->delete_publisher(publisher_) != ReturnCode_t::RETCODE_OK) throw 4;
+				publisher_ = nullptr;
+			}
+			if (DomainParticipantFactory::get_instance()->delete_participant(participant_) != ReturnCode_t::RETCODE_OK) throw 5;
+			participant_ = nullptr;
+
+			try
+			{
+				AdapterUnit.~shared_ptr();
+				AdapterUnit = nullptr;
+			}
+			catch (...)
+			{
+				throw 6;
+			}
+
+			SetStatus(StatusDDSUnit::DESTROYED);
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error to command Delete: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			SetStatus(StatusDDSUnit::ERROR_DESTROYED);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr += "Error DDSUnit: Error to command Delete: name units: " + this->name_unit;
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			SetStatus(StatusDDSUnit::ERROR_DESTROYED);
+			return ResultReqest::ERR;
+		}
+
+		helpstr.clear();
+		helpstr += "Info DDSUnit: Delete command done: name units: " + this->name_unit;
+		log->WriteLogERR(helpstr.c_str(), 0, 0);
+
+		return ResultReqest::OK;
 	};
+
+	TypeDDSUnit DDSUnit_Publisher::GetType() const
+	{
+		return TypeDDSUnit::PUBLISHER;
+	}
+
+	void DDSUnit_Publisher::SetStatus(StatusDDSUnit status)
+	{
+		GlobalStatus.store(status, std::memory_order_relaxed);
+	};
+
+	std::string DDSUnit_Publisher::CreateNameTopic(std::string short_name)
+	{
+		return "TopicdataDDS_" + short_name;
+	}
+
+	std::string DDSUnit_Publisher::CreateNameType(std::string short_name)
+	{
+		return "TypedataDDS_" + short_name;
+	}
 
 	std::string DDSUnit_Publisher::CreateNameUnit(std::string short_name)
 	{
 		return "Publisher_" + short_name;
 	}
 
+	std::shared_ptr<ConfigAdapter>  DDSUnit_Publisher::create_config_adapter()
+	{
+
+		if (config.Adapter == TypeAdapter::SharedMemory)
+		{
+			std::shared_ptr<ConfigSharedMemoryAdapter> config_sm = std::make_shared<ConfigSharedMemoryAdapter>();
+
+			config_sm->type_adapter = TypeAdapter::SharedMemory;
+			config_sm->NameMemory = this->config.PointName;
+			config_sm->size = this->config.Size;
+			config_sm->DataType = this->config.Typedata;
+
+			return config_sm;
+		}
+
+		return nullptr;
+	};
 }

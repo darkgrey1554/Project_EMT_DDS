@@ -215,12 +215,12 @@ namespace gate
 		ResultReqest Initialization();
 		ResultReqest Stop();
 		ResultReqest Start();
-		StatusDDSUnit GetCurrentStatus();
-		ConfigDDSUnit GetConfig();
+		StatusDDSUnit GetCurrentStatus() const;
+		ConfigDDSUnit GetConfig() const;
 		ResultReqest SetNewConfig(ConfigDDSUnit config);
 		ResultReqest Restart();
 		ResultReqest Delete();
-		TypeDDSUnit GetType();
+		TypeDDSUnit GetType() const;
 	};
 }
 
