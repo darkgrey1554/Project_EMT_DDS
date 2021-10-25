@@ -32,6 +32,7 @@
     <ClInclude Include="Config_Reader.h" />
     <ClInclude Include="Adapters.h" />
     <ClInclude Include="DDSUnit.h" />
+    <ClInclude Include="ModuleIO.h" />
     <ClInclude Include="security_handle.h" />
     <ClInclude Include="SharedMemoryAdaptor.h" />
     <ClInclude Include="structs.h" />

@@ -1,0 +1,8 @@
+2021/10/25	12:44:02.903	INFO	START
+2021/10/25	12:44:02.903	ERROR	3	5	Error init shared memory
+2021/10/25	12:44:02.903	ERROR	3	5	Error init shared memory
+2021/10/25	12:44:02.952	ERROR	NULL	NULL	Error init DDSUnit: Error registration of topic, name units: Publisher_test_writer
+2021/10/25	12:44:02.984	ERROR	NULL	NULL	Error init DDSUnit: Error registration of topic, name units: Subscriber_test_reader
+2021/10/25	12:44:23.254	INFO	START
+2021/10/25	12:44:23.300	ERROR	NULL	NULL	Error init DDSUnit: Error registration of topic, name units: Publisher_test_writer
+2021/10/25	12:44:23.328	ERROR	NULL	NULL	Error init DDSUnit: Error registration of topic, name units: Subscriber_test_reader

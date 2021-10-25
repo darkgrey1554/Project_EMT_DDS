@@ -245,7 +245,7 @@ namespace gate
 				struct_type_builder->add_member(6, "count_write", created_type_count_write.get());
 				struct_type_builder->add_member(7, "data", array_type);
 				helpstr.clear();
-				helpstr += "typedataDDS_" + this->config.PointName;
+				helpstr += CreateNameType(this->config.PointName);
 				struct_type_builder->set_name(helpstr);
 			}
 			catch (...)
@@ -346,7 +346,7 @@ namespace gate
 			{
 				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, nullptr);
 				if (reader_data == nullptr) throw - 1;
-				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this, std::stop_token());
+				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
 			}
 		}
 		catch (...)
@@ -437,15 +437,16 @@ namespace gate
 		}		
 	}
 
-	void DDSUnit_Subscriber::function_thread_transmite(std::stop_token stop_token)
+	void DDSUnit_Subscriber::function_thread_transmite()
 	{
 		std::chrono::steady_clock::time_point start, end;
 		std::chrono::milliseconds delta_ms;
 		start = std::chrono::steady_clock::now();
 		eprosima::fastrtps::types::DynamicData* array = nullptr;
 		SampleInfo info;
-		ResultReqest res;
+		ReturnCode_t res;
 		std::string helpstr;
+		std::stop_token stoper;
 
 		status_thread.store(StatusThreadDSSUnit::WORK, std::memory_order_relaxed);
 
@@ -455,15 +456,25 @@ namespace gate
 			std::shared_ptr<char> mass_data(new char[size_type_data * config.Size], std::default_delete<char[]>());
 			for (int i = 0; i < size_type_data * config.Size; i++) *(mass_data.get() + i) = 0;
 
+			stoper = thread_transmite.get_stop_token();
+			if (!stoper.stop_possible()) throw 1;
+
 			while (1)
 			{
-				if (stop_token.stop_requested()) break;
+				if (stoper.stop_requested()) break;
 
 				end = std::chrono::steady_clock::now();
 				delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 				if (delta_ms.count() < config.Frequency - frequency_scatter) continue;
-
-				if (reader_data->take_next_sample(data.get(), &info) != ReturnCode_t::RETCODE_OK) throw 2;
+				res = reader_data->take_next_sample(data.get(), &info);
+				if (res != ReturnCode_t::RETCODE_OK) //throw 2;
+				{
+					helpstr.clear();
+					helpstr += "DDSUnit: Error read data in thread of thransfer: name units: " + this->name_unit;
+					log->WriteLogWARNING(helpstr.c_str(), 10 , 0);
+					start = std::chrono::steady_clock::now();
+					continue;
+				}
 				array = data->loan_value(7);
 				if (array == nullptr) throw 3;
 
@@ -610,12 +621,12 @@ namespace gate
 				if (status_thread.load(std::memory_order_relaxed) != StatusThreadDSSUnit::WORK)
 				{
 					thread_transmite.join();
-					thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this, std::stop_token());
+					thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
 				}
 			}
 			else
 			{
-				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this, std::stop_token());
+				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
 			}
 
 			SetStatus(StatusDDSUnit::WORK);
@@ -779,7 +790,8 @@ namespace gate
 
 	std::string DDSUnit_Subscriber::CreateNameTopic(std::string short_name)
 	{
-		return "TopicdataDDS_" + short_name;
+		return "TopicdataDDS";
+		//return "TopicdataDDS_" + short_name;
 	}
 
 	std::string DDSUnit_Subscriber::CreateNameType(std::string short_name)
@@ -1018,7 +1030,7 @@ namespace gate
 				struct_type_builder->add_member(6, "count_write", created_type_count_write.get());
 				struct_type_builder->add_member(7, "data", array_type);
 				helpstr.clear();
-				helpstr += "typedataDDS_" + this->config.PointName;
+				helpstr += CreateNameType(this->config.PointName);
 				struct_type_builder->set_name(helpstr);
 			}
 			catch (...)
@@ -1145,7 +1157,7 @@ namespace gate
 		{
 			writer_data = publisher_->create_datawriter(topic_data, DATAWRITER_QOS_DEFAULT);
 			if (writer_data == nullptr) throw -1;		
-			thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite, this, std::stop_token());
+			thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite,this);
 		}
 		catch (...)
 		{
@@ -1158,7 +1170,7 @@ namespace gate
 		return ResultReqest::OK;
 	}
 
-	void DDSUnit_Publisher::function_thread_transmite(std::stop_token stop_token)
+	void DDSUnit_Publisher::function_thread_transmite()
 	{
 		std::chrono::steady_clock::time_point start, end;
 		std::chrono::milliseconds delta_ms;
@@ -1167,6 +1179,7 @@ namespace gate
 		SampleInfo info;
 		ResultReqest res;
 		std::string helpstr;
+		std::stop_token stoper;
 
 		std::time_t time_p;
 		std::tm* time_now;
@@ -1184,10 +1197,12 @@ namespace gate
 		{
 			data->set_char8_value((char)config.Typedata, 0);
 			data->set_uint32_value(config.Size, 5);
+			stoper = thread_transmite.get_stop_token();
+			if (!stoper.stop_possible()) throw 1;
 
 			while (1)
 			{
-				if (stop_token.stop_requested()) break;
+				if (stoper.stop_requested()) break;
 
 				end = std::chrono::steady_clock::now();
 				delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
@@ -1323,12 +1338,12 @@ namespace gate
 				if (status_thread.load(std::memory_order_relaxed) != StatusThreadDSSUnit::WORK)
 				{
 					thread_transmite.join();
-					thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite, this, std::stop_token());
+					thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite, this);
 				}
 			}
 			else
 			{
-				thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite, this, std::stop_token());
+				thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite, this);
 			}
 
 			SetStatus(StatusDDSUnit::WORK);
@@ -1478,7 +1493,8 @@ namespace gate
 
 	std::string DDSUnit_Publisher::CreateNameTopic(std::string short_name)
 	{
-		return "TopicdataDDS_" + short_name;
+		return "TopicdataDDS";
+		//return "TopicdataDDS_" + short_name;
 	}
 
 	std::string DDSUnit_Publisher::CreateNameType(std::string short_name)

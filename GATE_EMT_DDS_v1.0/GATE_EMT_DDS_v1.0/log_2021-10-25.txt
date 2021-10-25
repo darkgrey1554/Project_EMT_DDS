@@ -1,0 +1,201 @@
+2021/10/25	12:43:31.023	INFO	START
+2021/10/25	12:43:31.158	ERROR	NULL	NULL	Error init DDSUnit: Error registration of topic, name units: Publisher_test_writer
+2021/10/25	12:43:31.203	ERROR	NULL	NULL	Error init DDSUnit: Error registration of topic, name units: Subscriber_test_reader
+2021/10/25	12:45:21.608	INFO	START
+2021/10/25	12:48:50.386	INFO	START
+2021/10/25	12:48:52.899	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_test_writer
+2021/10/25	12:48:52.951	ERROR	NULL	NULL	Error init DDSUnit: Error registration of topic, name units: Subscriber_test_reader
+2021/10/25	12:50:12.506	INFO	START
+2021/10/25	12:50:12.596	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_test_writer
+2021/10/25	12:50:12.647	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_test_reader
+2021/10/25	12:50:12.924	ERROR	2	NULL	Error DDSUnit: Error in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	12:51:21.389	INFO	START
+2021/10/25	12:51:21.487	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_test_writer
+2021/10/25	12:51:21.537	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_test_reader
+2021/10/25	12:51:47.695	INFO	START
+2021/10/25	12:51:47.765	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_test_writer
+2021/10/25	12:51:47.814	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_test_reader
+2021/10/25	14:26:43.746	INFO	START
+2021/10/25	14:26:43.809	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_test_writer
+2021/10/25	14:26:43.858	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.131	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.137	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.138	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.140	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.146	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.146	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.146	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.146	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.146	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.147	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.149	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.149	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.149	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.149	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.149	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.149	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.149	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.151	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.157	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.157	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.157	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.157	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.157	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.157	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.157	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:26:44.158	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader
+2021/10/25	14:27:51.747	INFO	START
+2021/10/25	14:27:51.810	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_test_writer
+2021/10/25	14:27:51.858	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_test_reader
+2021/10/25	14:28:30.036	INFO	START
+2021/10/25	14:28:30.110	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_test_writer
+2021/10/25	14:28:30.159	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_test_reader
+2021/10/25	14:30:16.250	INFO	START
+2021/10/25	14:30:16.310	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_test_writer
+2021/10/25	14:30:16.360	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_test_reader
+2021/10/25	14:30:16.636	WARNING	NULL	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_test_reader

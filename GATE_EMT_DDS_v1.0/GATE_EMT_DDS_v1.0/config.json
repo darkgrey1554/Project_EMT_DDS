@@ -19,8 +19,9 @@
     "StatusSysLog": "OFF",
     "SizeLogFile": 10
   },
+
   "MANAGER": {
-    "IP": "*IP",
-    "Port": "*Port"
+    "IP": "127.0.0.1",
+    "Port": 32510
   }
 }

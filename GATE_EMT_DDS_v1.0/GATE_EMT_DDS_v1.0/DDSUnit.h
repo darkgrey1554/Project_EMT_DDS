@@ -97,7 +97,7 @@ namespace gate
 		friend class SubListener;
 		std::shared_ptr<SubListener> listener_ = std::make_shared<SubListener>(this);
 
-		void function_thread_transmite(std::stop_token stop_token);
+		void function_thread_transmite();
 		void SetStatus(StatusDDSUnit status);
 		std::string CreateNameTopic(std::string short_name);
 		std::string CreateNameType(std::string short_name);
@@ -174,7 +174,7 @@ namespace gate
 		eprosima::fastdds::dds::DataWriter* writer_data = nullptr;
 
 
-		void function_thread_transmite(std::stop_token stop_token);
+		void function_thread_transmite();
 		void SetStatus(StatusDDSUnit status);
 		std::string CreateNameTopic(std::string short_name);
 		std::string CreateNameType(std::string short_name);
