@@ -4,6 +4,7 @@
 #include "Adapters.h"
 #include "DDSUnit.h"
 
+
 /*class A
 {
 public:
@@ -42,6 +43,8 @@ public:
 
 int main(int argc, char** argv)
 {
+
+
 	LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
 	log->TurnOnLog();
 	log->WriteLogINFO("START");
