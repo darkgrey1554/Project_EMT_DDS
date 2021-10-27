@@ -1442,8 +1442,13 @@ namespace gate
 				if (participant_->delete_publisher(publisher_) != ReturnCode_t::RETCODE_OK) throw 4;
 				publisher_ = nullptr;
 			}
-			if (DomainParticipantFactory::get_instance()->delete_participant(participant_) != ReturnCode_t::RETCODE_OK) throw 5;
-			participant_ = nullptr;
+			
+			if (!participant_)
+			{
+				if (DomainParticipantFactory::get_instance()->delete_participant(participant_) != ReturnCode_t::RETCODE_OK) throw 5;
+				participant_ = nullptr;
+			}
+
 
 			try
 			{

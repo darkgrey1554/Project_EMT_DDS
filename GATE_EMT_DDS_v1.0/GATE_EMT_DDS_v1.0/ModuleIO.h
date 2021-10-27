@@ -15,6 +15,7 @@ namespace scada_ate
 		ConfigGate config_gate;
 		std::unique_ptr<ConfigReader> reader_config = std::make_unique<ConfigReader>();
 		std::vector<ConfigDDSUnit> config_DDSUnits;
+		std::atomic<StatusModeluIO> status;
 
 		DomainParticipant* participant_ = nullptr;
 		eprosima::fastdds::dds::Publisher* publisher_ = nullptr;
@@ -23,7 +24,7 @@ namespace scada_ate
 		Topic* topic_answer = nullptr;
 		Topic* topic_InfoDDSUnit = nullptr;
 		DataReader* reader_command = nullptr;
-		DataWriter* aswerer = nullptr;
+		DataWriter* answerer = nullptr;
 
 		DynamicType_ptr type_topic_command;
 		DynamicType_ptr type_topic_answer;
@@ -42,15 +43,29 @@ namespace scada_ate
 		friend class SubListener;
 		std::shared_ptr<SubListener> listener_ = std::make_shared<SubListener>(this);
 
+		ResultReqest clear_properties();
 		ResultReqest create_type_topic_command();
 		ResultReqest create_type_topic_answer();
 		ResultReqest create_type_topic_infoddsunits();
-
+		ResultReqest init_participant();
+		ResultReqest init_subscriber();
+		ResultReqest init_publisher();
+		ResultReqest registration_types();
+		ResultReqest create_topics();
+		ResultReqest UpdateConfigDDSUnits();
 		
-
+		std::string CreateNameStructCommand();
+		std::string CreateNameStructAnswer();
+		std::string CreateNameStructInfoUnits();
 		std::string CreateNameTopicCommand(std::string source);
 		std::string CreateNameTopicAnswer(std::string source);
 		std::string CreateNameTopicInfoUnits(std::string source);
+		std::string CreateNameTopicConfigDDSUnits();
+		void SetCurrentStatus(StatusModeluIO value)
+		{
+			status.store(value, std::memory_order_relaxed);
+			return;
+		};
 
 	public:
 
@@ -58,6 +73,8 @@ namespace scada_ate
 		Module_IO();
 		~Module_IO();
 		ResultReqest InitModule();
+		StatusModeluIO GetCurrentStatus();
+
 
 	};
 }

@@ -142,6 +142,15 @@ enum class StatusThreadDSSUnit
 	FAIL
 };
 
+enum class StatusModeluIO
+{
+	WORK,
+	STOP,
+	ERROR_INIT,
+	INITIALIZATION,
+	Null
+};
+
 enum class CommandListenerSubscriber
 {
 	NONE,
