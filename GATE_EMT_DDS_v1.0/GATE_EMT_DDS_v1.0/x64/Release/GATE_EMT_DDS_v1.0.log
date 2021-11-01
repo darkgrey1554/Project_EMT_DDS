@@ -1,8 +1,62 @@
-﻿  Config_Reader.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\Config_Reader.cpp(203,18): warning C4101: Domen: неиспользованная локальная переменная
-  main.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(99,16): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main.cpp(112,21): warning C4305: +=: усечение из "double" в "float"
+﻿  ModuleIO.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(176,41): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(183,41): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(190,41): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(197,41): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(204,41): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(211,41): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(218,41): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(225,41): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(661,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(704,15): warning C4101: e: неиспользованная локальная переменная
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): error C2259: "gate::DDSUnit": невозможно создать экземпляр абстрактного класса
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(35): message : см. объявление "gate::DDSUnit"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : из-за следующих членов:
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : ResultReqest gate::DDSUnit::Initialization(void): абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(45): message : см. объявление "gate::DDSUnit::Initialization"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : ResultReqest gate::DDSUnit::Stop(void): абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(46): message : см. объявление "gate::DDSUnit::Stop"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : ResultReqest gate::DDSUnit::Start(void): абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(47): message : см. объявление "gate::DDSUnit::Start"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : StatusDDSUnit gate::DDSUnit::GetCurrentStatus(void) const: абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(48): message : см. объявление "gate::DDSUnit::GetCurrentStatus"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : ConfigDDSUnit gate::DDSUnit::GetConfig(void) const: абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(49): message : см. объявление "gate::DDSUnit::GetConfig"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : ResultReqest gate::DDSUnit::SetNewConfig(ConfigDDSUnit): абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(50): message : см. объявление "gate::DDSUnit::SetNewConfig"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : ResultReqest gate::DDSUnit::Restart(void): абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(51): message : см. объявление "gate::DDSUnit::Restart"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : ResultReqest gate::DDSUnit::Delete(void): абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(52): message : см. объявление "gate::DDSUnit::Delete"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xmemory(1915,9): message : TypeDDSUnit gate::DDSUnit::GetType(void) const: абстрактный
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\DDSUnit.h(53): message : см. объявление "gate::DDSUnit::GetType"
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2042): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_Wrap<_Ty>"
+          with
+          [
+              _Ty=gate::DDSUnit
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2747): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_Ref_count_obj2<_Ty>"
+          with
+          [
+              _Ty=gate::DDSUnit
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(151): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::shared_ptr<gate::DDSUnit> std::make_shared<gate::DDSUnit,std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>&>(std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>> &)"
+          with
+          [
+              _Ty=ConfigDDSUnit
+          ]
+  SharedMemoryAdaptor.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(240,21): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(261,37): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(308,21): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(328,38): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\SharedMemoryAdaptor.cpp(361,33): warning C4244: аргумент: преобразование "float" в "DWORD", возможна потеря данных
   Создание кода...
-  LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
-  GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe

@@ -13,7 +13,215 @@ namespace scada_ate
 
 	}
 
+
+
+	ResultReqest Module_IO::Clear()
+	{
+		std::string helpstr;
+
+		try
+		{
+			/// --- удаление DDSunits ---///
+
+			Map_DDSUnits.clear();
+
+			/// --- очистка топиков публикаций и подписок --- ///
+
+			if (!answerer)
+			{
+				if (publisher_->delete_datawriter(answerer) != ReturnCode_t::RETCODE_OK) throw 1;
+				answerer = nullptr;
+			}
+
+			if (!reader_command)
+			{
+				if (subscriber_->delete_datareader(reader_command) != ReturnCode_t::RETCODE_OK) throw 2;
+				reader_command = nullptr;
+			}
+
+			if (!publisher_)
+			{
+				if (participant_->delete_publisher(publisher_) != ReturnCode_t::RETCODE_OK)  throw 3;
+				publisher_ = nullptr;
+			}
+
+			if (!subscriber_)
+			{
+				if (participant_->delete_subscriber(subscriber_) != ReturnCode_t::RETCODE_OK) throw 4;
+				subscriber_ = nullptr;
+			}
+
+			if (!topic_command)
+			{
+				if (participant_->delete_topic(topic_command) != ReturnCode_t::RETCODE_OK) throw 5;
+				topic_command = nullptr;
+			}
+
+			if (!topic_answer)
+			{
+				if (participant_->delete_topic(topic_answer) != ReturnCode_t::RETCODE_OK) throw 6;
+				topic_answer = nullptr;
+			}
+
+			if (!topic_InfoDDSUnit)
+			{
+				if (participant_->delete_topic(topic_InfoDDSUnit) != ReturnCode_t::RETCODE_OK) throw 6;
+				topic_InfoDDSUnit = nullptr;
+			}
+
+			/// --- удаление participant --- ///  
+
+			if (!participant_)
+			{
+				participant_->unregister_type(CreateNameTopicCommand(config_gate.TopicSubscribtionInfoConfig));
+				participant_->unregister_type(CreateNameTopicAnswer(config_gate.TopicPublicationAnswer));
+				participant_->unregister_type(CreateNameTopicConfigDDSUnits());
+			}
+
+			if (!participant_)
+			{
+				if (DomainParticipantFactory::get_instance()->delete_participant(participant_) != ReturnCode_t::RETCODE_OK) throw 7;
+				participant_ = nullptr;
+			}
+
+			
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr = "Error ModuleIO : Error command Clear";
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr = "Error ModuleIO : Error command Clear";
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		SetCurrentStatus(StatusModeluIO::Null);
+		return ResultReqest::OK;
+	};
+
+	ResultReqest Module_IO::StopTransfer()
+	{
+		StatusModeluIO stat;
+		ResultReqest res = ResultReqest::OK;
+		int count_ = 0;
+		std::string helpstr;
+
+		try
+		{
+			stat = GetCurrentStatus();
+			if (stat != StatusModeluIO::WORK) throw 1;
+
+			for (auto i = Map_DDSUnits.begin(); i != Map_DDSUnits.end();)
+			{
+				if (i->second->Stop() != ResultReqest::OK) count_++;
+				i++;
+			}
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr = "Error ModuleIO : Error command Stop_transfer";
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr = "Error ModuleIO : Error command Stop_transfer";
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		if (count_ != 0)
+		{
+			helpstr.clear();
+			helpstr = "Warning ModuleIO : Error command Stop_Transfer: not all units is stoped";
+			log->WriteLogWARNING(helpstr.c_str(), count_, 0);
+		}
+
+		SetCurrentStatus(StatusModeluIO::STOP);
+		return res;
+	}
+
+	ResultReqest Module_IO::StartTransfer()
+	{
+		StatusModeluIO stat;
+		ResultReqest res = ResultReqest::OK;
+		int count_ = 0;
+		std::string helpstr;
+
+		try
+		{
+			stat = GetCurrentStatus();
+			if (stat != StatusModeluIO::STOP) throw 1;
+
+			for (auto i = Map_DDSUnits.begin(); i != Map_DDSUnits.end();)
+			{
+				if (i->second->Start() != ResultReqest::OK) count_++;
+				i++;
+			}
+		}
+		catch (int& e)
+		{
+			helpstr.clear();
+			helpstr = "Error ModuleIO : Error command StartTransfer";
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			helpstr.clear();
+			helpstr = "Error ModuleIO : Error command StartTransfer";
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		if (count_ != 0)
+		{
+			helpstr.clear();
+			helpstr = "Warning ModuleIO : Error command StartTransfer: not all units is started";
+			log->WriteLogWARNING(helpstr.c_str(), count_, 0);
+		}
+
+		SetCurrentStatus(StatusModeluIO::WORK);
+		return res;
+	}
+
+	ResultReqest Module_IO::ReInitModule()
+	{
+		std::string helpstr;
+		if (Clear() != ResultReqest::OK)
+		{
+			return ResultReqest::ERR;
+		}
+
+		if (init() != ResultReqest::OK)
+		{
+			return ResultReqest::ERR;
+		}
+		
+		return ResultReqest::OK;
+	}
+
 	ResultReqest Module_IO::InitModule()
+	{
+		return init();
+	}
+
+
+	ResultReqest Module_IO::UpdateUnits()
+	{
+
+	}
+
+
+	ResultReqest Module_IO::init()
 	{
 		std::string helpstr;
 		ResultReqest res;
@@ -114,8 +322,52 @@ namespace scada_ate
 			return ResultReqest::ERR;
 		}
 
+		/// --- обновление конфигурации DDSUnits ---- /// 
+		res = UpdateConfigDDSUnits();
+		if (res != ResultReqest::OK)
+		{
+			/// ---- ///
+		}
 
+		/// --- чтение конфигурации --- ///
 
+		res = reader_config->ReadConfigTransferUnits(config_DDSUnits);
+		if (res != ResultReqest::OK)
+		{
+			SetCurrentStatus(StatusModeluIO::ERROR_INIT);
+			return ResultReqest::ERR;
+		}
+
+		/// --- инициадизация reader_command --- ///
+
+		res = Init_reader_command();
+		if (res != ResultReqest::OK)
+		{
+			SetCurrentStatus(StatusModeluIO::ERROR_INIT);
+			return ResultReqest::ERR;
+		}
+
+		/// --- init_ddsunits --- ///
+
+		for (std::vector<ConfigDDSUnit>::iterator i = config_DDSUnits.begin(); i != config_DDSUnits.end();)
+		{
+			helpstr.clear();
+			if (i->TypeUnit == TypeDDSUnit::PUBLISHER) { helpstr += "Publisher"; }
+			else if (i->TypeUnit == TypeDDSUnit::PUBLISHER) { helpstr += "Subscriber"; };
+			helpstr += ':' + i->PointName;
+
+			Map_DDSUnits.insert({ helpstr, gate::CreateDDSUnit(*i) });
+			i++;
+		}
+
+		for (auto i = Map_DDSUnits.begin(); i != Map_DDSUnits.end();)
+		{
+			i->second->Initialization();
+			i++;
+		}
+
+		SetCurrentStatus(StatusModeluIO::WORK);
+		return ResultReqest::OK;
 	};
 
 	ResultReqest  Module_IO::clear_properties()
@@ -547,41 +799,165 @@ namespace scada_ate
 	{
 		DataReader* reader_config = nullptr;
 		DynamicData_ptr infounits;
+		DynamicData_ptr array_config_file;
+		DynamicType_ptr type_array_config_file;
+		DynamicTypeBuilder_ptr builder_array;
+		Topic* topic_config_file=nullptr;
 		SampleInfo info_request;
 		unsigned int size_data;
 		unsigned int id;
+		char* mass_ptr = nullptr;
+		MemberId pos0_array;
+		ResultReqest res = ResultReqest::OK;
 
-		if (!participant_) throw 1;
-		if (!subscriber_) throw 2;
+		try
+		{
+			if (!participant_) throw 1;
+			if (!subscriber_) throw 2;
 
-		infounits = DynamicDataFactory::get_instance()->create_data(type_topic_infoddsunits);
+			/// --- создание переменной для считывания информации из топика infoddsunits --- ///
+			infounits = DynamicDataFactory::get_instance()->create_data(type_topic_infoddsunits);
+			/// --- создание reader для считывания данных из топика  infoddsunits--- ///
+			reader_config = subscriber_->create_datareader(topic_InfoDDSUnit, DATAREADER_QOS_DEFAULT, nullptr);
+			if (reader_config == nullptr) throw 3;
 
-		reader_config = subscriber_->create_datareader(topic_InfoDDSUnit, DATAREADER_QOS_DEFAULT, nullptr);
-		if (reader_config == nullptr) throw 3;
+			/// --- чтение данных --- ///
+			if (reader_config->take_next_sample(infounits.get(), &info_request) == ReturnCode_t::RETCODE_OK) throw 4;
 
-		reader_config->take_next_sample(infounits.get(), &info_request);
+			/// --- проверка данных --- ///
+			id = infounits->get_uint32_value(0);
+			if (id != config_gate.IdGate) throw 5;
+			size_data = infounits->get_uint32_value(1);
+			if (size_data == 0) throw 6;
 
-		id = infounits->get_uint32_value(0);
-		if (id != config_gate.IdGate) throw 4;
+			/// --- удаление reader --- ///
+			subscriber_->delete_datareader(reader_config);
+			reader_config = nullptr;
 
-		size_data = infounits->get_uint32_value(1);
-		if (size_data == 0) throw 5;
+			/// --- массив для хранения информации по ddsunits --- ///
+			std::shared_ptr<char> mass_data(new char[(uint64_t)size_data + 1], std::default_delete<char[]>());
 
-		std::shared_ptr<char> mass_data(new char[size_data], std::default_delete<char[]>());
-		subscriber_->delete_datareader(reader_config);
-		reader_config = nullptr;
+			/// --- создвние типа данных и переменной для считывания топика с информацией по ddsunits ---///
+			std::vector<uint32_t>lengths = { 1, size_data };
+			builder_array = DynamicTypeBuilderFactory::get_instance()->create_array_builder(
+				DynamicTypeBuilderFactory::get_instance()->create_char8_type(), lengths);
+			builder_array->set_name("type_FileConfigDDSUnits");
+			type_array_config_file = builder_array->build();
+			array_config_file = DynamicDataFactory::get_instance()->create_data(type_array_config_file);
+
+			/// --- регистриция типа данных --- ///
+			TypeSupport PtrSupporType = eprosima::fastrtps::types::DynamicPubSubType(type_array_config_file);
+			PtrSupporType.get()->auto_fill_type_information(false);
+			PtrSupporType.get()->auto_fill_type_object(true);
+			if (PtrSupporType.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw 7;
+
+			/// --- регистрация топика ---- /// 
+			topic_config_file = participant_->create_topic(CreateNameTopicConfigDDSUnits(), type_array_config_file->get_name(), TOPIC_QOS_DEFAULT);
+			if (!topic_config_file) throw 8;
+
+			/// --- создание reader topic_config_file ---- /// 
+			reader_config = subscriber_->create_datareader(topic_config_file, DATAREADER_QOS_DEFAULT, nullptr);
+			if (!reader_config) throw 9;
+
+			/// --- чтения данных из топика конфигурации
+			if (reader_config->take_next_sample(array_config_file.get(), &info_request) == ReturnCode_t::RETCODE_OK) throw 10;
+
+			/// --- копирование данных в буфер mass_ptr --- //// 
+			mass_ptr = mass_data.get();
+			pos0_array = array_config_file->get_array_index({ 0, 0 });
+			for (int i = 0; i < size_data; i++)
+			{
+				*(mass_ptr + i) = array_config_file->get_char8_value(pos0_array + i);
+			}
+			*(mass_ptr + size_data) = '\0';
+
+			/// --- обновление конфигурационных файлов configunits.json--- ///
+			if (UpdateFileConfigUnits(mass_data, size_data) != ResultReqest::OK)
+			{
+				// throw 11;
+				res = ResultReqest::ERR;
+			}
+
+			try
+			{
+				if (!reader_config)
+				{
+					subscriber_->delete_datareader(reader_config);
+					reader_config = nullptr;
+				}
+			}
+			catch (...)
+			{
+				throw 13;
+			}
+
+			try
+			{
+				if (!topic_config_file)
+				{
+					participant_->delete_topic(topic_config_file);
+					topic_config_file = nullptr;
+				}
+			}
+			catch (...)
+			{
+				throw 14;
+			}
+
+			if (participant_->unregister_type("type_FileConfigDDSUnits") != ReturnCode_t::RETCODE_OK) throw 12;
 
 
-		
-		
+		}
+		catch (int& e)
+		{
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error ModuleIO: Error update configunits.json";
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			res = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error ModuleIO: Error update configunits.json";
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			res = ResultReqest::ERR;
+		}
 
-
-
-
-
+		return res;
 	};
 
+	ResultReqest Module_IO::Init_reader_command()
+	{
+		ResultReqest res = ResultReqest::OK;
 
+		try
+		{
+			if (!subscriber_) throw 1;
+			if (!topic_command) throw 2;
+
+			reader_command = subscriber_->create_datareader(topic_command, DATAREADER_QOS_DEFAULT, listener_.get());
+			if (!reader_command) throw 3;
+		}
+		catch (int& e)
+		{
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error ModeleIO: Error init reader_command";
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			return ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error ModeleIO: Error init reader_command";
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+		return res;
+	}
 
 	std::string Module_IO::CreateNameStructCommand()
 	{
@@ -622,5 +998,48 @@ namespace scada_ate
 	{
 		return status.load(std::memory_order_relaxed);
 	}
+
+	ResultReqest Module_IO::UpdateFileConfigUnits(std::shared_ptr<char> data, unsigned int size)
+	{
+		std::string name_file = "configunits.json";
+		std::fstream file;
+		char* simvol_ptr = data.get();
+
+		try 
+		{
+			file.open(name_file, std::fstream::in | std::fstream::out | std::fstream::trunc);
+			if (!file.is_open()) throw 1;
+			try { file << simvol_ptr; }
+			catch (...) { throw 2; }
+			file.close();
+		}
+		catch (int& e)
+		{
+			if (file.is_open()) file.close();
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error ModeleIO: Error update file configunits.json";
+			log->WriteLogERR(helpstr.c_str(), e, 0);
+			return ResultReqest::ERR;
+		}
+		catch(...)
+		{
+			if (file.is_open()) file.close();
+			std::string helpstr;
+			helpstr.clear();
+			helpstr += "Error ModeleIO: Error update file configunits.json";
+			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			return ResultReqest::ERR;
+		}
+
+		return ResultReqest::OK;
+	};
+
+	void Module_IO::SubListener::on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info)
+	{};
+
+	void Module_IO::SubListener::on_data_available(DataReader* reader)
+	{};
+
 
 }

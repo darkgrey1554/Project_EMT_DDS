@@ -43,6 +43,7 @@ namespace scada_ate
 		friend class SubListener;
 		std::shared_ptr<SubListener> listener_ = std::make_shared<SubListener>(this);
 
+		ResultReqest init();
 		ResultReqest clear_properties();
 		ResultReqest create_type_topic_command();
 		ResultReqest create_type_topic_answer();
@@ -53,6 +54,9 @@ namespace scada_ate
 		ResultReqest registration_types();
 		ResultReqest create_topics();
 		ResultReqest UpdateConfigDDSUnits();
+		ResultReqest UpdateFileConfigUnits(std::shared_ptr<char> data, unsigned int size);
+		ResultReqest Init_reader_command();
+		ResultReqest Clear();
 		
 		std::string CreateNameStructCommand();
 		std::string CreateNameStructAnswer();
@@ -61,6 +65,8 @@ namespace scada_ate
 		std::string CreateNameTopicAnswer(std::string source);
 		std::string CreateNameTopicInfoUnits(std::string source);
 		std::string CreateNameTopicConfigDDSUnits();
+		
+
 		void SetCurrentStatus(StatusModeluIO value)
 		{
 			status.store(value, std::memory_order_relaxed);
@@ -74,6 +80,11 @@ namespace scada_ate
 		~Module_IO();
 		ResultReqest InitModule();
 		StatusModeluIO GetCurrentStatus();
+		ResultReqest StopTransfer();
+		ResultReqest StartTransfer();
+		ResultReqest ReInitModule();
+		ResultReqest UpdateUnits();
+
 
 
 	};
