@@ -544,14 +544,14 @@ namespace gate
 		catch (int& e)
 		{
 			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error in listener_: name units: " + this->master->name_unit;
+			helpstr += "Error DDSUnit: Error in listener_: name units: " + this->master->name_unit;
 			master->log->WriteLogERR(helpstr.c_str(), e, 0);
 			return;
 		}
 		catch (...)
 		{
 			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error in listener_: name units: " + this->master->name_unit;
+			helpstr += "Error DDSUnit: Error in listener_: name units: " + this->master->name_unit;
 			master->log->WriteLogERR(helpstr.c_str(), 0, 0);
 			master->data->return_loaned_value(array);
 			return;

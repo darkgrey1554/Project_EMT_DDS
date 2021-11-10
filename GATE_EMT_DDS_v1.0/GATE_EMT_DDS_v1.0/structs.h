@@ -301,3 +301,17 @@ struct HeaderDataAnswerSM : public BaseAnswer
 {
 	HeaderSharedMemory header;
 };
+
+struct ConfigModule_IO_DDS
+{
+	unsigned int IdGate = 0;
+	unsigned int Domen = 0;
+	TypeTransmiter TypeTransmite;
+	std::string IPSubscribtion;
+	unsigned int PortSubscribtion;
+	std::string TopicSubscritionCommand;
+	std::string TopicSubscribtionInfoConfig;
+	std::string IPPublication;
+	unsigned int PortPublication;
+	std::string TopicPublicationAnswer;
+};

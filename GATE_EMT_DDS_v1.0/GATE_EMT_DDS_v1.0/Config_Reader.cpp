@@ -211,6 +211,7 @@ ResultReqest ConfigReader::ReadConfigTransferUnits(std::vector<ConfigDDSUnit>& v
 
     std::string str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     vector_result.clear();
+
     try
     {
         rapidjson::Document document;

@@ -27,6 +27,9 @@
     <ClCompile Include="ModuleIO.cpp" />
     <ClCompile Include="security_handle.cpp" />
     <ClCompile Include="SharedMemoryAdaptor.cpp" />
+    <ClCompile Include="Unit_CP.cpp" />
+    <ClCompile Include="Unit_DDS_CP.cpp" />
+    <ClCompile Include="Unit_TCP_CP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\logger_crossplatform\logger.h" />
@@ -34,9 +37,14 @@
     <ClInclude Include="Adapters.h" />
     <ClInclude Include="DDSUnit.h" />
     <ClInclude Include="ModuleIO.h" />
+    <ClInclude Include="Module_CP.h" />
     <ClInclude Include="security_handle.h" />
     <ClInclude Include="SharedMemoryAdaptor.h" />
     <ClInclude Include="structs.h" />
+    <ClInclude Include="struct_unit_cp.h" />
+    <ClInclude Include="Unit_CP.h" />
+    <ClInclude Include="Unit_DDS_CP.h" />
+    <ClInclude Include="Unit_TCP_CP.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
