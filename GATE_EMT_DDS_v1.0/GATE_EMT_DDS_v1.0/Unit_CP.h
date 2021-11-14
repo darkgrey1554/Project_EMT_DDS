@@ -21,7 +21,7 @@ namespace scada_ate
 			virtual ~Unit_CP() {};
 			virtual TypeUnitCP GetTypeUnitCP() = 0;
 			virtual StatusUnitCP GetCurrentStatus() = 0;
-			virtual ResultReqest InitUnitCP(std::shared_ptr<ConfigUnitCP> config, std::shared_ptr<Module_IO>) = 0;
+			virtual ResultReqest InitUnitCP(std::shared_ptr<ConfigUnitCP> config, std::shared_ptr<module_io::Module_IO>) = 0;
 		};
 
 		std::shared_ptr<Unit_CP> CreateUnit_CP(TypeUnitCP type);

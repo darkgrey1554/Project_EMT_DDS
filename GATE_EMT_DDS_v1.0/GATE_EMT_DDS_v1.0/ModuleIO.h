@@ -1,6 +1,6 @@
 #pragma once
 #include "DDSUnit.h"
-#include "Config_Reader.h"
+#include "ReaderConfigUnits.h"
 #include <map>
 #include <mutex>
 
@@ -15,8 +15,8 @@ namespace scada_ate
 			unsigned int ID_Gate = 0;
 
 			LoggerSpace::Logger* log;
-			ConfigGate config_gate;
-			std::unique_ptr<ConfigReader> reader_config = std::make_unique<ConfigReader>();
+			ConfigModule_IO config_module;
+			std::shared_ptr<ReaderConfigUnits> reader_config = std::make_shared<ReaderConfigUnits>();
 			std::vector<ConfigDDSUnit> config_DDSUnits;
 			std::atomic<StatusModeluIO> status;
 			std::mutex mutex_guard_interface;
@@ -36,8 +36,6 @@ namespace scada_ate
 			ResultReqest init_subscriber();
 			ResultReqest registration_types();
 			ResultReqest create_topics();
-			ResultReqest UpdateConfigDDSUnits();
-			ResultReqest UpdateFileConfigUnits(std::shared_ptr<char> data, unsigned int size);
 			ResultReqest Clear();
 
 			std::string CreateNameStructInfoUnits();
@@ -54,12 +52,14 @@ namespace scada_ate
 
 			Module_IO();
 			~Module_IO();
-			ResultReqest InitModule();
+			ResultReqest InitModule(ConfigModule_IO config);
 			StatusModeluIO GetCurrentStatus();
 			ResultReqest StopTransfer();
 			ResultReqest StartTransfer();
 			ResultReqest ReInitModule();
-			ResultReqest UpdateUnits();
+			ResultReqest ReInitModule(ConfigModule_IO config);
+			ResultReqest UpdateConfigDDSUnits();
+			ResultReqest ApplyUpdateDDSUnits();
 
 		};
 	}

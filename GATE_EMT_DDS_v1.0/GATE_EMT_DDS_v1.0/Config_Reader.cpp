@@ -1,654 +1,1220 @@
 #include "Config_Reader.h"
+#include <algorithm>
 
-///////////////////////////////////////////////////////////////
-// constrictor "ConfigReader" with default Logger
-///////////////////////////////////////////////////////////////
-
-ConfigReader::ConfigReader()
+namespace scada_ate
 {
-    log = LoggerSpace::Logger::getpointcontact();
-}
-
-///////////////////////////////////////////////////////////////
-// read configuration header GATE in file config.json
-// conf - result read configuration
-// return - success of the operation
-///////////////////////////////////////////////////////////////
-
-ResultReqest ConfigReader::ReadConfigGATE(ConfigGate& conf)
-{
-
-    std::ifstream file;
-    std::string help_str;
-    ResultReqest res = ResultReqest::OK;
-    /// --- open file name_config (default = config.json) --- ////
-    file.open(name_config, std::ios::in);
-    if (!file.is_open())
+    namespace service_io
     {
-        log->WriteLogERR("ERROR READ CONFIG FILE", 0, 0);
-        res = ResultReqest::ERR;
-        return res;
-    }
-
-    /// --- reading the whole file --- ///
-    std::string str((std::istreambuf_iterator<char>(file)),
-        std::istreambuf_iterator<char>());   
-    
-    /// --- parsing configfile with rapidjson lib --- ///
-    try 
-    {
-        rapidjson::Document document;
-        document.Parse(str.c_str());
-
-        if (document["GATE"].IsObject())
+        namespace config
         {
-            conf.IdGate = document["GATE"]["IdGate"].GetUint();
-            conf.Domen = document["GATE"]["Domen"].GetUint();
-            conf.TopicSubscritionCommand = document["GATE"]["TopicSubscritionCommand"].GetString();
-            conf.TopicPublicationAnswer = document["GATE"]["TopicPublicationAnswer"].GetString();
-            conf.TopicSubscribtionInfoConfig = document["GATE"]["TopicSubscribtionInfoConfig"].GetString();
+            ///////////////////////////////////////////////////////////////
+            // constrictor "ConfigReader" with default Logger
+            ///////////////////////////////////////////////////////////////
 
-            help_str = document["GATE"]["TypeTransmite"].GetString();
-            conf.TypeTransmite = help_str.compare("TCP") == 0 ? TypeTransmiter::TCP :
-                help_str.compare("UDP") ? TypeTransmiter::UDP : TypeTransmiter::Broadcast;
-
-            if (conf.TypeTransmite != TypeTransmiter::Broadcast)
+            ConfigReader::ConfigReader()
             {
-                conf.IPSubscribtion = document["GATE"]["IPSubscribtion"].GetString();
-                conf.PortSubscribtion = document["GATE"]["PortSubscribtion"].GetUint();
-                conf.IPPublication = document["GATE"]["IPPublication"].GetString();
-                conf.PortPublication = document["GATE"]["PortPublication"].GetUint();
+                log = LoggerSpace::Logger::getpointcontact();
             }
-        }
-        else
-        {
-            log->WriteLogERR("ERROR READ CONFIG GATE", 1, 0);
-            res = ResultReqest::ERR;
-        }
-    }
-    catch(...)
-    {
-        log->WriteLogERR("ERROR READ CONFIG GATE", 2, 0);
-        res = ResultReqest::ERR;
-    }
-   
-    file.close();
-    return res;
-}
 
-///////////////////////////////////////////////////////////////
-// read configuration header LOGGER in file config.json
-// conf - result read configuration
-// return - success of the operation
-///////////////////////////////////////////////////////////////
+           
+            ///////////////////////////////////////////////////////////////
+            // read configuration header GATE in file config.json
+            // conf - result read configuration
+            // return - success of the operation
+            ///////////////////////////////////////////////////////////////
 
-ResultReqest ConfigReader::ReadConfigLOGGER(ConfigLogger& conf)
-{
-
-    std::ifstream file;
-    std::string help_str;
-    ResultReqest res = ResultReqest::OK;
-
-    /// --- open file name_config (config.json) --- ///
-    file.open(name_config, std::ios::in);
-    if (!file.is_open())
-    {
-        log->WriteLogERR("ERROR READ CONFIG FILE", 1, 0);
-        res = ResultReqest::ERR;
-        return res;
-    }
-
-    /// --- reading the whole file --- ///
-    std::string str((std::istreambuf_iterator<char>(file)),
-        std::istreambuf_iterator<char>());
-
-    /// --- parsing str with rapidjson lib --- /// 
-    try
-    {
-        rapidjson::Document document;
-        document.Parse(str.c_str());
-
-        if (document["LOGGER"].IsObject())
-        {
-            conf.LogName = document["LOGGER"]["LogName"].GetString();
-            conf.SysLogName = document["LOGGER"]["SysLogName"].GetString();
-
-            help_str = document["LOGGER"]["LogMode"].GetString();
-            conf.LogMode = help_str.compare("Info") == 0 ? LoggerSpace::LogMode::INFO :
-                help_str.compare("Warning") == 0 ? LoggerSpace::LogMode::WARNING :
-                help_str.compare("Error") == 0 ? LoggerSpace::LogMode::ERR : LoggerSpace::LogMode::DEBUG;
-
-            help_str.clear();
-            help_str = document["LOGGER"]["StatusLog"].GetString();
-            conf.StatusLog = help_str.compare("TURN") == 0 ? LoggerSpace::Status::ON : LoggerSpace::Status::OFF;
-
-            help_str.clear();
-            help_str = document["LOGGER"]["StatusSysLog"].GetString();
-            conf.StatusSysLog = help_str.compare("TURN") == 0 ? LoggerSpace::Status::ON : LoggerSpace::Status::OFF;
-            conf.SizeLogFile = document["LOGGER"]["SizeLogFile"].GetUint();
-        }
-        else
-        {
-            log->WriteLogERR("ERROR READ CONFIG LOGGER", 0, 0);
-            res = ResultReqest::ERR;
-        }        
-    }
-    catch (...)
-    {
-        log->WriteLogERR("ERROR READ CONFIG LOGGER", 1, 0);
-        res = ResultReqest::ERR;
-    }
-
-
-    file.close();
-    return res;
-};
-
-///////////////////////////////////////////////////////////////
-// read configuration header LOGGER in file config.json
-// conf - result read configuration
-// return - success of the operation
-///////////////////////////////////////////////////////////////
-
-ResultReqest ConfigReader::ReadConfigMANAGER(ConfigManager& conf)
-{
-    std::ifstream file;
-    std::string help_str;
-    ResultReqest res = ResultReqest::OK;
-    /// --- open file name_config (config.json) --- ///
-    file.open(name_config, std::ios::in);
-    if (!file.is_open())
-    {
-        log->WriteLogERR("ERROR READ CONFIG FILE", 0, 0);
-        res = ResultReqest::ERR;
-        return res;
-    }
-
-    /// --- reading the whole file --- ///
-    std::string str((std::istreambuf_iterator<char>(file)),
-        std::istreambuf_iterator<char>());
-
-    /// --- parsing str with rapidjson lib --- /// 
-    try
-    {
-        rapidjson::Document document;
-        document.Parse(str.c_str());
-
-        /// --- check object Manager and read configuration --- ///
-        if (document["MANAGER"].IsObject())
-        {
-            conf.IP = document["MANAGER"]["IP"].GetString();
-            conf.Port = document["MANAGER"]["Port"].GetUint();
-        }
-        else
-        {
-            log->WriteLogERR("ERROR READ CONFIG MANAGER", 1, 0);
-            res = ResultReqest::ERR;
-        }
-
-    }
-    catch (...)
-    {
-        log->WriteLogERR("ERROR READ CONFIG MANAGER", 2, 0);
-        res = ResultReqest::ERR;
-    }
-
-    file.close();
-    return res;
-}
-
-
-ResultReqest ConfigReader::ReadConfigTransferUnits(std::vector<ConfigDDSUnit>& vector_result)
-{
-    unsigned int Domen;
-    std::ifstream file;
-    file.open(name_configunits, std::ios::in);
-    if (!file.is_open())
-    {
-        log->WriteLogERR("ERROR READ CONFIGUNITS FILE", 0, 0);
-        return ResultReqest::ERR;
-    }
-
-    std::string str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-    vector_result.clear();
-
-    try
-    {
-        rapidjson::Document document;
-        document.Parse(str.c_str());
-
-        if (document["Units"].IsArray())
-        {
-            for (rapidjson::SizeType i = 0; i < document["Units"].Size(); i++)
+            ResultReqest ConfigReader::ReadConfigGATE(ConfigGate& config)
             {
+
+                std::ifstream file;
+                std::string help_str;
+                ResultReqest res = ResultReqest::OK;
+                
+                ConfigGate conf;
+                conf.IdGate = 0;              
+
+                /// --- parsing configfile with rapidjson lib --- ///
+                try
                 {
-                    ConfigDDSUnit unit;
-                    std::string helpstr;
-                    unit.Domen = document["Units"][i]["Domen"].GetUint();
-                    
-                    helpstr = document["Units"][i]["TypeUnit"].GetString();
-                    unit.TypeUnit = helpstr == "Publisher" ? TypeDDSUnit::PUBLISHER : 
-                        helpstr == "Subscriber" ? TypeDDSUnit::SUBSCRIBER : TypeDDSUnit::Empty;
-                    
-                    helpstr.clear();
-                    helpstr = document["Units"][i]["TypeTransmite"].GetString();
-                    unit.Transmiter = helpstr.compare("TCP") == 0 ? TypeTransmiter::TCP :
-                        helpstr.compare("UDP") == 0 ? TypeTransmiter::UDP : TypeTransmiter::Broadcast;
-
-                    helpstr.clear();
-                    helpstr = document["Units"][i]["TypeAdapter"].GetString();
-                    unit.Adapter = helpstr.compare("SharedMemory") == 0 ? TypeAdapter::SharedMemory :
-                        helpstr.compare("DDS") == 0 ? TypeAdapter::DDS :
-                        helpstr.compare("DTS") == 0 ? TypeAdapter::DTS :
-                        helpstr.compare("OPC_UA") == 0 ? TypeAdapter::OPC_UA :
-                        helpstr.compare("SMTP") == 0 ? TypeAdapter::SMTP : TypeAdapter::Null;
-
-                    unit.PointName = document["Units"][i]["PointName"].GetString();
-
-                    helpstr.clear();
-                    helpstr = document["Units"][i]["TypeData"].GetString();
-                    unit.Typedata = helpstr == "Analog" ? TypeData::ANALOG : helpstr == "Discrete" ? TypeData::DISCRETE : helpstr == "Binar" ? TypeData::BINAR : TypeData::ZERO;
-                    unit.Size = document["Units"][i]["Size"].GetUint();
-                    unit.Frequency = document["Units"][i]["Frequency"].GetUint();
-
-                    if (unit.Transmiter != TypeTransmiter::Broadcast)
+                    /// --- open file name_config (default = config.json) --- ////
+                    file.open(name_config, std::ios::in);
+                    if (!file.is_open())
                     {
-                        unit.IP_MAIN = document["Units"][i]["IP_Main"].GetString();
-                        unit.Port_MAIN = document["Units"][i]["Port_Main"].GetUint();
-                        unit.IP_RESERVE = document["Units"][i]["IP_Reserve"].GetString();
-                        unit.Port_RESERVE = document["Units"][i]["Port_Reserve"].GetUint();
+                        throw 1;
+                    }
+                    /// --- reading the whole file --- ///
+                    std::string str((std::istreambuf_iterator<char>(file)),
+                        std::istreambuf_iterator<char>());
+
+                    rapidjson::Document document;
+                    document.Parse(str.c_str());
+
+                    if (!document.HasMember("GATE")) throw 2;
+                    if (!document["GATE"].IsObject()) throw 3;
+
+                    if (take_gate_idgate(document, conf) == ResultReqest::ERR) res = ResultReqest::ERR;                   
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigGate:", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigGate:", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+                               
+                file.close();
+                config = conf;
+                return res;
+            }
+
+            ResultReqest ConfigReader::take_gate_idgate(rapidjson::Document& doc, ConfigGate& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+
+                try
+                {
+                    if (!doc["GATE"].HasMember("IdGate")) throw 4;
+                    if (!doc["GATE"]["IdGate"].IsUint()) throw 5;
+                    conf.IdGate = doc["GATE"]["IdGate"].GetUint();
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigGate: erro IdGate ", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigGate: erro IdGate", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ///////////////////////////////////////////////////////////////
+            // read configuration header LOGGER in file config.json
+            // conf - result read configuration
+            // return - success of the operation
+            ///////////////////////////////////////////////////////////////
+
+            ResultReqest ConfigReader::ReadConfigLOGGER(ConfigLogger& conf)
+            {
+
+                std::ifstream file;
+                std::string help_str;
+                ResultReqest res = ResultReqest::OK;
+
+                ConfigLogger config;
+                config.LogMode = LoggerSpace::LogMode::DEBUG;
+                config.LogName = "log";
+                config.SizeLogFile = 10;
+                config.StatusLog = LoggerSpace::Status::OFF;
+                config.StatusSysLog = LoggerSpace::Status::OFF;
+                config.SysLogName = "log";
+
+                /// --- parsing str with rapidjson lib --- /// 
+                try
+                {
+                    /// --- open file name_config (config.json) --- ///
+                    file.open(name_config, std::ios::in);
+                    if (!file.is_open())
+                    {
+                        throw 1;
+                    }
+
+                    /// --- reading the whole file --- ///
+                    std::string str((std::istreambuf_iterator<char>(file)),
+                        std::istreambuf_iterator<char>());
+
+                    rapidjson::Document document;
+                    document.Parse(str.c_str());
+
+                    if (!document.HasMember("LOGGER")) throw 2;
+                    if (!document["LOGGER"].IsObject()) throw 3;
+
+                    if (take_logger_LogName(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if (take_logger_SysLogName(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if (take_logger_LogMode(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if (take_logger_StatusLog(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if (take_logger_StatusSysLog(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if (take_logger_SizeLogFile(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                   
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER:", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER:", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+
+                file.close();
+                conf = config;
+                return res;
+            };
+
+            ResultReqest ConfigReader::take_logger_LogName(rapidjson::Document& doc, ConfigLogger& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["LOGGER"].HasMember("LogName")) throw 1;
+                    if (!doc["LOGGER"]["LogName"].IsString()) throw 2;
+                    helpstr = doc["LOGGER"]["LogName"].GetString();
+                    if (helpstr.empty()) throw 3;
+                    conf.LogName = helpstr;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error LogName", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error LogName", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }            
+
+            ResultReqest ConfigReader::take_logger_SysLogName(rapidjson::Document& doc, ConfigLogger& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["LOGGER"].HasMember("SysLogName")) throw 1;
+                    if (!doc["LOGGER"]["SysLogName"].IsString()) throw 2;
+                    helpstr = doc["LOGGER"]["LogName"].GetString();
+                    if (helpstr.empty()) throw 3;
+                    conf.SysLogName = helpstr;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error SysLogName", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error SysLogName", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest ConfigReader::take_logger_LogMode(rapidjson::Document& doc, ConfigLogger& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["LOGGER"].HasMember("LogMode")) throw 1;
+                    if (!doc["LOGGER"]["LogMode"].IsString()) throw 2;
+                    helpstr = doc["LOGGER"]["LogMode"].GetString();
+                    if (StringToLogMode(helpstr, conf.LogMode) == ResultReqest::ERR) throw 3;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error LogMode", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error LogMode", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest ConfigReader::take_logger_StatusLog(rapidjson::Document& doc, ConfigLogger& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["LOGGER"].HasMember("StatusLog")) throw 1;
+                    if (!doc["LOGGER"]["StatusLog"].IsString()) throw 2;
+                    helpstr = doc["LOGGER"]["StatusLog"].GetString();
+                    if (StringToLogStatus(helpstr, conf.StatusLog) == ResultReqest::ERR) throw 3;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error StatusLog", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error StatusLog", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest ConfigReader::take_logger_StatusSysLog(rapidjson::Document& doc, ConfigLogger& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["LOGGER"].HasMember("StatusSysLog")) throw 1;
+                    if (!doc["LOGGER"]["StatusSysLog"].IsString()) throw 2;
+                    helpstr = doc["LOGGER"]["StatusSysLog"].GetString();
+                    if (StringToLogStatus(helpstr, conf.StatusLog) == ResultReqest::ERR) throw 3;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error StatusSysLog", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error StatusSysLog", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest ConfigReader::take_logger_SizeLogFile(rapidjson::Document& doc, ConfigLogger& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+
+                try
+                {
+                    if (!doc["LOGGER"].HasMember("SizeLogFile")) throw 1;
+                    if (!doc["LOGGER"]["SizeLogFile"].IsUint()) throw 2;
+                    conf.SizeLogFile = doc["LOGGER"]["SizeLogFile"].GetUint();
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error SizeLogFile", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error SizeLogFile", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ///////////////////////////////////////////////////////////////
+            // read configuration header LOGGER in file config.json
+            // conf - result read configuration
+            // return - success of the operation
+            ///////////////////////////////////////////////////////////////
+
+            ResultReqest ConfigReader::ReadConfigCONTROLLER_TCP(ConfigContreller_TCP& conf)
+            {
+                std::ifstream file;
+                std::string help_str;
+                ResultReqest res = ResultReqest::OK;
+                /// --- open file name_config (config.json) --- ///
+                ConfigContreller_TCP config;
+                config.IP = "127.0.0.1";
+                config.Port = 32510;
+
+                /// --- parsing str with rapidjson lib --- /// 
+                try
+                {
+                    file.open(name_config, std::ios::in);
+                    if (!file.is_open())
+                    {
+                        throw 1;
+                    }
+
+                    /// --- reading the whole file --- ///
+                    std::string str((std::istreambuf_iterator<char>(file)),
+                        std::istreambuf_iterator<char>());
+
+                    rapidjson::Document document;
+                    document.Parse(str.c_str());
+
+                    if (!document.HasMember("CONTROLLER_TCP")) throw 2;
+                    if (!document["CONTROLLER_TCP"].IsObject()) throw 3;
+                    
+                    if (take_controllertcp_ip(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if(take_controllertcp_port(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;                    
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigCONRTOLLER_TCP: error", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigCONRTOLLER_TCP: error", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                file.close();
+                conf = config;
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllertcp_ip(rapidjson::Document& doc, ConfigContreller_TCP& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["CONTROLLER_TCP"].HasMember("IP")) throw 1;
+                    if (!doc["CONTROLLER_TCP"]["IP"].IsString()) throw 2;
+                    helpstr = doc["CONTROLLER_TCP"]["IP"].GetString();
+                    if (CheckIP(helpstr) == ResultReqest::OK)
+                    {
+                        conf.IP.clear();
+                        conf.IP = helpstr;
                     }
                     else
                     {
-                        unit.IP_MAIN.clear();
-                        unit.Port_MAIN = 0;
-                        unit.IP_RESERVE.clear();
-                        unit.Port_RESERVE = 0;
+                        throw 3;
                     }
-                    vector_result.push_back(unit);
-                }
-            }
-        }
-        else
-        {
-            log->WriteLogERR("ERROR READ CONFIGUNITS FILE", 1, 0);
-        }
-    }
-    catch (...)
-    {
-        log->WriteLogERR("ERROR READ CONFIGUNITS FILE", 2, 0);
-        return ResultReqest::ERR;
-    }
+                    
 
-    file.close();
-    return ResultReqest::OK;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigContreller_TCP: error IP", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigContreller_TCP: error IP", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllertcp_port(rapidjson::Document& doc, ConfigContreller_TCP& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                unsigned int port;
+
+                try
+                {
+                    if (!doc["CONTROLLER_TCP"].HasMember("Port")) throw 1;
+                    if (!doc["CONTROLLER_TCP"]["Port"].IsUint()) throw 2;
+                    port = doc["CONTROLLER_TCP"]["Port"].GetUint();
+                    if (port > 65535) throw 3;
+                    conf.Port = port;
+                    
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error SizeLogFile", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigLOGGER: error SizeLogFile", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////
+            ///////  --- CONTROLLER_DDS --- ///
+
+            ResultReqest ConfigReader::ReadConfigCONTROLLER_DDS(ConfigContreller_DDS& conf)
+            {
+                std::ifstream file;
+                std::string help_str;
+                ResultReqest res = ResultReqest::OK;
+                /// --- open file name_config (config.json) --- ///
+                ConfigContreller_DDS config;
+                config.domen = 0;
+                config.type_transmiter = TypeTransmiter::Broadcast;
+                config.ip_base.clear();
+                config.ip_reserve.clear();
+                config.port_base = 0;
+                config.port_reserve = 0;
+                config.topic_answer.clear();
+                config.topic_command.clear();
+                config.topic_answer = "AnswerOnCommand";
+                config.topic_answer = "CommandForGates";
+
+                /// --- parsing str with rapidjson lib --- /// 
+                try
+                {
+                    file.open(name_config, std::ios::in);
+                    if (!file.is_open())
+                    {
+                        throw 1;
+                    }
+
+                    /// --- reading the whole file --- ///
+                    std::string str((std::istreambuf_iterator<char>(file)),
+                        std::istreambuf_iterator<char>());
+
+                    rapidjson::Document document;
+                    document.Parse(str.c_str());
+
+                    if (!document.HasMember("CONTROLLER_DDS")) throw 2;
+                    if (!document["CONTROLLER_DDS"].IsObject()) throw 3;
+
+                    if (take_controllerdds_domen(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if (take_controllerdds_typetransmite(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if (config.type_transmiter != TypeTransmiter::Broadcast)
+                    {
+                        if (take_controllerdds_ipbase(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                        if (take_controllerdds_ipreserve(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                        if (take_controllerdds_portbase(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                        if (take_controllerdds_portreserve(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                        if (take_controllerdds_topiccommand(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                        if (take_controllerdds_topicanswer(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    };                           
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigCONRTOLLER_TCP: error", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigCONRTOLLER_TCP: error", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                file.close();
+                conf = config;
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllerdds_domen(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+
+                try
+                {
+                    if (!doc["CONTROLLER_DDS"].HasMember("Domen")) throw 1;
+                    if (!doc["CONTROLLER_DDS"]["Domen"].IsUint()) throw 2;
+                    conf.domen = doc["CONTROLLER_DDS"]["Domen"].GetUint();
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigCONTROLLER_DDS: error Domen", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigCONTROLLER_DDS: error Domen", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllerdds_typetransmite(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["CONTROLLER_DDS"].HasMember("TypeTransmite")) throw 1;
+                    if (!doc["CONTROLLER_DDS"]["TypeTransmite"].IsString()) throw 2;
+                    helpstr.clear();
+                    helpstr = doc["CONTROLLER_DDS"]["TypeTransmite"].GetString();
+                    if (StringToTypeTransmiter(helpstr, conf.type_transmiter) != ResultReqest::OK) throw 3;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigCONTROLLER_DDS: error TypeTratsmiter", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigCONTROLLER_DDS: error TypeTratsmiter", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllerdds_ipbase(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["CONTROLLER_DDS"].HasMember("IPBase")) throw 1;
+                    if (!doc["CONTROLLER_DDS"]["IPBase"].IsString()) throw 2;
+                    helpstr = doc["CONTROLLER_DDS"]["IPBase"].GetString();
+                    if (CheckIP(helpstr) == ResultReqest::OK)
+                    {
+                        conf.ip_base.clear();
+                        conf.ip_base = helpstr;
+                    }
+                    else
+                    {
+                        throw 3;
+                    }
+
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigContreller_DDS: error IPBase", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigContreller_DDS: error IPBase", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllerdds_ipreserve(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["CONTROLLER_DDS"].HasMember("IPReserve")) throw 1;
+                    if (!doc["CONTROLLER_DDS"]["IPReserve"].IsString()) throw 2;
+                    helpstr = doc["CONTROLLER_DDS"]["IPReserve"].GetString();
+                    if (CheckIP(helpstr) == ResultReqest::OK)
+                    {
+                        conf.ip_reserve.clear();
+                        conf.ip_reserve = helpstr;
+                    }
+                    else
+                    {
+                        throw 3;
+                    }
+
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigContreller_DDS: error IPReserve", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigContreller_DDS: error IPReserve", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllerdds_portbase(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                unsigned int port;
+
+                try
+                {
+                    if (!doc["CONTROLLER_DDS"].HasMember("PortBase")) throw 1;
+                    if (!doc["CONTROLLER_DDS"]["PortBase"].IsUint()) throw 2;
+                    port = doc["CONTROLLER_DDS"]["PortBase"].GetUint();
+                    if (port > 65535) throw 3;
+                    conf.port_base = port;
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigController_DDS: error PortBase", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigController_DDS: error PortBase", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllerdds_portreserve(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                unsigned int port;
+
+                try
+                {
+                    if (!doc["CONTROLLER_DDS"].HasMember("PortReserve")) throw 1;
+                    if (!doc["CONTROLLER_DDS"]["PortReserve"].IsUint()) throw 2;
+                    port = doc["CONTROLLER_DDS"]["PortReserve"].GetUint();
+                    if (port > 65535) throw 3;
+                    conf.port_reserve = port;
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigController_DDS: error PortReserve", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigController_DDS: error PortReserve", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllerdds_topiccommand(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["CONTROLLER_DDS"].HasMember("TopicCommand")) throw 1;
+                    if (!doc["CONTROLLER_DDS"]["TopicCommand"].IsString()) throw 2;
+                    helpstr = doc["CONTROLLER_DDS"]["TopicCommand"].GetString();
+                    if (helpstr.empty()) throw 3;
+                    conf.topic_command = helpstr;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigControllerDDS: error TopicCommand", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigControllerDDS: error TopicCommand", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_controllerdds_topicanswer(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["CONTROLLER_DDS"].HasMember("TopicAnswer")) throw 1;
+                    if (!doc["CONTROLLER_DDS"]["TopicAnswer"].IsString()) throw 2;
+                    helpstr = doc["CONTROLLER_DDS"]["TopicAnswer"].GetString();
+                    if (helpstr.empty()) throw 3;
+                    conf.topic_answer = helpstr;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigControllerDDS: error TopicAnswer", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigControllerDDS: error TopicAnswer", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////  --- MODULE_IO --- ////////////////////
+
+            ResultReqest  ConfigReader::ReadConfigMODULE_IO(ConfigModule_IO& conf)
+            {
+                std::ifstream file;
+                std::string help_str;
+                ResultReqest res = ResultReqest::OK;
+                /// --- open file name_config (config.json) --- ///
+                ConfigModule_IO config;
+                config.domen = 0;
+                config.type_transmiter = TypeTransmiter::Broadcast;
+                config.ip_base.clear();
+                config.ip_reserve.clear();
+                config.port_base = 0;
+                config.port_reserve = 0;
+                config.topic_info.clear();
+                config.topic_info = "TopicInfoUnits";
+
+                /// --- parsing str with rapidjson lib --- /// 
+                try
+                {
+                    file.open(name_config, std::ios::in);
+                    if (!file.is_open())
+                    {
+                        throw 1;
+                    }
+
+                    /// --- reading the whole file --- ///
+                    std::string str((std::istreambuf_iterator<char>(file)),
+                        std::istreambuf_iterator<char>());
+
+                    rapidjson::Document document;
+                    document.Parse(str.c_str());
+
+                    if (!document.HasMember("MODULE_IO")) throw 2;
+                    if (!document["MODULE_IO"].IsObject()) throw 3;
+
+                    if (take_moduleio_domen(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if (take_moduleio_typetransmite(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    if (config.type_transmiter != TypeTransmiter::Broadcast)
+                    {
+                        if (take_moduleio_ipbase(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                        if (take_moduleio_ipreserve(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                        if (take_moduleio_portbase(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                        if (take_moduleio_portreserve(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    }
+                    if (take_moduleio_topicinfo(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
+                    
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigMODULE_IO: ", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigMODULE_IO: ", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                file.close();
+                conf = config;
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_moduleio_domen(rapidjson::Document& doc, ConfigModule_IO& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+
+                try
+                {
+                    if (!doc["MODULE_IO"].HasMember("Domen")) throw 1;
+                    if (!doc["MODULE_IO"]["Domen"].IsUint()) throw 2;
+                    conf.domen = doc["MODULE_IO"]["Domen"].GetUint();
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigMODULE_IO: error Domen", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigMODULE_IO: error Domen", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_moduleio_typetransmite(rapidjson::Document& doc, ConfigModule_IO& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["MODULE_IO"].HasMember("TypeTransmite")) throw 1;
+                    if (!doc["MODULE_IO"]["TypeTransmite"].IsString()) throw 2;
+                    helpstr.clear();
+                    helpstr = doc["MODULE_IO"]["TypeTransmite"].GetString();
+                    if (StringToTypeTransmiter(helpstr, conf.type_transmiter) != ResultReqest::OK) throw 3;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigMODULE_IO: error TypeTratsmiter", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigMODULE_IO: error TypeTratsmiter", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_moduleio_ipbase(rapidjson::Document& doc, ConfigModule_IO& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["MODULE_IO"].HasMember("IPBase")) throw 1;
+                    if (!doc["MODULE_IO"]["IPBase"].IsString()) throw 2;
+                    helpstr = doc["MODULE_IO"]["IPBase"].GetString();
+                    if (CheckIP(helpstr) == ResultReqest::OK)
+                    {
+                        conf.ip_base.clear();
+                        conf.ip_base = helpstr;
+                    }
+                    else
+                    {
+                        throw 3;
+                    }
+
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigMODULE_IO: error IPBase", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigMODULE_IO: error IPBase", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_moduleio_ipreserve(rapidjson::Document& doc, ConfigModule_IO& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["MODULE_IO"].HasMember("IPReserve")) throw 1;
+                    if (!doc["MODULE_IO"]["IPReserve"].IsString()) throw 2;
+                    helpstr = doc["MODULE_IO"]["IPReserve"].GetString();
+                    if (CheckIP(helpstr) == ResultReqest::OK)
+                    {
+                        conf.ip_reserve.clear();
+                        conf.ip_reserve = helpstr;
+                    }
+                    else
+                    {
+                        throw 3;
+                    }
+
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigMODULE_IO: error IPReserve", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogWARNING("Error ConfigReader: error ReaderConfigMODULE_IO: error IPReserve", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_moduleio_portbase(rapidjson::Document& doc, ConfigModule_IO& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                unsigned int port;
+
+                try
+                {
+                    if (!doc["MODULE_IO"].HasMember("PortBase")) throw 1;
+                    if (!doc["MODULE_IO"]["PortBase"].IsUint()) throw 2;
+                    port = doc["MODULE_IO"]["PortBase"].GetUint();
+                    if (port > 65535) throw 3;
+                    conf.port_base = port;
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigMODULE_IO: error PortBase", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigMODULE_IO: error PortBase", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_moduleio_portreserve(rapidjson::Document& doc, ConfigModule_IO& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                unsigned int port;
+
+                try
+                {
+                    if (!doc["MODULE_IO"].HasMember("PortReserve")) throw 1;
+                    if (!doc["MODULE_IO"]["PortReserve"].IsUint()) throw 2;
+                    port = doc["MODULE_IO"]["PortReserve"].GetUint();
+                    if (port > 65535) throw 3;
+                    conf.port_reserve = port;
+
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigMODULE_IO: error PortReserve", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigMODULE_IO: error PortReserve", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+            ResultReqest  ConfigReader::take_moduleio_topicinfo(rapidjson::Document& doc, ConfigModule_IO& conf)
+            {
+                ResultReqest res = ResultReqest::OK;
+                std::string helpstr;
+
+                try
+                {
+                    if (!doc["MODULE_IO"].HasMember("TopicInfo")) throw 1;
+                    if (!doc["MODULE_IO"]["TopicInfo"].IsString()) throw 2;
+                    helpstr = doc["CONTROLLER_DDS"]["TopicInfo"].GetString();
+                    if (helpstr.empty()) throw 3;
+                    conf.topic_info = helpstr;
+                }
+                catch (int& e)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigMODULE_IO: error TopicInfo", e, 0);
+                    res = ResultReqest::ERR;
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("Error ConfigReader: error ReaderConfigMODULE_IO: error TopicInfo", 0, 0);
+                    res = ResultReqest::ERR;
+                }
+
+                return res;
+            }
+
+
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            void ConfigReader::SetNameConfigFile(std::string str)
+            {
+                name_config.clear();
+                name_config = str;
+            }
+
+           /* ResultReqest ReadConfigTransferUnits(std::vector<ConfigDDSUnit>& vector_result)
+            {
+                unsigned int Domen;
+                std::ifstream file;
+                file.open(name_configunits, std::ios::in);
+                if (!file.is_open())
+                {
+                    log->WriteLogERR("ERROR READ CONFIGUNITS FILE", 0, 0);
+                    return ResultReqest::ERR;
+                }
+
+                std::string str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+                vector_result.clear();
+
+                try
+                {
+                    rapidjson::Document document;
+                    document.Parse(str.c_str());
+
+                    if (document["Units"].IsArray())
+                    {
+                        for (rapidjson::SizeType i = 0; i < document["Units"].Size(); i++)
+                        {
+                            {
+                                ConfigDDSUnit unit;
+                                std::string helpstr;
+                                unit.Domen = document["Units"][i]["Domen"].GetUint();
+
+                                helpstr = document["Units"][i]["TypeUnit"].GetString();
+                                unit.TypeUnit = helpstr == "Publisher" ? TypeDDSUnit::PUBLISHER :
+                                    helpstr == "Subscriber" ? TypeDDSUnit::SUBSCRIBER : TypeDDSUnit::Empty;
+
+                                helpstr.clear();
+                                helpstr = document["Units"][i]["TypeTransmite"].GetString();
+                                unit.Transmiter = helpstr.compare("TCP") == 0 ? TypeTransmiter::TCP :
+                                    helpstr.compare("UDP") == 0 ? TypeTransmiter::UDP : TypeTransmiter::Broadcast;
+
+                                helpstr.clear();
+                                helpstr = document["Units"][i]["TypeAdapter"].GetString();
+                                unit.Adapter = helpstr.compare("SharedMemory") == 0 ? TypeAdapter::SharedMemory :
+                                    helpstr.compare("DDS") == 0 ? TypeAdapter::DDS :
+                                    helpstr.compare("DTS") == 0 ? TypeAdapter::DTS :
+                                    helpstr.compare("OPC_UA") == 0 ? TypeAdapter::OPC_UA :
+                                    helpstr.compare("SMTP") == 0 ? TypeAdapter::SMTP : TypeAdapter::Null;
+
+                                unit.PointName = document["Units"][i]["PointName"].GetString();
+
+                                helpstr.clear();
+                                helpstr = document["Units"][i]["TypeData"].GetString();
+                                unit.Typedata = helpstr == "Analog" ? TypeData::ANALOG : helpstr == "Discrete" ? TypeData::DISCRETE : helpstr == "Binar" ? TypeData::BINAR : TypeData::ZERO;
+                                unit.Size = document["Units"][i]["Size"].GetUint();
+                                unit.Frequency = document["Units"][i]["Frequency"].GetUint();
+
+                                if (unit.Transmiter != TypeTransmiter::Broadcast)
+                                {
+                                    unit.IP_MAIN = document["Units"][i]["IP_Main"].GetString();
+                                    unit.Port_MAIN = document["Units"][i]["Port_Main"].GetUint();
+                                    unit.IP_RESERVE = document["Units"][i]["IP_Reserve"].GetString();
+                                    unit.Port_RESERVE = document["Units"][i]["Port_Reserve"].GetUint();
+                                }
+                                else
+                                {
+                                    unit.IP_MAIN.clear();
+                                    unit.Port_MAIN = 0;
+                                    unit.IP_RESERVE.clear();
+                                    unit.Port_RESERVE = 0;
+                                }
+                                vector_result.push_back(unit);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        log->WriteLogERR("ERROR READ CONFIGUNITS FILE", 1, 0);
+                    }
+                }
+                catch (...)
+                {
+                    log->WriteLogERR("ERROR READ CONFIGUNITS FILE", 2, 0);
+                    return ResultReqest::ERR;
+                }
+
+                file.close();
+                return ResultReqest::OK;
+            };
+            */
+
+            ResultReqest ConfigReader::StringToLogMode(std::string str, LoggerSpace::LogMode& value)
+            {
+                ResultReqest res = ResultReqest::ERR;
+
+                if (str.compare("DEBUG") == 0)
+                {
+                    value = LoggerSpace::LogMode::DEBUG;
+                    return ResultReqest::OK;
+                }
+
+                if (str.compare("INFO") == 0)
+                {
+                    value = LoggerSpace::LogMode::INFO;
+                    return ResultReqest::OK;
+                }
+
+                if (str.compare("WARNING") == 0)
+                {
+                    value = LoggerSpace::LogMode::WARNING;
+                    return ResultReqest::OK;
+                }
+
+                if (str.compare("ERR") == 0)
+                {
+                    value = LoggerSpace::LogMode::ERR;
+                    return ResultReqest::OK;
+                }
+
+
+                return res;
+            };
+
+            ResultReqest ConfigReader::StringToLogStatus(std::string str, LoggerSpace::Status& value)
+            {
+                ResultReqest res = ResultReqest::ERR;
+
+                if (str.compare("TURN") == 0)
+                {
+                    value = LoggerSpace::Status::ON;
+                    return ResultReqest::OK;
+                }
+
+                if (str.compare("OFF") == 0)
+                {
+                    value = LoggerSpace::Status::OFF;
+                    return ResultReqest::OK;
+                }
+
+                return res;
+            };
+
+            ResultReqest ConfigReader::StringToTypeTransmiter(std::string str, TypeTransmiter& value)
+            {
+
+                if (str.compare("Broadcast") == 0)
+                {
+                    value = TypeTransmiter::Broadcast;
+                    return ResultReqest::OK;
+                }
+
+                if (str.compare("TCP") == 0)
+                {
+                    value = TypeTransmiter::TCP;
+                    return ResultReqest::OK;
+                }
+
+                if (str.compare("UDP") == 0)
+                {
+                    value = TypeTransmiter::UDP;
+                    return ResultReqest::OK;
+                }
+
+                return ResultReqest::ERR;
+            };
+
+            ResultReqest ConfigReader::CheckIP(std::string str)
+            {
+                size_t first;
+                size_t second;
+                size_t last;
+
+                if (std::count(str.begin(), str.end(), '.') != 3) return ResultReqest::ERR;
+
+                first = str.find_first_of('.');
+                second = str.find_first_of('.', first + 1);
+                last = str.find_first_of('.', second + 1);
+
+                if (str.substr(0, first).empty()) return ResultReqest::ERR;
+                if (str.substr(first + 1, second - first - 1).empty()) return ResultReqest::ERR;
+                if (str.substr(second + 1, last - second - 1).empty()) return ResultReqest::ERR;
+                if (str.substr(last + 1).empty()) return ResultReqest::ERR;
+
+                if (str.substr(0, first).find_first_not_of("0123456789") != std::string::npos) return ResultReqest::ERR;
+                if (str.substr(first + 1, second - first - 1).find_first_not_of("0123456789") != std::string::npos) return ResultReqest::ERR;
+                if (str.substr(second + 1, last - second - 1).find_first_not_of("0123456789") != std::string::npos) return ResultReqest::ERR;
+                if (str.substr(last + 1).find_first_not_of("0123456789") != std::string::npos) return ResultReqest::ERR;
+
+                if (std::stoul(str.substr(0, first)) > 255) return ResultReqest::ERR;
+                if (std::stoul(str.substr(first + 1, second - first - 1)) > 255) return ResultReqest::ERR;
+                if (std::stoul(str.substr(second + 1, last - second - 1)) > 255) return ResultReqest::ERR;
+                if (std::stoul(str.substr(last + 1)) > 255) return ResultReqest::ERR;
+
+                return ResultReqest::OK;
+            }
+        };
+    };
 };
 
 
-ResultReqest ConfigReader::WriteConfigFile()
-{
-    return ResultReqest::ERR;
-}
 
-
-/*ResultReqest ConfigReaderDDS::GetResult(std::vector<ConfigDDSUnit>& vector_result)
-{
-    return ResultReqest::ERR;
-};*/
-/*ResultReqest ConfigReaderDDS::SetNameConfigFile(std::string name)
-{
-    return ResultReqest::ERR;
-};*/
-
-/*ResultReqest ConfigReaderDDS::WriteConfigFile() 
-{
-    return ResultReqest::ERR;
-};*/
-
-/*ResultReqest ConfigReaderDDS::ReadConfigDDS_Subscribers(std::string file_name)
-{
-    FILE* config_file = NULL;
-    ResultReqest result = ResultReqest::OK;
-    char simvol = 0;
-    std::string str_info;
-    std::string helpstr;
-    int res_read = 0;
-    int pos[2] = { 0,0 };
-    int count = 0;
-    char status = 0;
-    ConfigDDSUnit subscriber;
-    
-    config_file = fopen(file_name.c_str(), "r");
-    if (config_file == NULL)
-    {
-        result = ResultReqest::ERR;
-        log->WriteLogERR("ERROR READ CONFIG DDS", 1, 0);
-        return result ;
-    }
-
-    for (;;)
-    {
-        simvol = 0;
-        str_info.clear();
-        while (simvol != '\n' && res_read != EOF)
-        {
-            res_read = fscanf(config_file, "%c", &simvol);
-            if ((simvol > 0x1F || simvol == '\t') && res_read != EOF) str_info += simvol;
-        }
-
-        if (res_read == EOF ) //&& str_info.find("[END]") == -1)
-        {
-            if (SubscribersDDS.empty()) 
-            {
-                log->WriteLogERR("ERROR READ CONFIG DDS", 2, 0);
-                result = ResultReqest::ERR;
-            }
-            break;
-        }
-
-        if (str_info.substr(0, 16) == "[SUBSCRIBER]")
-        {
-            status = 1;
-            subscriber.clear();
-            continue;
-        }
-
-        if (status == 1)
-        {
-            pos[0] = str_info.find('\t', 0);
-            /// чтение IP адреса
-            if (str_info.find("IP_Address_MAIN") != -1)
-            {
-                if (pos[0] == -1) 
-                { 
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 3, 0);
-                    result = ResultReqest::ERR;
-                    continue; 
-                }                
-                subscriber.IP_MAIN = str_info.substr((size_t)pos[0] + 1);
-                continue;
-            }
-            if (str_info.find("IP_Address_RESERVE") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 4, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                subscriber.IP_RESERVE = str_info.substr((size_t)pos[0] + 1);
-                continue;
-            }
-            /// чтение порта
-            if (str_info.find("Port_MAIN") != -1)
-            {
-                if (pos[0] == -1) 
-                { 
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 5, 0);
-                    result = ResultReqest::ERR;
-                    continue; 
-                }
-                helpstr.clear();
-                helpstr = str_info.substr((size_t)pos[0] + 1);
-                if (strtol(helpstr.c_str(), NULL, 10) == 0 || strtol(helpstr.c_str(), NULL, 10) > 65535) 
-                { 
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 6, 0);
-                    continue; 
-                }
-                subscriber.Port_MAIN = atoi(helpstr.c_str());
-                continue;
-            }
-            if (str_info.find("Port_RESERVE") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 7, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                helpstr.clear();
-                helpstr = str_info.substr((size_t)pos[0] + 1);
-                if (strtol(helpstr.c_str(), NULL, 10) == 0 || strtol(helpstr.c_str(), NULL, 10) > 65535)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 8, 0);
-                    continue;
-                }
-                subscriber.Port_RESERVE = atoi(helpstr.c_str());
-                continue;
-            }
-            /// чтение домена
-            if (str_info.find("Domen") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 9, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                helpstr.clear();
-                helpstr = str_info.substr((size_t)pos[0] + 1);
-                if (strtol(helpstr.c_str(), NULL, 10) < 0 || strtol(helpstr.c_str(), NULL, 10) > 230) 
-                { 
-                    log->WriteLogWARNING("ERROR READ CONFIG", 10, 0);
-                    result = ResultReqest::ERR;
-                    continue; 
-                }
-                subscriber.Domen = atoi(helpstr.c_str());
-                continue;
-            }
-
-            //чтение имени листа KKS
-            if (str_info.find("NameListKKSIn") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 11, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                subscriber.NameListKKS = str_info.substr((size_t)pos[0] + 1);
-                continue;
-            }
-
-            //чтение имени SharedMemory
-            if (str_info.find("NameSharedMemory") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 12, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                subscriber.NameMemory = str_info.substr((size_t)pos[0] + 1);
-                continue;
-            }
-
-            if (str_info.find("[END]") != -1)
-            {
-                SubscribersDDS.push_back(subscriber);
-                status = 0;
-                continue;
-            }
-        }
-    }
-    fclose(config_file);
-    return result;
-}*/
-
-/*ResultReqest ConfigReaderDDS::ReadConfigDDS_Publishers(std::string file_name)
-{
-    FILE* config_file = NULL;
-    ResultReqest result = ResultReqest::OK;
-    char simvol = 0;
-    std::string str_info;
-    std::string helpstr;
-    int res_read = 0;
-    int pos[2] = { 0,0 };
-    int count = 0;
-    char status = 0;
-    ConfigDDSUnit publisher;
-
-    config_file = fopen(file_name.c_str(), "r");
-    if (config_file == NULL)
-    {
-        result = ResultReqest::ERR;
-        log->WriteLogERR("ERROR READ CONFIG DDS", 1, 0);
-        return result;
-    }
-
-    for (;;)
-    {
-        simvol = 0;
-        str_info.clear();
-        while (simvol != '\n' && res_read != EOF)
-        {
-            res_read = fscanf(config_file, "%c", &simvol);
-            if ((simvol > 0x1F || simvol == '\t') && res_read != EOF) str_info += simvol;
-        }
-
-        if (res_read == EOF) //&& str_info.find("[END]") == -1)
-        {
-            if (PublishersDDS.empty())
-            {
-                log->WriteLogERR("ERROR READ CONFIG DDS", 2, 0);
-                result = ResultReqest::ERR;
-            }
-            break;
-        }
-
-        if (str_info.substr(0, 16) == "[PUBLISHER]")
-        {
-            status = 1;
-            publisher.clear();
-            continue;
-        }
-
-        if (status == 1)
-        {
-
-            pos[0] = str_info.find('\t', 0);
-            /// чтение IP адреса
-            if (str_info.find("IP_Address_MAIN") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 3, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                publisher.IP_MAIN = str_info.substr((size_t)pos[0] + 1);
-                continue;
-            }
-            if (str_info.find("IP_Address_RESERVE") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 4, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                publisher.IP_RESERVE = str_info.substr((size_t)pos[0] + 1);
-                continue;
-            }
-            /// чтение порта
-            if (str_info.find("Port_MAIN") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 5, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                helpstr.clear();
-                helpstr = str_info.substr((size_t)pos[0] + 1);
-                if (strtol(helpstr.c_str(), NULL, 10) == 0 || strtol(helpstr.c_str(), NULL, 10) > 65535)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 6, 0);
-                    continue;
-                }
-                publisher.Port_MAIN = atoi(helpstr.c_str());
-                continue;
-            }
-            if (str_info.find("Port_RESERVE") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 7, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                helpstr.clear();
-                helpstr = str_info.substr((size_t)pos[0] + 1);
-                if (strtol(helpstr.c_str(), NULL, 10) == 0 || strtol(helpstr.c_str(), NULL, 10) > 65535)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 8, 0);
-                    continue;
-                }
-                publisher.Port_RESERVE = atoi(helpstr.c_str());
-                continue;
-            }
-            /// чтение домена
-            if (str_info.find("Domen") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 9, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                helpstr.clear();
-                helpstr = str_info.substr((size_t)pos[0] + 1);
-                if (strtol(helpstr.c_str(), NULL, 10) < 0 || strtol(helpstr.c_str(), NULL, 10) > 230)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG", 10, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                publisher.Domen = atoi(helpstr.c_str());
-                continue;
-            }
-
-            if (str_info.find("NameListKKSOut") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 11, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                publisher.NameListKKS = str_info.substr((size_t)pos[0] + 1);
-                continue;
-            }
-
-            if (str_info.find("NameSharedMemory") != -1)
-            {
-                if (pos[0] == -1)
-                {
-                    log->WriteLogWARNING("ERROR READ CONFIG DDS", 12, 0);
-                    result = ResultReqest::ERR;
-                    continue;
-                }
-                publisher.NameMemory = str_info.substr((size_t)pos[0] + 1);
-                continue;
-            }
-
-            if (str_info.find("[END]") != -1)
-            {
-                PublishersDDS.push_back(publisher);
-                status = 0;
-                continue;
-            }
-        }
-    }
-    fclose(config_file);
-    return result;
-}*/
-
-/*ResultReqest ConfigReaderDDS::ReadConfigDDS(std::string file_name)
-{
-    ResultReqest res = ResultReqest::OK;
-    res=this->ReadConfigDDS_Publishers(file_name);
-    res=this->ReadConfigDDS_Subscribers(file_name);
-    return res;
-};*/
 
