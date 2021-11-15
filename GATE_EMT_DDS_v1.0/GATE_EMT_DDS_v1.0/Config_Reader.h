@@ -6,7 +6,9 @@
 #include <iostream>
 #include <fstream>
 #include "rapidjson/document.h"
+#include "struct_unit_cp.h"
 
+using namespace scada_ate::controller_module_io;
 
 namespace scada_ate
 {
@@ -28,17 +30,17 @@ namespace scada_ate
 				ResultReqest take_logger_StatusSysLog(rapidjson::Document& doc, ConfigLogger& conf);
 				ResultReqest take_logger_SizeLogFile(rapidjson::Document& doc, ConfigLogger& conf);
 
-				ResultReqest take_controllertcp_ip(rapidjson::Document& doc, ConfigContreller_TCP& conf);
-				ResultReqest take_controllertcp_port(rapidjson::Document& doc, ConfigContreller_TCP& conf);
+				ResultReqest take_controllertcp_ip(rapidjson::Document& doc, ConfigUnitCP_TCP& conf);
+				ResultReqest take_controllertcp_port(rapidjson::Document& doc, ConfigUnitCP_TCP& conf);
 
-				ResultReqest take_controllerdds_domen(rapidjson::Document& doc, ConfigContreller_DDS& conf);
-				ResultReqest take_controllerdds_typetransmite(rapidjson::Document& doc, ConfigContreller_DDS& conf);
-				ResultReqest take_controllerdds_ipbase(rapidjson::Document& doc, ConfigContreller_DDS& conf);
-				ResultReqest take_controllerdds_ipreserve(rapidjson::Document& doc, ConfigContreller_DDS& conf);
-				ResultReqest take_controllerdds_portbase(rapidjson::Document& doc, ConfigContreller_DDS& conf);
-				ResultReqest take_controllerdds_portreserve(rapidjson::Document& doc, ConfigContreller_DDS& conf);
-				ResultReqest take_controllerdds_topiccommand(rapidjson::Document& doc, ConfigContreller_DDS& conf);
-				ResultReqest take_controllerdds_topicanswer(rapidjson::Document& doc, ConfigContreller_DDS& conf);
+				ResultReqest take_controllerdds_domen(rapidjson::Document& doc, ConfigUnitCP_DDS& conf);
+				ResultReqest take_controllerdds_typetransmite(rapidjson::Document& doc, ConfigUnitCP_DDS& conf);
+				ResultReqest take_controllerdds_ipbase(rapidjson::Document& doc, ConfigUnitCP_DDS& conf);
+				ResultReqest take_controllerdds_ipreserve(rapidjson::Document& doc, ConfigUnitCP_DDS& conf);
+				ResultReqest take_controllerdds_portbase(rapidjson::Document& doc, ConfigUnitCP_DDS& conf);
+				ResultReqest take_controllerdds_portreserve(rapidjson::Document& doc, ConfigUnitCP_DDS& conf);
+				ResultReqest take_controllerdds_topiccommand(rapidjson::Document& doc, ConfigUnitCP_DDS& conf);
+				ResultReqest take_controllerdds_topicanswer(rapidjson::Document& doc, ConfigUnitCP_DDS& conf);
 
 				ResultReqest take_moduleio_domen(rapidjson::Document& doc, ConfigModule_IO& conf);
 				ResultReqest take_moduleio_typetransmite(rapidjson::Document& doc, ConfigModule_IO& conf);
@@ -52,6 +54,7 @@ namespace scada_ate
 				ResultReqest StringToLogMode(std::string str, LoggerSpace::LogMode& value);
 				ResultReqest StringToLogStatus(std::string str, LoggerSpace::Status& value);
 				ResultReqest StringToTypeTransmiter(std::string str, TypeTransmiter& value);
+				ResultReqest StringToTypeTransmite(std::string str, TypeTransmite& value);
 				ResultReqest CheckIP(std::string str);
 
 			public:
@@ -61,8 +64,8 @@ namespace scada_ate
 				ResultReqest ReadConfigGATE(ConfigGate& conf);
 				ResultReqest ReadConfigLOGGER(ConfigLogger& conf);
 				ResultReqest ReadConfigMODULE_IO(ConfigModule_IO& conf);
-				ResultReqest ReadConfigCONTROLLER_TCP(ConfigContreller_TCP& conf);
-				ResultReqest ReadConfigCONTROLLER_DDS(ConfigContreller_DDS& conf);
+				ResultReqest ReadConfigCONTROLLER_TCP(ConfigUnitCP_TCP& conf);
+				ResultReqest ReadConfigCONTROLLER_DDS(ConfigUnitCP_DDS& conf);
 				void SetNameConfigFile(std::string str);
 
 

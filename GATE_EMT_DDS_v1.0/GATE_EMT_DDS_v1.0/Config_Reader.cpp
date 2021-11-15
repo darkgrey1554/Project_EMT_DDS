@@ -277,7 +277,7 @@ namespace scada_ate
                     if (!doc["LOGGER"].HasMember("StatusSysLog")) throw 1;
                     if (!doc["LOGGER"]["StatusSysLog"].IsString()) throw 2;
                     helpstr = doc["LOGGER"]["StatusSysLog"].GetString();
-                    if (StringToLogStatus(helpstr, conf.StatusLog) == ResultReqest::ERR) throw 3;
+                    if (StringToLogStatus(helpstr, conf.StatusSysLog) == ResultReqest::ERR) throw 3;
                 }
                 catch (int& e)
                 {
@@ -323,15 +323,16 @@ namespace scada_ate
             // return - success of the operation
             ///////////////////////////////////////////////////////////////
 
-            ResultReqest ConfigReader::ReadConfigCONTROLLER_TCP(ConfigContreller_TCP& conf)
+            ResultReqest ConfigReader::ReadConfigCONTROLLER_TCP(ConfigUnitCP_TCP& conf)
             {
                 std::ifstream file;
                 std::string help_str;
                 ResultReqest res = ResultReqest::OK;
                 /// --- open file name_config (config.json) --- ///
-                ConfigContreller_TCP config;
-                config.IP = "127.0.0.1";
-                config.Port = 32510;
+                ConfigUnitCP_TCP config;
+                config.ip = "127.0.0.1";
+                config.port = 32510;
+                config.type_unit = TypeUnitCP::TCP;
 
                 /// --- parsing str with rapidjson lib --- /// 
                 try
@@ -372,7 +373,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllertcp_ip(rapidjson::Document& doc, ConfigContreller_TCP& conf)
+            ResultReqest  ConfigReader::take_controllertcp_ip(rapidjson::Document& doc, ConfigUnitCP_TCP& conf)
             {
                 ResultReqest res = ResultReqest::OK;
                 std::string helpstr;
@@ -384,8 +385,8 @@ namespace scada_ate
                     helpstr = doc["CONTROLLER_TCP"]["IP"].GetString();
                     if (CheckIP(helpstr) == ResultReqest::OK)
                     {
-                        conf.IP.clear();
-                        conf.IP = helpstr;
+                        conf.ip.clear();
+                        conf.ip = helpstr;
                     }
                     else
                     {
@@ -408,7 +409,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllertcp_port(rapidjson::Document& doc, ConfigContreller_TCP& conf)
+            ResultReqest  ConfigReader::take_controllertcp_port(rapidjson::Document& doc, ConfigUnitCP_TCP& conf)
             {
                 ResultReqest res = ResultReqest::OK;
                 unsigned int port;
@@ -419,7 +420,7 @@ namespace scada_ate
                     if (!doc["CONTROLLER_TCP"]["Port"].IsUint()) throw 2;
                     port = doc["CONTROLLER_TCP"]["Port"].GetUint();
                     if (port > 65535) throw 3;
-                    conf.Port = port;
+                    conf.port = port;
                     
                 }
                 catch (int& e)
@@ -439,23 +440,24 @@ namespace scada_ate
             /////////////////////////////////////////////////////////////////////////////////////////////////
             ///////  --- CONTROLLER_DDS --- ///
 
-            ResultReqest ConfigReader::ReadConfigCONTROLLER_DDS(ConfigContreller_DDS& conf)
+            ResultReqest ConfigReader::ReadConfigCONTROLLER_DDS(ConfigUnitCP_DDS& conf)
             {
                 std::ifstream file;
                 std::string help_str;
                 ResultReqest res = ResultReqest::OK;
                 /// --- open file name_config (config.json) --- ///
-                ConfigContreller_DDS config;
+                ConfigUnitCP_DDS config;
                 config.domen = 0;
-                config.type_transmiter = TypeTransmiter::Broadcast;
+                config.type_transmite = TypeTransmite::BroadCast;
                 config.ip_base.clear();
                 config.ip_reserve.clear();
                 config.port_base = 0;
                 config.port_reserve = 0;
-                config.topic_answer.clear();
-                config.topic_command.clear();
-                config.topic_answer = "AnswerOnCommand";
-                config.topic_answer = "CommandForGates";
+                config.name_topicanswer.clear();
+                config.name_topiccommand.clear();
+                config.name_topicanswer = "AnswerOnCommand";
+                config.name_topiccommand = "CommandForGates";
+                config.type_unit = TypeUnitCP::DDS;
 
                 /// --- parsing str with rapidjson lib --- /// 
                 try
@@ -478,7 +480,7 @@ namespace scada_ate
 
                     if (take_controllerdds_domen(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
                     if (take_controllerdds_typetransmite(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
-                    if (config.type_transmiter != TypeTransmiter::Broadcast)
+                    if (config.type_transmite != TypeTransmite::BroadCast)
                     {
                         if (take_controllerdds_ipbase(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
                         if (take_controllerdds_ipreserve(document, config) == ResultReqest::ERR) res = ResultReqest::ERR;
@@ -505,7 +507,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllerdds_domen(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            ResultReqest  ConfigReader::take_controllerdds_domen(rapidjson::Document& doc, ConfigUnitCP_DDS& conf)
             {
                 ResultReqest res = ResultReqest::OK;
 
@@ -529,7 +531,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllerdds_typetransmite(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            ResultReqest  ConfigReader::take_controllerdds_typetransmite(rapidjson::Document& doc, ConfigUnitCP_DDS& conf)
             {
                 ResultReqest res = ResultReqest::OK;
                 std::string helpstr;
@@ -540,7 +542,7 @@ namespace scada_ate
                     if (!doc["CONTROLLER_DDS"]["TypeTransmite"].IsString()) throw 2;
                     helpstr.clear();
                     helpstr = doc["CONTROLLER_DDS"]["TypeTransmite"].GetString();
-                    if (StringToTypeTransmiter(helpstr, conf.type_transmiter) != ResultReqest::OK) throw 3;
+                    if (StringToTypeTransmite(helpstr, conf.type_transmite) != ResultReqest::OK) throw 3;
                 }
                 catch (int& e)
                 {
@@ -556,7 +558,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllerdds_ipbase(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            ResultReqest  ConfigReader::take_controllerdds_ipbase(rapidjson::Document& doc, ConfigUnitCP_DDS& conf)
             {
                 ResultReqest res = ResultReqest::OK;
                 std::string helpstr;
@@ -592,7 +594,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllerdds_ipreserve(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            ResultReqest  ConfigReader::take_controllerdds_ipreserve(rapidjson::Document& doc, ConfigUnitCP_DDS& conf)
             {
                 ResultReqest res = ResultReqest::OK;
                 std::string helpstr;
@@ -628,7 +630,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllerdds_portbase(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            ResultReqest  ConfigReader::take_controllerdds_portbase(rapidjson::Document& doc, ConfigUnitCP_DDS& conf)
             {
                 ResultReqest res = ResultReqest::OK;
                 unsigned int port;
@@ -656,7 +658,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllerdds_portreserve(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            ResultReqest  ConfigReader::take_controllerdds_portreserve(rapidjson::Document& doc, ConfigUnitCP_DDS& conf)
             {
                 ResultReqest res = ResultReqest::OK;
                 unsigned int port;
@@ -684,7 +686,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllerdds_topiccommand(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            ResultReqest  ConfigReader::take_controllerdds_topiccommand(rapidjson::Document& doc, ConfigUnitCP_DDS& conf)
             {
                 ResultReqest res = ResultReqest::OK;
                 std::string helpstr;
@@ -695,7 +697,7 @@ namespace scada_ate
                     if (!doc["CONTROLLER_DDS"]["TopicCommand"].IsString()) throw 2;
                     helpstr = doc["CONTROLLER_DDS"]["TopicCommand"].GetString();
                     if (helpstr.empty()) throw 3;
-                    conf.topic_command = helpstr;
+                    conf.name_topiccommand = helpstr;
                 }
                 catch (int& e)
                 {
@@ -711,7 +713,7 @@ namespace scada_ate
                 return res;
             }
 
-            ResultReqest  ConfigReader::take_controllerdds_topicanswer(rapidjson::Document& doc, ConfigContreller_DDS& conf)
+            ResultReqest  ConfigReader::take_controllerdds_topicanswer(rapidjson::Document& doc, ConfigUnitCP_DDS& conf)
             {
                 ResultReqest res = ResultReqest::OK;
                 std::string helpstr;
@@ -722,7 +724,7 @@ namespace scada_ate
                     if (!doc["CONTROLLER_DDS"]["TopicAnswer"].IsString()) throw 2;
                     helpstr = doc["CONTROLLER_DDS"]["TopicAnswer"].GetString();
                     if (helpstr.empty()) throw 3;
-                    conf.topic_answer = helpstr;
+                    conf.name_topicanswer = helpstr;
                 }
                 catch (int& e)
                 {
@@ -992,7 +994,7 @@ namespace scada_ate
                 {
                     if (!doc["MODULE_IO"].HasMember("TopicInfo")) throw 1;
                     if (!doc["MODULE_IO"]["TopicInfo"].IsString()) throw 2;
-                    helpstr = doc["CONTROLLER_DDS"]["TopicInfo"].GetString();
+                    helpstr = doc["MODULE_IO"]["TopicInfo"].GetString();
                     if (helpstr.empty()) throw 3;
                     conf.topic_info = helpstr;
                 }
@@ -1143,7 +1145,7 @@ namespace scada_ate
             {
                 ResultReqest res = ResultReqest::ERR;
 
-                if (str.compare("TURN") == 0)
+                if (str.compare("ON") == 0)
                 {
                     value = LoggerSpace::Status::ON;
                     return ResultReqest::OK;
@@ -1176,6 +1178,30 @@ namespace scada_ate
                 if (str.compare("UDP") == 0)
                 {
                     value = TypeTransmiter::UDP;
+                    return ResultReqest::OK;
+                }
+
+                return ResultReqest::ERR;
+            };
+
+            ResultReqest ConfigReader::StringToTypeTransmite(std::string str, TypeTransmite& value)
+            {
+
+                if (str.compare("Broadcast") == 0)
+                {
+                    value = TypeTransmite::BroadCast;
+                    return ResultReqest::OK;
+                }
+
+                if (str.compare("TCP") == 0)
+                {
+                    value = TypeTransmite::TCP;
+                    return ResultReqest::OK;
+                }
+
+                if (str.compare("UDP") == 0)
+                {
+                    value = TypeTransmite::UDP;
                     return ResultReqest::OK;
                 }
 

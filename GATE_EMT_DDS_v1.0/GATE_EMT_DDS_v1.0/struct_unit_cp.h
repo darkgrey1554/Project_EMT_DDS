@@ -42,10 +42,10 @@ namespace scada_ate
 		{
 			unsigned int domen;
 			TypeTransmite type_transmite;
-			std::string ip_subscriber;
-			std::string ip_publisher;
-			unsigned int port_subscriber;
-			unsigned int port_publisher;
+			std::string ip_base;
+			std::string ip_reserve;
+			unsigned int port_base;
+			unsigned int port_reserve;
 			std::string name_topiccommand;
 			std::string name_topicanswer;
 		};
@@ -62,6 +62,7 @@ namespace scada_ate
 			StartTransfer_ModuleIO = 1,
 			Restart_ModuleIO = 2,
 			UpdateUnits_ModuleIO = 3,
+			Apply_UpdateUnits_ModuleIO = 4,
 
 			Terminate_Gate = 10
 		};

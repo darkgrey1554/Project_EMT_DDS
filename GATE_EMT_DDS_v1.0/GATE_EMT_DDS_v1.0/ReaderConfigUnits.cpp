@@ -239,8 +239,6 @@ namespace scada_ate
 
         };
 
-
-
         ResultReqest ReaderConfigUnits::take_domen(rapidjson::Document& doc, ConfigDDSUnit& conf, unsigned int i)
         {
             ResultReqest res = ResultReqest::OK;

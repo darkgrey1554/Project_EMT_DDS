@@ -1,0 +1,9 @@
+2021/11/15	16:22:54.249	ERROR	NULL	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/11/15	16:22:54.297	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_sm003
+2021/11/15	16:22:54.365	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm000
+2021/11/15	16:22:54.365	INFO	Initional Module_IO done
+2021/11/15	16:22:54.365	WARNING	1	NULL	Error Unit_DDS_CP: error InitUnitCP
+2021/11/15	16:22:54.365	ERROR	NULL	NULL	Error Unit_DDS_CP: error Clear: 
+2021/11/15	16:22:54.365	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/11/15	16:22:54.365	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/11/15	16:22:54.627	WARNING	10	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_sm003

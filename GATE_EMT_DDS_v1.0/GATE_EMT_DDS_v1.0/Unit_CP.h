@@ -26,7 +26,7 @@ namespace scada_ate
 
 		std::shared_ptr<Unit_CP> CreateUnit_CP(TypeUnitCP type);
 
-		std::atomic<GlobalStatus> Unit_CP::global_status(GlobalStatus::WORK);
+		
 		GlobalStatus GetGlobalStatus();
 	}
 	

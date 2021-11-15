@@ -1,12 +1,88 @@
-#include <iostream>
+
+
+/*#include <iostream>
 #include "Config_Reader.h"
 #include "logger.h"
 #include "Adapters.h"
 #include "DDSUnit.h"
+*/
+
+#include "ModuleIO.h"
+#include "Module_CP.h"
+#include "Config_Reader.h"
 
 int main()
 {
+	LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
+	std::shared_ptr<scada_ate::service_io::config::ConfigReader> config_reader = std::make_shared<scada_ate::service_io::config::ConfigReader>();
+	
+	ConfigLogger conf_log;
+	config_reader->ReadConfigLOGGER(conf_log);
+	log->SetLogMode(conf_log.LogMode);
+	log->SetNameLog(conf_log.LogName.c_str());
+	log->SetNameSysLog(conf_log.SysLogName.c_str());
+	log->SetSizeFile(conf_log.SizeLogFile);
+	if (conf_log.StatusLog == LoggerSpace::Status::ON) { log->TurnOnLog(); } 
+	else { log->TurnOffLog(); }
+	if (conf_log.StatusSysLog == LoggerSpace::Status::ON) { log->TurnOnSysLog(); }
+	else { log->TurnOffSysLog(); }
 
+	ConfigGate conf_gate;
+	if ( config_reader->ReadConfigGATE(conf_gate) != ResultReqest::OK)
+	{
+		std::this_thread::sleep_for(std::chrono::seconds(2));
+		return -1;
+	}
+
+	ConfigModule_IO config_module_io;
+	config_reader->ReadConfigMODULE_IO(config_module_io);
+	config_module_io.IdGate = conf_gate.IdGate;
+
+	std::shared_ptr<scada_ate::module_io::Module_IO> module_io = std::make_shared <scada_ate::module_io::Module_IO>();
+	if (module_io->InitModule(config_module_io) == ResultReqest::OK)
+	{
+		log->WriteLogINFO("Initional Module_IO done");
+	};
+
+	std::shared_ptr<scada_ate::controller_module_io::Module_CP> module_cp = std::make_shared <scada_ate::controller_module_io::Module_CP>();
+
+	ConfigUnitCP_DDS config_controller_dds;
+	if (config_reader->ReadConfigCONTROLLER_DDS(config_controller_dds) == ResultReqest::OK)
+	{
+		config_controller_dds.id_gate = conf_gate.IdGate;
+		std::shared_ptr<scada_ate::controller_module_io::ConfigUnitCP_DDS> conf = std::make_shared<scada_ate::controller_module_io::ConfigUnitCP_DDS>();
+		*(conf.get()) = config_controller_dds;
+		if (module_cp->add_unit(conf, module_io) == ResultReqest::OK)
+		{
+			log->WriteLogINFO("Registred controller dds");
+		}
+		else
+		{
+			log->WriteLogWARNING("Error registred controller dds");
+		}
+	}
+
+	ConfigUnitCP_TCP config_controller_tcp;
+	if (config_reader->ReadConfigCONTROLLER_TCP(config_controller_tcp) == ResultReqest::OK)
+	{
+		config_controller_tcp.id_gate = conf_gate.IdGate;
+		std::shared_ptr<scada_ate::controller_module_io::ConfigUnitCP_TCP> conf = std::make_shared<scada_ate::controller_module_io::ConfigUnitCP_TCP>();
+		*(conf.get()) = config_controller_tcp;
+		if (module_cp->add_unit(conf, module_io) == ResultReqest::OK)
+		{
+			log->WriteLogINFO("Registred controller tcp");
+		}
+		else
+		{
+			log->WriteLogWARNING("Error registred controller tcp");
+		}
+	}
+	
+	while (1)
+	{
+		if (scada_ate::controller_module_io::GetGlobalStatus() == scada_ate::controller_module_io::GlobalStatus::END) break;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
 }
 
 /*

@@ -158,6 +158,7 @@ enum class CommandListenerSubscriber
 	STOP
 };
 
+
 struct BaseAnswer
 {
 	TypeAdapter typeadapter;
@@ -288,38 +289,6 @@ struct ConfigSharedMemoryAdapter : public ConfigAdapter
 struct HeaderDataAnswerSM : public BaseAnswer
 {
 	HeaderSharedMemory header;
-};
-
-struct ConfigModule_IO_DDS
-{
-	unsigned int IdGate = 0;
-	unsigned int Domen = 0;
-	TypeTransmiter TypeTransmite;
-	std::string IPSubscribtion;
-	unsigned int PortSubscribtion;
-	std::string TopicSubscritionCommand;
-	std::string TopicSubscribtionInfoConfig;
-	std::string IPPublication;
-	unsigned int PortPublication;
-	std::string TopicPublicationAnswer;
-};
-
-struct ConfigContreller_TCP
-{
-	std::string IP;
-	unsigned int Port = 0;
-};
-
-struct ConfigContreller_DDS
-{
-	unsigned int domen = 0;
-	TypeTransmiter type_transmiter;
-	std::string topic_command;
-	std::string topic_answer;
-	std::string ip_base;
-	std::string ip_reserve;
-	unsigned int port_base;
-	unsigned int port_reserve;
 };
 
 struct ConfigModule_IO

@@ -56,6 +56,7 @@ namespace scada_ate
 			ListUsedAnswer Processing_StartTransfer_ModuleIO();
 			ListUsedAnswer Processing_Restart_ModuleIO();
 			ListUsedAnswer Processing_UpdateUnits_ModuleIO();
+			ListUsedAnswer Processing_Apply_UpdeteUnits_ModuleIO();
 			ListUsedAnswer Processing_Terminate_Gate();
 			ListUsedAnswer ResultRequestToAnswer(ResultReqest value);
 

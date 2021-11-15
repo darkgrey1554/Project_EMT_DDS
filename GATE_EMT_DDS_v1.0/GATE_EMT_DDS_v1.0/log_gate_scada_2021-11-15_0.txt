@@ -1,0 +1,4 @@
+2021/11/15	16:02:24.521	ERROR	NULL	NULL	Error ConfigReader: error ReaderConfigMODULE_IO: error TopicInfo
+2021/11/15	16:02:24.521	WARNING	NULL	NULL	Error ModuleIO:Initialization already done
+2021/11/15	16:02:24.523	ERROR	1	NULL	Error Module_CP: error add_unit: 
+2021/11/15	16:02:24.523	ERROR	1	NULL	Error Module_CP: error add_unit: 

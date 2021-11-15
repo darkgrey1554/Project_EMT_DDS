@@ -171,52 +171,54 @@ namespace scada_ate
 
 			try
 			{
-				if (!reader_command)
+				if (reader_command != nullptr)
 				{
 					res = subscriber_->delete_datareader(reader_command);
-					if (res != ReturnCode_t::RETCODE_OK); throw 1;
+					if (res != ReturnCode_t::RETCODE_OK) throw 1;
 					reader_command = nullptr;
 				}
 
-				if (!answerer)
+				if (answerer != nullptr)
 				{
 					res = publisher_->delete_datawriter(answerer);
-					if (res != ReturnCode_t::RETCODE_OK); throw 2;
+					if (res != ReturnCode_t::RETCODE_OK) throw 2;
 					answerer = nullptr;
 				}
 
-				if (!subscriber_)
+				if (subscriber_ != nullptr)
 				{
 					res = participant_->delete_subscriber(subscriber_);
-					if (res != ReturnCode_t::RETCODE_OK); throw 3;
+					if (res != ReturnCode_t::RETCODE_OK) throw 3;
 					subscriber_ = nullptr;
 				}
 
-				if (!publisher_)
+				if (publisher_ != nullptr)
 				{
 					res = participant_->delete_publisher(publisher_);
-					if (res != ReturnCode_t::RETCODE_OK); throw 4;
+					if (res != ReturnCode_t::RETCODE_OK) throw 4;
 					publisher_ = nullptr;
 				}
 
-				if (!topic_command)
+				if (topic_command != nullptr)
 				{
 					res = participant_->delete_topic(topic_command);
-					if (res != ReturnCode_t::RETCODE_OK); throw 5;
+					if (res != ReturnCode_t::RETCODE_OK) throw 5;
 					topic_command = nullptr;
 				}
 
-				if (!topic_answer)
+				if (topic_answer != nullptr)
 				{
 					res = participant_->delete_topic(topic_answer);
-					if (res != ReturnCode_t::RETCODE_OK); throw 6;
+					if (res != ReturnCode_t::RETCODE_OK) throw 6;
 					topic_answer = nullptr;
 				}
 
-				if (participant_)
+				if (participant_ != nullptr)
 				{
+					participant_->unregister_type(type_topic_command->get_name());
+					participant_->unregister_type(type_topic_answer->get_name());
 					res = DomainParticipantFactory::get_instance()->delete_participant(participant_);
-					if (res != ReturnCode_t::RETCODE_OK); throw 7;
+					if (res != ReturnCode_t::RETCODE_OK) throw 7;
 					participant_ = nullptr;
 				}
 			}
@@ -383,6 +385,7 @@ namespace scada_ate
 		ResultReqest  Unit_DDS_CP::create_dynamic_data_type()
 		{
 			std::string helpstr;
+			ResultReqest res = ResultReqest::OK;
 
 			try 
 			{
@@ -409,15 +412,17 @@ namespace scada_ate
 				helpstr.clear();
 				helpstr += "Error Unit_DDS_CP: Error create of participant";
 				log->WriteLogERR(helpstr.c_str(), e, 0);
-				return ResultReqest::ERR;
+				res = ResultReqest::ERR;
 			}
 			catch (...)
 			{
 				helpstr.clear();
 				helpstr += "Error Unit_DDS_CP: Error create of participant";
 				log->WriteLogERR(helpstr.c_str(), 0, 0);
-				return ResultReqest::ERR;
+				res = ResultReqest::ERR;
 			}
+
+			return res;
 		};
 
 		ResultReqest Unit_DDS_CP::init_participant()
@@ -618,6 +623,11 @@ namespace scada_ate
 				return Processing_UpdateUnits_ModuleIO();
 			}
 
+			if (command == ListUsedCommand::Apply_UpdateUnits_ModuleIO)
+			{
+				return Processing_Apply_UpdeteUnits_ModuleIO();
+			}
+
 			if (command == ListUsedCommand::Terminate_Gate)
 			{
 				return Processing_Terminate_Gate();
@@ -731,7 +741,7 @@ namespace scada_ate
 			try
 			{
 				if (!(unit = object_control.lock())) throw 1;
-				result_request = unit->UpdateUnits();
+				result_request = unit->UpdateConfigDDSUnits();
 				result = ResultRequestToAnswer(result_request);
 			}
 			catch (int& e)
@@ -751,6 +761,37 @@ namespace scada_ate
 
 			return result;
 		}
+
+		ListUsedAnswer Unit_DDS_CP::Processing_Apply_UpdeteUnits_ModuleIO()
+		{
+			std::shared_ptr<module_io::Module_IO> unit;
+			ListUsedAnswer result = ListUsedAnswer::ERR;
+			ResultReqest result_request;
+			std::string helpstr;
+
+			try
+			{
+				if (!(unit = object_control.lock())) throw 1;
+				result_request = unit->ApplyUpdateDDSUnits();
+				result = ResultRequestToAnswer(result_request);
+			}
+			catch (int& e)
+			{
+				helpstr.clear();
+				helpstr += "Error Unit_DDS_CP: Error command Apply_UpdeteUnits_ModuleIO ";
+				log->WriteLogERR(helpstr.c_str(), e, 0);
+				return ListUsedAnswer::ERR;
+			}
+			catch (...)
+			{
+				helpstr.clear();
+				helpstr += "Error Unit_DDS_CP: Error command Apply_UpdeteUnits_ModuleIO ";
+				log->WriteLogERR(helpstr.c_str(), 0, 0);
+				return ListUsedAnswer::ERR;
+			}
+
+			return result;
+		};
 
 		ListUsedAnswer Unit_DDS_CP::Processing_Terminate_Gate()
 		{
@@ -796,10 +837,64 @@ namespace scada_ate
 			}
 		}
 
-
 		ResultReqest Unit_DDS_CP::Clear()
 		{
+			ResultReqest res = ResultReqest::OK;
+			std::string helpstr;
 
+			try
+			{
+				if (reader_command != nullptr)
+				{
+					subscriber_->delete_datareader(reader_command);
+					reader_command = nullptr;
+				}
+
+				if (answerer != nullptr)
+				{
+					publisher_->delete_datawriter(answerer);
+					answerer = nullptr;
+				}
+
+				if (topic_command != nullptr)
+				{
+					participant_->delete_topic(topic_command);
+					topic_command = nullptr;
+				}
+
+				if (topic_answer != nullptr)
+				{
+					participant_->delete_topic(topic_answer);
+					topic_answer = nullptr;
+				}
+
+				if (participant_ != nullptr)
+				{
+					participant_->unregister_type(type_topic_command->get_name());
+					participant_->unregister_type(type_topic_answer->get_name());
+					DomainParticipantFactory::get_instance()->delete_participant(participant_);
+					participant_ = nullptr;
+				}
+			}
+			catch (int& e)
+			{
+				helpstr.clear();
+				helpstr += "Error Unit_DDS_CP: error Clear: ";
+				log->WriteLogERR(helpstr.c_str(), e, 0);
+				res = ResultReqest::ERR;
+			}
+			catch (...)
+			{
+				helpstr.clear();
+				helpstr += "Error Unit_DDS_CP: error Clear: ";
+				log->WriteLogERR(helpstr.c_str(), 0, 0);
+				res = ResultReqest::ERR;
+			}
+
+
+			
+
+			return res;
 		}
 	}
 }

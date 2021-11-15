@@ -25,6 +25,7 @@
     <ClCompile Include="DDSUnit.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModuleIO.cpp" />
+    <ClCompile Include="Module_CP.cpp" />
     <ClCompile Include="ReaderConfigUnits.cpp" />
     <ClCompile Include="security_handle.cpp" />
     <ClCompile Include="SharedMemoryAdaptor.cpp" />

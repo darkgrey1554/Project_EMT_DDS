@@ -7,6 +7,7 @@ namespace scada_ate
 	namespace controller_module_io
 	{
 		
+		std::atomic<GlobalStatus> Unit_CP::global_status{ GlobalStatus::WORK };
 
 		void Unit_CP::SetGlobalStatus(GlobalStatus value)
 		{

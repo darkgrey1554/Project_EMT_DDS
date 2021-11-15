@@ -1,26 +1,40 @@
 {
   "GATE": {
-    "IdGate": 5101,
-    "Domen": 0,
-    "TypeTransmite": "TCP",
-    "IPSubscribtion": "192.168.0.100",
-    "PortSubscribtion": 51100,
-    "TopicSubscritionCommand": "CommandForGates",
-    "TopicSubscribtionInfoConfig": "InfoConfigGates",
-    "IPPublication": "192.168.0.101",
-    "PortPublication": 51101,
-    "TopicPublicationAnswer": "AnswerOnCommand"
+    "IdGate": 5101
   },
+
+  "MODULE_IO": {
+    "Domen": 0,
+    "TypeTransmite": "Broadcast",
+    "IPBase": "192.168.0.100",
+    "PortBase": 51100,
+    "IPReserve": "192.168.0.101",
+    "PortReserve": 51101,
+    "TopicInfo": "TopicInfoUnits"
+  },
+
   "LOGGER": {
     "LogName": "log_gate_scada",
     "SysLogName": "log_gate_scada",
     "LogMode": "Debug",
-    "StatusLog": "TURN",
+    "StatusLog": "ON",
     "StatusSysLog": "OFF",
-    "SizeLogFile": 10
+    "SizeLogFile": 10000
   },
-  "MANAGER": {
-    "IP": "*IP",
-    "Port": "*Port"
+
+  "CONTROLLER_TCP": {
+    "IP": "127.0.0.1",
+    "Port": 32510
+  },
+
+  "CONTROLLER_DDS": {
+    "Domen": 0,
+    "TypeTransmite": "Broadcast",
+    "IPBase": "192.168.0.100",
+    "PortBase": 51100,
+    "IPReserve": "192.168.0.101",
+    "PortReserve": 51101,
+    "TopicCommand": "CommandForGates",
+    "TopicAnswer": "AnswerOnCommand"
   }
 }

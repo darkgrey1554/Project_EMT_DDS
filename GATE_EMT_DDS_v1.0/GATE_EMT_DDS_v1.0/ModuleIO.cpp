@@ -28,13 +28,13 @@ namespace scada_ate
 
 				/// --- очистка топиков публикаций и подписок --- ///
 
-				if (!subscriber_)
+				if (subscriber_ != nullptr)
 				{
 					if (participant_->delete_subscriber(subscriber_) != ReturnCode_t::RETCODE_OK) throw 4;
 					subscriber_ = nullptr;
 				}
 
-				if (!topic_InfoDDSUnit)
+				if (topic_InfoDDSUnit != nullptr)
 				{
 					if (participant_->delete_topic(topic_InfoDDSUnit) != ReturnCode_t::RETCODE_OK) throw 6;
 					topic_InfoDDSUnit = nullptr;
@@ -42,12 +42,12 @@ namespace scada_ate
 
 				/// --- удаление participant --- ///  
 
-				if (!participant_)
+				if (participant_ != nullptr)
 				{
 					participant_->unregister_type(CreateNameTopicConfigDDSUnits());
 				}
 
-				if (!participant_)
+				if (participant_ != nullptr)
 				{
 					if (DomainParticipantFactory::get_instance()->delete_participant(participant_) != ReturnCode_t::RETCODE_OK) throw 7;
 					participant_ = nullptr;
@@ -292,7 +292,7 @@ namespace scada_ate
 				std::string helpstr;
 				helpstr.clear();
 				helpstr += "Error ModuleIO: error UpdateConfigDDSUnits: ";
-				log->WriteLogERR(helpstr.c_str(), 0, 0);
+				log->WriteLogERR(helpstr.c_str(), e, 0);
 				res = ResultReqest::ERR;
 			}
 			catch (...)
@@ -308,7 +308,7 @@ namespace scada_ate
 			{
 				try
 				{
-					if (!reader_config)
+					if (reader_config != nullptr)
 					{
 						subscriber_->delete_datareader(reader_config);
 						reader_config = nullptr;
@@ -321,7 +321,7 @@ namespace scada_ate
 
 				try
 				{
-					if (!topic_config_file)
+					if (topic_config_file != nullptr)
 					{
 						participant_->delete_topic(topic_config_file);
 						topic_config_file = nullptr;
@@ -368,10 +368,7 @@ namespace scada_ate
 				return ResultReqest::ERR;
 			}
 
-			/// <summary>
-			/// ////////////////
-			/// </summary>
-			/// <returns></returns>
+			
 
 			return res;
 		}
@@ -392,14 +389,6 @@ namespace scada_ate
 			}
 
 			res = clear_properties();
-			if (res != ResultReqest::OK)
-			{
-				SetCurrentStatus(StatusModeluIO::ERROR_INIT);
-				return ResultReqest::ERR;
-			}
-
-			/// --- чтение конфигурации --- /// 
-			res = reader_config->ReadConfigGATE(config_gate);
 			if (res != ResultReqest::OK)
 			{
 				SetCurrentStatus(StatusModeluIO::ERROR_INIT);
@@ -454,15 +443,14 @@ namespace scada_ate
 
 			/// --- обновление конфигурации DDSUnits ---- /// 
 			res = UpdateConfigDDSUnits();
-			if (res != ResultReqest::OK)
+			if (res == ResultReqest::OK)
 			{
-				/// ---- ///
+				reader_config->UpdateBaseConfig();
 			}
 
 			/// --- чтение конфигурации --- ///
 
-			res = reader_config->ReadConfigTransferUnits(config_DDSUnits);
-			if (res != ResultReqest::OK)
+			if (reader_config->ReadConfig(config_DDSUnits) != ResultReqest::OK)
 			{
 				SetCurrentStatus(StatusModeluIO::ERROR_INIT);
 				return ResultReqest::ERR;
@@ -470,21 +458,11 @@ namespace scada_ate
 
 			/// --- init_ddsunits --- ///
 
-			for (std::vector<ConfigDDSUnit>::iterator i = config_DDSUnits.begin(); i != config_DDSUnits.end();)
+			res = init_ddsunits();
+			if (res != ResultReqest::OK)
 			{
-				helpstr.clear();
-				if (i->TypeUnit == TypeDDSUnit::PUBLISHER) { helpstr += "Publisher"; }
-				else if (i->TypeUnit == TypeDDSUnit::PUBLISHER) { helpstr += "Subscriber"; };
-				helpstr += ':' + i->PointName;
-
-				Map_DDSUnits.insert({ helpstr, gate::CreateDDSUnit(*i) });
-				i++;
-			}
-
-			for (auto i = Map_DDSUnits.begin(); i != Map_DDSUnits.end();)
-			{
-				i->second->Initialization();
-				i++;
+				SetCurrentStatus(StatusModeluIO::ERROR_INIT);
+				return ResultReqest::ERR;
 			}
 
 			SetCurrentStatus(StatusModeluIO::WORK);
@@ -499,24 +477,24 @@ namespace scada_ate
 			try
 			{
 
-				if (!subscriber_)
+				if (subscriber_)
 				{
 					res = participant_->delete_subscriber(subscriber_);
-					if (res != ReturnCode_t::RETCODE_OK); throw 3;
+					if (res != ReturnCode_t::RETCODE_OK) throw 3;
 					subscriber_ = nullptr;
 				}
 
-				if (!topic_InfoDDSUnit)
+				if (topic_InfoDDSUnit)
 				{
 					res = participant_->delete_topic(topic_InfoDDSUnit);
-					if (res != ReturnCode_t::RETCODE_OK); throw 6;
+					if (res != ReturnCode_t::RETCODE_OK) throw 6;
 					topic_InfoDDSUnit = nullptr;
 				}
 
 				if (participant_)
 				{
 					res = DomainParticipantFactory::get_instance()->delete_participant(participant_);
-					if (res != ReturnCode_t::RETCODE_OK); throw 7;
+					if (res != ReturnCode_t::RETCODE_OK) throw 7;
 					participant_ = nullptr;
 				}
 			}
@@ -616,7 +594,7 @@ namespace scada_ate
 			try
 			{
 				participant_ =
-					DomainParticipantFactory::get_instance()->create_participant(config_gate.Domen, PARTICIPANT_QOS_DEFAULT, nullptr);
+					DomainParticipantFactory::get_instance()->create_participant(config_module.domen, PARTICIPANT_QOS_DEFAULT, nullptr);
 				if (!participant_) throw 2;
 			}
 			catch (...)
@@ -686,7 +664,7 @@ namespace scada_ate
 			try
 			{
 				topic_InfoDDSUnit = participant_->
-					create_topic(CreateNameTopicInfoUnits(config_gate.TopicSubscribtionInfoConfig), CreateNameStructInfoUnits(), TOPIC_QOS_DEFAULT);
+					create_topic(CreateNameTopicInfoUnits(config_module.topic_info), CreateNameStructInfoUnits(), TOPIC_QOS_DEFAULT);
 				if (!topic_InfoDDSUnit) throw 1;
 
 			}
@@ -702,6 +680,52 @@ namespace scada_ate
 			return ResultReqest::OK;
 		};
 
+		ResultReqest Module_IO::init_ddsunits()
+		{
+			ResultReqest res = ResultReqest::OK;
+			std::string helpstr;
+
+			try
+			{
+				if (config_DDSUnits.empty()) throw 1;
+
+				Map_DDSUnits.clear();
+
+				for (std::vector<ConfigDDSUnit>::iterator i = config_DDSUnits.begin(); i != config_DDSUnits.end();)
+				{
+					helpstr.clear();
+					if (i->TypeUnit == TypeDDSUnit::PUBLISHER) { helpstr += "Publisher"; }
+					else if (i->TypeUnit == TypeDDSUnit::PUBLISHER) { helpstr += "Subscriber"; };
+					helpstr += ':' + i->PointName;
+
+					Map_DDSUnits.insert({ helpstr, gate::CreateDDSUnit(*i) });
+					i++;
+				}
+
+				for (auto i = Map_DDSUnits.begin(); i != Map_DDSUnits.end();)
+				{
+					i->second->Initialization();
+					i++;
+				}
+			}
+			catch (int& e)
+			{
+				helpstr.clear();
+				helpstr += "Error init ModuleIO: error init_ddsunits";
+				log->WriteLogERR(helpstr.c_str(), 0, 0);
+				return ResultReqest::ERR;
+			}
+			catch (...)
+			{
+				std::string helpstr;
+				helpstr.clear();
+				helpstr += "Error init ModuleIO: error init_ddsunits";
+				log->WriteLogERR(helpstr.c_str(), 0, 0);
+				return ResultReqest::ERR;
+			}	
+
+			return res;
+		}
 		
 
 		std::string Module_IO::CreateNameStructInfoUnits()
@@ -716,7 +740,7 @@ namespace scada_ate
 
 		std::string Module_IO::CreateNameTopicConfigDDSUnits()
 		{
-			return "DDSUnitConfig:" + std::to_string(config_gate.IdGate);
+			return "DDSUnitConfig:" + std::to_string(config_module.IdGate);
 		};
 
 		StatusModeluIO Module_IO::GetCurrentStatus()

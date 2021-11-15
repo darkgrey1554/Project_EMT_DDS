@@ -16,10 +16,10 @@
   "LOGGER": {
     "LogName": "log_gate_scada",
     "SysLogName": "log_gate_scada",
-    "LogMode": "Debug",
-    "StatusLog": "TURN",
+    "LogMode": "INFO",
+    "StatusLog": "ON",
     "StatusSysLog": "OFF",
-    "SizeLogFile": 10
+    "SizeLogFile": 10000
   },
 
   "CONTROLLER_TCP": {

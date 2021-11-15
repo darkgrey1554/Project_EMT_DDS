@@ -1,91 +1,26 @@
 #pragma once
-#include "Unit_DDS_CP.h"
-#include "Unit_TCP_CP.h"
-#include "Config_Reader.h"
+#include "Unit_CP.h"
 #include <map>
+#include <mutex>
 
 namespace scada_ate
 {
-	class Module_CP
+	namespace controller_module_io
 	{
-	protected:
-
-		unsigned int ID_Gate = 0;
-
-		LoggerSpace::Logger* log;
-		ConfigGate config_gate;
-		std::unique_ptr<ConfigReader> reader_config = std::make_unique<ConfigReader>();
-		std::vector<ConfigDDSUnit> config_DDSUnits;
-		std::atomic<StatusModeluIO> status;
-
-		DomainParticipant* participant_ = nullptr;
-		eprosima::fastdds::dds::Publisher* publisher_ = nullptr;
-		eprosima::fastdds::dds::Subscriber* subscriber_ = nullptr;
-		Topic* topic_command = nullptr;
-		Topic* topic_answer = nullptr;
-		Topic* topic_InfoDDSUnit = nullptr;
-		DataReader* reader_command = nullptr;
-		DataWriter* answerer = nullptr;
-
-		DynamicType_ptr type_topic_command;
-		DynamicType_ptr type_topic_answer;
-		DynamicType_ptr type_topic_infoddsunits;
-
-		std::map<std::string, std::shared_ptr<gate::DDSUnit>> Map_DDSUnits;  /// name + shared_ptr to unit
-
-		class SubListener : public DataReaderListener
+		class Module_CP
 		{
+
+			LoggerSpace::Logger* log;
+			std::map <unsigned int , std::shared_ptr<Unit_CP>> map_units_control;
+			std::mutex mutex_guard_interface;
+
 		public:
-			Module_IO* master;
-			SubListener(Module_IO* master) : master(master) {};
-			void on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info) override;
-			void on_data_available(DataReader* reader) override;
+
+			Module_CP();
+			~Module_CP();
+			ResultReqest add_unit(std::shared_ptr<ConfigUnitCP> config, std::shared_ptr<module_io::Module_IO> module_control, unsigned int id = 0);
+			ResultReqest clear(unsigned int id);
+			ResultReqest clearall();
 		};
-		friend class SubListener;
-		std::shared_ptr<SubListener> listener_ = std::make_shared<SubListener>(this);
-
-		ResultReqest init();
-		ResultReqest clear_properties();
-		ResultReqest create_type_topic_command();
-		ResultReqest create_type_topic_answer();
-		ResultReqest create_type_topic_infoddsunits();
-		ResultReqest init_participant();
-		ResultReqest init_subscriber();
-		ResultReqest init_publisher();
-		ResultReqest registration_types();
-		ResultReqest create_topics();
-		ResultReqest UpdateConfigDDSUnits();
-		ResultReqest UpdateFileConfigUnits(std::shared_ptr<char> data, unsigned int size);
-		ResultReqest Init_reader_command();
-		ResultReqest Clear();
-
-		std::string CreateNameStructCommand();
-		std::string CreateNameStructAnswer();
-		std::string CreateNameStructInfoUnits();
-		std::string CreateNameTopicCommand(std::string source);
-		std::string CreateNameTopicAnswer(std::string source);
-		std::string CreateNameTopicInfoUnits(std::string source);
-		std::string CreateNameTopicConfigDDSUnits();
-
-
-		void SetCurrentStatus(StatusModeluIO value)
-		{
-			status.store(value, std::memory_order_relaxed);
-			return;
-		};
-
-	public:
-
-
-		Module_IO();
-		~Module_IO();
-		ResultReqest InitModule();
-		StatusModeluIO GetCurrentStatus();
-		ResultReqest StopTransfer();
-		ResultReqest StartTransfer();
-		ResultReqest ReInitModule();
-		ResultReqest UpdateUnits();
-
-
-	};
+	}
 }

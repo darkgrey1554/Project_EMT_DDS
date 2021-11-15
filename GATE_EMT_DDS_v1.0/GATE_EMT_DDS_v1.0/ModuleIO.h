@@ -18,7 +18,7 @@ namespace scada_ate
 			ConfigModule_IO config_module;
 			std::shared_ptr<ReaderConfigUnits> reader_config = std::make_shared<ReaderConfigUnits>();
 			std::vector<ConfigDDSUnit> config_DDSUnits;
-			std::atomic<StatusModeluIO> status;
+			std::atomic<StatusModeluIO> status = StatusModeluIO::Null;
 			std::mutex mutex_guard_interface;
 
 			DomainParticipant* participant_ = nullptr;
@@ -36,6 +36,7 @@ namespace scada_ate
 			ResultReqest init_subscriber();
 			ResultReqest registration_types();
 			ResultReqest create_topics();
+			ResultReqest init_ddsunits();
 			ResultReqest Clear();
 
 			std::string CreateNameStructInfoUnits();
