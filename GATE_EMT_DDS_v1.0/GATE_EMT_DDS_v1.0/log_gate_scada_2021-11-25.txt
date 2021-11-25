@@ -1,0 +1,19 @@
+2021/11/25	12:16:02.780	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/11/25	12:17:06.906	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/11/25	13:35:35.021	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/11/25	14:09:29.157	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/11/25	14:09:35.058	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_sm003
+2021/11/25	14:09:35.111	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm000
+2021/11/25	14:09:35.111	INFO	Initional Module_IO done
+2021/11/25	14:09:35.211	INFO	Registred controller dds
+2021/11/25	14:09:35.211	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/11/25	14:09:35.211	WARNING	Error registred controller tcp
+2021/11/25	14:09:35.374	WARNING	10	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_sm003
+2021/11/25	14:17:46.615	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/11/25	14:17:47.965	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm000
+2021/11/25	14:17:48.050	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Subscriber_sm003
+2021/11/25	14:17:48.050	INFO	Initional Module_IO done
+2021/11/25	14:17:48.150	INFO	Registred controller dds
+2021/11/25	14:17:48.150	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/11/25	14:17:48.150	WARNING	Error registred controller tcp
+2021/11/25	14:17:48.388	WARNING	10	NULL	DDSUnit: Error read data in thread of thransfer: name units: Subscriber_sm003

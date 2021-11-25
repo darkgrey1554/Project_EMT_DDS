@@ -49,6 +49,7 @@ namespace scada_ate
 			ResultReqest registration_types();
 			ResultReqest create_topics();
 			ResultReqest Init_reader_command();
+			ResultReqest Init_answerer();
 			ResultReqest Clear();
 
 			ListUsedAnswer ProcessingOfCommand(ListUsedCommand command);

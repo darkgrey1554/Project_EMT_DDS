@@ -1,3 +1,10 @@
-﻿  main.cpp
+﻿  ModuleIO.cpp
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(268,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(335,94): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(337,16): warning C4101: e: неиспользованная локальная переменная
+D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(711,16): warning C4101: e: неиспользованная локальная переменная
+  Unit_CP.cpp
+  Unit_DDS_CP.cpp
+  Создание кода...
   LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
   GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe

@@ -1,0 +1,19 @@
+﻿  adpter_Emt_ScadaAte.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Simulator_EMT\Simulator_EMT\adpter_Emt_ScadaAte.cpp(57,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Simulator_EMT\Simulator_EMT\adpter_Emt_ScadaAte.cpp(78,39): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Simulator_EMT\Simulator_EMT\adpter_Emt_ScadaAte.cpp(125,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Simulator_EMT\Simulator_EMT\adpter_Emt_ScadaAte.cpp(146,40): warning C4244: =: преобразование "_Rep" в "unsigned short", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Simulator_EMT\Simulator_EMT\adpter_Emt_ScadaAte.cpp(203,8): warning C4101: result: неиспользованная локальная переменная
+  main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Simulator_EMT\Simulator_EMT\main.cpp(19,15): warning C4553: "==": результат выражения не используется; вы хотели использовать "="?
+  security_handle.cpp
+  Создание кода...
+  Simulator_EMT.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Simulator_EMT\Debug\Simulator_EMT.exe

@@ -153,6 +153,13 @@ namespace scada_ate
 
 			/// --- инициализация reader_command --- ///
 
+			res = Init_answerer();
+			if (res != ResultReqest::OK)
+			{
+				SetCurrentStatus(StatusUnitCP::ERROR_INIT);
+				return ResultReqest::ERR;
+			}
+
 			res = Init_reader_command();
 			if (res != ResultReqest::OK)
 			{
@@ -552,6 +559,37 @@ namespace scada_ate
 			return ResultReqest::OK;
 		};
 
+		ResultReqest Unit_DDS_CP::Init_answerer()
+		{
+			ResultReqest res = ResultReqest::OK;
+
+			try
+			{
+				if (!publisher_) throw 1;
+				if (!topic_answer) throw 2;
+
+				answerer = publisher_->create_datawriter(topic_answer, DATAWRITER_QOS_DEFAULT, nullptr);
+				if (!answerer) throw 3;
+			}
+			catch (int& e)
+			{
+				std::string helpstr;
+				helpstr.clear();
+				helpstr += "Error Unit_DDS_CP: Error Init_answerer";
+				log->WriteLogERR(helpstr.c_str(), e, 0);
+				return ResultReqest::ERR;
+			}
+			catch (...)
+			{
+				std::string helpstr;
+				helpstr.clear();
+				helpstr += "Error Unit_DDS_CP: Error Init_answerer";
+				log->WriteLogERR(helpstr.c_str(), 0, 0);
+				return ResultReqest::ERR;
+			}
+			return res;
+		}
+
 		ResultReqest Unit_DDS_CP::Init_reader_command()
 		{
 			ResultReqest res = ResultReqest::OK;
@@ -597,7 +635,14 @@ namespace scada_ate
 			if (!info.valid_data) return;
 			if (master->data_command->get_uint32_value(0) != master->config.id_gate) return;
 
-			master->ProcessingOfCommand((ListUsedCommand)master->data_command->get_uint32_value(1));
+			result = master->ProcessingOfCommand((ListUsedCommand)master->data_command->get_uint32_value(1));
+
+			master->data_answer->set_uint32_value(master->config.id_gate, 0);
+			master->data_answer->set_uint32_value(master->data_command->get_uint32_value(1), 1);
+			master->data_answer->set_uint32_value((unsigned int)result, 2);
+			master->data_answer->set_uint32_value(0, 3);
+
+			master->answerer->write(master->data_answer.get());
 
 		};
 

@@ -695,7 +695,7 @@ namespace scada_ate
 				{
 					helpstr.clear();
 					if (i->TypeUnit == TypeDDSUnit::PUBLISHER) { helpstr += "Publisher"; }
-					else if (i->TypeUnit == TypeDDSUnit::PUBLISHER) { helpstr += "Subscriber"; };
+					else if (i->TypeUnit == TypeDDSUnit::SUBSCRIBER) { helpstr += "Subscriber"; };
 					helpstr += ':' + i->PointName;
 
 					Map_DDSUnits.insert({ helpstr, gate::CreateDDSUnit(*i) });
