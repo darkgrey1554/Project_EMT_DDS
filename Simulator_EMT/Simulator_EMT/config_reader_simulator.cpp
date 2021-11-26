@@ -435,7 +435,7 @@ namespace scada_ate
 						res = ResultRequest::OK;
 					}
 
-					throw 1;
+					if (res != ResultRequest::OK) throw 1;
 				}
 				catch (int& e)
 				{

@@ -22,15 +22,17 @@ namespace scada_ate
 				std::mutex guard_console;
 				LoggerSpace::Logger* log;
 
-				void thread_triangle(UnitSimulation unit, std::stop_token stoper);
-				void thread_sine(UnitSimulation unit, std::stop_token stoper);
-				void thread_constant(UnitSimulation unit, std::stop_token stoper);
-				void thread_saw(UnitSimulation unit, std::stop_token stoper);
 				void thread_read(UnitSimulation unit, std::stop_token stoper);
+				void thread_write(UnitSimulation unit, std::stop_token stoper);
+
 				template <typename T> void fillin_buffer(T* buf, unsigned int size);
 				template <typename T> void fillin_buffer(T* buf, unsigned int size, T value);
 				template <typename T> void update_buffer_triangle(T* buf, unsigned int size, int* k, T step, unsigned int Amp);
 				template <typename T> void update_buffer_sine(T* buf, unsigned int size, unsigned int freq, unsigned int Amp);
+				template <typename T> void update_buffer_saw(T* buf, unsigned int size, T step, unsigned int Amp);
+				void updateDataBinar(char* buf, unsigned int size);
+				void update_buffer(void* buf, UnitSimulation unit, int* k);
+				void show_data(void* buf, UnitSimulation unit);
 
 			public:
 
