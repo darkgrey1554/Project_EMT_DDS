@@ -1,4 +1,0 @@
-2021/10/07	16:56:35.273	ERROR	3	6	Error init shared memory
-2021/10/07	16:56:35.274	ERROR	3	6	Error init shared memory
-2021/10/07	17:01:49.994	ERROR	3	5	Error init shared memory
-2021/10/07	17:01:49.995	ERROR	3	5	Error init shared memory

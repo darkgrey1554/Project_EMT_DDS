@@ -1,0 +1,74 @@
+2021/12/03	18:53:20.299	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	18:53:20.339	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	18:53:20.339	INFO	Initional Module_IO done
+2021/12/03	18:53:20.371	INFO	Registred controller dds
+2021/12/03	18:53:20.371	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	18:53:20.371	WARNING	Error registred controller tcp
+2021/12/03	19:07:42.264	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	19:07:42.299	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	19:07:42.299	INFO	Initional Module_IO done
+2021/12/03	19:07:42.335	INFO	Registred controller dds
+2021/12/03	19:07:42.335	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	19:07:42.335	WARNING	Error registred controller tcp
+2021/12/03	19:21:44.924	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	19:21:44.964	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	19:21:44.964	INFO	Initional Module_IO done
+2021/12/03	19:21:45.001	INFO	Registred controller dds
+2021/12/03	19:21:45.001	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	19:21:45.001	WARNING	Error registred controller tcp
+2021/12/03	19:22:18.818	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	19:22:18.857	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	19:22:18.857	INFO	Initional Module_IO done
+2021/12/03	19:22:18.899	INFO	Registred controller dds
+2021/12/03	19:22:18.899	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	19:22:18.899	WARNING	Error registred controller tcp
+2021/12/03	19:31:24.619	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	19:31:24.665	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	19:31:24.665	INFO	Initional Module_IO done
+2021/12/03	19:31:24.710	INFO	Registred controller dds
+2021/12/03	19:31:24.710	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	19:31:24.710	WARNING	Error registred controller tcp
+2021/12/03	19:33:55.350	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	19:33:55.387	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	19:33:55.387	INFO	Initional Module_IO done
+2021/12/03	19:33:55.428	INFO	Registred controller dds
+2021/12/03	19:33:55.428	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	19:33:55.428	WARNING	Error registred controller tcp
+2021/12/03	19:34:19.563	ERROR	NULL	NULL	Error function ReadData (WAIT_TIMEOUT) Adapter:SharedMemory Name: sm002
+2021/12/03	19:34:19.563	ERROR	4	NULL	Error DDSUnit: Error in thread of thransfer: name units: Publisher_sm002
+2021/12/03	19:35:22.127	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	19:35:22.166	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	19:35:22.166	INFO	Initional Module_IO done
+2021/12/03	19:35:22.208	INFO	Registred controller dds
+2021/12/03	19:35:22.208	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	19:35:22.208	WARNING	Error registred controller tcp
+2021/12/03	19:35:58.366	ERROR	NULL	NULL	Error function ReadData (WAIT_TIMEOUT) Adapter:SharedMemory Name: sm002
+2021/12/03	19:35:58.366	ERROR	4	NULL	Error DDSUnit: Error in thread of thransfer: name units: Publisher_sm002
+2021/12/03	19:52:11.181	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	19:52:11.218	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	19:52:11.218	INFO	Initional Module_IO done
+2021/12/03	19:52:11.256	INFO	Registred controller dds
+2021/12/03	19:52:11.257	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	19:52:11.257	WARNING	Error registred controller tcp
+2021/12/03	19:52:32.232	ERROR	NULL	NULL	Error function ReadData (WAIT_TIMEOUT) Adapter:SharedMemory Name: sm002
+2021/12/03	19:52:32.232	ERROR	4	NULL	Error DDSUnit: Error in thread of thransfer: name units: Publisher_sm002
+2021/12/03	19:53:04.412	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	19:53:04.451	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	19:53:04.451	INFO	Initional Module_IO done
+2021/12/03	19:53:04.490	INFO	Registred controller dds
+2021/12/03	19:53:04.490	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	19:53:04.490	WARNING	Error registred controller tcp
+2021/12/03	19:53:32.526	ERROR	NULL	NULL	Error function ReadData (WAIT_TIMEOUT) Adapter:SharedMemory Name: sm002
+2021/12/03	19:53:32.526	ERROR	4	NULL	Error DDSUnit: Error in thread of thransfer: name units: Publisher_sm002
+2021/12/03	20:04:25.182	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	20:04:25.222	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	20:04:25.222	INFO	Initional Module_IO done
+2021/12/03	20:04:25.267	INFO	Registred controller dds
+2021/12/03	20:04:25.268	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	20:04:25.268	WARNING	Error registred controller tcp
+2021/12/03	20:15:50.356	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
+2021/12/03	20:15:50.399	INFO	NULL	NULL	Info DDSUnit: Initialization done: name units: Publisher_sm002
+2021/12/03	20:15:50.399	INFO	Initional Module_IO done
+2021/12/03	20:15:50.438	INFO	Registred controller dds
+2021/12/03	20:15:50.439	ERROR	2	NULL	Error Module_CP: error add_unit: 
+2021/12/03	20:15:50.439	WARNING	Error registred controller tcp

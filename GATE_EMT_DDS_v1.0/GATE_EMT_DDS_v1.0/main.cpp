@@ -1,21 +1,24 @@
-
-
-/*#include <iostream>
-#include "Config_Reader.h"
-#include "logger.h"
-#include "Adapters.h"
-#include "DDSUnit.h"
-*/
-
-#include "ModuleIO.h"
-#include "Module_CP.h"
-#include "Config_Reader.h"
+#include <Module_IO/ModuleIO.hpp>
+#include <Module_CP/Module_CP.hpp>
+#include <configReader/ConfigReader_main/Config_Reader.hpp>
+#include <LoggerScada.hpp>
 
 int main()
 {
-	LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
+	std::cout << "### Service IO of SCADA ATE ###" << std::endl;
+	std::cout << "Start service ..." << std::endl;
+
+	LoggerSpaceScada::ConfigLogger config_logger;
+	config_logger.file_mame = "loggate";
+	config_logger.file_path;
+	config_logger.numbers_file = 10;
+	config_logger.size_file = 10;
+	config_logger.level = LoggerSpaceScada::LevelLog::Debug;
+
+	std::shared_ptr<LoggerSpaceScada::LoggerScada> log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG, config_logger);
 	std::shared_ptr<scada_ate::service_io::config::ConfigReader> config_reader = std::make_shared<scada_ate::service_io::config::ConfigReader>();
-	
+
+	/*LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
 	ConfigLogger conf_log;
 	config_reader->ReadConfigLOGGER(conf_log);
 	log->SetLogMode(conf_log.LogMode);
@@ -25,7 +28,7 @@ int main()
 	if (conf_log.StatusLog == LoggerSpace::Status::ON) { log->TurnOnLog(); } 
 	else { log->TurnOffLog(); }
 	if (conf_log.StatusSysLog == LoggerSpace::Status::ON) { log->TurnOnSysLog(); }
-	else { log->TurnOffSysLog(); }
+	else { log->TurnOffSysLog(); }*/
 
 	ConfigGate conf_gate;
 	if ( config_reader->ReadConfigGATE(conf_gate) != ResultReqest::OK)
@@ -41,7 +44,9 @@ int main()
 	std::shared_ptr<scada_ate::module_io::Module_IO> module_io = std::make_shared <scada_ate::module_io::Module_IO>();
 	if (module_io->InitModule(config_module_io) == ResultReqest::OK)
 	{
-		log->WriteLogINFO("Initional Module_IO done");
+		log->Info("Initional Module_IO done");
+		std::cout << "Initialization Module_IO done" << std::endl;
+
 	};
 
 	std::shared_ptr<scada_ate::controller_module_io::Module_CP> module_cp = std::make_shared <scada_ate::controller_module_io::Module_CP>();
@@ -54,11 +59,12 @@ int main()
 		*(conf.get()) = config_controller_dds;
 		if (module_cp->add_unit(conf, module_io) == ResultReqest::OK)
 		{
-			log->WriteLogINFO("Registred controller dds");
+			log->Info("Registration controller dds done");
+			std::cout << "Registration controller dds done" << std::endl;
 		}
 		else
 		{
-			log->WriteLogWARNING("Error registred controller dds");
+			log->Warning("Error registred controller dds");
 		}
 	}
 
@@ -70,13 +76,15 @@ int main()
 		*(conf.get()) = config_controller_tcp;
 		if (module_cp->add_unit(conf, module_io) == ResultReqest::OK)
 		{
-			log->WriteLogINFO("Registred controller tcp");
+			log->Info("Registred controller tcp");
 		}
 		else
 		{
-			log->WriteLogWARNING("Error registred controller tcp");
+			log->Warning("Error registred controller tcp");
 		}
 	}
+
+	std::cout << "Service IO started" << std::endl;
 	
 	while (1)
 	{
@@ -84,82 +92,4 @@ int main()
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 }
-
-/*
-*int main(int argc, char** argv)
-{
-
-
-	LoggerSpace::Logger* log = LoggerSpace::Logger::getpointcontact();
-	log->TurnOnLog();
-	log->WriteLogINFO("START");
-	std::shared_ptr<ConfigSharedMemoryAdapter> config_writer = std::make_shared<ConfigSharedMemoryAdapter>();
-	config_writer->NameMemory = "test_writer";
-	config_writer->DataType = TypeData::ANALOG;
-	config_writer->type_adapter = TypeAdapter::SharedMemory;
-	config_writer->size = 100;
-
-	std::shared_ptr<ConfigSharedMemoryAdapter> config_reader = std::make_shared<ConfigSharedMemoryAdapter>();;
-	config_reader->NameMemory = "test_reader";
-	config_reader->DataType = TypeData::ANALOG;
-	config_reader->type_adapter = TypeAdapter::SharedMemory;
-	config_reader->size = 100;
-
-	std::shared_ptr<gate::Adapter> adapter_writer = gate::CreateAdapter(TypeAdapter::SharedMemory);
-	std::shared_ptr<gate::Adapter> adapter_reader = gate::CreateAdapter(TypeAdapter::SharedMemory);
-
-	adapter_writer->InitAdapter(config_writer);
-	adapter_reader->InitAdapter(config_reader);
-
-	ConfigDDSUnit config_DDS_writer;
-	config_DDS_writer.Adapter = TypeAdapter::SharedMemory;
-	config_DDS_writer.Domen = 1;
-	config_DDS_writer.Frequency = 300;
-	config_DDS_writer.PointName = "test_writer";
-	config_DDS_writer.Size = 100;
-	config_DDS_writer.Transmiter = TypeTransmiter::Broadcast;
-	config_DDS_writer.Typedata = TypeData::ANALOG;
-	config_DDS_writer.TypeUnit = TypeDDSUnit::PUBLISHER;
-
-	ConfigDDSUnit config_DDS_reader;
-	config_DDS_reader.Adapter = TypeAdapter::SharedMemory;
-	config_DDS_reader.Domen = 1;
-	config_DDS_reader.Frequency = 300;
-	config_DDS_reader.PointName = "test_reader";
-	config_DDS_reader.Size = 100;
-	config_DDS_reader.Transmiter = TypeTransmiter::Broadcast;
-	config_DDS_reader.Typedata = TypeData::ANALOG;
-	config_DDS_reader.TypeUnit = TypeDDSUnit::SUBSCRIBER;
-
-	std::shared_ptr<gate::DDSUnit> DDS_writer = gate::CreateDDSUnit(config_DDS_writer);
-	std::shared_ptr<gate::DDSUnit> DDS_reader = gate::CreateDDSUnit(config_DDS_reader);
-
-	DDS_writer->Initialization();
-	DDS_reader->Initialization();
-
-	float buf_out[100];
-	float buf_in[100];
-	for (int i = 0; i < 100; i++)
-	{
-		buf_out[i] = i;
-	}
-
-	while (1)
-	{
-		adapter_writer->WriteData(buf_out, 100);
-		adapter_reader->ReadData(buf_in, 100);
-		std::cout << "buf_in[0] = " << buf_in[0] << std::endl;
-		std::cout << "buf_in[99] = " << buf_in[99] << std::endl;
-		std::cout << "-----------------------------------------" << std::endl;
-
-		for (int i = 0; i < 100; i++)
-		{
-			buf_out[i] += 0.1;
-		}
-
-		std::this_thread::sleep_for(std::chrono::seconds(1));
-	}
-
-};
-*/
 

@@ -1,0 +1,13 @@
+{
+  "Units": [
+    {
+      "TypeTransfer": "Publication",
+      "Frequency": 1000,
+      "PointName": "sm002",
+      "TypeData": "ANALOG",
+      "Size": 100,
+      "Show": "ON",
+      "Output": 3
+    }
+  ]
+}

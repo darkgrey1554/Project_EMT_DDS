@@ -117,6 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,6 +134,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\CATE_WORK\include_logger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>Async</ExceptionHandling>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,10 +145,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp" />
+    <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpdcpp.cpp" />
     <ClCompile Include="test_spd_logger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LoggerScada.h" />
+    <ClInclude Include="..\..\..\..\include_logger\LoggerScada.hpp" />
+    <ClInclude Include="..\..\..\..\include_logger\LoggerScadaspd.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

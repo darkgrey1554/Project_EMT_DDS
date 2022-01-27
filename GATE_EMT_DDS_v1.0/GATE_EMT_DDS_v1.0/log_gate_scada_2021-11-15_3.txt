@@ -1,5 +1,0 @@
-2021/11/15	16:18:50.795	ERROR	3	5	Error init shared memory
-2021/11/15	16:18:50.796	ERROR	2	NULL	Error init DDSUnit: Error initialization of adapter, name units: Publisher_sm000
-2021/11/15	16:18:50.796	INFO	Initional Module_IO done
-2021/11/15	16:18:50.796	ERROR	1	NULL	Error Module_CP: error add_unit: 
-2021/11/15	16:18:50.796	ERROR	1	NULL	Error Module_CP: error add_unit: 

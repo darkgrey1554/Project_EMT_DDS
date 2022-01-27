@@ -13,10 +13,10 @@ namespace scada_ate
 
 	enum class TypeData
 	{
+		ZERO,
 		ANALOG,
 		DISCRETE,
-		BINAR,
-		ZERO
+		BINAR
 	};
 
 	enum class TypeSignal

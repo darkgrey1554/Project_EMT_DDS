@@ -1,10 +1,16 @@
-﻿  ModuleIO.cpp
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(268,23): warning C4018: <: несоответствие типов со знаком и без знака
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(335,94): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(337,16): warning C4101: e: неиспользованная локальная переменная
-D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\ModuleIO.cpp(711,16): warning C4101: e: неиспользованная локальная переменная
-  Unit_CP.cpp
-  Unit_DDS_CP.cpp
-  Создание кода...
+﻿  DDSUnit.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\DDSUnit.cpp(458,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\DDSUnit.cpp(493,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\DDSUnit.cpp(542,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\DDSUnit.cpp(548,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\DDSUnit.cpp(1206,21): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\DDSUnit.cpp(1237,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\DDSUnit.cpp(1255,38): warning C4244: аргумент: преобразование "_Rep" в "uint16_t", возможна потеря данных
+          with
+          [
+              _Rep=__int64
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\DDSUnit.cpp(1192,16): warning C4101: res: неиспользованная локальная переменная
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\DDSUnit.cpp(1284,9): warning C4101: val: неиспользованная локальная переменная
   LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
-  GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe
+  GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe

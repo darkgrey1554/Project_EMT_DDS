@@ -1,0 +1,24 @@
+{
+  "Units": [
+    {
+      "TypeTransfer": "Publication",
+      "PointName": "sm002",
+      "TypeData": "ANALOG",
+      "Size": 100,
+      "Frequency": 1000,
+      "TypeSignal": "Sine",
+      "Amplitude": 4,
+      "Show": "ON",
+      "Output": 3
+    },
+    {
+      "TypeTransfer": "Subscription",
+      "Frequency": 1000,
+      "PointName": "sm003",
+      "TypeData": "ANALOG",
+      "Size": 100,
+      "Show": "ON",
+      "Output": 3
+    }
+  ]
+}

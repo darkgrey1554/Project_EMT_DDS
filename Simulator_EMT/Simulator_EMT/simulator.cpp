@@ -86,7 +86,11 @@ namespace scada_ate
 					{
 						current = std::chrono::high_resolution_clock::now();
 						time = std::chrono::duration_cast<std::chrono::milliseconds>(current - last);
-						if (time.count() < unit.frequency) continue;
+						if (time.count() < unit.frequency)
+						{
+							std::this_thread::sleep_for(std::chrono::milliseconds(1));
+							continue;
+						}
 						last = std::chrono::high_resolution_clock::now();
 
 						update_buffer(buf.get(), unit, k.get());
@@ -149,33 +153,16 @@ namespace scada_ate
 				{
 					current = std::chrono::high_resolution_clock::now();
 					time = std::chrono::duration_cast<std::chrono::milliseconds>(current - last);
-					if (time.count() < unit.frequency) continue;
+					if (time.count() < unit.frequency) 
+					{
+						std::this_thread::sleep_for(std::chrono::milliseconds(1));
+						continue;
+					}
 					last = std::chrono::high_resolution_clock::now();
 
 					shared_memory->ReadData(unit.type_data, buf.get(), unit.size, unit.point_name);
 
-					if (unit.show_console == ShowDataConsole::ON)
-					{
-						std::lock_guard<std::mutex> lock(guard_console);
-						std::cout << " /// ***  Subscribtion - " << unit.point_name << " *** ///" << std::endl;
-						for (unsigned int i = 0; i < unit.size_output; i++)
-						{
-							if (unit.type_data == TypeData::ANALOG)
-							{
-								std::cout << "value[" << i << "] = " << *(point_buf_float + i) << ";" << std::endl;
-							}
-
-							if (unit.type_data == TypeData::DISCRETE)
-							{
-								std::cout << "value[" << i << "] = " << *(point_buf_int + i) << ";" << std::endl;
-							}
-
-							if (unit.type_data == TypeData::BINAR)
-							{
-								std::cout << "value[" << i << "] = " << *(point_buf_char + i) << ";" << std::endl;
-							}
-						}
-					}
+					show_data(buf.get(), unit);
 				}
 
 			}
@@ -270,8 +257,19 @@ namespace scada_ate
 			{
 				if (unit.show_console == ShowDataConsole::ON)
 				{
+					system("cls");
+
 					std::lock_guard<std::mutex> lock(guard_console);
-					std::cout << " /// ***  Publication - " << unit.point_name << " *** ///" << std::endl;
+					if (unit.type_transfer == TypeTransfer::PUBLISHER)
+					{
+						std::cout << " /// ***  Publication point - ";
+					}
+					else if (unit.type_transfer == TypeTransfer::SUBSCRIBER)
+					{
+						std::cout << " /// ***  Subscription point - ";
+					}
+					std::cout << unit.point_name << " *** ///" << std::endl;
+
 					for (unsigned int i = 0; i < unit.size_output; i++)
 					{
 						if (unit.type_data == TypeData::ANALOG)
@@ -287,6 +285,26 @@ namespace scada_ate
 						if (unit.type_data == TypeData::BINAR)
 						{
 							std::cout << "value[" << i << "] = " << *((char*)buf + i) << ";" << std::endl;
+						}
+					}
+
+					std::cout << "..." << std::endl;
+
+					for (unsigned int i = unit.size_output; i > 0; i--)
+					{
+						if (unit.type_data == TypeData::ANALOG)
+						{
+							std::cout << "value[" << unit.size-i << "] = " << *((float*)buf + unit.size - i) << ";" << std::endl;
+						}
+
+						if (unit.type_data == TypeData::DISCRETE)
+						{
+							std::cout << "value[" << unit.size - i << "] = " << *((int*)buf + unit.size - i) << ";" << std::endl;
+						}
+
+						if (unit.type_data == TypeData::BINAR)
+						{
+							std::cout << "value[" << unit.size - i << "] = " << *((char*)buf + unit.size - i) << ";" << std::endl;
 						}
 					}
 				}

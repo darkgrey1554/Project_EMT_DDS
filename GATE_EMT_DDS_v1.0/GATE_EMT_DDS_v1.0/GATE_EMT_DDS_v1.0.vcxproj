@@ -19,36 +19,44 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\logger_crossplatform\logger.cpp" />
-    <ClCompile Include="Adapters.cpp" />
-    <ClCompile Include="Config_Reader.cpp" />
-    <ClCompile Include="DDSUnit.cpp" />
+    <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp" />
+    <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpd.cpp" />
+    <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp" />
+    <ClCompile Include="include\configReader\ConfigReader_main\Config_Reader.cpp" />
+    <ClCompile Include="include\configReader\ConfigReader_units\ReaderConfigUnits.cpp" />
+    <ClCompile Include="include\Module_CP\Module_CP.cpp" />
+    <ClCompile Include="include\Module_CP\Unit_CP\Unit_CP.cpp" />
+    <ClCompile Include="include\Module_CP\Unit_CP\Unit_DDS_CP\Unit_DDS_CP.cpp" />
+    <ClCompile Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.cpp" />
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\Adapters.cpp" />
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.cpp" />
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp" />
+    <ClCompile Include="include\Module_IO\DDSUnit\DDSUnit.cpp" />
+    <ClCompile Include="include\Module_IO\ModuleIO.cpp" />
+    <ClCompile Include="include\structs\struct.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ModuleIO.cpp" />
-    <ClCompile Include="Module_CP.cpp" />
-    <ClCompile Include="ReaderConfigUnits.cpp" />
-    <ClCompile Include="security_handle.cpp" />
-    <ClCompile Include="SharedMemoryAdaptor.cpp" />
-    <ClCompile Include="struct.cpp" />
-    <ClCompile Include="Unit_CP.cpp" />
-    <ClCompile Include="Unit_DDS_CP.cpp" />
-    <ClCompile Include="Unit_TCP_CP.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\logger_crossplatform\logger.h" />
-    <ClInclude Include="Config_Reader.h" />
-    <ClInclude Include="Adapters.h" />
-    <ClInclude Include="DDSUnit.h" />
-    <ClInclude Include="ModuleIO.h" />
-    <ClInclude Include="Module_CP.h" />
-    <ClInclude Include="ReaderConfigUnits.h" />
-    <ClInclude Include="security_handle.h" />
-    <ClInclude Include="SharedMemoryAdaptor.h" />
-    <ClInclude Include="structs.h" />
-    <ClInclude Include="struct_unit_cp.h" />
-    <ClInclude Include="Unit_CP.h" />
-    <ClInclude Include="Unit_DDS_CP.h" />
-    <ClInclude Include="Unit_TCP_CP.h" />
+    <None Include="include\config\config.json" />
+    <None Include="include\config\configunits.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\include_logger\LoggerScada.hpp" />
+    <ClInclude Include="..\..\..\..\include_logger\LoggerScadaspd.hpp" />
+    <ClInclude Include="..\..\..\..\include_logger\logger_crossplatform\logger.h" />
+    <ClInclude Include="include\configReader\ConfigReader_main\Config_Reader.h" />
+    <ClInclude Include="include\configReader\ConfigReader_units\ReaderConfigUnits.h" />
+    <ClInclude Include="include\Module_CP\Module_CP.h" />
+    <ClInclude Include="include\Module_CP\Unit_CP\Unit_CP.h" />
+    <ClInclude Include="include\Module_CP\Unit_CP\Unit_DDS_CP\Unit_DDS_CP.h" />
+    <ClInclude Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.h" />
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\Adapters.hpp" />
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.hpp" />
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp" />
+    <ClInclude Include="include\Module_IO\DDSUnit\DDSUnit.hpp" />
+    <ClInclude Include="include\Module_IO\ModuleIO.h" />
+    <ClInclude Include="include\structs\structs.h" />
+    <ClInclude Include="include\structs\struct_unit_cp.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -181,8 +189,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;WIN32;_WINDOWS;_RELEASE;_CONSOLE;FASTRTPS_DYN_LINK;FASTCDR_DYN_LINK;FOONATHAN_MEMORY=1;FOONATHAN_MEMORY_VERSION_MAJOR=0;FOONATHAN_MEMORY_VERSION_MINOR=6;FOONATHAN_MEMORY_VERSION_PATCH=2;CMAKE_INTDIR="Release";%(PreprocessorDefinitions);NDEBUG</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\transport;C:\Program Files\eProsima\fastrtps 2.4.0\include\foonathan_memory;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr;C:\Program Files\eProsima\fastrtps 2.4.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;D:\CATE_WORK\include_logger\logger_crossplatform;D:\CATE_WORK\include_logger;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\transport;C:\Program Files\eProsima\fastrtps 2.4.0\include\foonathan_memory;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr;C:\Program Files\eProsima\fastrtps 2.4.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ExceptionHandling>Async</ExceptionHandling>

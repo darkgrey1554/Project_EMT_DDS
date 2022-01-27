@@ -1,15 +1,58 @@
 ﻿#include <iostream>
+#include <string_view>
+#include <format>
 #include "spdlog/spdlog.h"
+#include "LoggerScada.hpp"
+#include "spdlog/spdlog.h"
+#include "spdlog/cfg/env.h"
+#include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+
 
 template<typename... Args>
-void fun(std::string str, Args... args)
+void fun(std::string_view str, Args&&... args)
 {
-    std::string result;
+    std::string helpstr = std::vformat(str, std::make_format_args(args...));
+
+    return;
 }
+
+class A
+{
+public:
+
+    template<typename... Args>  void fun(std::string_view str, Args&&... args)
+    {
+        std::string helpstr = std::vformat(str, std::make_format_args(args...));
+        std::cout << helpstr <<std::endl;
+        return;
+    }
+};
 
 int main()
 {
-    fun("Welcome to spdlog! {2} {1} {0}", 1, 2, 3);
+    LoggerSpaceScada::ConfigLogger conf;
+    conf.file_mame = "log.txt";
+    conf.file_path = "";
+    conf.level = LoggerSpaceScada::LevelLog::Debug;
+    conf.numbers_file = 3;
+    conf.size_file = 1;
+      
+    std::shared_ptr <LoggerSpaceScada::LoggerScada> log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG,conf);
+
+
+    conf.file_mame.clear();
+    conf.file_mame = "";
+    std::shared_ptr <LoggerSpaceScada::LoggerScada> log2 = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG, conf);
+
+
+    for (;;)
+    {
+        std::shared_ptr <LoggerSpaceScada::LoggerScada> log3 = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG, conf);
+        log->Debug("asdasd {} {}", 1, 2);
+        log2->Info("qwe {} {}", 1, 2);
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
 
     spdlog::info("Welcome to spdlog!");
     spdlog::error("Some error message with arg: {}", 1);

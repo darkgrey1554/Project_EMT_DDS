@@ -2,7 +2,7 @@
   "Units": [
     {
       "TypeTransfer": "Publication",
-      "PointName": "sm001",
+      "PointName": "sm003",
       "TypeData": "ANALOG",
       "Size": 100,
       "Frequency": 1000,
@@ -14,7 +14,7 @@
     {
       "TypeTransfer": "Subscription",
       "Frequency": 1000,
-      "PointName": "sm002",
+      "PointName": "sm003",
       "TypeData": "ANALOG",
       "Size": 100,
       "Show": "ON",

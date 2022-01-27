@@ -5,101 +5,159 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Файлы заголовков">
+    <Filter Include="File">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Файлы ресурсов">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="File\Module_IO">
+      <UniqueIdentifier>{7a0172d4-be96-4bc0-822a-4e4266f406b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\Module_IO\DDSUnit">
+      <UniqueIdentifier>{170000b4-920a-4844-bbbc-f18700a1bbc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\Module_IO\DDSUnit\Adapters">
+      <UniqueIdentifier>{471c293d-971b-4fba-9da3-2d0fdd22a56b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter">
+      <UniqueIdentifier>{b30c4f7b-3534-4a91-8443-f44643aa0d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\structs">
+      <UniqueIdentifier>{76d1b139-0438-4809-b5bb-d147ce7c857a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\Module_CP">
+      <UniqueIdentifier>{df7878c8-b76a-4373-8939-08bb671c0f22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\Module_CP\Unit_CP">
+      <UniqueIdentifier>{cb637896-71ae-4e85-a085-f651d078aeb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\Module_CP\Unit_CP\Unit_CP_DDS">
+      <UniqueIdentifier>{910b7ddd-1dc5-4ef4-97ce-88b930c5193c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\Module_CP\Unit_CP\Unit_CP_TCP">
+      <UniqueIdentifier>{2ca751d2-0ac5-4e21-aaf1-15ab79955e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\config">
+      <UniqueIdentifier>{ad736e5c-80fb-491a-9c84-b217947b3be5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\ConfigReader">
+      <UniqueIdentifier>{67235ef0-672d-43cf-9d8b-6838e8d55b96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\ConfigReader\ConfigReader_main">
+      <UniqueIdentifier>{001c0b82-9a44-4b21-b40a-d9ae15b4f243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\ConfigReader\ConfigReader_units">
+      <UniqueIdentifier>{0e8b235f-e250-4a22-b094-0f95e505ccdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File\Logger">
+      <UniqueIdentifier>{2c49c579-3fef-49dd-b699-a648f44df822}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\logger_crossplatform\logger.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\configReader\ConfigReader_main\Config_Reader.cpp">
+      <Filter>File\ConfigReader\ConfigReader_main</Filter>
     </ClCompile>
-    <ClCompile Include="Config_Reader.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\configReader\ConfigReader_units\ReaderConfigUnits.cpp">
+      <Filter>File\ConfigReader\ConfigReader_units</Filter>
     </ClCompile>
-    <ClCompile Include="SharedMemoryAdaptor.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp">
+      <Filter>File\Logger</Filter>
     </ClCompile>
-    <ClCompile Include="Adapters.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpd.cpp">
+      <Filter>File\Logger</Filter>
     </ClCompile>
-    <ClCompile Include="security_handle.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\Module_CP\Module_CP.cpp">
+      <Filter>File\Module_CP</Filter>
     </ClCompile>
-    <ClCompile Include="DDSUnit.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\Module_CP\Unit_CP\Unit_CP.cpp">
+      <Filter>File\Module_CP\Unit_CP</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleIO.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\Module_CP\Unit_CP\Unit_DDS_CP\Unit_DDS_CP.cpp">
+      <Filter>File\Module_CP\Unit_CP\Unit_CP_DDS</Filter>
     </ClCompile>
-    <ClCompile Include="Unit_DDS_CP.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\Module_IO\ModuleIO.cpp">
+      <Filter>File\Module_IO</Filter>
     </ClCompile>
-    <ClCompile Include="Unit_TCP_CP.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\Module_IO\DDSUnit\DDSUnit.cpp">
+      <Filter>File\Module_IO\DDSUnit</Filter>
     </ClCompile>
-    <ClCompile Include="Unit_CP.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\Adapters.cpp">
+      <Filter>File\Module_IO\DDSUnit\Adapters</Filter>
     </ClCompile>
-    <ClCompile Include="struct.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.cpp">
+      <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
     </ClCompile>
-    <ClCompile Include="ReaderConfigUnits.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp">
+      <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
     </ClCompile>
-    <ClCompile Include="Module_CP.cpp">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="include\structs\struct.cpp">
+      <Filter>File\structs</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.cpp">
+      <Filter>File\Module_CP\Unit_CP\Unit_CP_TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp">
+      <Filter>File\Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="structs.h">
-      <Filter>Файлы заголовков</Filter>
+    <None Include="include\config\config.json">
+      <Filter>File\config</Filter>
+    </None>
+    <None Include="include\config\configunits.json">
+      <Filter>File\config</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\configReader\ConfigReader_main\Config_Reader.h">
+      <Filter>File\ConfigReader\ConfigReader_main</Filter>
     </ClInclude>
-    <ClInclude Include="SharedMemoryAdaptor.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\configReader\ConfigReader_units\ReaderConfigUnits.h">
+      <Filter>File\ConfigReader\ConfigReader_units</Filter>
     </ClInclude>
-    <ClInclude Include="Config_Reader.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="..\..\..\..\include_logger\LoggerScada.hpp">
+      <Filter>File\Logger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\logger_crossplatform\logger.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="..\..\..\..\include_logger\LoggerScadaspd.hpp">
+      <Filter>File\Logger</Filter>
     </ClInclude>
-    <ClInclude Include="Adapters.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\Module_CP\Module_CP.h">
+      <Filter>File\Module_CP</Filter>
     </ClInclude>
-    <ClInclude Include="security_handle.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\Module_CP\Unit_CP\Unit_CP.h">
+      <Filter>File\Module_CP\Unit_CP</Filter>
     </ClInclude>
-    <ClInclude Include="DDSUnit.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\Module_CP\Unit_CP\Unit_DDS_CP\Unit_DDS_CP.h">
+      <Filter>File\Module_CP\Unit_CP\Unit_CP_DDS</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleIO.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\Module_IO\ModuleIO.h">
+      <Filter>File\Module_IO</Filter>
     </ClInclude>
-    <ClInclude Include="Unit_CP.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\Module_IO\DDSUnit\DDSUnit.hpp">
+      <Filter>File\Module_IO\DDSUnit</Filter>
     </ClInclude>
-    <ClInclude Include="Unit_TCP_CP.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\Adapters.hpp">
+      <Filter>File\Module_IO\DDSUnit\Adapters</Filter>
     </ClInclude>
-    <ClInclude Include="Module_CP.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.hpp">
+      <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
     </ClInclude>
-    <ClInclude Include="Unit_DDS_CP.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp">
+      <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
     </ClInclude>
-    <ClInclude Include="struct_unit_cp.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\structs\struct_unit_cp.h">
+      <Filter>File\structs</Filter>
     </ClInclude>
-    <ClInclude Include="ReaderConfigUnits.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="include\structs\structs.h">
+      <Filter>File\structs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.h">
+      <Filter>File\Module_CP\Unit_CP\Unit_CP_TCP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include_logger\logger_crossplatform\logger.h">
+      <Filter>File\Logger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
