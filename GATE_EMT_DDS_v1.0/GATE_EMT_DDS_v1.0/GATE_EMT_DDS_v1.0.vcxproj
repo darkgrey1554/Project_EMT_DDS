@@ -34,6 +34,7 @@
     <ClCompile Include="include\Module_IO\DDSUnit\DDSUnit.cpp" />
     <ClCompile Include="include\Module_IO\ModuleIO.cpp" />
     <ClCompile Include="include\structs\struct.cpp" />
+    <ClCompile Include="include\structs\TimeConverter.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +58,7 @@
     <ClInclude Include="include\Module_IO\ModuleIO.h" />
     <ClInclude Include="include\structs\structs.h" />
     <ClInclude Include="include\structs\struct_unit_cp.h" />
+    <ClInclude Include="include\structs\TimeConverter.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

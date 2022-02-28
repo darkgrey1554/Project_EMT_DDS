@@ -3,9 +3,9 @@
 
 namespace gate
 {
-	std::shared_ptr<DDSUnit> CreateDDSUnit(ConfigDDSUnit config)
+	std::shared_ptr<IDDSUnit> CreateDDSUnit(ConfigDDSUnit config)
 	{
-		std::shared_ptr<DDSUnit> p = nullptr;
+		std::shared_ptr<IDDSUnit> p = nullptr;
 		switch (config.TypeUnit)
 		{
 		case TypeDDSUnit::SUBSCRIBER:
@@ -25,8 +25,9 @@ namespace gate
 	DDSUnit_Subscriber::DDSUnit_Subscriber(ConfigDDSUnit config) : start_config(config)
 	{
 		SetStatus(StatusDDSUnit::EMPTY);
-		log = LoggerSpace::Logger::getpointcontact();
+		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
 		name_unit = CreateNameUnit(start_config.PointName);
+		log->Debug("DDSUnit_Subscriber : Create unit name: {}", name_unit);
 	};
 
 	ResultReqest DDSUnit_Subscriber::Initialization()
@@ -34,90 +35,87 @@ namespace gate
 		std::string helpstr;
 		ResultReqest result_command;
 		StatusDDSUnit status_unit = GetCurrentStatus();
-
-
-
 		if (status_unit != StatusDDSUnit::EMPTY &&
 			status_unit != StatusDDSUnit::ERROR_INIT &&
 			status_unit != StatusDDSUnit::DESTROYED)
 		{
-			helpstr.clear();
 			helpstr += "Error DDSUnit: Initialization already done: name units: " + this->name_unit;
-			log->WriteLogWARNING(helpstr.c_str(), 0, 0);
+			log->Warning("DDSUnit {}: Initialization already done", name_unit);
 			return ResultReqest::IGNOR;
 		}
 
-		config = start_config;
-		name_unit = CreateNameUnit(config.PointName);
-
-		/// --- иницализация participant --- /// 
-		result_command = init_participant();
-		if (result_command != ResultReqest::OK)
+		try 
 		{
+
+			config = start_config;
+			name_unit = CreateNameUnit(config.PointName);
+
+			/// --- иницализация participant --- /// 
+			result_command = init_participant();
+			if (result_command != ResultReqest::OK)
+			{
+				throw 1;
+			}
+
+			/// --- инициализация subscriber --- ///
+			result_command = init_subscriber();
+			if (result_command != ResultReqest::OK)
+			{
+				throw 2;
+			}
+
+			/// --- создание динамического типа --- ///
+			result_command = create_dynamic_data_type();
+			if (result_command != ResultReqest::OK)
+			{
+				throw 3;
+			}
+
+			/// --- регистрация типа ---- ///
+			result_command = register_type();
+			if (result_command != ResultReqest::OK)
+			{
+				throw 4;
+			}
+
+			/// --- регистрация топика --- ///
+			result_command = register_topic();
+			if (result_command != ResultReqest::OK)
+			{
+				throw 5;
+			}
+
+			/// --- создание адаптера --- /// 
+			result_command = init_adapter();
+			if (result_command != ResultReqest::OK)
+			{
+				throw 6;
+			}
+
+			/// --- регистрация DataReader --- /// 
+
+			result_command = init_reader_data();
+			if (result_command != ResultReqest::OK)
+			{
+				throw 7;
+			}
+
+		}
+		catch (int& e)
+		{
+			log->Critical("DDSUnit {}: Error Initialization: error: {}", name_unit, e);
 			SetStatus(StatusDDSUnit::ERROR_INIT);
 			return ResultReqest::ERR;
 		}
-
-		/// --- инициализация subscriber --- ///
-
-		result_command = init_subscriber();
-		if (result_command != ResultReqest::OK)
+		catch (...)
 		{
+			log->Critical("DDSUnit {}: Error Initialization: error: {}", name_unit, 0);
 			SetStatus(StatusDDSUnit::ERROR_INIT);
 			return ResultReqest::ERR;
-		}
+		}		
 
-		/// --- создание динамического типа --- ///
-
-		result_command = create_dynamic_data_type();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
-
-		/// --- регистрация типа ---- ///
-
-		result_command = register_type();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
-
-		/// --- регистрация топика --- ///
-
-		result_command = register_topic();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
-
-		/// --- создание адаптера --- /// 
-
-		result_command = init_adapter();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
-
-		/// --- регистрация DataReader --- /// 
-
-		result_command = init_reader_data();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
-
+		log->Debug("DDSUnit {}: Initialization done", name_unit);
 		SetStatus(StatusDDSUnit::WORK);
-		helpstr.clear();
-		helpstr += "DDSUnit: Initialization done: name units: " + this->name_unit;
-		log->WriteLogINFO(helpstr.c_str(), 0, 0);
-		std::cout << "DDSUnit: Initialization done: name units: " << this->name_unit << std::endl;
-
 		return ResultReqest::OK;
 	}
 
@@ -125,7 +123,7 @@ namespace gate
 	{	
 
 		std::string helpstr;
-
+		ResultReqest result{ ResultReqest::OK };
 		/// --- инициализация транспортного уровня --- ///
 		///--------------------------------------------///
 		//////////////////////////////////////////////////
@@ -140,19 +138,17 @@ namespace gate
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error create of participant: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error Init_participant");
+			result = ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	}
 
 	ResultReqest DDSUnit_Subscriber::init_subscriber()
 	{
 		std::string helpstr;
-
+		ResultReqest result{ ResultReqest::OK };
 		try
 		{
 			subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
@@ -160,13 +156,11 @@ namespace gate
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error create of subscriber: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error Init_subscriber");
+			result = ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	}
 
 	ResultReqest DDSUnit_Subscriber::create_dynamic_data_type()
@@ -183,6 +177,7 @@ namespace gate
 			data [size_data] : uint32/float;
 		*/
 		std::string helpstr;
+		ResultReqest result{ResultReqest::OK};
 
 		try
 		{
@@ -276,97 +271,105 @@ namespace gate
 		}
 		catch (const int& e_int)
 		{
-			helpstr.clear();
-			helpstr = "Error init DDSUnit : Error create dynamic type : name units : " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e_int, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error create dynamic type: error {}", this->name_unit, e_int);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr = "Error init DDSUnit : Error create dynamic type : name units : " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error create dynamic type: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	}
 
 	ResultReqest DDSUnit_Subscriber::register_type()
 	{
+		ResultReqest result{ ResultReqest::OK };
+
 		try
 		{
 			TypeSupport PtrSupporType = eprosima::fastrtps::types::DynamicPubSubType(type_data);
 			PtrSupporType.get()->auto_fill_type_information(false);
 			PtrSupporType.get()->auto_fill_type_object(true);
-			if (PtrSupporType.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw - 1;
+			if (PtrSupporType.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw 1;
+		}
+		catch (int& e)
+		{
+			log->Critical("DDSUnit {}: Error register_type: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			std::string helpstr;
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error registration of type: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
-		}		
+			log->Critical("DDSUnit {}: Error register_type: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
+		}
 
-		return ResultReqest::OK;
+		return result;
 	}
 
 	ResultReqest DDSUnit_Subscriber::register_topic()
 	{
+		ResultReqest result{ ResultReqest::OK };
+
 		try
 		{
 			topic_data = participant_->create_topic(CreateNameTopic(this->config.PointName), CreateNameType(this->config.PointName), TOPIC_QOS_DEFAULT);
-			if (topic_data == nullptr) throw - 1;
+			if (topic_data == nullptr) throw 1;
+		}
+		catch (int& e)
+		{
+			log->Critical("DDSUnit {}: Error registration of topic: {}", this->name_unit, e);
+			result = ResultReqest::OK;
 		}
 		catch (...)
 		{
-			std::string helpstr;
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error registration of topic, name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error registration of topic: {}", this->name_unit, 0);
+			result = ResultReqest::OK;
 		}
-
-		return ResultReqest::OK;
+		return result;
 	};
 
 	ResultReqest DDSUnit_Subscriber::init_reader_data()
 	{
 		std::string helpstr;
+		ResultReqest result{ ResultReqest::OK };
 
 		try
 		{
 			if (this->config.Frequency <= 0)
 			{
 				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, listener_.get());
-				if (reader_data == nullptr) throw - 1;
+				if (reader_data == nullptr) throw 1;
+				listener_->Start();
 			}
 			else
 			{
 				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, nullptr);
-				if (reader_data == nullptr) throw - 1;
+				if (reader_data == nullptr) throw 2;
 				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
 			}
 		}
+		catch (int& e)
+		{
+			log->Critical("DDSUnit {}: Error initialization reader data: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
+		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error create of reader_data: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error initialization reader data: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	};
 
-	std::shared_ptr<ConfigAdapter>  DDSUnit_Subscriber::create_config_adapter()
+	std::shared_ptr<IConfigAdapter>  DDSUnit_Subscriber::create_config_adapter()
 	{
 
 		if (config.Adapter == TypeAdapter::SharedMemory)
 		{
-			std::shared_ptr<ConfigSharedMemoryAdapter> config_sm = std::make_shared<ConfigSharedMemoryAdapter>();
+			std::shared_ptr<ConfigAdapterSharedMemory> config_sm = std::make_shared<ConfigAdapterSharedMemory>();
 			
 			config_sm->type_adapter = TypeAdapter::SharedMemory;
 			config_sm->NameMemory = this->config.PointName;
@@ -382,7 +385,7 @@ namespace gate
 	ResultReqest DDSUnit_Subscriber::init_adapter()
 	{
 		std::string helpstr;
-		ResultReqest res;
+		ResultReqest result{ResultReqest::OK};
 
 		try
 		{
@@ -390,29 +393,25 @@ namespace gate
 
 			AdapterUnit = CreateAdapter(this->config.Adapter);
 			if (AdapterUnit == nullptr) throw 1;
-			std::shared_ptr<ConfigAdapter> conf_adater = create_config_adapter();
-			res = AdapterUnit->InitAdapter(conf_adater);
-			if (res != ResultReqest::OK) throw 2;
+			std::shared_ptr<IConfigAdapter> conf_adater = create_config_adapter();
+			result = AdapterUnit->InitAdapter(conf_adater);
+			if (result != ResultReqest::OK) throw 2;
 		}
 		catch (int& e_int)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error initialization of adapter, name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e_int, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error initialization of Adapter: error {}", this->name_unit, e_int);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error initialization of adapter, name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error initialization of Adapter: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	}
 
-	inline unsigned char DDSUnit::size_type_data_baits(TypeData type)
+	inline unsigned char IDDSUnit::size_type_data_baits(TypeData type)
 	{
 		unsigned char result = 0;
 		if (type == TypeData::ANALOG) { result = sizeof(float); }
@@ -466,10 +465,14 @@ namespace gate
 
 				end = std::chrono::steady_clock::now();
 				delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-				if (delta_ms.count() < config.Frequency - frequency_scatter) 
+				if (delta_ms.count() < config.Frequency - scatter_frequency)
 				{ 
 					std::this_thread::sleep_for(std::chrono::microseconds(1)); 
 					continue; 
+				}
+				else if (delta_ms.count() > config.Frequency)
+				{
+					log->Warning("DDSUnit {}: Time out transfer data: {} ", this->name_unit, delta_ms.count());
 				}
 				start = std::chrono::steady_clock::now();
 
@@ -479,9 +482,7 @@ namespace gate
 
 				if (res != ReturnCode_t::RETCODE_OK) //throw 2;
 				{
-					helpstr.clear();
-					helpstr += "DDSUnit: Error read data in thread of thransfer: name units: " + this->name_unit;
-					log->WriteLogWARNING(helpstr.c_str(), 10 , res());
+					log->Warning("DDSUnit {}: Error read data in thread of thransfer", this->name_unit);
 					continue;
 				}
 
@@ -495,26 +496,23 @@ namespace gate
 					mirror_data_form_DDS(mass_data.get(), array, i);
 				}
 				if (data->return_loaned_value(array) != ReturnCode_t::RETCODE_OK) throw 5;
-				if (AdapterUnit->WriteData(mass_data.get(), config.Size) != ResultReqest::OK) throw 4;
-
-				
+				array = nullptr;
+				if (AdapterUnit->WriteData(mass_data.get(), config.Size) != ResultReqest::OK) throw 4;	
+				log->Debug("DDSUnit {}: Thread of thransfer: read done", this->name_unit);
 			}
 		}
 		catch (int& e)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
+			log->Critical("DDSUnit {}: Error in thread of thransfer: error {}", this->name_unit, e);
 			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
+			if (array != nullptr) data->return_loaned_value(array);
 			return;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			log->Critical("DDSUnit {}: Error in thread of thransfer: error {}", this->name_unit, 0);
 			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
-			data->return_loaned_value(array);
+			if (array != nullptr) data->return_loaned_value(array);
 			return;
 		}
 
@@ -524,7 +522,9 @@ namespace gate
 
 	void DDSUnit_Subscriber::SubListener::on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info)
 	{
-		std::cout << "asdasd" << std::endl;
+		//////////
+		//////////
+		//////////
 	}
 
 	void DDSUnit_Subscriber::SubListener::on_data_available(DataReader* reader)
@@ -533,7 +533,6 @@ namespace gate
 		eprosima::fastrtps::types::DynamicData* array = nullptr;
 		std::string helpstr;
 		if ( status.load(std::memory_order_relaxed) != CommandListenerSubscriber::START) return;
-		std::cout << "data take" << std::endl;
 
 		try
 		{
@@ -550,21 +549,19 @@ namespace gate
 				master->mirror_data_form_DDS(mass_data.get(), array, i);
 			}
 			if (master->data->return_loaned_value(array) != ReturnCode_t::RETCODE_OK) throw 5;
+			array = nullptr;
 			if (master->AdapterUnit->WriteData(mass_data.get(), master->config.Size) != ResultReqest::OK) throw 4;
 		}
 		catch (int& e)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error in listener_: name units: " + this->master->name_unit;
-			master->log->WriteLogERR(helpstr.c_str(), e, 0);
+			master->log->Critical("DDSUnit {}: Error in listener_: error ", this->master->name_unit, e);
+			if (array != nullptr) master->data->return_loaned_value(array);
 			return;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error in listener_: name units: " + this->master->name_unit;
-			master->log->WriteLogERR(helpstr.c_str(), 0, 0);
-			master->data->return_loaned_value(array);
+			master->log->Critical("DDSUnit {}: Error in listener_: error ", this->master->name_unit, 0);
+			if (array != nullptr) master->data->return_loaned_value(array);
 			return;
 		}
 
@@ -584,6 +581,7 @@ namespace gate
 	ResultReqest DDSUnit_Subscriber::Stop()
 	{
 		std::string helpstr;
+		ResultReqest result{ ResultReqest::OK };
 		try
 		{
 			if (GetCurrentStatus() != StatusDDSUnit::WORK) throw 1;
@@ -596,76 +594,71 @@ namespace gate
 				thread_transmite.join();
 			}
 			SetStatus(StatusDDSUnit::STOP);
-
+			log->Debug("DDSUnit {}: Stop Command done", this->name_unit);
 		}
 		catch (int& e)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Stop command error: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error stop command: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Stop command error: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error stop command: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
-		helpstr.clear();
-		helpstr += "DDSUnit: Stop command done: name units: " + this->name_unit;
-		log->WriteLogINFO(helpstr.c_str(), 0, 0);
-		return ResultReqest::OK;
+		return result;
 	};
 
 	ResultReqest DDSUnit_Subscriber::Start()
 	{
 		std::string helpstr;
+		ResultReqest result = ResultReqest::OK;
+
 		try
 		{
 			if (GetCurrentStatus() != StatusDDSUnit::STOP) throw 1;
 
-			listener_->Start();
-			if (thread_transmite.joinable())
+			if (this->config.Frequency <= 0)
 			{
-				if (status_thread.load(std::memory_order_relaxed) != StatusThreadDSSUnit::WORK)
-				{
-					thread_transmite.join();
-					thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
-				}
+				listener_->Start();
 			}
 			else
 			{
-				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
+				if (thread_transmite.joinable())
+				{
+					if (status_thread.load(std::memory_order_relaxed) != StatusThreadDSSUnit::WORK)
+					{
+						thread_transmite.join();
+						thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
+					}
+				}
+				else
+				{
+					thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
+				}
 			}
 
 			SetStatus(StatusDDSUnit::WORK);
+
+			log->Debug("DDSUnit {}: command Start done", this->name_unit);
 		}
 		catch (int& e)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Start command error: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error command Start: error {}", this->name_unit, e);
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Start command error: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error command Start: error {}", this->name_unit, 0);
 		}
 
-		helpstr.clear();
-		helpstr += "DDSUnit: command Start done: name units: " + this->name_unit;
-		log->WriteLogINFO(helpstr.c_str(), 0, 0);
-		return ResultReqest::OK;
+		return result;
 	};
 
 	ResultReqest DDSUnit_Subscriber::Delete()
 	{
 		std::string helpstr;
+		ResultReqest result = { ResultReqest::OK };
 
 		try
 		{
@@ -706,59 +699,48 @@ namespace gate
 			}
 
 			SetStatus(StatusDDSUnit::DESTROYED);
+
+			log->Debug("DDSUnit {}: Delete done", this->name_unit);
 		}
 		catch (int& e)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error to command Delete: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
+			log->Critical("DDSUnit {}: Error command delete: error {}", this->name_unit, e);
 			SetStatus(StatusDDSUnit::ERROR_DESTROYED);
-			return ResultReqest::ERR;
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error to command Delete: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			log->Critical("DDSUnit {}: Error command delete: error {}", this->name_unit, 0);
 			SetStatus(StatusDDSUnit::ERROR_DESTROYED);
-			return ResultReqest::ERR;
+			result = ResultReqest::ERR;
 		}
 
-		helpstr.clear();
-		helpstr += "Info DDSUnit: Delete command done: name units: " + this->name_unit;
-		log->WriteLogERR(helpstr.c_str(), 0, 0);
-
-		return ResultReqest::OK;
+		return result;
 	};
 
 	ResultReqest DDSUnit_Subscriber::Restart()
 	{
 		std::string helpstr;
+		ResultReqest result = { ResultReqest::OK };
 
 		try
 		{
 			if (Delete() != ResultReqest::OK) throw 1;
 			if (Initialization() != ResultReqest::OK) throw 2;
+			log->Debug("DDSUnit {}: Restart done");
 		}
 		catch (int& e)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error command Restart: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error command Restart: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error command Restart: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error command Restart: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
-		helpstr.clear();
-		helpstr += "Info DDSUnit: Restart command done: name units: " + this->name_unit;
-		log->WriteLogINFO(helpstr.c_str(), 0, 0);
-		return ResultReqest::OK;
+		return result;
 	};
 
 	StatusDDSUnit DDSUnit_Subscriber::GetCurrentStatus() const
@@ -788,9 +770,7 @@ namespace gate
 
 		if (Delete() == ResultReqest::ERR)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error Destructor : name units: " + config.PointName;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			log->Critical("DDSUnit {}: Error Destructor", this->name_unit);
 		}
 	}
 
@@ -823,104 +803,109 @@ namespace gate
 	DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : start_config(config)
 	{
 		SetStatus(StatusDDSUnit::EMPTY);
-		log = LoggerSpace::Logger::getpointcontact();
+		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
 		name_unit = CreateNameUnit(start_config.PointName);
 	}
 
 	ResultReqest DDSUnit_Publisher::Initialization()
 	{
 		std::string helpstr;
-		ResultReqest result_command;
+		ResultReqest result {ResultReqest::OK};
 		StatusDDSUnit status_unit = GetCurrentStatus();
 
-		if (status_unit != StatusDDSUnit::EMPTY &&
-			status_unit != StatusDDSUnit::ERROR_INIT &&
-			status_unit != StatusDDSUnit::DESTROYED)
+		try
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Initialization already done: name units: " + this->name_unit;
-			log->WriteLogWARNING(helpstr.c_str(), 0, 0);
-			return ResultReqest::IGNOR;
 		}
-
-		config = start_config;
-		name_unit = CreateNameUnit(config.PointName);
-
-		/// --- иницализация participant --- /// 
-		result_command = init_participant();
-		if (result_command != ResultReqest::OK)
+		catch(int& e)
 		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
+			if (status_unit != StatusDDSUnit::EMPTY &&
+				status_unit != StatusDDSUnit::ERROR_INIT &&
+				status_unit != StatusDDSUnit::DESTROYED)
+			{
+				log->Warning("DDSUnit {}: Initialization already done", this->name_unit);
+				return ResultReqest::IGNOR;
+			}
+
+			config = start_config;
+			name_unit = CreateNameUnit(config.PointName);
+
+			/// --- иницализация participant --- /// 
+
+			if (init_participant() != ResultReqest::OK)
+			{
+				SetStatus(StatusDDSUnit::ERROR_INIT);
+				throw 1;
+			}
+
+			/// --- инициализация subscriber --- ///
+
+			if (init_publisher() != ResultReqest::OK)
+			{
+				SetStatus(StatusDDSUnit::ERROR_INIT);
+				throw 2;
+			}
+
+			/// --- создание динамического типа --- ///
+
+			if (create_dynamic_data_type() != ResultReqest::OK)
+			{
+				SetStatus(StatusDDSUnit::ERROR_INIT);
+				throw 3;
+			}
+
+			/// --- регистрация типа ---- ///
+
+			if (register_type() != ResultReqest::OK)
+			{
+				SetStatus(StatusDDSUnit::ERROR_INIT);
+				throw 4;
+			}
+
+			/// --- регистрация топика --- ///
+
+			if (register_topic() != ResultReqest::OK)
+			{
+				SetStatus(StatusDDSUnit::ERROR_INIT);
+				throw 5;
+			}
+
+			/// --- создание адаптера --- /// 
+
+			if (init_adapter() != ResultReqest::OK)
+			{
+				SetStatus(StatusDDSUnit::ERROR_INIT);
+				throw 6;
+			}
+
+			/// --- регистрация DataReader --- /// 
+
+			if (init_writer_data() != ResultReqest::OK)
+			{
+				SetStatus(StatusDDSUnit::ERROR_INIT);
+				throw 7;
+			}
+
+			SetStatus(StatusDDSUnit::WORK);
 		}
-
-		/// --- инициализация subscriber --- ///
-
-		result_command = init_publisher();
-		if (result_command != ResultReqest::OK)
+		catch (int& e)
 		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error Initialization: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
 		}
-
-		/// --- создание динамического типа --- ///
-
-		result_command = create_dynamic_data_type();
-		if (result_command != ResultReqest::OK)
+		catch (...)
 		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
+			log->Critical("DDSUnit {}: Error Initialization: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
+		}		
 
-		/// --- регистрация типа ---- ///
-
-		result_command = register_type();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
-
-		/// --- регистрация топика --- ///
-
-		result_command = register_topic();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
-
-		/// --- создание адаптера --- /// 
-
-		result_command = init_adapter();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
-
-		/// --- регистрация DataReader --- /// 
-
-		result_command = init_writer_data();
-		if (result_command != ResultReqest::OK)
-		{
-			SetStatus(StatusDDSUnit::ERROR_INIT);
-			return ResultReqest::ERR;
-		}
-
-		SetStatus(StatusDDSUnit::WORK);
-		helpstr.clear();
-		helpstr += "DDSUnit: Initialization done: name units: " + this->name_unit;
-		std::cout <<"DDSUnit: Initialization done: name units: " << this->name_unit << std::endl;
-		log->WriteLogINFO(helpstr.c_str(), 0, 0);
-
-		return ResultReqest::OK;
+		return result;
 	}
 
 	ResultReqest DDSUnit_Publisher::init_participant()
 	{
 
 		std::string helpstr;
+		ResultReqest result{ ResultReqest::OK };
 
 		/// --- инициализация транспортного уровня --- ///
 		///--------------------------------------------///
@@ -932,37 +917,44 @@ namespace gate
 		{
 			participant_ =
 				DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, PARTICIPANT_QOS_DEFAULT, nullptr);
-			if (!participant_) throw - 1;
+			if (!participant_) throw 1;
+		}
+		catch (int& e)
+		{
+			log->Critical("DDSUnit {}: Error create of partocipant: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error create of participant: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error create of partocipant: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	}
 
 	ResultReqest DDSUnit_Publisher::init_publisher()
 	{
 		std::string helpstr;
+		ResultReqest result{ ResultReqest::OK };
 
 		try
 		{
 			publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
-			if (!publisher_) throw - 1;
+			if (!publisher_) throw 1;
+		}
+		catch (int& e)
+		{
+			log->Critical("DDSUnit {}: Error create of partocipant: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error create of publisher: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error create of partocipant: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	}
 
 	ResultReqest DDSUnit_Publisher::create_dynamic_data_type()
@@ -979,6 +971,7 @@ namespace gate
 			data [size_data] : uint32/float;
 		*/
 		std::string helpstr;
+		ResultReqest result{ ResultReqest::OK };
 
 		try
 		{
@@ -1070,19 +1063,15 @@ namespace gate
 
 
 		}
-		catch (const int& e_int)
+		catch (int& e)
 		{
-			helpstr.clear();
-			helpstr = "Error init DDSUnit : Error create dynamic type : name units : " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e_int, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error create of dynamic type: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr = "Error init DDSUnit : Error create dynamic type : name units : " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error create of partocipant: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
 		return ResultReqest::OK;
@@ -1090,48 +1079,56 @@ namespace gate
 
 	ResultReqest DDSUnit_Publisher::register_type()
 	{
+
+		ResultReqest result{ ResultReqest::OK };
+
 		try
 		{
 			TypeSupport PtrSupporType = eprosima::fastrtps::types::DynamicPubSubType(type_data);
 			PtrSupporType.get()->auto_fill_type_information(false);
 			PtrSupporType.get()->auto_fill_type_object(true);
-			if (PtrSupporType.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw - 1;
+			if (PtrSupporType.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw 1;
+		}
+		catch (int& e)
+		{
+			log->Critical("DDSUnit {}: Error regisration of type: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			std::string helpstr;
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error registration of type: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error regisration of type: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	}
 
 	ResultReqest DDSUnit_Publisher::register_topic()
 	{
+		ResultReqest result { ResultReqest::OK };
+
 		try
 		{
 			topic_data = participant_->create_topic(CreateNameTopic(this->config.PointName), CreateNameType(this->config.PointName), TOPIC_QOS_DEFAULT);
-			if (topic_data == nullptr) throw - 1;
+			if (topic_data == nullptr) throw 1;
+		}
+		catch (int& e)
+		{
+			log->Critical("DDSUnit {}: Error registration of topic: error {}", this->name_unit, e);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			std::string helpstr;
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error registration of topic, name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error registration of topic: error {}", this->name_unit, 0);
+			result = ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	};
 
 	ResultReqest DDSUnit_Publisher::init_adapter()
 	{
-		std::string helpstr;
-		ResultReqest res;
+		ResultReqest result { ResultReqest::OK };
 
 		try
 		{
@@ -1139,16 +1136,13 @@ namespace gate
 
 			AdapterUnit = CreateAdapter(this->config.Adapter);
 			if (AdapterUnit == nullptr) throw 1;
-			std::shared_ptr<ConfigAdapter> conf_adater = create_config_adapter();
-			res = AdapterUnit->InitAdapter(conf_adater);
-			if (res != ResultReqest::OK) throw 2;
+			std::shared_ptr<IConfigAdapter> conf_adater = create_config_adapter();
+			if (AdapterUnit->InitAdapter(conf_adater) != ResultReqest::OK) throw 2;
 		}
 		catch (int& e_int)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error initialization of adapter, name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e_int, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error initialization of adapter: error {}", this->name_unit, e_int);
+			return ResultReqest::ERopeR;
 		}
 		catch (...)
 		{

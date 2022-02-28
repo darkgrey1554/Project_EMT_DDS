@@ -2,9 +2,11 @@
 #include <Module_CP/Module_CP.hpp>
 #include <configReader/ConfigReader_main/Config_Reader.hpp>
 #include <LoggerScada.hpp>
+#include "TypeTopicDDS/TypeTopics.h"
 
 int main()
 {
+
 	std::cout << "### Service IO of SCADA ATE ###" << std::endl;
 	std::cout << "Start service ..." << std::endl;
 

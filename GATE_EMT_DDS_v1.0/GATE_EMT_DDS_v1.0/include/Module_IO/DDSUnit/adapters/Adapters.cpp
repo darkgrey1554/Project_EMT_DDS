@@ -2,14 +2,15 @@
 #include "SharedMemory_adapter/AdapterSharedMemory.hpp" 
 
 
-namespace gate
+namespace scada_ate::gate::adapter
 {
-	std::shared_ptr<IAdapter> CreateAdapter(TypeAdapter type)
-	{
-		std::shared_ptr<IAdapter> adapter = nullptr;
 
-		if (type == TypeAdapter::SharedMemory) adapter = std::make_shared<AdapterSharedMemory>();
+		std::shared_ptr<IAdapter> CreateAdapter(TypeAdapter type)
+		{
+			std::shared_ptr<IAdapter> adapter = nullptr;
 
-		return adapter;
-	}
+			if (type == TypeAdapter::SharedMemory) adapter = std::make_shared<AdapterSharedMemory>();
+
+			return adapter;
+		}
 }

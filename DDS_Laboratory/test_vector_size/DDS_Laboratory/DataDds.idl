@@ -1,0 +1,7 @@
+struct DataDDS
+{
+	@default_literal long size;
+	@default_literal long size2;
+	sequence<long> vec_datai;
+	//sequence<float> vec_dataf;
+};

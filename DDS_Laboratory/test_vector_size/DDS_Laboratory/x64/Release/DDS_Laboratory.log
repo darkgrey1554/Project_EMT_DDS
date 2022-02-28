@@ -1,0 +1,100 @@
+﻿  DataDds.cxx
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1852,1): error C2666: ==: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "y == x"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1852,1): message : или       "встроенный оператор C++==(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1852,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1852,1): error C2666: !=: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "!(y == x)"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1852,1): message : или       "встроенный оператор C++!=(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1852,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1883,1): error C2666: ==: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "y == x"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1883,1): message : или       "встроенный оператор C++==(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1883,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1883,1): error C2666: !=: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "!(y == x)"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1883,1): message : или       "встроенный оператор C++!=(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(1883,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2472,1): error C2666: ==: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "y == x"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2472,1): message : или       "встроенный оператор C++==(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2472,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2472,1): error C2666: !=: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "!(y == x)"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2472,1): message : или       "встроенный оператор C++!=(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2472,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2501,1): error C2666: ==: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "y == x"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2501,1): message : или       "встроенный оператор C++==(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2501,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2501,1): error C2666: !=: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "!(y == x)"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2501,1): message : или       "встроенный оператор C++!=(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(2501,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3139,1): error C2666: ==: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "y == x"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3139,1): message : или       "встроенный оператор C++==(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3139,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3139,1): error C2666: !=: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "!(y == x)"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3139,1): message : или       "встроенный оператор C++!=(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3139,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3170,1): error C2666: ==: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "y == x"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3170,1): message : или       "встроенный оператор C++==(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3170,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3170,1): error C2666: !=: для перегрузок (2) есть подобные преобразования
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types\TypesBase.h(248,1): message : Может быть "bool eprosima::fastrtps::types::operator ==<eprosima::fastcdr::Cdr::Endianness>(T,const eprosima::fastrtps::types::ReturnCode_t &)" [синтезированное выражение "!(y == x)"].
+          with
+          [
+              T=eprosima::fastcdr::Cdr::Endianness
+          ]
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3170,1): message : или       "встроенный оператор C++!=(int, eprosima::fastcdr::Cdr::Endianness)"
+C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\Cdr.h(3170,1): message : при попытке сопоставить список аргументов "(uint8_t, eprosima::fastcdr::Cdr::Endianness)"
+  HelloWorld_main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test_vector_size\DDS_Laboratory\HelloWorld_main.cpp(167,28): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  Создание кода...

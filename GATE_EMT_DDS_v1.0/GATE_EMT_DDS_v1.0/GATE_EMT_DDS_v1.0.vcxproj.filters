@@ -101,6 +101,9 @@
     <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp">
       <Filter>File\Logger</Filter>
     </ClCompile>
+    <ClCompile Include="include\structs\TimeConverter.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json">
@@ -158,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\include_logger\logger_crossplatform\logger.h">
       <Filter>File\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\TimeConverter.hpp">
+      <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 #include "adapters/Adapters.hpp"
 #include <atomic>
 #include <vector>
-#include <logger_crossplatform/logger.h>
+#include "LoggerScada.hpp"
 #include <thread>
 #include <chrono>
 
@@ -23,8 +23,6 @@
 
 using namespace eprosima::fastdds::dds;
 using namespace eprosima::fastrtps::types;
-//using namespace eprosima::fastrtps;
-//using namespace eprosima::fastrtps::rtps;
 using namespace std::chrono_literals;
 
 namespace gate
@@ -32,12 +30,12 @@ namespace gate
 	/////////////////////////////////////////////////////////////
 	///--------------- Interface DDSUnit -----------------------
 	/////////////////////////////////////////////////////////////
-	class DDSUnit
+	class IDDSUnit
 	{
 
 	protected:
 
-		const unsigned int frequency_scatter = 25; // 25 ms 
+		const unsigned int scatter_frequency = 25; // 25 ms 
 		inline unsigned char size_type_data_baits(TypeData type);
 
 	public:
@@ -51,25 +49,25 @@ namespace gate
 		virtual ResultReqest Restart() = 0;
 		virtual ResultReqest Delete() = 0;
 		virtual TypeDDSUnit GetType() const = 0;
-		virtual ~DDSUnit() {};
+		virtual ~IDDSUnit() {};
 	};
 
-	std::shared_ptr<DDSUnit> CreateDDSUnit(ConfigDDSUnit config);
+	std::shared_ptr<IDDSUnit> CreateDDSUnit(ConfigDDSUnit config);
 
 	/////////////////////////////////////////////////////////////
 	///--------------- Interface DDSUnit_Subcriber---------------
 	/////////////////////////////////////////////////////////////
 
-	class DDSUnit_Subscriber : public DDSUnit
+	class DDSUnit_Subscriber : public IDDSUnit
 	{
 	private:
 
 		ConfigDDSUnit start_config;
 		ConfigDDSUnit config;
-		std::shared_ptr<gate::Adapter> AdapterUnit = nullptr;
+		std::shared_ptr<gate::IAdapter> AdapterUnit = nullptr;
 		std::string name_unit;
 		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
-		LoggerSpace::Logger* log;
+		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log;
 		
 		std::jthread thread_transmite;
 		std::atomic<StatusThreadDSSUnit> status_thread = StatusThreadDSSUnit::NONE;
@@ -99,9 +97,9 @@ namespace gate
 
 		void function_thread_transmite();
 		void SetStatus(StatusDDSUnit status);
-		std::string CreateNameTopic(std::string short_name);
-		std::string CreateNameType(std::string short_name);
-		std::string CreateNameUnit(std::string short_name);
+		std::string CreateNameTopic(std::string base_name);
+		std::string CreateNameType(std::string base_name);
+		std::string CreateNameUnit(std::string base_name);
 
 		/// --- функция инициализации participant --- ///
 		ResultReqest init_participant();
@@ -125,7 +123,7 @@ namespace gate
 		ResultReqest init_adapter();
 
 		/// --- функция формирования конфигурации адаптера --- /// 
-		std::shared_ptr<ConfigAdapter> create_config_adapter();
+		std::shared_ptr<IConfigAdapter> create_config_adapter();
 
 		/// --- функция копирования днанных из массива DDS в промежуточный массив --- /// 
 		inline void  mirror_data_form_DDS(void* buf, eprosima::fastrtps::types::DynamicData* array_dds, unsigned int i);
@@ -154,14 +152,14 @@ namespace gate
 	///--------------- Interface DDSUnit_Publisher---------------
 	/////////////////////////////////////////////////////////////
 
-	class DDSUnit_Publisher : public DDSUnit
+	class DDSUnit_Publisher : public IDDSUnit
 	{
 		ConfigDDSUnit start_config;
 		ConfigDDSUnit config;
-		std::shared_ptr<gate::Adapter> AdapterUnit = nullptr;
+		std::shared_ptr<gate::IAdapter> AdapterUnit = nullptr;
 		std::string name_unit;
 		std::atomic<StatusDDSUnit> GlobalStatus = StatusDDSUnit::EMPTY;
-		LoggerSpace::Logger* log;
+		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log;
 
 		std::jthread thread_transmite;
 		std::atomic<StatusThreadDSSUnit> status_thread = StatusThreadDSSUnit::NONE;
@@ -202,10 +200,10 @@ namespace gate
 		ResultReqest init_adapter();
 
 		/// --- функция формирования конфигурации адаптера --- /// 
-		std::shared_ptr<ConfigAdapter> create_config_adapter();
+		std::shared_ptr<IConfigAdapter> create_config_adapter();
 
 		/// --- функция копирования днанных из массива DDS в промежуточный массив --- /// 
-		inline void  mirror_data_to_DDS(void* buf, eprosima::fastrtps::types::DynamicData* array_dds, unsigned int i);
+		inline void  mirror_data_to_DDS(void* buf, eprosima::fastrtps::types::DynamicData* array_dds, size_t i);
 
 	public:
 

@@ -1,0 +1,3 @@
+﻿  HelloWorld_main.cpp
+  LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
+  DDS_Laboratory.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test_vector_size3\DDS_Laboratory\x64\Release\DDS_Laboratory.exe

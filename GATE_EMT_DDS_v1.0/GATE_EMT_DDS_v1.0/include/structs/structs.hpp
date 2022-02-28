@@ -7,6 +7,13 @@
 /// <summary>
 ///  тип шлюза
 /// </summary>
+
+
+namespace scada_ate::typedata
+{
+	
+}
+
 enum class Type_Gate
 {
 	DDS = 0,
@@ -26,10 +33,15 @@ enum class ResultReqest
 
 enum class TypeData
 {
-	ZERO,
+	ZERO = 0,
 	ANALOG,
 	DISCRETE,
-	BINAR
+	BINAR,
+	DOUBLEPRECISION = 4,
+	ANALOG_Ex,
+	DISCRETE_Ex,
+	BINAR_Ex,
+	DOUBLEPRECISION_Ex
 };
 
 enum class TypeValue
@@ -38,31 +50,16 @@ enum class TypeValue
 	OUTPUT
 };
 
-/// <summary>
-/// структура для хранения времени в расшаренной памяти
-/// </summary>
-struct TimeUnit
-{
-	unsigned char h = 0;
-	unsigned char m = 0;
-	unsigned char s = 0;
-	unsigned short ms = 0;
-};
 
 /// <summary>
 /// перечисление: направление передачи данных 
 /// </summary>
-enum class TypeDirection
-{
-	ZERO,
-	EMTtoDDS,
-	EMTfromDDS
-};
 
 enum class Typetransport
 {
 	TCPv4,
-	UDPv4
+	UDPv4,
+	SM
 };
 
 enum class TypeUnitTransport
@@ -158,14 +155,6 @@ enum class CommandListenerSubscriber
 	STOP
 };
 
-
-struct IAnswer
-{
-	TypeAdapter type_adapter;
-	ParamInfoAdapter param;
-	ResultReqest result;
-};
-
 struct ConfigGate
 {
 	unsigned int IdGate = 0;
@@ -187,26 +176,6 @@ struct ConfigManager
 	unsigned int Port;
 };
 
-
-
-/// <summary>
-/// Заголовок расшаренной памяти 
-/// </summary>
-struct HeaderSharedMemory
-{
-	TypeData typedata = TypeData::ZERO;
-	TimeUnit TimeLastWrite;
-	TimeUnit TimeLastRead;
-	size_t size_data = 0;
-	unsigned long count_write = 0;
-	unsigned long count_read = 0;
-};
-
-struct  ListKKSOut
-{
-	char KKS[10];
-	unsigned int pos;
-};
 
 struct ConfigDDSUnit
 {
@@ -264,30 +233,6 @@ struct InfoDDSUnit
 {
 	ControlDDSUnit control;
 	ConfigDDSUnit config;
-};
-
-struct KKSUnit
-{
-	std::string KKS;
-	unsigned int position;
-};
-
-struct IConfigAdapter
-{
-	TypeAdapter type_adapter;
-};
-
-struct ConfigAdapterSharedMemory : public IConfigAdapter
-{
-	TypeData DataType;
-	size_t size;
-	std::string NameMemory;
-};
-
-
-struct AnswerSharedMemoryHeaderData : public IAnswer
-{
-	HeaderSharedMemory header;
 };
 
 struct ConfigModule_IO

@@ -1,0 +1,6 @@
+struct DataDDS
+{
+	long size;
+	long size2;
+	sequence<long> vec_datai;
+};
