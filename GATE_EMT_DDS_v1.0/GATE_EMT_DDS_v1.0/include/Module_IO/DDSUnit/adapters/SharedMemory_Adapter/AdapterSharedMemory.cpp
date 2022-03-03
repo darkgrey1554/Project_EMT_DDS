@@ -1,6 +1,6 @@
 #include "AdapterSharedMemory.hpp"
 
-namespace scada_ate::gate::adapter
+namespace scada_ate::gate::adapter::sem
 {
 	////////////////////////////////////////
 	/// --- задает имя shared memory --- ///
@@ -301,17 +301,11 @@ namespace scada_ate::gate::adapter
 	/// <result> 
 	/// - возвращает результат выполнения функции в типе ResultReqest
 	/// 
-	ResultReqest AdapterSharedMemory::ReadData(std::shared_ptr<DDSData>& buf)
+	ResultReqest AdapterSharedMemory::ReadData(std::shared_ptr<DDSData> buf)
 	{	
 		DWORD mutex_win32 = 0;
 		DWORD err_win32 = 0;
 		ResultReqest res = ResultReqest::OK;
-
-		if (config.DataType != TypeData::Base)
-		{
-			ResultReqest res = ResultReqest::IGNOR;
-			return res;
-		}
 
 		try
 		{
@@ -321,12 +315,13 @@ namespace scada_ate::gate::adapter
 				return ResultReqest::IGNOR;
 			}
 
-			log->Debug("AdapterSharedMemory {}: ReadData START", config.NameMemory);
+			if (config.DataType != TypeData::Base)
+			{
+				log->Debug("AdapterSharedMemory {}: ReadData IGNOR", config.NameMemory);
+				return ResultReqest::IGNOR;
+			}
 
-			size_t read_size = this->size_type * config.size;
-			std::shared_ptr<char> ptr(new char[read_size], std::default_delete<char[]>());
-			char* buf_in = ptr.get();
-			char* buf_out = buf_data + sizeof(HeaderSharedMemory);
+			log->Debug("AdapterSharedMemory {}: ReadData START", config.NameMemory);
 
 			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
 			if (mutex_win32 != WAIT_OBJECT_0)
@@ -335,20 +330,73 @@ namespace scada_ate::gate::adapter
 				throw 1;
 			}
 
-			for (int i = 0; i < read_size; i++)
+			
 			{
-				*(buf_in + i) = *(buf_out + i);
+				char* buf_in = buf_data + Offset(TypeData::Base, TypeValue::INT);
+				std::vector<int>& value = data_base.get()->data_int().value();
+				std::vector<char>& quality = data_base.get()->data_int().quality();
+				for (int i = 0; i < config.size_data_int; i++)
+				{
+					value[i] = *((int*)buf_in);
+					buf_in += sizeof(int);
+					quality[i] = *(buf_in);
+					buf_in += sizeof(char);
+				}
+			}
+
+			{
+				char* buf_in = buf_data  + Offset(TypeData::Base, TypeValue::FLOAT);
+				std::vector<float>& value = data_base.get()->data_float().value();
+				std::vector<char>& quality = data_base.get()->data_float().quality();
+				for (int i = 0; i < config.size_data_float; i++)
+				{
+					value[i] = *((float*)buf_in);
+					buf_in += sizeof(float);
+					quality[i] = *(buf_in);
+					buf_in += sizeof(char);
+				}
+			}
+
+			{
+				char* buf_in = buf_data + Offset(TypeData::Base, TypeValue::FLOAT);
+				std::vector<double>& value = data_base.get()->data_double().value();
+				std::vector<char>& quality = data_base.get()->data_double().quality();
+				for (int i = 0; i < config.size_data_double; i++)
+				{
+					value[i] = *((double*)buf_in);
+					buf_in += sizeof(double);
+					quality[i] = *(buf_in);
+					buf_in += sizeof(char);
+				}
+			}
+
+			{
+				char* buf_in = buf_data + Offset(TypeData::Base, TypeValue::CHAR);
+				std::vector<DataChar>& value = data_base.get()->data_char().value();
+				std::vector<char>& quality = data_base.get()->data_char().quality();
+				for (int i = 0; i < config.size_data_char; i++)
+				{
+					auto data_vec = value[i].value();
+					for (int j = 0; j < config.size_str; j++)
+					{
+						data_vec[j] = *buf_in;
+						buf_in++;
+					}
+					quality[i] = *buf_in;
+					buf_in++;
+				}
 			}
 
 			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
+			data_base.get()->time_source(head->TimeLastWrite);
+			
+			head->TimeLastRead = TimeConverter::GetTime_LLmcs();
 
 			/// --- write time in header --- /// 
 			head->count_read++;
 			head->TimeLastRead = TimeConverter::GetTime_LLmcs();	
 
-			info.size_data = this->config.size;
-			info.time = head->TimeLastWrite;
-			buf = ptr;
+			buf = data_base;
 		}
 		catch (int& e)
 		{
@@ -376,7 +424,7 @@ namespace scada_ate::gate::adapter
 	/// </param>
 	/// <result> 
 	/// - возвращает результат выполнения функции в типе ResultReqest
-	ResultReqest AdapterSharedMemory::WriteData(std::shared_ptr<void> buf, SampleInfo& info)
+	ResultReqest AdapterSharedMemory::WriteData(std::shared_ptr<DDSData> buf)
 	{	
 		DWORD mutex_win32 = 0;
 		DWORD err_win32 = 0;
@@ -385,6 +433,12 @@ namespace scada_ate::gate::adapter
 		try
 		{
 			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+			{
+				log->Debug("AdapterSharedMemory {}: ReadData IGNOR", config.NameMemory);
+				return ResultReqest::IGNOR;
+			}
+
+			if (config.DataType != TypeData::Base)
 			{
 				log->Debug("AdapterSharedMemory {}: ReadData IGNOR", config.NameMemory);
 				return ResultReqest::IGNOR;
@@ -399,22 +453,67 @@ namespace scada_ate::gate::adapter
 				throw 1;
 			}
 
-			int write_size = size_type*(info.size_data > config.size ? config.size : info.size_data);
-			std::shared_ptr<char> ptr(new char[write_size], std::default_delete<char[]>());
-
-			char* buf_out = buf_data + sizeof(HeaderSharedMemory);
-			char* buf_in = ptr.get();
-			for (int i = 0; i < write_size; i++)
 			{
-				*(buf_out + i) = *(buf_in + i);
+				char* buf_out = buf_data + Offset(TypeData::Base, TypeValue::INT);
+				auto value = buf.get()->data_int().value();
+				auto quality = buf.get()->data_int().quality();
+				for (int i = 0; i < config.size_data_int < value.size() ? config.size_data_int : value.size(); i++)
+				{
+					*((int*)buf_out) = value[i];
+					buf_out += sizeof(int);
+					*(buf_out) = quality[i];
+					buf_out++;
+				}
+			}
+
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Base, TypeValue::FLOAT);
+				auto value = buf.get()->data_float().value();
+				auto quality = buf.get()->data_float().quality();
+				for (int i = 0; i < config.size_data_float < value.size() ? config.size_data_float : value.size(); i++)
+				{
+					*((float*)buf_out) = value[i];
+					buf_out += sizeof(float);
+					*(buf_out) = quality[i];
+					buf_out++;
+				}
+			}
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Base, TypeValue::DOUBLE);
+				auto value = buf.get()->data_double().value();
+				auto quality = buf.get()->data_double().quality();
+				for (int i = 0; i < config.size_data_double < value.size() ? config.size_data_double : value.size(); i++)
+				{
+					*((double*)buf_out) = value[i];
+					buf_out += sizeof(double);
+					*(buf_out) = quality[i];
+					buf_out++;
+				}
+			}
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Base, TypeValue::CHAR);
+				auto value = buf.get()->data_char().value();
+				auto quality = buf.get()->data_char().quality();
+				for (int i = 0; i < config.size_data_char < value.size() ? config.size_data_char : value.size(); i++)
+				{
+					auto data_vec = value[i].value();
+					for (int j = 0; j < config.size_str < data_vec.size() ? config.size_str : data_vec.size(); j++)
+					{
+						data_vec[j] = *buf_out;
+						buf_out++;
+					}
+					quality[i] = *buf_out;
+					buf_out++;
+				}
 			}
 
 			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
 			head->count_write++;
 			head->TimeLastWrite = TimeConverter::GetTime_LLmcs();
 
-			info.size_data = config.size;
-			info.time = head->TimeLastWrite;
 		}
 		catch (int& e)
 		{
@@ -432,14 +531,272 @@ namespace scada_ate::gate::adapter
 		return res;
 	}
 
-	ResultReqest AdapterSharedMemory::ReadExData(std::shared_ptr<void> buf, SampleInfo& info)
+	ResultReqest AdapterSharedMemory::ReadExData(std::shared_ptr<DDSDataEx> buf)
 	{
-		return ResultReqest::IGNOR;
+		DWORD mutex_win32 = 0;
+		DWORD err_win32 = 0;
+		ResultReqest res = ResultReqest::OK;
+
+
+		try
+		{
+			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+			{
+				log->Debug("AdapterSharedMemory {}: ReadExData IGNOR", config.NameMemory);
+				return ResultReqest::IGNOR;
+			}
+
+			if (config.DataType != TypeData::Extended)
+			{
+				log->Debug("AdapterSharedMemory {}: ReadExData IGNOR", config.NameMemory);
+				return ResultReqest::IGNOR;
+			}
+
+			log->Debug("AdapterSharedMemory {}: ReadExData START", config.NameMemory);
+
+			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
+			if (mutex_win32 != WAIT_OBJECT_0)
+			{
+				err_win32 = GetLastError();
+				throw 1;
+			}
+
+			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Extended, TypeValue::INT);
+				auto value = data_extended.get()->data_int();
+				value.resize(head->current_size_data_int);
+				for (int i = 0; i < head->current_size_data_int; i++)
+				{
+					DataExInt& data = value[i];
+					data.time_source(*((long long*)buf_out));
+					buf_out += sizeof(long long);
+					data.id_tag(*((uint32_t*)buf_out));
+					buf_out += sizeof(uint32_t);
+					data.value(*((int*)buf_out));
+					buf_out += sizeof(int);
+					data.quality(*((char*)buf_out));
+					buf_out += sizeof(char);
+				}
+			}
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Extended, TypeValue::FLOAT);
+				auto value = data_extended.get()->data_float();
+				value.resize(head->current_size_data_float);
+				for (int i = 0; i < head->current_size_data_float; i++)
+				{
+					DataExFloat& data = value[i];
+					data.time_source(*((long long*)buf_out));
+					buf_out += sizeof(long long);
+					data.id_tag(*((uint32_t*)buf_out));
+					buf_out += sizeof(uint32_t);
+					data.value(*((float*)buf_out));
+					buf_out += sizeof(float);
+					data.quality(*((char*)buf_out));
+					buf_out += sizeof(char);
+				}
+			}
+
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Extended, TypeValue::DOUBLE);
+				auto value = data_extended.get()->data_double();
+				value.resize(head->current_size_data_float);
+				for (int i = 0; i < head->current_size_data_float; i++)
+				{
+					DataExDouble& data = value[i];
+					data.time_source(*((long long*)buf_out));
+					buf_out += sizeof(long long);
+					data.id_tag(*((uint32_t*)buf_out));
+					buf_out += sizeof(uint32_t);
+					data.value(*((double*)buf_out));
+					buf_out += sizeof(double);
+					data.quality(*((char*)buf_out));
+					buf_out += sizeof(char);
+				}
+			}
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Extended, TypeValue::CHAR);
+				auto value = data_extended.get()->data_char();
+				value.resize(head->current_size_data_char);
+				for (int i = 0; i < head->current_size_data_char; i++)
+				{
+					DataExChar& data = value[i];
+					data.time_source(*((long long*)buf_out));
+					buf_out += sizeof(long long);
+					data.id_tag(*((uint32_t*)buf_out));
+					buf_out += sizeof(uint32_t);
+					data.value().resize(config.size_str);
+					for (auto c : data.value())
+					{
+						c = *buf_out;
+						buf_out++;
+					}
+					data.quality(*((char*)buf_out));
+					buf_out += sizeof(char);
+				}
+			}
+
+			head->count_read++;
+			head->TimeLastRead = TimeConverter::GetTime_LLmcs();
+
+		}
+		catch (int& e)
+		{
+
+			log->Critical("AdapterSharedMemory {}: ERROR ReadExData: error: {}, syserror: {}", config.NameMemory, e, err_win32);
+			res = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterSharedMemory {}: ERROR ReadExData: error: {}, syserror: {}", config.NameMemory, 0, 0);
+			res = ResultReqest::ERR;
+		}
+
+		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		return res;
 	}
 
-	ResultReqest AdapterSharedMemory::WriteExData(std::shared_ptr<void> buf, SampleInfo& info)
+	ResultReqest AdapterSharedMemory::WriteExData(std::shared_ptr<DDSDataEx> buf)
 	{
-		return ResultReqest::IGNOR;
+		DWORD mutex_win32 = 0;
+		DWORD err_win32 = 0;
+		ResultReqest res = ResultReqest::OK;
+
+		try
+		{
+			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+			{
+				log->Debug("AdapterSharedMemory {}: WriteExData IGNOR", config.NameMemory);
+				return ResultReqest::IGNOR;
+			}
+
+			if (config.DataType != TypeData::Extended)
+			{
+				log->Debug("AdapterSharedMemory {}: WriteExData IGNOR", config.NameMemory);
+				return ResultReqest::IGNOR;
+			}
+
+			log->Debug("AdapterSharedMemory {}: WriteExData START", config.NameMemory);
+
+			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
+			if (mutex_win32 != WAIT_OBJECT_0)
+			{
+				err_win32 = GetLastError();
+				throw 1;
+			}
+
+			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Extended, TypeValue::INT);
+				auto value = data_extended.get()->data_int();
+				int size = config.size_data_int < value.size() ? config.size_data_int : value.size();
+				DataExInt& data = value[0];
+				for (int i = 0; i < size; i++)
+				{
+					data = value[i];
+					*((long long*)buf_out) = data.time_source();
+					buf_out += sizeof(long long);
+					*((uint32_t*)buf_out) = data.id_tag();
+					buf_out += sizeof(uint32_t);
+					*((int*)buf_out) = data.value();
+					buf_out += sizeof(int);
+					*((char*)buf_out) = data.quality();
+					buf_out += sizeof(char);
+				}
+			}
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Extended, TypeValue::FLOAT);
+				auto value = data_extended.get()->data_float();
+				int size = config.size_data_float < value.size() ? config.size_data_float : value.size();
+				DataExFloat& data = value[0];
+				for (int i = 0; i < size; i++)
+				{
+					data = value[i];
+					*((long long*)buf_out) = data.time_source();
+					buf_out += sizeof(long long);
+					*((uint32_t*)buf_out) = data.id_tag();
+					buf_out += sizeof(uint32_t);
+					*((float*)buf_out) = data.value();
+					buf_out += sizeof(float);
+					*((char*)buf_out) = data.quality();
+					buf_out += sizeof(char);
+				}
+			}
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Extended, TypeValue::DOUBLE);
+				auto value = data_extended.get()->data_double();
+				int size = config.size_data_double < value.size() ? config.size_data_double : value.size();
+				DataExDouble& data = value[0];
+				for (int i = 0; i < size; i++)
+				{
+					data = value[i];
+					*((long long*)buf_out) = data.time_source();
+					buf_out += sizeof(long long);
+					*((uint32_t*)buf_out) = data.id_tag();
+					buf_out += sizeof(uint32_t);
+					*((double*)buf_out) = data.value();
+					buf_out += sizeof(double);
+					*((char*)buf_out) = data.quality();
+					buf_out += sizeof(char);
+				}
+			}
+
+			{
+				char* buf_out = buf_data + Offset(TypeData::Extended, TypeValue::CHAR);
+				auto value = data_extended.get()->data_char();
+				int size = config.size_data_char < value.size() ? config.size_data_double : value.size();
+				DataExChar& data = value[0];
+				for (int i = 0; i < size; i++)
+				{
+					data = value[i];
+					*((long long*)buf_out) = data.time_source();
+					buf_out += sizeof(long long);
+					*((uint32_t*)buf_out) = data.id_tag();
+					buf_out += sizeof(uint32_t);
+					std::vector<char>::iterator ivec_char = data.value().begin();
+					size_t size_value = config.size_str < data.value().size() ? config.size_str : data.value().size();
+					for (size_t i = 0; i < size_value; i++)
+					{
+						*buf_out = *ivec_char;
+						ivec_char++;
+						buf_out++;
+					}
+					for (size_t i = 0; i < config.size_str - size_value; i++)
+					{
+						*buf_out = 0;
+						buf_out++;
+					}
+
+					*((char*)buf_out) = data.quality();
+					buf_out += sizeof(char);
+				}
+			}
+
+			head->count_write++;
+			head->TimeLastWrite = TimeConverter::GetTime_LLmcs();
+
+		}
+		catch (int& e)
+		{
+
+			log->Critical("AdapterSharedMemory {}: ERROR WriteExData: error: {}, syserror: {}", config.NameMemory, e, err_win32);
+			res = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterSharedMemory {}: ERROR WriteExData: error: {}, syserror: {}", config.NameMemory, 0, 0);
+			res = ResultReqest::ERR;
+		}
+
+		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		return res;
 	}
 
 	//////////////////////////////////////////////////////
@@ -455,46 +812,10 @@ namespace scada_ate::gate::adapter
 		DWORD mutex_win32 = 0;
 		DWORD err_win32 = 0;
 
-		try
-		{
-			point->header.count_read = 0;
-			point->header.count_write = 0;
-			point->header.size_data = 0;
-			point->header.TimeLastRead = 0;
-			point->header.TimeLastWrite = 0;
-			point->header.typedata = TypeData::ZERO;
-			point->param = ParamInfoAdapter::HeaderData;
-			point->type_adapter = TypeAdapter::SharedMemory;
-			point->result = ResultReqest::ERR;
-
-			mutex_win32 = WaitForSingleObject(Mutex_SM, INFINITE);
-			if (mutex_win32 != WAIT_OBJECT_0)
-			{
-				err_win32 = GetLastError();
-				throw 1;
-			}
-
-			point->header.count_read = head->count_read;
-			point->header.count_write = head->count_write;
-			point->header.size_data = head->size_data;
-			point->header.TimeLastRead = head->TimeLastRead;
-			point->header.TimeLastWrite = head->TimeLastWrite;
-			point->header.typedata = head->typedata;
-			point->param = ParamInfoAdapter::HeaderData;
-			point->type_adapter = TypeAdapter::SharedMemory;
-			point->result = ResultReqest::OK;
-		}
-		catch (int& e)
-		{
-			log->Critical("AdapterSharedMemory {}: ERROR AnswerRequestHeaderData: error: {}, syserror: {}", config.NameMemory, e, err_win32);
-		}
-		catch (...)
-		{
-			log->Critical("AdapterSharedMemory {}: ERROR AnswerRequestHeaderData: error: {}, syserror: {}", config.NameMemory, 0, 0);
-		}
-
-		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
-		return point;		
+		/// <summary>
+		/// доделать
+		/// </summary>
+		return 	point;
 	}
 
 	size_t AdapterSharedMemory::GetSizeMemory()
@@ -505,8 +826,8 @@ namespace scada_ate::gate::adapter
 		if (config.DataType == TypeData::Base)
 		{
 			result += (sizeof(int) + sizeof(char)) * config.size_data_int; // size DataCollectionInt
-			result += (sizeof(float) + sizeof(char)) * config.size_data_int; // size DataCollectionFloat
-			result += (sizeof(double) + sizeof(char)) * config.size_data_int; // size DataCollectionDouble
+			result += (sizeof(float) + sizeof(char)) * config.size_data_float; // size DataCollectionFloat
+			result += (sizeof(double) + sizeof(char)) * config.size_data_double; // size DataCollectionDouble
 			result += (sizeof(char)*config.size_str + sizeof(char)) * config.size_data_char; // size DataCollectionInt
 		}
 		else if (config.DataType == TypeData::Extended)
@@ -520,5 +841,25 @@ namespace scada_ate::gate::adapter
 		return result;
 	}
 
+	size_t AdapterSharedMemory::Offset(TypeData type_data, TypeValue type_value)
+	{
+		size_t result = 0;
+		result += sizeof(HeaderSharedMemory);
+		if (type_value == TypeValue::INT) return result;
+
+		if (type_data == TypeData::Base) result += (sizeof(int) + sizeof(char)) * config.size_data_int;
+		if (type_data == TypeData::Extended) result += (sizeof(long long) + sizeof(uint32_t) + sizeof(int) + sizeof(char)) * config.size_data_int;
+		if (type_value == TypeValue::FLOAT) return result;
+
+		if (type_data == TypeData::Base) result += (sizeof(float) + sizeof(char)) * config.size_data_float;
+		if (type_data == TypeData::Extended) result += (sizeof(long long) + sizeof(uint32_t) + sizeof(float) + sizeof(char)) * config.size_data_float;
+		if (type_value == TypeValue::DOUBLE) return result;
+
+		if (type_data == TypeData::Base) (sizeof(double) + sizeof(char))* config.size_data_double;
+		if (type_data == TypeData::Extended) result += (sizeof(long long) + sizeof(uint32_t) + sizeof(double) + sizeof(char)) * config.size_data_double;
+		if (type_value == TypeValue::CHAR) return result;
+
+		return result;
+	}
 }
 

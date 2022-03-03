@@ -15,13 +15,8 @@
 ///  класс реализует взаимодействие между ЕМТ и шлюзом DDS по Shared Memory
 /// </summary>
 
-namespace scada_ate::gate::adapter
+namespace scada_ate::gate::adapter::sem
 {
-	enum class TypeData
-	{
-		Base,
-		Extended
-	};
 
 	struct HeaderSharedMemory
 	{
@@ -66,10 +61,18 @@ namespace scada_ate::gate::adapter
 		char* buf_data = nullptr; /// указатель на блок памяти
 		HANDLE Mutex_SM = NULL; /// handle мьютекса ждя доступа к shared memory
 		std::shared_ptr<SecurityHandle> security_attr; /// handle атрибута безопасности, для
-		std::shared_ptr<DDSData> data_base;
-		std::shared_ptr<DDSDataEx> data_extended;
+		std::shared_ptr<DDSData> data_base = nullptr;
+		std::shared_ptr<DDSDataEx> data_extended = nullptr;
 		
 		/// --- вспомогательные переменные --- /// 
+		enum class TypeValue
+		{
+			INT,
+			FLOAT,
+			DOUBLE,
+			CHAR
+		};
+
 		std::mutex mutex_init;
 		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// переменная статуса адаптера 
 		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// логгер
@@ -80,14 +83,15 @@ namespace scada_ate::gate::adapter
 		std::string CreateSMName(std::string source);
 		std::string CreateSMMutexName(std::string source);
 		size_t GetSizeMemory();
+		size_t Offset(TypeData type_data, TypeValue type_value);
 
 	public:
 
 		ResultReqest InitAdapter(std::shared_ptr<IConfigAdapter> config);
-		ResultReqest ReadData(std::shared_ptr<DDSData>& buf);
-		ResultReqest WriteData(std::shared_ptr<DDSData>& buf);
-		ResultReqest ReadExData(std::shared_ptr<DDSDataEx>& buf);
-		ResultReqest WriteExData(std::shared_ptr<DDSDataEx>& buf);
+		ResultReqest ReadData(std::shared_ptr<DDSData> buf);
+		ResultReqest WriteData(std::shared_ptr<DDSData> buf);
+		ResultReqest ReadExData(std::shared_ptr<DDSDataEx> buf);
+		ResultReqest WriteExData(std::shared_ptr<DDSDataEx> buf);
 		TypeAdapter GetTypeAdapter();
 		StatusAdapter GetStatusAdapter();
 		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param);

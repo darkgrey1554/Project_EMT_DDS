@@ -1,7 +1,7 @@
 #include "DDSUnit.hpp"
 
 
-namespace gate
+namespace scada_ate::gate::ddsunit
 {
 	std::shared_ptr<IDDSUnit> CreateDDSUnit(ConfigDDSUnit config)
 	{
@@ -64,13 +64,6 @@ namespace gate
 				throw 2;
 			}
 
-			/// --- создание динамического типа --- ///
-			result_command = create_dynamic_data_type();
-			if (result_command != ResultReqest::OK)
-			{
-				throw 3;
-			}
-
 			/// --- регистрация типа ---- ///
 			result_command = register_type();
 			if (result_command != ResultReqest::OK)
@@ -124,7 +117,9 @@ namespace gate
 
 		std::string helpstr;
 		ResultReqest result{ ResultReqest::OK };
-		/// --- инициализация транспортного уровня --- ///
+		DomainParticipantQos qos = PARTICIPANT_QOS_DEFAULT;
+
+		/// --- инициализация политик --- ///
 		///--------------------------------------------///
 		//////////////////////////////////////////////////
 
@@ -133,7 +128,7 @@ namespace gate
 		try
 		{
 			participant_ =
-				DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, PARTICIPANT_QOS_DEFAULT, nullptr);
+				DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, qos, nullptr);
 			if (!participant_) throw - 1;
 		}
 		catch (...)
@@ -152,131 +147,16 @@ namespace gate
 		try
 		{
 			subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
-			if (!subscriber_) throw - 1;
+			if (!subscriber_) throw 1;
 		}
-		catch (...)
+		catch (int& e)
 		{
-			log->Critical("DDSUnit {}: Error Init_subscriber");
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	}
-
-	ResultReqest DDSUnit_Subscriber::create_dynamic_data_type()
-	{
-		/* struct:
-		*	typedata : uint8; (parent TypeData)
-		*	TimeLastUpdate :
-				h : char8;
-				m : char8;
-				s : char8;
-				ms: unit16;
-			size_data : uint32;
-			count_write : uint32;
-			data [size_data] : uint32/float;
-		*/
-		std::string helpstr;
-		ResultReqest result{ResultReqest::OK};
-
-		try
-		{
-			
-			DynamicTypeBuilder_ptr created_type_typedata;
-			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_h;
-			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_m;
-			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_s;
-			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_ms;
-			DynamicTypeBuilder_ptr created_type_size_data;
-			DynamicTypeBuilder_ptr created_type_count_write;
-			DynamicType_ptr base_type_array_data;
-			DynamicTypeBuilder_ptr builder;
-			DynamicType_ptr array_type;
-			DynamicTypeBuilder_ptr struct_type_builder;
-
-			try
-			{
-				created_type_typedata = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-				created_type_TimeLastUpdate_h = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-				created_type_TimeLastUpdate_m = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-				created_type_TimeLastUpdate_s = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-				created_type_TimeLastUpdate_ms = DynamicTypeBuilderFactory::get_instance()->create_uint16_builder();
-				created_type_size_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
-				created_type_count_write = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
-
-				std::vector<uint32_t> lengths = { 1, this->config.Size };
-				switch (this->config.Typedata)
-				{
-				case TypeData::ANALOG:
-					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_float32_type();
-					break;
-				case TypeData::DISCRETE:
-					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_int32_type();
-					break;
-				case TypeData::BINAR:
-					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
-					break;
-				default:
-					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
-					break;
-				}
-
-				builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type_array_data, lengths);
-				array_type = builder->build();
-			}
-			catch (...)
-			{
-				throw 1;
-			}			
-
-			try
-			{
-				struct_type_builder = DynamicTypeBuilderFactory::get_instance()->create_struct_builder();
-				struct_type_builder->add_member(0, "typedata", created_type_typedata.get());
-				struct_type_builder->add_member(1, "TimeLastUpdate_h", created_type_TimeLastUpdate_h.get());
-				struct_type_builder->add_member(2, "TimeLastUpdate_m", created_type_TimeLastUpdate_m.get());
-				struct_type_builder->add_member(3, "TimeLastUpdate_s", created_type_TimeLastUpdate_s.get());
-				struct_type_builder->add_member(4, "TimeLastUpdate_ms", created_type_TimeLastUpdate_ms.get());
-				struct_type_builder->add_member(5, "size_data", created_type_size_data.get());
-				struct_type_builder->add_member(6, "count_write", created_type_count_write.get());
-				struct_type_builder->add_member(7, "data", array_type);
-				helpstr.clear();
-				helpstr += CreateNameType(this->config.PointName);
-				struct_type_builder->set_name(helpstr);
-			}
-			catch (...)
-			{
-				throw 2;
-			}
-
-			try
-			{
-				type_data = struct_type_builder->build();
-			}
-			catch(...)
-			{
-				throw 3;
-			}
-
-			try
-			{
-				data = DynamicDataFactory::get_instance()->create_data(type_data);
-			}
-			catch (...)
-			{
-				throw 4;
-			}
-
-			
-		}
-		catch (const int& e_int)
-		{
-			log->Critical("DDSUnit {}: Error create dynamic type: error {}", this->name_unit, e_int);
+			log->Critical("DDSUnit {}: Error Init_subscriber: error {} ", this->name_unit, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("DDSUnit {}: Error create dynamic type: error {}", this->name_unit, 0);
+			log->Critical("DDSUnit {}: Error Init_subscriber: error {} ", this->name_unit, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -289,10 +169,10 @@ namespace gate
 
 		try
 		{
-			TypeSupport PtrSupporType = eprosima::fastrtps::types::DynamicPubSubType(type_data);
-			PtrSupporType.get()->auto_fill_type_information(false);
-			PtrSupporType.get()->auto_fill_type_object(true);
+			TypeSupport PtrSupporType(new DDSDataPubSubType());
+			TypeSupport PtrSupporTypeEx(new DDSDataExPubSubType());
 			if (PtrSupporType.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw 1;
+			if (PtrSupporTypeEx.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw 2;
 		}
 		catch (int& e)
 		{
@@ -311,11 +191,24 @@ namespace gate
 	ResultReqest DDSUnit_Subscriber::register_topic()
 	{
 		ResultReqest result{ ResultReqest::OK };
+		TypeSupport type_;
 
 		try
 		{
-			topic_data = participant_->create_topic(CreateNameTopic(this->config.PointName), CreateNameType(this->config.PointName), TOPIC_QOS_DEFAULT);
+			if (config.Typedata == adapter::TypeData::Base)
+			{
+				type_ = TypeSupport(new DDSDataPubSubType());
+				data_point = std::make_shared<DDSData>();
+			}
+			else if (config.Typedata == adapter::TypeData::Extended)
+			{
+				type_ = TypeSupport(new DDSDataExPubSubType());
+				data_point = std::make_shared<DDSDataEx>();
+			}
+
+			topic_data = participant_->create_topic( CreateNameTopic(), type_.get_type_name(), TOPIC_QOS_DEFAULT);
 			if (topic_data == nullptr) throw 1;
+
 		}
 		catch (int& e)
 		{
@@ -364,24 +257,6 @@ namespace gate
 		return result;
 	};
 
-	std::shared_ptr<IConfigAdapter>  DDSUnit_Subscriber::create_config_adapter()
-	{
-
-		if (config.Adapter == TypeAdapter::SharedMemory)
-		{
-			std::shared_ptr<ConfigAdapterSharedMemory> config_sm = std::make_shared<ConfigAdapterSharedMemory>();
-			
-			config_sm->type_adapter = TypeAdapter::SharedMemory;
-			config_sm->NameMemory = this->config.PointName;
-			config_sm->size = this->config.Size;
-			config_sm->DataType = this->config.Typedata;
-
-			return config_sm;
-		}
-
-		return nullptr;
-	};
-
 	ResultReqest DDSUnit_Subscriber::init_adapter()
 	{
 		std::string helpstr;
@@ -393,8 +268,7 @@ namespace gate
 
 			AdapterUnit = CreateAdapter(this->config.Adapter);
 			if (AdapterUnit == nullptr) throw 1;
-			std::shared_ptr<IConfigAdapter> conf_adater = create_config_adapter();
-			result = AdapterUnit->InitAdapter(conf_adater);
+			result = AdapterUnit->InitAdapter(config.conf_adapter);
 			if (result != ResultReqest::OK) throw 2;
 		}
 		catch (int& e_int)
@@ -411,32 +285,6 @@ namespace gate
 		return result;
 	}
 
-	inline unsigned char IDDSUnit::size_type_data_baits(TypeData type)
-	{
-		unsigned char result = 0;
-		if (type == TypeData::ANALOG) { result = sizeof(float); }
-		else if (type == TypeData::DISCRETE) { result = sizeof(int); }
-		else if (type == TypeData::BINAR) { result = sizeof(char); }
-
-		return result;
-	};
-
-	inline void  DDSUnit_Subscriber::mirror_data_form_DDS(void* buf, eprosima::fastrtps::types::DynamicData* array_dds, unsigned int i)
-	{
-		if (config.Typedata == TypeData::ANALOG)
-		{
-			*(reinterpret_cast<float*>(buf)+i) = array_dds->get_float32_value(array_dds->get_array_index({ 0, i }));
-		}
-		else if (config.Typedata == TypeData::DISCRETE)
-		{
-			*(reinterpret_cast<int*>(buf) + i) = array_dds->get_int32_value(array_dds->get_array_index({ 0, i }));
-		}
-		else if (config.Typedata == TypeData::BINAR)
-		{
-			*(reinterpret_cast<char*>(buf) + i) = array_dds->get_char8_value(array_dds->get_array_index({ 0, i }));
-		}		
-	}
-
 	void DDSUnit_Subscriber::function_thread_transmite()
 	{
 		std::chrono::steady_clock::time_point start, end;
@@ -447,14 +295,10 @@ namespace gate
 		ReturnCode_t res;
 		std::string helpstr;
 		std::stop_token stoper;
-
 		status_thread.store(StatusThreadDSSUnit::WORK, std::memory_order_relaxed);
 
 		try
 		{
-			int size_type_data = size_type_data_baits(config.Typedata);
-			std::shared_ptr<char> mass_data(new char[size_type_data * config.Size], std::default_delete<char[]>());
-			for (int i = 0; i < size_type_data * config.Size; i++) *(mass_data.get() + i) = 0;
 
 			stoper = thread_transmite.get_stop_token();
 			if (!stoper.stop_possible()) throw 1;
@@ -476,28 +320,14 @@ namespace gate
 				}
 				start = std::chrono::steady_clock::now();
 
-				res = reader_data->take_next_sample(data.get(), &info);
 
-
-
-				if (res != ReturnCode_t::RETCODE_OK) //throw 2;
+				if (reader_data->take_next_sample(data_point.get(), &info) != ReturnCode_t::RETCODE_OK) //throw 2;
 				{
 					log->Warning("DDSUnit {}: Error read data in thread of thransfer", this->name_unit);
 					continue;
 				}
 
-				array = data->loan_value(7);
-				if (array == nullptr) throw 3;
-
-				/// --- тутуту тут надо подумать (пока тупо в лоб)--- /// 
-
-				for (int i = 0; i < config.Size; i++)
-				{
-					mirror_data_form_DDS(mass_data.get(), array, i);
-				}
-				if (data->return_loaned_value(array) != ReturnCode_t::RETCODE_OK) throw 5;
-				array = nullptr;
-				if (AdapterUnit->WriteData(mass_data.get(), config.Size) != ResultReqest::OK) throw 4;	
+				if (AdapterUnit->WriteData(std::static_pointer_cast<DDSData>(data_point)) != ResultReqest::OK) throw 4;
 				log->Debug("DDSUnit {}: Thread of thransfer: read done", this->name_unit);
 			}
 		}
@@ -505,14 +335,12 @@ namespace gate
 		{
 			log->Critical("DDSUnit {}: Error in thread of thransfer: error {}", this->name_unit, e);
 			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
-			if (array != nullptr) data->return_loaned_value(array);
 			return;
 		}
 		catch (...)
 		{
 			log->Critical("DDSUnit {}: Error in thread of thransfer: error {}", this->name_unit, 0);
 			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
-			if (array != nullptr) data->return_loaned_value(array);
 			return;
 		}
 
@@ -536,32 +364,23 @@ namespace gate
 
 		try
 		{
-			unsigned int size_type_data = master->size_type_data_baits(master->config.Typedata);
-			std::shared_ptr<char> mass_data(new char[size_type_data * master->config.Size], std::default_delete<char[]>());
-			for (int i = 0; i < size_type_data * master->config.Size; i++) *(mass_data.get() + i) = 0;
-
-			if (reader->take_next_sample(master->data.get(), &info) != ReturnCode_t::RETCODE_OK) throw 2;
-			array = master->data->loan_value(7);
-			if (array == nullptr) throw 3;
-
-			for (int i = 0; i < master->config.Size; i++)
+			if (reader->take_next_sample(master->data_point.get(), &info) != ReturnCode_t::RETCODE_OK) //throw 2;
 			{
-				master->mirror_data_form_DDS(mass_data.get(), array, i);
+				master->log->Warning("DDSUnit {}: Error read data in thread of thransfer", master->name_unit);
 			}
-			if (master->data->return_loaned_value(array) != ReturnCode_t::RETCODE_OK) throw 5;
-			array = nullptr;
-			if (master->AdapterUnit->WriteData(mass_data.get(), master->config.Size) != ResultReqest::OK) throw 4;
+
+			if (master->AdapterUnit->WriteData(std::static_pointer_cast<DDSData>(master->data_point)) != ResultReqest::OK) throw 4;
+			master->log->Debug("DDSUnit {}: Thread of thransfer: read done", master->name_unit);
+
 		}
 		catch (int& e)
 		{
 			master->log->Critical("DDSUnit {}: Error in listener_: error ", this->master->name_unit, e);
-			if (array != nullptr) master->data->return_loaned_value(array);
 			return;
 		}
 		catch (...)
 		{
 			master->log->Critical("DDSUnit {}: Error in listener_: error ", this->master->name_unit, 0);
-			if (array != nullptr) master->data->return_loaned_value(array);
 			return;
 		}
 
@@ -779,15 +598,12 @@ namespace gate
 		GlobalStatus.store(status, std::memory_order_relaxed);
 	};
 
-	std::string DDSUnit_Subscriber::CreateNameTopic(std::string short_name)
+	std::string DDSUnit_Subscriber::CreateNameTopic()
 	{
-		return "TopicdataDDS";
-		//return "TopicdataDDS_" + short_name;
-	}
-
-	std::string DDSUnit_Subscriber::CreateNameType(std::string short_name)
-	{
-		return "TypedataDDS_" + short_name;
+		std::string str;
+		if (config.Typedata == adapter::TypeData::Base) str += "TopicDDSData_";
+		str += config.PointName;
+		return str;
 	}
 
 	std::string DDSUnit_Subscriber::CreateNameUnit(std::string short_name)
@@ -955,126 +771,6 @@ namespace gate
 		}
 
 		return result;
-	}
-
-	ResultReqest DDSUnit_Publisher::create_dynamic_data_type()
-	{
-		/* struct:
-		*	typedata : uint8; (parent TypeData)
-		*	TimeLastUpdate :
-				h : char8;
-				m : char8;
-				s : char8;
-				ms: unit16;
-			size_data : uint32;
-			count_write : uint32;
-			data [size_data] : uint32/float;
-		*/
-		std::string helpstr;
-		ResultReqest result{ ResultReqest::OK };
-
-		try
-		{
-
-			DynamicTypeBuilder_ptr created_type_typedata;
-			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_h;
-			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_m;
-			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_s;
-			DynamicTypeBuilder_ptr created_type_TimeLastUpdate_ms;
-			DynamicTypeBuilder_ptr created_type_size_data;
-			DynamicTypeBuilder_ptr created_type_count_write;
-			DynamicType_ptr base_type_array_data;
-			DynamicTypeBuilder_ptr builder;
-			DynamicType_ptr array_type;
-			DynamicTypeBuilder_ptr struct_type_builder;
-
-			try
-			{
-				created_type_typedata = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-				created_type_TimeLastUpdate_h = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-				created_type_TimeLastUpdate_m = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-				created_type_TimeLastUpdate_s = DynamicTypeBuilderFactory::get_instance()->create_char8_builder();
-				created_type_TimeLastUpdate_ms = DynamicTypeBuilderFactory::get_instance()->create_uint16_builder();
-				created_type_size_data = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
-				created_type_count_write = DynamicTypeBuilderFactory::get_instance()->create_uint32_builder();
-
-				std::vector<uint32_t> lengths = { 1, this->config.Size };
-				switch (this->config.Typedata)
-				{
-				case TypeData::ANALOG:
-					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_float32_type();
-					break;
-				case TypeData::DISCRETE:
-					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_int32_type();
-					break;
-				case TypeData::BINAR:
-					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
-					break;
-				default:
-					base_type_array_data = DynamicTypeBuilderFactory::get_instance()->create_char8_type();
-					break;
-				}
-
-				builder = DynamicTypeBuilderFactory::get_instance()->create_array_builder(base_type_array_data, lengths);
-				array_type = builder->build();
-			}
-			catch (...)
-			{
-				throw 1;
-			}
-
-			try
-			{
-				struct_type_builder = DynamicTypeBuilderFactory::get_instance()->create_struct_builder();
-				struct_type_builder->add_member(0, "typedata", created_type_typedata.get());
-				struct_type_builder->add_member(1, "TimeLastUpdate_h", created_type_TimeLastUpdate_h.get());
-				struct_type_builder->add_member(2, "TimeLastUpdate_m", created_type_TimeLastUpdate_m.get());
-				struct_type_builder->add_member(3, "TimeLastUpdate_s", created_type_TimeLastUpdate_s.get());
-				struct_type_builder->add_member(4, "TimeLastUpdate_ms", created_type_TimeLastUpdate_ms.get());
-				struct_type_builder->add_member(5, "size_data", created_type_size_data.get());
-				struct_type_builder->add_member(6, "count_write", created_type_count_write.get());
-				struct_type_builder->add_member(7, "data", array_type);
-				helpstr.clear();
-				helpstr += CreateNameType(this->config.PointName);
-				struct_type_builder->set_name(helpstr);
-			}
-			catch (...)
-			{
-				throw 2;
-			}
-
-			try
-			{
-				type_data = struct_type_builder->build();
-			}
-			catch (...)
-			{
-				throw 3;
-			}
-
-			try
-			{
-				data = DynamicDataFactory::get_instance()->create_data(type_data);
-			}
-			catch (...)
-			{
-				throw 4;
-			}
-
-
-		}
-		catch (int& e)
-		{
-			log->Critical("DDSUnit {}: Error create of dynamic type: error {}", this->name_unit, e);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("DDSUnit {}: Error create of partocipant: error {}", this->name_unit, 0);
-			result = ResultReqest::ERR;
-		}
-
-		return ResultReqest::OK;
 	}
 
 	ResultReqest DDSUnit_Publisher::register_type()
@@ -1524,21 +1220,5 @@ namespace gate
 		return "Publisher_" + short_name;
 	}
 
-	std::shared_ptr<ConfigAdapter>  DDSUnit_Publisher::create_config_adapter()
-	{
 
-		if (config.Adapter == TypeAdapter::SharedMemory)
-		{
-			std::shared_ptr<ConfigSharedMemoryAdapter> config_sm = std::make_shared<ConfigSharedMemoryAdapter>();
-
-			config_sm->type_adapter = TypeAdapter::SharedMemory;
-			config_sm->NameMemory = this->config.PointName;
-			config_sm->size = this->config.Size;
-			config_sm->DataType = this->config.Typedata;
-
-			return config_sm;
-		}
-
-		return nullptr;
-	};
 }

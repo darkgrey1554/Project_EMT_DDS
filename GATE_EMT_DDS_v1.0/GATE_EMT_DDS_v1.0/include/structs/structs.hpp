@@ -31,18 +31,6 @@ enum class ResultReqest
 	IGNOR = 2
 };
 
-enum class TypeData
-{
-	ZERO = 0,
-	ANALOG,
-	DISCRETE,
-	BINAR,
-	DOUBLEPRECISION = 4,
-	ANALOG_Ex,
-	DISCRETE_Ex,
-	BINAR_Ex,
-	DOUBLEPRECISION_Ex
-};
 
 enum class TypeValue
 {
@@ -55,12 +43,6 @@ enum class TypeValue
 /// перечисление: направление передачи данных 
 /// </summary>
 
-enum class Typetransport
-{
-	TCPv4,
-	UDPv4,
-	SM
-};
 
 enum class TypeUnitTransport
 {
@@ -69,52 +51,6 @@ enum class TypeUnitTransport
 	RESERVER
 };
 
-/// <summary>
-/// команды по управлению ДДС subscriber, publisher
-/// </summary>
-enum class CommandControlDDSUnit
-{
-	NONE,
-	RESTART,
-	KILL,
-	STOP,
-	START
-};
-
-enum class StatusDDSUnit
-{
-	EMPTY,
-	ERROR_INIT,
-	ERROR_DESTROYED,
-	STOP,
-	START,
-	DESTROYED,
-	WORK
-};
-
-enum class TypeDDSUnit
-{
-	Empty,
-	SUBSCRIBER,
-	PUBLISHER
-};
-
-enum class TypeTransmiter
-{
-	TCP,
-	UDP,
-	Broadcast
-};
-
-enum class TypeAdapter
-{
-	SharedMemory,
-	DDS,
-	DTS,
-	OPC_UA,
-	SMTP,
-	Null
-};
 
 enum class StatusAdapter
 {
@@ -148,12 +84,6 @@ enum class StatusModeluIO
 	Null
 };
 
-enum class CommandListenerSubscriber
-{
-	NONE,
-	START,
-	STOP
-};
 
 struct ConfigGate
 {
@@ -176,64 +106,6 @@ struct ConfigManager
 	unsigned int Port;
 };
 
-
-struct ConfigDDSUnit
-{
-	unsigned short Domen;
-	TypeDDSUnit TypeUnit;
-	TypeTransmiter Transmiter;
-	TypeAdapter Adapter;
-	std::string PointName;
-	TypeData Typedata;
-	unsigned int Size;
-	unsigned int Frequency;
-	std::string IP_MAIN;
-	std::string IP_RESERVE;
-	unsigned int Port_MAIN;
-	unsigned int Port_RESERVE;
-};
-
-struct ControlDDSUnit
-{
-	void setCommand(CommandControlDDSUnit com)
-	{
-		std::lock_guard<std::mutex> guard(mut_command);
-		command = com;
-		return;
-	};
-
-	CommandControlDDSUnit getCommand()
-	{
-		std::lock_guard<std::mutex> guard(mut_command);
-		return command;
-	};
-
-	void setStatus(StatusDDSUnit status)
-	{
-		std::lock_guard<std::mutex> guard(mut_status);
-		current_status = status;
-		return;
-	};
-
-	StatusDDSUnit getStatus()
-	{
-		std::lock_guard<std::mutex> guard(mut_status);
-		return current_status;
-	};
-
-protected:
-
-	std::mutex mut_command;
-	std::mutex mut_status;
-	CommandControlDDSUnit command = CommandControlDDSUnit::NONE;
-	StatusDDSUnit current_status = StatusDDSUnit::EMPTY;
-};
-
-struct InfoDDSUnit
-{
-	ControlDDSUnit control;
-	ConfigDDSUnit config;
-};
 
 struct ConfigModule_IO
 {
