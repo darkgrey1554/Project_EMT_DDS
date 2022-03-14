@@ -21,12 +21,6 @@ namespace scada_ate
 			std::atomic<StatusModeluIO> status = StatusModeluIO::Null;
 			std::mutex mutex_guard_interface;
 
-			DomainParticipant* participant_ = nullptr;
-			eprosima::fastdds::dds::Subscriber* subscriber_ = nullptr;
-			Topic* topic_InfoDDSUnit = nullptr;
-
-			DynamicType_ptr type_topic_infoddsunits;
-
 			std::map<std::string, std::shared_ptr<gate::DDSUnit>> Map_DDSUnits;  /// name + shared_ptr to unit
 
 			ResultReqest init();

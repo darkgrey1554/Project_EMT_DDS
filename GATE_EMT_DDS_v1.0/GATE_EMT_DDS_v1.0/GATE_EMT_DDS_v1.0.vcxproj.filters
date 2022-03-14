@@ -56,52 +56,64 @@
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\configReader\ConfigReader_main\Config_Reader.cpp">
-      <Filter>File\ConfigReader\ConfigReader_main</Filter>
-    </ClCompile>
-    <ClCompile Include="include\configReader\ConfigReader_units\ReaderConfigUnits.cpp">
-      <Filter>File\ConfigReader\ConfigReader_units</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp">
       <Filter>File\Logger</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpd.cpp">
       <Filter>File\Logger</Filter>
     </ClCompile>
-    <ClCompile Include="include\Module_CP\Module_CP.cpp">
-      <Filter>File\Module_CP</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Module_CP\Unit_CP\Unit_CP.cpp">
-      <Filter>File\Module_CP\Unit_CP</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Module_CP\Unit_CP\Unit_DDS_CP\Unit_DDS_CP.cpp">
-      <Filter>File\Module_CP\Unit_CP\Unit_CP_DDS</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Module_IO\ModuleIO.cpp">
-      <Filter>File\Module_IO</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Module_IO\DDSUnit\DDSUnit.cpp">
-      <Filter>File\Module_IO\DDSUnit</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\Adapters.cpp">
-      <Filter>File\Module_IO\DDSUnit\Adapters</Filter>
-    </ClCompile>
     <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.cpp">
       <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp">
-      <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
-    </ClCompile>
-    <ClCompile Include="include\structs\struct.cpp">
-      <Filter>File\structs</Filter>
-    </ClCompile>
-    <ClCompile Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.cpp">
-      <Filter>File\Module_CP\Unit_CP\Unit_CP_TCP</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp">
       <Filter>File\Logger</Filter>
     </ClCompile>
     <ClCompile Include="include\structs\TimeConverter.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\Adapters.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataEx.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataExPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Module_IO\DDSUnit\DDSUnit.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarm.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -123,9 +135,6 @@
     <ClInclude Include="..\..\..\..\include_logger\LoggerScada.hpp">
       <Filter>File\Logger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include_logger\LoggerScadaspd.hpp">
-      <Filter>File\Logger</Filter>
-    </ClInclude>
     <ClInclude Include="include\Module_CP\Module_CP.h">
       <Filter>File\Module_CP</Filter>
     </ClInclude>
@@ -138,16 +147,7 @@
     <ClInclude Include="include\Module_IO\ModuleIO.h">
       <Filter>File\Module_IO</Filter>
     </ClInclude>
-    <ClInclude Include="include\Module_IO\DDSUnit\DDSUnit.hpp">
-      <Filter>File\Module_IO\DDSUnit</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\Adapters.hpp">
-      <Filter>File\Module_IO\DDSUnit\Adapters</Filter>
-    </ClInclude>
     <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.hpp">
-      <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp">
       <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
     </ClInclude>
     <ClInclude Include="include\structs\struct_unit_cp.h">
@@ -163,6 +163,54 @@
       <Filter>File\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\structs\TimeConverter.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\Adapters.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\TypeTopics.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSData\DDSData.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataEx.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataExPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_IO\DDSUnit\DDSUnit.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarm.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

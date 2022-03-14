@@ -9,10 +9,8 @@
 /// </summary>
 
 
-namespace scada_ate::typedata
-{
-	
-}
+
+
 
 enum class Type_Gate
 {
@@ -107,7 +105,7 @@ struct ConfigManager
 };
 
 
-struct ConfigModule_IO
+/*struct ConfigModule_IO
 {
 	unsigned int IdGate = 0;
 	unsigned int domen = 0;
@@ -117,4 +115,4 @@ struct ConfigModule_IO
 	std::string ip_reserve;
 	unsigned int port_base;
 	unsigned int port_reserve;
-};
+};*/

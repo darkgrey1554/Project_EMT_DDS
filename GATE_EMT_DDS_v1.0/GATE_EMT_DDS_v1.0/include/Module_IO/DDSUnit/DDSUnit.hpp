@@ -18,7 +18,12 @@
 #include <TypeTopicDDS/DDSData/DDSDataPubSubTypes.h>
 #include <TypeTopicDDS/DDSDataEx/DDSDataExPubSubTypes.h>
 
+#include <fastdds/rtps/transport/TCPv4TransportDescriptor.h>
+#include <fastrtps/utils/IPLocator.h>
+#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
+
 using namespace eprosima::fastdds::dds;
+using namespace eprosima::fastdds::rtps;
 using namespace eprosima::fastrtps::types;
 using namespace std::chrono_literals;
 
@@ -100,11 +105,11 @@ namespace scada_ate::gate::ddsunit
 		StatusDDSUnit current_status = StatusDDSUnit::EMPTY;
 	};
 
-	struct InfoDDSUnit
+	/*struct InfoDDSUnit
 	{
 		ControlDDSUnit control;
 		ConfigDDSUnit config;
-	};
+	};*/
 
 	struct ConfigDDSUnit
 	{
@@ -113,6 +118,7 @@ namespace scada_ate::gate::ddsunit
 		TypeTransport Transport;
 		std::string PointName;
 		gate::adapter::TypeData Typedata;
+		gate::adapter::TypeInfo Typeinfo;
 		gate::adapter::TypeAdapter Adapter;
 		unsigned int Frequency;
 		std::string IP_MAIN;
@@ -152,6 +158,7 @@ namespace scada_ate::gate::ddsunit
 	///--------------- Interface DDSUnit_Subcriber---------------
 	/////////////////////////////////////////////////////////////
 
+	template<class Tkind>
 	class DDSUnit_Subscriber : public IDDSUnit
 	{
 	private:
@@ -170,7 +177,7 @@ namespace scada_ate::gate::ddsunit
 		eprosima::fastdds::dds::Subscriber* subscriber_ = nullptr;
 		Topic* topic_data = nullptr;
 		eprosima::fastdds::dds::DataReader* reader_data = nullptr;
-		std::shared_ptr<void> data_point;
+		std::shared_ptr<Tkind> data_point;
 		class SubListener : public DataReaderListener
 		{
 			std::atomic<CommandListenerSubscriber> status = CommandListenerSubscriber::NONE;
@@ -216,7 +223,6 @@ namespace scada_ate::gate::ddsunit
 
 		DDSUnit_Subscriber(ConfigDDSUnit config);
 		~DDSUnit_Subscriber();
-
 		ResultReqest Initialization();
 		ResultReqest Stop();
 		ResultReqest Start();
@@ -226,14 +232,12 @@ namespace scada_ate::gate::ddsunit
 		ResultReqest Restart();
 		ResultReqest Delete();
 		TypeDDSUnit GetType() const;
-
-
 	};
 
 	/////////////////////////////////////////////////////////////
 	///--------------- Interface DDSUnit_Publisher---------------
 	/////////////////////////////////////////////////////////////
-
+	template<class TKind>
 	class DDSUnit_Publisher : public IDDSUnit
 	{
 		ConfigDDSUnit start_config;
@@ -249,10 +253,8 @@ namespace scada_ate::gate::ddsunit
 		DomainParticipant* participant_ = nullptr;
 		eprosima::fastdds::dds::Publisher* publisher_ = nullptr;
 		Topic* topic_data = nullptr;
-		DynamicData_ptr data;
-		DynamicType_ptr type_data;
 		eprosima::fastdds::dds::DataWriter* writer_data = nullptr;
-
+		std::shared_ptr<TKind> data_point;
 
 		void function_thread_transmite();
 		void SetStatus(StatusDDSUnit status);

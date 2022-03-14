@@ -1,6 +1,0 @@
-2021/12/07	09:49:07.241	ERROR	4	NULL	Error ModuleIO: error UpdateConfigDDSUnits: 
-2021/12/07	09:49:07.310	INFO	NULL	NULL	DDSUnit: Initialization done: name units: Publisher_sm002
-2021/12/07	09:49:07.310	INFO	Initional Module_IO done
-2021/12/07	09:49:07.395	INFO	Registration controller dds done
-2021/12/07	09:49:07.395	ERROR	2	NULL	Error Module_CP: error add_unit: 
-2021/12/07	09:49:07.395	WARNING	Error registred controller tcp

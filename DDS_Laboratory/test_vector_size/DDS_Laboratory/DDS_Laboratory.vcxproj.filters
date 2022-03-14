@@ -5,26 +5,26 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Файлы ресурсов">
+    <Filter Include="Файлы заголовков\Файлы ресурсов">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DataDds.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="DataDdsPubSubTypes.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="DataDdsTypeObject.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
+    <ClCompile Include="HelloWorld_main.cpp" />
+    <ClCompile Include="DDSData.cxx" />
+    <ClCompile Include="DDSDataPubSubTypes.cxx" />
+    <ClCompile Include="DDSDataTypeObject.cxx" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DataDds.cxx" />
-    <ClCompile Include="DataDdsPubSubTypes.cxx" />
-    <ClCompile Include="DataDdsTypeObject.cxx" />
-    <ClCompile Include="HelloWorld_main.cpp" />
+    <ClInclude Include="DDSData.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSDataPubSubTypes.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSDataTypeObject.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

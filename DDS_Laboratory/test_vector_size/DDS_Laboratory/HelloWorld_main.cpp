@@ -17,7 +17,7 @@
  *
  */
 
-#include <fastdds/dds/domain/DomainParticipantFactory.hpp>
+/*#include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
 #include <fastdds/dds/subscriber/Subscriber.hpp>
@@ -29,18 +29,22 @@
 #include <fastrtps/types/DynamicDataFactory.h>
 #include <fastrtps/types/DynamicTypeBuilderFactory.h>
 #include <fastrtps/types/DynamicTypeBuilderPtr.h>
-#include <fastrtps/types/DynamicTypeBuilder.h>
-#include "DataDds.h"
-#include "DataDdsPubSubTypes.h"
+#include <fastrtps/types/DynamicTypeBuilder.h>*/
+
+//#include <fastdds/dds/domain/DomainParticipantFactory.hpp>
+//#include <fastdds/dds/domain/DomainParticipant.hpp>
+#include "DDSData.h"
+#include "DDSDataPubSubTypes.h"
+#include "DDSDataTypeObject.h"
 
 
-using namespace eprosima::fastdds::dds;
-using namespace eprosima::fastrtps::types;
-using namespace std::chrono_literals;
+//using namespace eprosima::fastdds::dds;
+//using namespace eprosima::fastrtps::types;
+//using namespace std::chrono_literals;
 
 const int num = 100000;
 
-class CustomDataReaderListener : public DataReaderListener
+/*class CustomDataReaderListener : public DataReaderListener
 {
 	
 	std::shared_ptr<DataDDS> data = std::make_shared<DataDDS>();
@@ -121,26 +125,26 @@ public:
 	}
 
 	virtual void on_requested_incompatible_qos(
-		DataReader* /*reader*/,
-		const RequestedIncompatibleQosStatus& info)
-	{
-		std::cout << "Found a remote Topic with incompatible QoS (QoS ID: " << info.last_policy_id <<
-			")" << std::endl;
-	}
+		//DataReader* /*reader*/
+		//const RequestedIncompatibleQosStatus& info)
+	//{
+	//	std::cout << "Found a remote Topic with incompatible QoS (QoS ID: " << info.last_policy_id <<
+	//		")" << std::endl;
+	//}
 
-	virtual void on_sample_lost(
-		DataReader* reader,
-		const SampleLostStatus& info)
-	{
-		(void)reader, (void)info;
-		std::cout << "A data sample was lost and will not be received" << std::endl;
-	}
+	//virtual void on_sample_lost(
+	//	DataReader* reader,
+	//	const SampleLostStatus& info)
+	//{
+	//	(void)reader, (void)info;
+	//	std::cout << "A data sample was lost and will not be received" << std::endl;
+	//}
 
 
 	
-};
+//};
 
-void test_pub()
+/*void test_pub()
 {
 	
 	DomainParticipant* participant_pub;
@@ -188,29 +192,29 @@ void test_pub()
 			iter++;
 		}*/
 
-		std::cout << "result transfer: " << writer_->write(plc_.get()) << std::endl;
-		std::cout << "data_vector_i[first] = " << *vec_i.begin() << std::endl;
-		std::cout << "data_vector_i[last] = " << *vec_i.rbegin() << std::endl << std::endl;
+		//std::cout << "result transfer: " << writer_->write(plc_.get()) << std::endl;
+		//std::cout << "data_vector_i[first] = " << *vec_i.begin() << std::endl;
+		//std::cout << "data_vector_i[last] = " << *vec_i.rbegin() << std::endl << std::endl;
 		//std::cout << "data_vector_f[first] = " << *vec_f.begin() << std::endl;
 		//std::cout << "data_vector_f[last] = " << *vec_f.rbegin() << std::endl << std::endl;
-		count++;
-		std::this_thread::sleep_for(std::chrono::milliseconds(time_cycle));
-		count_cycle++;
-		if (count_cycle > number_cycle)
-		{
-			count_cycle = 0;
-			count_test++;
-			if (count_test > test.size() - 1) count_test = 0;
-			plc_->vec_datai().resize(test[count_test]);
+		//count++;
+		//std::this_thread::sleep_for(std::chrono::milliseconds(time_cycle));
+		//count_cycle++;
+		//if (count_cycle > number_cycle)
+		//{
+		//	count_cycle = 0;
+		//	count_test++;
+		//	if (count_test > test.size() - 1) count_test = 0;
+		//	plc_->vec_datai().resize(test[count_test]);
 			//plc_->vec_dataf().resize(test[count_test]);
-		}
-	}
+		//}
+//	}
 
-}
+//}*/
 
 
 
-void test_sub()
+/*void test_sub()
 {
 	CustomDataReaderListener* listener_ = new CustomDataReaderListener();
 	DomainParticipant* participant_sub;
@@ -233,20 +237,20 @@ void test_sub()
 	SampleInfo info;
 	for (;;)
 	{
-		/*reader_->take_next_sample(plc_.get(), &info);
-		if (plc_ == nullptr) continue;
-		std::cout << "value = "<< plc_->sensor_array()[10].v() << std::endl;*/
+		//reader_->take_next_sample(plc_.get(), &info);
+		//if (plc_ == nullptr) continue;
+		//std::cout << "value = "<< plc_->sensor_array()[10].v() << std::endl;
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 
-}
+}*/
 
 int main(int argc, char** argv)
 {
 	//DataDDS::SetMaxSizeF(100000);
 	//DataDDS::SetMaxSizeI(100000);
 
-	std::string pub = "pub";
+	/*std::string pub = "pub";
 	std::string sub = "sub";
 
 	if (pub.compare(argv[1]) == 0)
@@ -258,7 +262,12 @@ int main(int argc, char** argv)
 	else if (sub.compare(argv[1]) == 0)
 	{
 		test_sub();
-	}
+	}*/
+
+
+	//DomainParticipant* participant_sub;
+	//participant_sub = DomainParticipantFactory::get_instance()->create_participant(0, PARTICIPANT_QOS_DEFAULT);
+
 
 	return 0;
 }

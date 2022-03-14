@@ -18,28 +18,25 @@
     <ClCompile Include="HelloWorld_main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DDSData.cxx">
+    <ClCompile Include="TypeTopicDDS\DDSData\DDSData.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DDSDataPubSubTypes.cxx">
+    <ClCompile Include="TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="DDSDataTypeObject.cxx">
+    <ClCompile Include="TypeTopicDDS\DDSData\DDSDataTypeObject.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="TypeTopicDDS\DDSData\DDSData.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="DDSData.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="TypeTopicDDS\DDSData\DDSDataPubSubTypes.h">
+      <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="DDSDataPubSubTypes.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="DDSDataTypeObject.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="TypeTopicDDS\DDSData\DDSDataTypeObject.h">
+      <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -144,6 +144,7 @@
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>C:\Program Files\eProsima\fastrtps 2.4.0\lib\x64Win64VS2019;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,16 +154,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DDSData.cxx" />
-    <ClCompile Include="DDSDataPubSubTypes.cxx" />
-    <ClCompile Include="DDSDataTypeObject.cxx" />
     <ClCompile Include="HelloWorld_main.cpp" />
+    <ClCompile Include="TypeTopicDDS\DDSData\DDSData.cxx" />
+    <ClCompile Include="TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx" />
+    <ClCompile Include="TypeTopicDDS\DDSData\DDSDataTypeObject.cxx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DDSData.h" />
-    <ClInclude Include="DDSDataPubSubTypes.h" />
-    <ClInclude Include="DDSDataTypeObject.h" />
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="TypeTopicDDS\DDSData\DDSData.h" />
+    <ClInclude Include="TypeTopicDDS\DDSData\DDSDataPubSubTypes.h" />
+    <ClInclude Include="TypeTopicDDS\DDSData\DDSDataTypeObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

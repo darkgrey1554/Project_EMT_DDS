@@ -156,6 +156,9 @@
     <ClInclude Include="DataDds.h" />
     <ClInclude Include="DataDdsPubSubTypes.h" />
     <ClInclude Include="DataDdsTypeObject.h" />
+    <ClInclude Include="DDSData.h" />
+    <ClInclude Include="DDSDataPubSubTypes.h" />
+    <ClInclude Include="DDSDataTypeObject.h" />
     <ClInclude Include="HelloWorldPublisher.h" />
     <ClInclude Include="HelloWorldSubscriber.h" />
   </ItemGroup>
@@ -163,6 +166,9 @@
     <ClCompile Include="DataDds.cxx" />
     <ClCompile Include="DataDdsPubSubTypes.cxx" />
     <ClCompile Include="DataDdsTypeObject.cxx" />
+    <ClCompile Include="DDSData.cxx" />
+    <ClCompile Include="DDSDataPubSubTypes.cxx" />
+    <ClCompile Include="DDSDataTypeObject.cxx" />
     <ClCompile Include="HelloWorld_main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

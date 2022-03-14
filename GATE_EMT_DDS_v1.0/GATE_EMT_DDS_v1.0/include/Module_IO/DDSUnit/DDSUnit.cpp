@@ -3,26 +3,53 @@
 
 namespace scada_ate::gate::ddsunit
 {
+
 	std::shared_ptr<IDDSUnit> CreateDDSUnit(ConfigDDSUnit config)
 	{
 		std::shared_ptr<IDDSUnit> p = nullptr;
-		switch (config.TypeUnit)
+		if (config.TypeUnit == TypeDDSUnit::SUBSCRIBER)
 		{
-		case TypeDDSUnit::SUBSCRIBER:
-			p = std::make_shared<DDSUnit_Subscriber>(config);
-			break;
-		case TypeDDSUnit::PUBLISHER:
-			p = std::make_shared<DDSUnit_Publisher>(config);
-			break;
-		default:
-			p = nullptr;
+			if (config.Typeinfo == adapter::TypeInfo::Data && config.Typedata == adapter::TypeData::Base)
+			{
+				p = std::make_shared<DDSUnit_Subscriber<DDSData>>(config);
+			}
+			else if (config.Typeinfo == adapter::TypeInfo::Data && config.Typedata == adapter::TypeData::Extended)
+			{
+				p = std::make_shared<DDSUnit_Subscriber<DDSDataEx>>(config);
+			}
+			else if (config.Typeinfo == adapter::TypeInfo::Alarm && config.Typedata == adapter::TypeData::Base)
+			{
+				p = std::make_shared<DDSUnit_Subscriber<DDSAlarm>>(config);
+			}
+			else if (config.Typeinfo == adapter::TypeInfo::Data && config.Typedata == adapter::TypeData::Extended)
+			{
+				p = std::make_shared<DDSUnit_Subscriber<DDSAlarmEx>>(config);
+			}
 		}
+		else if (config.TypeUnit == TypeDDSUnit::PUBLISHER)
+		{
+			if (config.Typeinfo == adapter::TypeInfo::Data && config.Typedata == adapter::TypeData::Base)
+			{
+				p = std::make_shared<DDSUnit_Publisher<DDSData>>(config);
+			}
+			else if (config.Typeinfo == adapter::TypeInfo::Data && config.Typedata == adapter::TypeData::Extended)
+			{
+				p = std::make_shared<DDSUnit_Publisher<DDSDataEx>>(config);
+			}
+			else if (config.Typeinfo == adapter::TypeInfo::Alarm && config.Typedata == adapter::TypeData::Base)
+			{
+				p = std::make_shared<DDSUnit_Publisher<DDSAlarm>>(config);
+			}
+			else if (config.Typeinfo == adapter::TypeInfo::Data && config.Typedata == adapter::TypeData::Extended)
+			{
+				p = std::make_shared<DDSUnit_Publisher<DDSAlarmEx>>(config);
+			}
+		}
+
 		return p;
 	}
-
 	/// --- SUBSCRIBER --- ///
-
-	DDSUnit_Subscriber::DDSUnit_Subscriber(ConfigDDSUnit config) : start_config(config)
+	template<class TKind> DDSUnit_Subscriber<TKind>::DDSUnit_Subscriber(ConfigDDSUnit config) : start_config(config)
 	{
 		SetStatus(StatusDDSUnit::EMPTY);
 		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
@@ -30,23 +57,20 @@ namespace scada_ate::gate::ddsunit
 		log->Debug("DDSUnit_Subscriber : Create unit name: {}", name_unit);
 	};
 
-	ResultReqest DDSUnit_Subscriber::Initialization()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::Initialization()
 	{
-		std::string helpstr;
 		ResultReqest result_command;
 		StatusDDSUnit status_unit = GetCurrentStatus();
 		if (status_unit != StatusDDSUnit::EMPTY &&
 			status_unit != StatusDDSUnit::ERROR_INIT &&
 			status_unit != StatusDDSUnit::DESTROYED)
 		{
-			helpstr += "Error DDSUnit: Initialization already done: name units: " + this->name_unit;
 			log->Warning("DDSUnit {}: Initialization already done", name_unit);
 			return ResultReqest::IGNOR;
 		}
 
 		try 
 		{
-
 			config = start_config;
 			name_unit = CreateNameUnit(config.PointName);
 
@@ -112,7 +136,7 @@ namespace scada_ate::gate::ddsunit
 		return ResultReqest::OK;
 	}
 
-	ResultReqest DDSUnit_Subscriber::init_participant()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::init_participant()
 	{	
 
 		std::string helpstr;
@@ -122,6 +146,19 @@ namespace scada_ate::gate::ddsunit
 		/// --- инициализация политик --- ///
 		///--------------------------------------------///
 		//////////////////////////////////////////////////
+
+		qos.transport().use_builtin_transports = false;
+
+		auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+		qos.transport().user_transports.push_back(tcp_transport);
+
+		eprosima::fastrtps::rtps::Locator_t initial_peer_locator;
+		initial_peer_locator.kind = LOCATOR_KIND_TCPv4;
+		eprosima::fastrtps::rtps::IPLocator::setIPv4(initial_peer_locator, config.IP_MAIN);
+		initial_peer_locator.port = config.Port_MAIN;
+
+		qos.wire_protocol().builtin.initialPeersList.push_back(initial_peer_locator);
+		qos.transport().use_builtin_transports = false;
 
 		/// --- иницализация participant --- /// 	
 
@@ -140,7 +177,7 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	}
 
-	ResultReqest DDSUnit_Subscriber::init_subscriber()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::init_subscriber()
 	{
 		std::string helpstr;
 		ResultReqest result{ ResultReqest::OK };
@@ -163,7 +200,7 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	}
 
-	ResultReqest DDSUnit_Subscriber::register_type()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::register_type()
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -188,27 +225,25 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	}
 
-	ResultReqest DDSUnit_Subscriber::register_topic()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::register_topic()
 	{
 		ResultReqest result{ ResultReqest::OK };
 		TypeSupport type_;
 
 		try
 		{
-			if (config.Typedata == adapter::TypeData::Base)
+			if (typeid(TKind) == typeid(DDSData))
 			{
 				type_ = TypeSupport(new DDSDataPubSubType());
-				data_point = std::make_shared<DDSData>();
 			}
-			else if (config.Typedata == adapter::TypeData::Extended)
+			else if (typeid(TKind) == typeid(DDSDataEx))
 			{
 				type_ = TypeSupport(new DDSDataExPubSubType());
-				data_point = std::make_shared<DDSDataEx>();
 			}
 
+			data_point = std::make_shared<TKind>();
 			topic_data = participant_->create_topic( CreateNameTopic(), type_.get_type_name(), TOPIC_QOS_DEFAULT);
 			if (topic_data == nullptr) throw 1;
-
 		}
 		catch (int& e)
 		{
@@ -223,11 +258,9 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	};
 
-	ResultReqest DDSUnit_Subscriber::init_reader_data()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::init_reader_data()
 	{
-		std::string helpstr;
 		ResultReqest result{ ResultReqest::OK };
-
 		try
 		{
 			if (this->config.Frequency <= 0)
@@ -257,18 +290,16 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	};
 
-	ResultReqest DDSUnit_Subscriber::init_adapter()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::init_adapter()
 	{
-		std::string helpstr;
 		ResultReqest result{ResultReqest::OK};
 
 		try
 		{
 			if (AdapterUnit != nullptr) throw 3;
-
 			AdapterUnit = CreateAdapter(this->config.Adapter);
 			if (AdapterUnit == nullptr) throw 1;
-			result = AdapterUnit->InitAdapter(config.conf_adapter);
+			result = AdapterUnit->InitAdapter(this->config.conf_adapter);
 			if (result != ResultReqest::OK) throw 2;
 		}
 		catch (int& e_int)
@@ -285,7 +316,7 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	}
 
-	void DDSUnit_Subscriber::function_thread_transmite()
+	template<class TKind> void DDSUnit_Subscriber<TKind>::function_thread_transmite()
 	{
 		std::chrono::steady_clock::time_point start, end;
 		std::chrono::milliseconds delta_ms;
@@ -299,7 +330,6 @@ namespace scada_ate::gate::ddsunit
 
 		try
 		{
-
 			stoper = thread_transmite.get_stop_token();
 			if (!stoper.stop_possible()) throw 1;
 
@@ -320,14 +350,13 @@ namespace scada_ate::gate::ddsunit
 				}
 				start = std::chrono::steady_clock::now();
 
-
 				if (reader_data->take_next_sample(data_point.get(), &info) != ReturnCode_t::RETCODE_OK) //throw 2;
 				{
 					log->Warning("DDSUnit {}: Error read data in thread of thransfer", this->name_unit);
 					continue;
 				}
 
-				if (AdapterUnit->WriteData(std::static_pointer_cast<DDSData>(data_point)) != ResultReqest::OK) throw 4;
+				if (AdapterUnit->WriteData(data_point) != ResultReqest::OK) throw 4;
 				log->Debug("DDSUnit {}: Thread of thransfer: read done", this->name_unit);
 			}
 		}
@@ -348,14 +377,12 @@ namespace scada_ate::gate::ddsunit
 		return;
 	};
 
-	void DDSUnit_Subscriber::SubListener::on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info)
+	template<class TKind> void DDSUnit_Subscriber<TKind>::SubListener::on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info)
 	{
-		//////////
-		//////////
-		//////////
+		master->log->Debug("connect topic");
 	}
 
-	void DDSUnit_Subscriber::SubListener::on_data_available(DataReader* reader)
+	template<class TKind> void DDSUnit_Subscriber<TKind>::SubListener::on_data_available(DataReader* reader)
 	{
 		SampleInfo info;
 		eprosima::fastrtps::types::DynamicData* array = nullptr;
@@ -364,12 +391,12 @@ namespace scada_ate::gate::ddsunit
 
 		try
 		{
-			if (reader->take_next_sample(master->data_point.get(), &info) != ReturnCode_t::RETCODE_OK) //throw 2;
+			if (master->reader_data->take_next_sample(master->data_point.get(), &info) != ReturnCode_t::RETCODE_OK) //throw 2;
 			{
 				master->log->Warning("DDSUnit {}: Error read data in thread of thransfer", master->name_unit);
 			}
 
-			if (master->AdapterUnit->WriteData(std::static_pointer_cast<DDSData>(master->data_point)) != ResultReqest::OK) throw 4;
+			if (master->AdapterUnit->WriteData(master->data_point) != ResultReqest::OK) throw 4;
 			master->log->Debug("DDSUnit {}: Thread of thransfer: read done", master->name_unit);
 
 		}
@@ -387,17 +414,17 @@ namespace scada_ate::gate::ddsunit
 		return;
 	}
 
-	void DDSUnit_Subscriber::SubListener::Stop()
+	template<class TKind> void DDSUnit_Subscriber<TKind>::SubListener::Stop()
 	{
 		status.store(CommandListenerSubscriber::STOP);
 	}
 
-	void DDSUnit_Subscriber::SubListener::Start()
+	template<class TKind> void DDSUnit_Subscriber<TKind>::SubListener::Start()
 	{
 		status.store(CommandListenerSubscriber::START);
 	}
 
-	ResultReqest DDSUnit_Subscriber::Stop()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::Stop()
 	{
 		std::string helpstr;
 		ResultReqest result{ ResultReqest::OK };
@@ -429,7 +456,7 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	};
 
-	ResultReqest DDSUnit_Subscriber::Start()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::Start()
 	{
 		std::string helpstr;
 		ResultReqest result = ResultReqest::OK;
@@ -474,7 +501,7 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	};
 
-	ResultReqest DDSUnit_Subscriber::Delete()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::Delete()
 	{
 		std::string helpstr;
 		ResultReqest result = { ResultReqest::OK };
@@ -537,7 +564,7 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	};
 
-	ResultReqest DDSUnit_Subscriber::Restart()
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::Restart()
 	{
 		std::string helpstr;
 		ResultReqest result = { ResultReqest::OK };
@@ -562,28 +589,28 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	};
 
-	StatusDDSUnit DDSUnit_Subscriber::GetCurrentStatus() const
+	template<class TKind> StatusDDSUnit DDSUnit_Subscriber<TKind>::GetCurrentStatus() const
 	{
 		return GlobalStatus.load(std::memory_order_relaxed);
 	};
 
-	ConfigDDSUnit DDSUnit_Subscriber::GetConfig() const
+	template<class TKind> ConfigDDSUnit DDSUnit_Subscriber<TKind>::GetConfig() const
 	{
 		return config;
 	};
 
-	ResultReqest DDSUnit_Subscriber::SetNewConfig(ConfigDDSUnit conf)
+	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::SetNewConfig(ConfigDDSUnit conf)
 	{
 		start_config = conf;
 		return ResultReqest::OK;
 	};
 
-	TypeDDSUnit DDSUnit_Subscriber::GetType() const
+	template<class TKind> TypeDDSUnit DDSUnit_Subscriber<TKind>::GetType() const
 	{
 		return TypeDDSUnit::SUBSCRIBER;
 	};
 
-	DDSUnit_Subscriber::~DDSUnit_Subscriber()
+	template<class TKind> DDSUnit_Subscriber<TKind>::~DDSUnit_Subscriber()
 	{
 		std::string helpstr;
 
@@ -593,12 +620,12 @@ namespace scada_ate::gate::ddsunit
 		}
 	}
 
-	void DDSUnit_Subscriber::SetStatus(StatusDDSUnit status)
+	template<class TKind> void DDSUnit_Subscriber<TKind>::SetStatus(StatusDDSUnit status)
 	{
 		GlobalStatus.store(status, std::memory_order_relaxed);
 	};
 
-	std::string DDSUnit_Subscriber::CreateNameTopic()
+	template<class TKind> std::string DDSUnit_Subscriber<TKind>::CreateNameTopic()
 	{
 		std::string str;
 		if (config.Typedata == adapter::TypeData::Base) str += "TopicDDSData_";
@@ -606,7 +633,7 @@ namespace scada_ate::gate::ddsunit
 		return str;
 	}
 
-	std::string DDSUnit_Subscriber::CreateNameUnit(std::string short_name)
+	template<class TKind> std::string DDSUnit_Subscriber<TKind>::CreateNameUnit(std::string short_name)
 	{
 		return "Subscriber_" + short_name;
 	}
@@ -616,23 +643,20 @@ namespace scada_ate::gate::ddsunit
 	/// -------------- PUBLISHER --------------- ///
 	////////////////////////////////////////////////
 
-	DDSUnit_Publisher::DDSUnit_Publisher(ConfigDDSUnit config) : start_config(config)
+	template<class TKind> DDSUnit_Publisher<TKind>::DDSUnit_Publisher(ConfigDDSUnit config) : start_config(config)
 	{
 		SetStatus(StatusDDSUnit::EMPTY);
 		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
 		name_unit = CreateNameUnit(start_config.PointName);
 	}
 
-	ResultReqest DDSUnit_Publisher::Initialization()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::Initialization()
 	{
 		std::string helpstr;
 		ResultReqest result {ResultReqest::OK};
 		StatusDDSUnit status_unit = GetCurrentStatus();
 
 		try
-		{
-		}
-		catch(int& e)
 		{
 			if (status_unit != StatusDDSUnit::EMPTY &&
 				status_unit != StatusDDSUnit::ERROR_INIT &&
@@ -641,6 +665,8 @@ namespace scada_ate::gate::ddsunit
 				log->Warning("DDSUnit {}: Initialization already done", this->name_unit);
 				return ResultReqest::IGNOR;
 			}
+
+			log->Debug("DDSUnit {}: Start Initialization", this->name_unit);
 
 			config = start_config;
 			name_unit = CreateNameUnit(config.PointName);
@@ -659,14 +685,6 @@ namespace scada_ate::gate::ddsunit
 			{
 				SetStatus(StatusDDSUnit::ERROR_INIT);
 				throw 2;
-			}
-
-			/// --- создание динамического типа --- ///
-
-			if (create_dynamic_data_type() != ResultReqest::OK)
-			{
-				SetStatus(StatusDDSUnit::ERROR_INIT);
-				throw 3;
 			}
 
 			/// --- регистрация типа ---- ///
@@ -717,22 +735,26 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	}
 
-	ResultReqest DDSUnit_Publisher::init_participant()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::init_participant()
 	{
 
-		std::string helpstr;
 		ResultReqest result{ ResultReqest::OK };
 
-		/// --- инициализация транспортного уровня --- ///
-		///--------------------------------------------///
-		//////////////////////////////////////////////////
+		DomainParticipantQos qos;
 
-		/// --- иницализация participant --- /// 	
+		auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+		//tcp_transport->sendBufferSize = 9216;
+		//tcp_transport->receiveBufferSize = 9216;
+		tcp_transport->add_listener_port(config.Port_MAIN);
+		tcp_transport->set_WAN_address(config.IP_MAIN);
+
+		qos.transport().user_transports.push_back(tcp_transport);
+		qos.transport().use_builtin_transports = false;
 
 		try
 		{
 			participant_ =
-				DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, PARTICIPANT_QOS_DEFAULT, nullptr);
+				DomainParticipantFactory::get_instance()->create_participant(this->config.Domen, qos, nullptr);
 			if (!participant_) throw 1;
 		}
 		catch (int& e)
@@ -749,9 +771,8 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	}
 
-	ResultReqest DDSUnit_Publisher::init_publisher()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::init_publisher()
 	{
-		std::string helpstr;
 		ResultReqest result{ ResultReqest::OK };
 
 		try
@@ -773,17 +794,17 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	}
 
-	ResultReqest DDSUnit_Publisher::register_type()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::register_type()
 	{
-
 		ResultReqest result{ ResultReqest::OK };
+		TypeSupport type_;
 
 		try
 		{
-			TypeSupport PtrSupporType = eprosima::fastrtps::types::DynamicPubSubType(type_data);
-			PtrSupporType.get()->auto_fill_type_information(false);
-			PtrSupporType.get()->auto_fill_type_object(true);
+			TypeSupport PtrSupporType(new DDSDataPubSubType());
+			TypeSupport PtrSupporTypeEx(new DDSDataExPubSubType());
 			if (PtrSupporType.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw 1;
+			if (PtrSupporTypeEx.register_type(participant_) != ReturnCode_t::RETCODE_OK) throw 2;
 		}
 		catch (int& e)
 		{
@@ -799,13 +820,24 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	}
 
-	ResultReqest DDSUnit_Publisher::register_topic()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::register_topic()
 	{
 		ResultReqest result { ResultReqest::OK };
+		TypeSupport type_;
 
 		try
 		{
-			topic_data = participant_->create_topic(CreateNameTopic(this->config.PointName), CreateNameType(this->config.PointName), TOPIC_QOS_DEFAULT);
+			if (typeid(TKind) == typeid(DDSData))
+			{
+				type_ = TypeSupport(new DDSDataPubSubType());
+			}
+			else if (typeid(TKind) == typeid(DDSDataEx))
+			{
+				type_ = TypeSupport(new DDSDataExPubSubType());
+			}
+
+			data_point = std::make_shared<TKind>();
+			topic_data = participant_->create_topic(CreateNameTopic(), type_.get_type_name(), TOPIC_QOS_DEFAULT);
 			if (topic_data == nullptr) throw 1;
 		}
 		catch (int& e)
@@ -822,83 +854,68 @@ namespace scada_ate::gate::ddsunit
 		return result;
 	};
 
-	ResultReqest DDSUnit_Publisher::init_adapter()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::init_adapter()
 	{
 		ResultReqest result { ResultReqest::OK };
 
 		try
 		{
-			if (AdapterUnit != nullptr) throw 3;
-
-			AdapterUnit = CreateAdapter(this->config.Adapter);
-			if (AdapterUnit == nullptr) throw 1;
-			std::shared_ptr<IConfigAdapter> conf_adater = create_config_adapter();
-			if (AdapterUnit->InitAdapter(conf_adater) != ResultReqest::OK) throw 2;
+			if (AdapterUnit != nullptr) throw 1;
+			AdapterUnit = CreateAdapter(config.Adapter);
+			if (AdapterUnit->InitAdapter(config.conf_adapter) != ResultReqest::OK) throw 2;
 		}
 		catch (int& e_int)
 		{
 			log->Critical("DDSUnit {}: Error initialization of adapter: error {}", this->name_unit, e_int);
-			return ResultReqest::ERopeR;
+			result=ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error initialization of adapter, name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
-			return ResultReqest::ERR;
+			log->Critical("DDSUnit {}: Error initialization of adapter: error {}", this->name_unit, 0);
+			result=ResultReqest::ERR;
 		}
 
-		return ResultReqest::OK;
+		return result;
 	}
 
-	ResultReqest DDSUnit_Publisher::init_writer_data()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::init_writer_data()
 	{
-		std::string helpstr;
-
 		try
 		{
 			writer_data = publisher_->create_datawriter(topic_data, DATAWRITER_QOS_DEFAULT);
-			if (writer_data == nullptr) throw -1;		
+			if (writer_data == nullptr) throw 1;		
 			thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite,this);
+		}
+		catch (int& e)
+		{
+			log->Critical("DDSUnit {}: Error create of writer_data: error {}", this->name_unit, e);
+			return ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error init DDSUnit: Error create of writer_data: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			log->Critical("DDSUnit {}: Error create of writer_data: error {}", this->name_unit, 0);
 			return ResultReqest::ERR;
 		}
 
 		return ResultReqest::OK;
 	}
 
-	void DDSUnit_Publisher::function_thread_transmite()
+	template<class TKind> void DDSUnit_Publisher<TKind>::function_thread_transmite()
 	{
 		std::chrono::steady_clock::time_point start, end;
 		std::chrono::milliseconds delta_ms;
 		start = std::chrono::steady_clock::now();
-		eprosima::fastrtps::types::DynamicData* array = nullptr;
 		SampleInfo info;
 		ResultReqest res;
-		std::string helpstr;
 		std::stop_token stoper;
 
-		std::time_t time_p;
-		std::tm* time_now;
 		std::chrono::system_clock::time_point time;
 		std::chrono::milliseconds msec;
 		unsigned int count_write = 0;
-
 		status_thread.store(StatusThreadDSSUnit::WORK, std::memory_order_relaxed);
-
-		int size_type_data = size_type_data_baits(config.Typedata);
-		std::shared_ptr<char> mass_data(new char[size_type_data * config.Size], std::default_delete<char[]>());
-		for (int i = 0; i < size_type_data * config.Size; i++) *(mass_data.get() + i) = 0;
 
 		try
 		{
-			data->set_char8_value((char)config.Typedata, 0);
-			data->set_uint32_value(config.Size, 5);
 			stoper = thread_transmite.get_stop_token();
 			if (!stoper.stop_possible()) throw 1;
 
@@ -908,59 +925,30 @@ namespace scada_ate::gate::ddsunit
 
 				end = std::chrono::steady_clock::now();
 				delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-				if (delta_ms.count() < config.Frequency - frequency_scatter)
+				if (delta_ms.count() < config.Frequency - scatter_frequency)
 				{
 					std::this_thread::sleep_for(std::chrono::milliseconds(1));
 					continue;
 				}
 				start = std::chrono::steady_clock::now();
 
-				array = data->loan_value(7);
-				if (array == nullptr) throw 3;
-
-				if (AdapterUnit->ReadData(mass_data.get(), config.Size) != ResultReqest::OK)
-				{
-					data->return_loaned_value(array);
-					throw 4;
-				}
-
-				for (int i = 0; i < config.Size; i++)
-				{
-					mirror_data_to_DDS(mass_data.get(), array, i);
-				}
-
-				data->return_loaned_value(array);
-
-				time = std::chrono::system_clock::now();
-				time_p = std::chrono::system_clock::to_time_t(time);
-				time_now = std::localtime(&time_p);
-				msec = std::chrono::duration_cast<std::chrono::milliseconds>(time.time_since_epoch())
-					- std::chrono::duration_cast<std::chrono::milliseconds>
-					(std::chrono::duration_cast<std::chrono::seconds>(time.time_since_epoch()));
-				count_write++;
-
-				data->set_char8_value((char)time_now->tm_hour, 1);
-				data->set_char8_value((char)time_now->tm_min, 2);
-				data->set_char8_value((char)time_now->tm_sec, 3);
-				data->set_uint16_value(msec.count(), 4);
-				data->set_uint32_value(count_write, 6);
-
-				if (!writer_data->write(data.get())) throw 5;
+				AdapterUnit->ReadData(data_point);
+				if (!writer_data->write(data_point.get())) throw 5;
 			}
 		}
 		catch (int& e)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
+			//helpstr.clear();
+			//helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
+			//log->WriteLogERR(helpstr.c_str(), e, 0);
 			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
 			return;
 		}
 		catch (...)
 		{
-			helpstr.clear();
-			helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			//helpstr.clear();
+			//helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
+			//log->WriteLogERR(helpstr.c_str(), 0, 0);
 			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
 			return;
 		}
@@ -969,24 +957,8 @@ namespace scada_ate::gate::ddsunit
 		return;
 	};
 
-	inline void  DDSUnit_Publisher::mirror_data_to_DDS(void* buf, eprosima::fastrtps::types::DynamicData* array_dds, unsigned int i)
-	{
-		float val;
-		if (config.Typedata == TypeData::ANALOG)
-		{
-			array_dds->set_float32_value(*(reinterpret_cast<float*>(buf) + i), array_dds->get_array_index({ 0, i }));
-		}
-		else if (config.Typedata == TypeData::DISCRETE)
-		{
-			array_dds->set_int32_value(*(reinterpret_cast<int*>(buf) + i), array_dds->get_array_index({ 0, i }));
-		}
-		else if (config.Typedata == TypeData::BINAR)
-		{
-			array_dds->set_char8_value(*(reinterpret_cast<char*>(buf) + i), array_dds->get_array_index({ 0, i }));
-		}
-	}
 
-	DDSUnit_Publisher::~DDSUnit_Publisher()
+	template<class TKind> DDSUnit_Publisher<TKind>::~DDSUnit_Publisher()
 	{
 		std::string helpstr;
 
@@ -994,11 +966,11 @@ namespace scada_ate::gate::ddsunit
 		{
 			helpstr.clear();
 			helpstr += "Error DDSUnit: Error Destructor : name units: " + config.PointName;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			//log->WriteLogERR(helpstr.c_str(), 0, 0);
 		}
 	}
 
-	ResultReqest DDSUnit_Publisher::Stop()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::Stop()
 	{
 		std::string helpstr;
 		try
@@ -1017,24 +989,24 @@ namespace scada_ate::gate::ddsunit
 		{
 			helpstr.clear();
 			helpstr += "Error DDSUnit: Stop command error: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
+			//log->WriteLogERR(helpstr.c_str(), e, 0);
 			return ResultReqest::ERR;
 		}
 		catch (...)
 		{
 			helpstr.clear();
 			helpstr += "Error DDSUnit: Stop command error: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			//log->WriteLogERR(helpstr.c_str(), 0, 0);
 			return ResultReqest::ERR;
 		}
 
 		helpstr.clear();
 		helpstr += "DDSUnit: Stop command done: name units: " + this->name_unit;
-		log->WriteLogINFO(helpstr.c_str(), 0, 0);
+		//log->WriteLogINFO(helpstr.c_str(), 0, 0);
 		return ResultReqest::OK;
 	};
 
-	ResultReqest DDSUnit_Publisher::Start()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::Start()
 	{
 		std::string helpstr;
 		try
@@ -1060,40 +1032,40 @@ namespace scada_ate::gate::ddsunit
 		{
 			helpstr.clear();
 			helpstr += "Error DDSUnit: Start command error: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
+			//log->WriteLogERR(helpstr.c_str(), e, 0);
 			return ResultReqest::ERR;
 		}
 		catch (...)
 		{
 			helpstr.clear();
 			helpstr += "Error DDSUnit: Start command error: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			//log->WriteLogERR(helpstr.c_str(), 0, 0);
 			return ResultReqest::ERR;
 		}
 
 		helpstr.clear();
 		helpstr += "DDSUnit: command Start done: name units: " + this->name_unit;
-		log->WriteLogINFO(helpstr.c_str(), 0, 0);
+		//log->WriteLogINFO(helpstr.c_str(), 0, 0);
 		return ResultReqest::OK;
 	};
 
-	StatusDDSUnit DDSUnit_Publisher::GetCurrentStatus() const
+	template<class TKind> StatusDDSUnit DDSUnit_Publisher<TKind>::GetCurrentStatus() const
 	{
 		return GlobalStatus.load(std::memory_order_relaxed);
 	};
 
-	ConfigDDSUnit DDSUnit_Publisher::GetConfig() const
+	template<class TKind> ConfigDDSUnit DDSUnit_Publisher<TKind>::GetConfig() const
 	{
 		return config;
 	};
 
-	ResultReqest DDSUnit_Publisher::SetNewConfig(ConfigDDSUnit conf)
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::SetNewConfig(ConfigDDSUnit conf)
 	{
 		start_config = conf;
 		return ResultReqest::OK;
 	};
 
-	ResultReqest DDSUnit_Publisher::Restart()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::Restart()
 	{
 		std::string helpstr;
 
@@ -1106,24 +1078,24 @@ namespace scada_ate::gate::ddsunit
 		{
 			helpstr.clear();
 			helpstr += "Error DDSUnit: Error command Restart: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
+			//log->WriteLogERR(helpstr.c_str(), e, 0);
 			return ResultReqest::ERR;
 		}
 		catch (...)
 		{
 			helpstr.clear();
 			helpstr += "Error DDSUnit: Error command Restart: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			//log->WriteLogERR(helpstr.c_str(), 0, 0);
 			return ResultReqest::ERR;
 		}
 
 		helpstr.clear();
 		helpstr += "Info DDSUnit: Restart command done: name units: " + this->name_unit;
-		log->WriteLogINFO(helpstr.c_str(), 0, 0);
+		//log->WriteLogINFO(helpstr.c_str(), 0, 0);
 		return ResultReqest::OK;
 	};
 
-	ResultReqest DDSUnit_Publisher::Delete()
+	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::Delete()
 	{
 		std::string helpstr;
 
@@ -1174,7 +1146,7 @@ namespace scada_ate::gate::ddsunit
 		{
 			helpstr.clear();
 			helpstr += "Error DDSUnit: Error to command Delete: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), e, 0);
+			//log->WriteLogERR(helpstr.c_str(), e, 0);
 			SetStatus(StatusDDSUnit::ERROR_DESTROYED);
 			return ResultReqest::ERR;
 		}
@@ -1182,43 +1154,38 @@ namespace scada_ate::gate::ddsunit
 		{
 			helpstr.clear();
 			helpstr += "Error DDSUnit: Error to command Delete: name units: " + this->name_unit;
-			log->WriteLogERR(helpstr.c_str(), 0, 0);
+			//log->WriteLogERR(helpstr.c_str(), 0, 0);
 			SetStatus(StatusDDSUnit::ERROR_DESTROYED);
 			return ResultReqest::ERR;
 		}
 
 		helpstr.clear();
 		helpstr += "Info DDSUnit: Delete command done: name units: " + this->name_unit;
-		log->WriteLogERR(helpstr.c_str(), 0, 0);
+		//log->WriteLogERR(helpstr.c_str(), 0, 0);
 
 		return ResultReqest::OK;
 	};
 
-	TypeDDSUnit DDSUnit_Publisher::GetType() const
+	template<class TKind> TypeDDSUnit DDSUnit_Publisher<TKind>::GetType() const
 	{
 		return TypeDDSUnit::PUBLISHER;
 	}
 
-	void DDSUnit_Publisher::SetStatus(StatusDDSUnit status)
+	template<class TKind> void DDSUnit_Publisher<TKind>::SetStatus(StatusDDSUnit status)
 	{
 		GlobalStatus.store(status, std::memory_order_relaxed);
 	};
 
-	std::string DDSUnit_Publisher::CreateNameTopic(std::string short_name)
+	template<class TKind> std::string DDSUnit_Publisher<TKind>::CreateNameTopic()
 	{
-		return "TopicdataDDS";
-		//return "TopicdataDDS_" + short_name;
+		std::string str;
+		if (config.Typedata == adapter::TypeData::Base) str += "TopicDDSData_";
+		str += config.PointName;
+		return str;
 	}
 
-	std::string DDSUnit_Publisher::CreateNameType(std::string short_name)
-	{
-		return "TypedataDDS_" + short_name;
-	}
-
-	std::string DDSUnit_Publisher::CreateNameUnit(std::string short_name)
+	template<class TKind> std::string DDSUnit_Publisher<TKind>::CreateNameUnit(std::string short_name)
 	{
 		return "Publisher_" + short_name;
 	}
-
-
 }

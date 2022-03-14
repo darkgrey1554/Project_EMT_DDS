@@ -87,8 +87,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\eProsima\fastrtps 2.4.0\include\fastrtps\types;C:\Program Files\eProsima\fastrtps 2.4.0\include\foonathan_memory;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds\statistics;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds\rtps;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastdds\dds;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr\exceptions;C:\Program Files\eProsima\fastrtps 2.4.0\include\fastcdr;C:\Program Files\eProsima\fastrtps 2.4.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.4.0\bin\x64Win64VS2019;C:\Program Files\eProsima\fastrtps 2.4.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\eProsima\fastrtps 2.4.1\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.4.1\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -154,15 +154,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DataDds.h" />
-    <ClInclude Include="DataDdsPubSubTypes.h" />
-    <ClInclude Include="DataDdsTypeObject.h" />
+    <ClCompile Include="DDSData.cxx" />
+    <ClCompile Include="DDSDataPubSubTypes.cxx" />
+    <ClCompile Include="DDSDataTypeObject.cxx" />
+    <ClCompile Include="HelloWorld_main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DataDds.cxx" />
-    <ClCompile Include="DataDdsPubSubTypes.cxx" />
-    <ClCompile Include="DataDdsTypeObject.cxx" />
-    <ClCompile Include="HelloWorld_main.cpp" />
+    <ClInclude Include="DDSData.h" />
+    <ClInclude Include="DDSDataPubSubTypes.h" />
+    <ClInclude Include="DDSDataTypeObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

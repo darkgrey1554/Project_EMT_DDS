@@ -1,0 +1,7 @@
+# ninja log v5
+0	638	6685550222778956	test_cmake/CMakeFiles/test_cmake.dir/test_cmake.cpp.obj	a65d5265bb46b7b0
+1	481	6685602201783463	build.ninja	ec632bb305494317
+638	856	6685550224614052	test_cmake/test_cmake.exe	18a7e45f7538f0fe
+0	14	0	clean	15b1061eae260f1c
+0	859	6685612905680286	test_cmake/CMakeFiles/test_cmake.dir/test_cmake.cpp.obj	a65d5265bb46b7b0
+859	1128	6685612907864529	test_cmake/test_cmake.exe	18a7e45f7538f0fe

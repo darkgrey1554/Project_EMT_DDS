@@ -1,5 +1,4 @@
-﻿  DdsData.cxx
-  DdsDataPubSubTypes.cxx
+﻿  DdsDataPubSubTypes.cxx
   HelloWorldPublisher.cpp
   HelloWorldSubscriber.cpp
   HelloWorld_main.cpp

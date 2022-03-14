@@ -1,0 +1,32 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "variables": [
+        {
+          "name": "fastcdr_DIR",
+          "value": "C:/Program Files/eProsima/fastrtps 2.4.0/cmake",
+          "type": "PATH"
+        },
+        {
+          "name": "foonathan_memory_DIR",
+          "value": "C:/Program Files/eProsima/fastrtps 2.4.0/cmake",
+          "type": "PATH"
+        },
+        {
+          "name": "fastrtps_DIR",
+          "value": "C:/Program Files/eProsima/fastrtps 2.4.0/cmake",
+          "type": "PATH"
+        }
+      ]
+    }
+  ]
+}
