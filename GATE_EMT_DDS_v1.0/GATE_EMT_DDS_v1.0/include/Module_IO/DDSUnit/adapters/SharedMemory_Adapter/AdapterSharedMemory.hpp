@@ -10,19 +10,21 @@
 #include "security_handle.hpp"
 #include <structs/TimeConverter.hpp>
 #include <map>
+#include <math.h>
 
 namespace scada_ate::gate::adapter::sem
 {
+	enum class TypeValueOfAdapt
+	{
+		
+	};
 
 	struct HeaderSharedMemory
 	{
-		TypeInfo InfoType;
-		TypeData type_data;
 		long long TimeLastWrite;
 		long long TimeLastRead;
 		unsigned long count_write = 0;
 		unsigned long count_read = 0;
-		size_t size_alarms = 0;
 		size_t size_data_int = 0;
 		size_t size_data_float = 0;
 		size_t size_data_double = 0;
@@ -32,16 +34,14 @@ namespace scada_ate::gate::adapter::sem
 
 	struct ConfigAdapterSharedMemory : public IConfigAdapter
 	{
-		std::string NameChannel;
-		TypeInfo InfoType;
-		TypeData DataType;
-		std::vector<uint32_t> v_tags;
-		size_t size_alarms = 0;
-		size_t size_data_int = 0;
-		size_t size_data_float = 0;
-		size_t size_data_double = 0;
-		size_t size_data_char = 0;
+		std::string NameChannel = "";
+		size_t size_int_data = 0;
+		size_t size_float_data = 0;
+		size_t size_double_data = 0;
+		size_t size_char_data = 0;
+		size_t size_str_data = 0;
 		size_t size_str = 0;
+
 	};
 
 	struct AnswerSharedMemoryHeaderData : public IAnswer
@@ -58,21 +58,6 @@ namespace scada_ate::gate::adapter::sem
 		char* buf_data = nullptr; /// указатель на блок памяти
 		HANDLE Mutex_SM = NULL; /// handle мьютекса ждя доступа к shared memory
 		std::shared_ptr<SecurityHandle> security_attr; /// handle атрибута безопасности, для
-		std::shared_ptr<DDSData> data_ = nullptr;
-		std::shared_ptr<DDSData> data_last = nullptr;
-		std::shared_ptr<DDSAlarm> alarms_ = nullptr;
-		std::shared_ptr<DDSAlarm> alarms_last = nullptr;
-
-		std::map<uint32_t, uint32_t> map_TagToPoint;
-
-		/// --- вспомогательные переменные --- /// 
-		enum class TypeValue
-		{
-			INT,
-			FLOAT,
-			DOUBLE,
-			CHAR
-		};
 
 		std::mutex mutex_init;
 		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// переменная статуса адаптера 
@@ -84,22 +69,26 @@ namespace scada_ate::gate::adapter::sem
 		std::string CreateSMName();
 		std::string CreateSMMutexName();
 		size_t GetSizeMemory();
-		size_t Offset(TypeValue type_value);
-		std::shared_ptr<DDSDataEx> create_extended_data(ModeRead mode_read);
-		std::shared_ptr<DDSDataEx> create_extended_fulldata();
-		std::shared_ptr<DDSDataEx> create_extended_diffdata();
+		size_t TakeOffset(const TypeValue& type_value, const size_t& ofs) const;
+		int demask(const int& value, int mask_source,const int& value_target, const int& mask_target);
+
+		size_t offset_int = 0;
+		size_t offset_float = 0;
+		size_t offset_double = 0;
+		size_t offset_char = 0;
+		size_t offset_str = 0;
+
+		void set_data(const ValueInt& value, const LinkTags& link);
+		void set_data(const ValueFloat& value, const LinkTags& link);
+		void set_data(const ValueDouble& value, const LinkTags& link);
+		void set_data(const ValueChar& value, const LinkTags& link);
+		void set_data(const ValueString& value, const LinkTags& link);
 
 	public:
 
 		ResultReqest InitAdapter(std::shared_ptr<IConfigAdapter> config) override;
-		ResultReqest ReadData(std::shared_ptr<DDSData>& buf, ModeRead rise_data = ModeRead::Regular) override;
-		ResultReqest WriteData(std::shared_ptr<DDSData>& buf) override;
-		ResultReqest ReadData(std::shared_ptr<DDSDataEx>& buf, ModeRead rise_data = ModeRead::Regular) override;
-		ResultReqest WriteData(std::shared_ptr<DDSDataEx>& buf) override;
-		ResultReqest ReadData(std::shared_ptr<DDSAlarm>& buf, ModeRead rise_data = ModeRead::Regular) override;
-		ResultReqest WriteData(std::shared_ptr<DDSAlarm>& buf) override;
-		ResultReqest ReadData(std::shared_ptr<DDSAlarmEx>& buf, ModeRead rise_data = ModeRead::Regular) override;
-		ResultReqest WriteData(std::shared_ptr<DDSAlarmEx>& buf) override;
+		ResultReqest ReadData(GenTags& buf) override;
+		ResultReqest WriteData(const GenTags&) override;
 		TypeAdapter GetTypeAdapter() override;
 		StatusAdapter GetStatusAdapter() override;
 		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) override;

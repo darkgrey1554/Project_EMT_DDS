@@ -21,15 +21,6 @@
     <ClInclude Include="HelloWorldSubscriber.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="DataDds.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="DataDdsPubSubTypes.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="DataDdsTypeObject.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="DDSData.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -39,18 +30,21 @@
     <ClInclude Include="DDSDataTypeObject.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="TimeConverter.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSDataEx.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSDataExPubSubTypes.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSDataExTypeObject.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HelloWorld_main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="DataDds.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="DataDdsPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="DataDdsTypeObject.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="DDSData.cxx">
@@ -60,6 +54,18 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="DDSDataTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeConverter.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="DDSDataEx.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="DDSDataExPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="DDSDataExTypeObject.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

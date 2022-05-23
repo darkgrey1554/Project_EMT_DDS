@@ -30,12 +30,21 @@
 #include <fastrtps/types/DynamicTypeBuilderFactory.h>
 #include <fastrtps/types/DynamicTypeBuilderPtr.h>
 #include <fastrtps/types/DynamicTypeBuilder.h>
-#include "DataDds.h"
-#include "DataDdsPubSubTypes.h"
+#include "DDSData.h"
+#include "DDSDataPubSubTypes.h"
+#include "TimeConverter.hpp"
 
 #include "DDSData.h"
 #include "DDSDataPubSubTypes.h"
 
+#include "DDSDataEx.h"
+#include "DDSDataExPubSubTypes.h"
+
+#include <fastdds/rtps/transport/TCPv4TransportDescriptor.h>
+#include <fastrtps/utils/IPLocator.h>
+#include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
+
+#include <fstream>;
 
 using namespace eprosima::fastdds::dds;
 using namespace eprosima::fastrtps::types;
@@ -43,18 +52,25 @@ using namespace std::chrono_literals;
 
 unsigned int size { 100000 };
 
-static int num = 10000;
+int num = 10000;
+int count_points = 3000;
+
 
 class CustomDataReaderListener : public DataReaderListener
 {
-	std::shared_ptr<DataDDS> data = std::make_shared<DataDDS>();
+	std::shared_ptr<DDSData> data = std::make_shared<DDSData>();
+	std::vector<long long> time_reg;
+	int count_test = 0;
+	int count_ = 0;
+	long long t = 0;
+	int last_size_ = 0;
 
 public:
 
 	CustomDataReaderListener()
 		: DataReaderListener()
 	{
-
+		time_reg.resize(count_points);
 	}
 
 	virtual ~CustomDataReaderListener()
@@ -65,22 +81,46 @@ public:
 		DataReader* reader)
 	{
 		SampleInfo info;
-		std::cout << "Received new data message" << std::endl;
+		int size_ = 0;
 		reader->take_next_sample(data.get(), &info);
-		
-		{
-			std::vector<int>& vec_i = data->vec_datai();
-			std::vector<float>& vec_f = data->vec_dataf();
+		t = TimeConverter::GetTime_LLmcs();
 
-			std::cout << "size int: " << vec_i.size() << std::endl;
-			std::cout << "vectorI[first]: " << *vec_i.begin() << std::endl;
-			std::cout << "vectorI[last]: " << *vec_i.rbegin() << std::endl;
-			std::cout << "size int: " << vec_f.size() << std::endl;
-			std::cout << "vectorF[first]: " << *vec_f.begin() << std::endl;
-			std::cout << "vectorF[last]: " << *vec_f.rbegin() << std::endl << std::endl;
+		size_ = data->data_int().value().size()*2;
+		if (last_size_ != size_)
+		{
+			count_ = 0;
+			last_size_ = size_;
+			std::cout << " TEST size = " << size_ << std::endl;
+			return;
 		}
 
-	
+		if (count_ % (count_points/100) == 0)
+		{
+			std::cout << count_ / (count_points/100) << "%" << std::endl;
+		}
+
+		if (count_ < count_points)
+		{
+			time_reg[count_] = t - data->time_service();
+			count_++;
+		}
+
+
+		if (count_ == count_points)
+		{
+			std::cout << 100 << "%" << std::endl;
+			std::cout << "Write " << std::endl;
+			std::fstream file;
+			file.open("test_"+ std::to_string(count_test) +"_timetransmite_" + std::to_string(data->data_int().value().size()*2) + ".txt", std::ios_base::out);
+			for (int i = 0; i < time_reg.size(); i++)
+			{
+				file << time_reg[i] << "\n";
+			}
+			count_++;
+			count_test++;
+			file.close();
+		}
+
 	}
 
 	virtual void on_subscription_matched(
@@ -96,6 +136,8 @@ public:
 		{
 			std::cout << "Unmatched a remote DataWriter" << std::endl;
 		}
+
+		count_ = 0;
 	}
 
 	virtual void on_requested_deadline_missed(
@@ -151,58 +193,79 @@ public:
 
 void test_pub()
 {
+
+	DomainParticipantQos qos = PARTICIPANT_QOS_DEFAULT;
+
+	qos.transport().send_socket_buffer_size = 10000000;
+	qos.transport().listen_socket_buffer_size = 10000000;
+
+	auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+	tcp_transport->sendBufferSize = 10000000;
+	tcp_transport->receiveBufferSize = 10000000;
+	tcp_transport->add_listener_port(40000);
+	tcp_transport->set_WAN_address("192.168.0.174");
+
+	qos.transport().user_transports.push_back(tcp_transport);
+	qos.transport().use_builtin_transports = false;
+
+
 	
 	DomainParticipant* participant_pub;
-	participant_pub = DomainParticipantFactory::get_instance()->create_participant(0, PARTICIPANT_QOS_DEFAULT);
+	participant_pub = DomainParticipantFactory::get_instance()->create_participant(0, qos);
 
 	Publisher* publisher_ = participant_pub->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
 
-	TypeSupport PtrSupporType = TypeSupport(new DataDDSPubSubType());
+	TypeSupport PtrSupporType = TypeSupport(new DDSDataPubSubType());
 	participant_pub->register_type(PtrSupporType);
-	std::shared_ptr<DataDDS> plc_ = std::make_shared<DataDDS>();
+	std::shared_ptr<DDSData> plc_ = std::make_shared<DDSData>();
 	Topic* topic_pub = participant_pub->create_topic("test_1", PtrSupporType.get_type_name(), TOPIC_QOS_DEFAULT, nullptr);
 
 	DataWriter* writer_ = publisher_->create_datawriter(topic_pub, DATAWRITER_QOS_DEFAULT, nullptr);
 
 	int count = 0;
 
-	std::vector<std::pair<int, int>> test{ {100,100}, {50000,40000}, {60000,60000}, {65000,65000}, {65400,65400}, {67000,67000}, {70000,70000}, {80000,80000}, {90000,90000} , {100000,100000} };
-	int num_test = 0;
-	int count_cycle = 0;
+	plc_->data_int().value().resize(num/2);
+	plc_->data_int().quality().resize(num / 2);
+	plc_->data_float().value().resize(num / 2);
+	plc_->data_float().quality().resize(num / 2);
 
-	plc_->vec_datai().resize(test[num_test].first);
-	plc_->vec_dataf().resize(test[num_test].second);
+	long long time = TimeConverter::GetTime_LLmcs();
+	long long end = TimeConverter::GetTime_LLmcs();
 
+	std::vector<int> test_{ 100,200,300,400,500,600,700,800,900,
+						   1000,2000,3000,4000,5000,6000,7000,8000,9000,
+						   10000,20000,30000,40000,50000,60000,70000,80000,90000,
+						   100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000, 100, 200 };
 
-	for (;;)
+	long long t;
+
+	for (int i=0; i< test_.size();i++)
 	{	
-		{
-			std::vector<int>& vec_i = plc_->vec_datai();
-			for (int i = 0; i < vec_i.size(); i++)
-			{
-				vec_i[i] = count + i;
-			}
+		plc_->data_int().value().resize(test_[i]/2);
+		plc_->data_int().quality().resize(test_[i] / 2);
+		plc_->data_float().value().resize(test_[i] / 2);
+		plc_->data_float().quality().resize(test_[i] / 2);
+		count = 0;
 
-			std::vector<float>& vec_f = plc_->vec_dataf();
-			for (int i = 0; i < vec_f.size(); i++)
-			{
-				vec_f[i] = (count + i)*0.1;
-			}
-		}
-
-		std::cout << "result write: " << writer_->write(plc_.get()) << std::endl;
-		count += 1;
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-		count_cycle++;
-		if (count_cycle > 5)
+		std::cout << "START TEST " << test_[i] << std::endl;
+		for (;;)
 		{
-			count_cycle = 0;
-			num_test++;
-			if (num_test >= test.size()) num_test = 0;
-			plc_->vec_datai().resize(test[num_test].first);
-			plc_->vec_dataf().resize(test[num_test].second);
+			end = TimeConverter::GetTime_LLmcs();
+			if ((end - time) / 1000 < 80)
+			{
+				std::this_thread::sleep_for(1ms);
+				continue;
+			}
+			time = end;
+
+			plc_->time_service() = TimeConverter::GetTime_LLmcs();
+
+			writer_->write(plc_.get());
+			count += 1;
+			if (count > 4000) break;
 		}
 	}
+	while (1);
 
 }
 
@@ -210,21 +273,46 @@ void test_pub()
 
 void test_sub()
 {
+
+	DomainParticipantQos qos = PARTICIPANT_QOS_DEFAULT;
+
+	qos.transport().send_socket_buffer_size = 1000000;
+	qos.transport().listen_socket_buffer_size = 1000000;
+
+	/// --- инициализация политик --- ///
+	///--------------------------------------------///
+	//////////////////////////////////////////////////
+
+	qos.transport().use_builtin_transports = false;
+
+	auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+	tcp_transport->sendBufferSize = 1000000;
+	tcp_transport->receiveBufferSize = 1000000;
+
+	qos.transport().user_transports.push_back(tcp_transport);
+
+	eprosima::fastrtps::rtps::Locator_t initial_peer_locator;
+	initial_peer_locator.kind = LOCATOR_KIND_TCPv4;
+	eprosima::fastrtps::rtps::IPLocator::setIPv4(initial_peer_locator, "192.168.0.174");
+	initial_peer_locator.port = 40000;
+
+	qos.wire_protocol().builtin.initialPeersList.push_back(initial_peer_locator);
+	qos.transport().use_builtin_transports = false;
+
+
 	CustomDataReaderListener* listener_ = new CustomDataReaderListener();
 	DomainParticipant* participant_sub;
-	participant_sub = DomainParticipantFactory::get_instance()->create_participant(0, PARTICIPANT_QOS_DEFAULT);
+	participant_sub = DomainParticipantFactory::get_instance()->create_participant(0, qos);
 
 	Subscriber* subcriber_ = participant_sub->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
 
-	TypeSupport PtrSupporType = TypeSupport(new DataDDSPubSubType());
+	TypeSupport PtrSupporType = TypeSupport(new DDSDataPubSubType());
 	participant_sub->register_type(PtrSupporType);
 
 	Topic* topic_sub = participant_sub->create_topic("test_1", PtrSupporType.get_type_name(), TOPIC_QOS_DEFAULT, nullptr);
 
 	DataReader* reader_ = subcriber_->create_datareader(topic_sub, DATAREADER_QOS_DEFAULT, listener_);
 
-	int count = 0;
-	SampleInfo info;
 	for (;;)
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -237,20 +325,77 @@ int main(int argc, char** argv)
 	std::string pub = "pub";
 	std::string sub = "sub";
 
-	setsizeint(500000);
-	setsizefloat(500000);
-	std::cout << DataDDS::getMaxCdrSerializedSize() << std::endl;
 
-	if (argc < 2) return 0;
+
+	if (argc < 3) return 0;
+
+	num = std::atoi(argv[2]);
+
+	scada_ate::typetopics::SetMaxSizeDataCollectionInt(10000);
+	scada_ate::typetopics::SetMaxSizeDataCollectionFloat(10000);
+	scada_ate::typetopics::SetMaxSizeDataCollectionInt(10000);
+	scada_ate::typetopics::SetMaxSizeDataCollectionDouble(10000);
+	scada_ate::typetopics::SetMaxSizeDataCollectionChar(10000);
+	scada_ate::typetopics::SetMaxSizeDataChar(10000 / 5);
+
+	scada_ate::typetopics::SetMaxSizeDDSDataExVectorInt(10000);
+	scada_ate::typetopics::SetMaxSizeDDSDataExVectorFloat(10000);
+	scada_ate::typetopics::SetMaxSizeDDSDataExVectorDouble(10000);
+	scada_ate::typetopics::SetMaxSizeDDSDataExVectorChar(10000);
+	scada_ate::typetopics::SetMaxSizeDataExVectorChar(10000 / 5);
+
+
+	DDSDataEx data_ex;
+
+	DDSData data_;
+
+	size_t size_ = 10000;
+
+	data_ex.data_int().resize(size_);
+	data_ex.data_float().resize(size_);
+	data_ex.data_double().resize(size_);
+	data_ex.data_char().resize(size_);
+	
+	for (int i = 0; i < size_; i++)
+	{
+		data_ex.data_char()[i].value().resize(size_ /5);
+	}
+
+	data_.data_int().value().resize(size_);
+	data_.data_float().value().resize(size_);
+	data_.data_double().value().resize(size_);
+	data_.data_char().value().resize(size_);
+
+	for (int i = 0; i < size_; i++)
+	{
+		data_.data_char().value()[i].value().resize(10000/5);
+	}
+
+	data_.data_int().quality().resize(size_);
+	data_.data_float().quality().resize(size_);
+	data_.data_double().quality().resize(size_);
+	data_.data_char().quality().resize(size_);
+
+
+	std::cout << "data_ex: " << DDSDataEx::getCdrSerializedSize(data_ex) << std::endl;
+	std::cout << "data_: " << DDSData::getCdrSerializedSize(data_) << std::endl;
+
+	std::thread tr;
 
 	if (pub.compare(argv[1]) == 0)
 	{
-		test_pub();
+		tr = std::thread(test_pub);
 	}
 
 	if (sub.compare(argv[1]) == 0)
 	{
-		test_sub();
+		tr = std::thread(test_sub);
+	}
+
+
+	for (;;)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
 
 	return 0;

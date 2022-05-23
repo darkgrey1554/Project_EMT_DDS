@@ -86,15 +86,10 @@ namespace scada_ate::gate::adapter::sem
 
 			/// --- coping of configuration --- ///
 			this->config = *config_point;
+			vec_link_tags = config.vec_link_tasg;
+			vec_tags_source = config.vec_tags_source;
 
-			log->Debug("AdapterSharedMemory {}: Init START : type {}", this->config.NameChannel,(int)this->config.DataType);
-
-			if ((int)config.DataType > 2)
-			{
-				sys_error = 0;
-				current_status.store(StatusAdapter::ERROR_INIT, std::memory_order_relaxed);
-				throw 7;
-			}
+			log->Info("AdapterSharedMemory {}: Init START", this->config.NameChannel);
 
 			/// --- initialization of security attributes --- ///
 			
@@ -167,48 +162,83 @@ namespace scada_ate::gate::adapter::sem
 
 			/// --- initilization header shared memory --- ///
 			HeaderSharedMemory* head = reinterpret_cast<HeaderSharedMemory*>(buf_data);
-			head->type_data = config.DataType;
 			head->TimeLastRead = 0;
 			head->TimeLastWrite = 0;
 			head->count_read = 0;
 			head->count_write = 0;
-			head->size_alarms = config.size_alarms;
-			head->size_data_int = config.size_data_int;
-			head->size_data_float = config.size_data_float;
-			head->size_data_double = config.size_data_double;
-			head->size_data_char = config.size_data_char;
+			head->size_data_int = config.size_int_data;
+			head->size_data_float = config.size_float_data;
+			head->size_data_double = config.size_double_data;
+			head->size_data_char = config.size_char_data;
 			head->size_str = config.size_str;
 			ReleaseMutex(Mutex_SM);
+			
+			/// --- init array GetTags --- /// 
 
-			if (config.DataType == TypeData::Extended)
+			for (InfoTag& tag : vec_tags_source)
 			{
-				size_t offset = 0;
-				for (int i = 0; i < config.size_data_int; i++)
+				if (tag.type == TypeValue::INT)
 				{
-					map_TagToPoint[config.v_tags[i] + offset] = i;
+					_gendata_recive.map_int_data[tag] = {0,0,0};
+					continue;
 				}
-
-				offset += config.size_data_int;
-				for (int i = 0; i < config.size_data_float; i++)
+				if (tag.type == TypeValue::FLOAT)
 				{
-					map_TagToPoint[config.v_tags[i + offset]] = i;
+					_gendata_recive.map_float_data[tag] = { 0,0,0 };
+					continue;
 				}
-
-				offset += config.size_data_float;
-				for (int i = 0; i < config.size_data_double; i++)
+				if (tag.type == TypeValue::DOUBLE)
 				{
-					map_TagToPoint[config.v_tags[i + offset]] = i;
+					_gendata_recive.map_double_data[tag] = { 0,0,0 };
+					continue;
 				}
-
-				offset += config.size_data_double;
-				for (int i = 0; i < config.size_data_char; i++)
+				if (tag.type == TypeValue::CHAR)
 				{
-					map_TagToPoint[config.v_tags[i + offset]] = i;
+					_gendata_recive.map_char_data[tag] = { 0,'\0',0 };
+					continue;
+				}
+				if (tag.type == TypeValue::STRING)
+				{
+					_gendata_recive.map_str_data[tag] = { 0,"",0};
+					continue;
 				}
 			}
+
+			offset_int = sizeof(HeaderSharedMemory);
+			offset_float = offset_int + (sizeof(char) + sizeof(int)) * config.size_int_data;
 			
+
+			/*for (LinkTags& tag : vec_link_tasg)
+			{
+				if (tag..type == TypeValue::INT)
+				{
+					_gendata.map_int_data[tag.first] = { 0,0,0 };
+					continue;
+				}
+				if (tag.first.type == TypeValue::FLOAT)
+				{
+					_gendata.map_float_data[tag.first] = { 0,0,0 };
+					continue;
+				}
+				if (tag.first.type == TypeValue::DOUBLE)
+				{
+					_gendata.map_double_data[tag.first] = { 0,0,0 };
+					continue;
+				}
+				if (tag.first.type == TypeValue::CHAR)
+				{
+					_gendata.map_char_data[tag.first] = { 0,'\0',0 };
+					continue;
+				}
+				if (tag.first.type == TypeValue::STRING)
+				{
+					_gendata.map_str_data[tag.first] = { 0,"",0 };
+					continue;
+				}
+			}*/
+
 			current_status.store(StatusAdapter::OK, std::memory_order_relaxed);
-			log->Debug("AdapterSharedMemory {} : Init DONE", this->config.NameChannel);
+			log->Info("AdapterSharedMemory {} : Init DONE", this->config.NameChannel);
 		}
 		catch (int& e)
 		{
@@ -302,7 +332,7 @@ namespace scada_ate::gate::adapter::sem
 	/// <result> 
 	/// - возвращает результат выполнения функции в типе ResultReqest
 	/// 
-	ResultReqest AdapterSharedMemory::ReadData(std::shared_ptr<DDSData>& buf, ModeRead rise_data)
+	ResultReqest AdapterSharedMemory::ReadData(GenTags& data)
 	{	
 		DWORD mutex_win32 = 0;
 		DWORD err_win32 = 0;
@@ -316,30 +346,21 @@ namespace scada_ate::gate::adapter::sem
 				return ResultReqest::IGNOR;
 			}
 
-			if (config.InfoType != TypeInfo::Data)
-			{
-				log->Warning("AdapterSharedMemory {}: ReadData IGNOR: error {}", config.NameChannel, 2);
-				return ResultReqest::IGNOR;
-			}
+			log->Debug("AdapterSharedMemory {}: ReadData START", config.NameChannel);	
 
-			log->Debug("AdapterSharedMemory {}: ReadData START", config.NameChannel);
+			HeaderSharedMemory* head = reinterpret_cast<HeaderSharedMemory*>(buf_data);
+			char* _buf = buf_data;
+			int int_value = 0;
+			float float_value = 0;
+			double double_value = 0;
+			char char_value = 0;
+			std::string str_value;
+			char quality = 0;
+			size_t offset=0;
+			long long time_data;
 
-			if (data_ == nullptr)
-			{
-				data_ = std::make_shared<DDSData>();
-				data_.get()->data_int().value().resize(config.size_data_int);
-				data_.get()->data_int().quality().resize(config.size_data_int);
-				data_.get()->data_float().value().resize(config.size_data_float);
-				data_.get()->data_float().quality().resize(config.size_data_float);
-				data_.get()->data_double().value().resize(config.size_data_double);
-				data_.get()->data_double().quality().resize(config.size_data_double);
-				data_.get()->data_char().value().resize(config.size_data_char);
-				data_.get()->data_char().quality().resize(config.size_data_char);
-				for (int i = 0; i < config.size_data_char; i++)
-				{
-					data_.get()->data_char().value()[i].value().resize(config.size_str);
-				}
-			}
+			ValueInt val_int;
+			ValueFloat val_float;
 
 			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
 			if (mutex_win32 != WAIT_OBJECT_0)
@@ -348,72 +369,59 @@ namespace scada_ate::gate::adapter::sem
 				throw 1;
 			}
 
+			time_data = head->TimeLastWrite;
+
+			for (auto it = _gendata_recive.map_int_data.begin(); it != _gendata_recive.map_int_data.end(); it++)
 			{
-				char* buf_in = buf_data + Offset(TypeValue::INT);
-				std::vector<int>& value = data_.get()->data_int().value();
-				std::vector<char>& quality = data_.get()->data_int().quality();
-				for (int i = 0; i < config.size_data_int; i++)
-				{
-					value[i] = *((int*)buf_in);
-					buf_in += sizeof(int);
-					quality[i] = *(buf_in);
-					buf_in += sizeof(char);
-				}
+				_buf = buf_data + offset_int + it->first.offset * (sizeof(int) + sizeof(char));
+				it->second.value = *(int*)_buf;
+				_buf = _buf + sizeof(int);
+				it->second.quality = *_buf;
+				it->second.time = time_data;
 			}
 
+			for (auto it = _gendata_recive.map_float_data.begin(); it != _gendata_recive.map_float_data.end(); it++)
 			{
-				char* buf_in = buf_data  + Offset(TypeValue::FLOAT);
-				std::vector<float>& value = data_.get()->data_float().value();
-				std::vector<char>& quality = data_.get()->data_float().quality();
-				for (int i = 0; i < config.size_data_float; i++)
-				{
-					value[i] = *((float*)buf_in);
-					buf_in += sizeof(float);
-					quality[i] = *(buf_in);
-					buf_in += sizeof(char);
-				}
+				_buf = buf_data + offset_float + it->first.offset * (sizeof(float) + sizeof(char));
+				it->second.value = *(float*)_buf;
+				_buf = _buf + sizeof(float);
+				it->second.quality = *_buf;
+				it->second.time = time_data;
 			}
 
+			for (auto it = _gendata_recive.map_double_data.begin(); it != _gendata_recive.map_double_data.end(); it++)
 			{
-				char* buf_in = buf_data + Offset(TypeValue::FLOAT);
-				std::vector<double>& value = data_.get()->data_double().value();
-				std::vector<char>& quality = data_.get()->data_double().quality();
-				for (int i = 0; i < config.size_data_double; i++)
-				{
-					value[i] = *((double*)buf_in);
-					buf_in += sizeof(double);
-					quality[i] = *(buf_in);
-					buf_in += sizeof(char);
-				}
+				_buf = buf_data + TakeOffset(it->first.type, it->first.offset);
+				it->second.value = *(double*)_buf;
+				_buf = _buf + sizeof(double);
+				it->second.quality = *_buf;
+				it->second.time = time_data;
 			}
 
+			for (auto it = _gendata_recive.map_char_data.begin(); it != _gendata_recive.map_char_data.end(); it++)
 			{
-				char* buf_in = buf_data + Offset(TypeValue::CHAR);
-				std::vector<DataChar>& value = data_.get()->data_char().value();
-				std::vector<char>& quality = data_.get()->data_char().quality();
-				for (int i = 0; i < config.size_data_char; i++)
-				{
-					auto data_vec = value[i].value();
-					for (int j = 0; j < config.size_str; j++)  /// can be faster
-					{
-						data_vec[j] = *buf_in;
-						buf_in++;
-					}
-					quality[i] = *buf_in;
-					buf_in++;
-				}
+				_buf = buf_data + TakeOffset(it->first.type, it->first.offset);
+				it->second.value = *_buf;
+				_buf = _buf + sizeof(char);
+				it->second.quality = *_buf;
+				it->second.time = time_data;
 			}
 
-			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
-			data_.get()->time_source(head->TimeLastWrite);
-			
-			head->TimeLastRead = TimeConverter::GetTime_LLmcs();
+			for (auto it = _gendata_recive.map_str_data.begin(); it != _gendata_recive.map_str_data.end(); it++)
+			{
+				_buf = buf_data + TakeOffset(it->first.type, it->first.offset);
+				it->second.value = *_buf;
+				_buf = _buf + config.size_str;
+				it->second.quality = *_buf;
+				it->second.time = time_data;
+			}
 
 			/// --- write time in header --- /// 
+			_gendata_recive.time_source = head->TimeLastWrite;
+			head->TimeLastRead = TimeConverter::GetTime_LLmcs();
 			head->count_read++;
-			head->TimeLastRead = TimeConverter::GetTime_LLmcs();	
 
-			buf = data_;
+			data = _gendata_recive;
 		}
 		catch (int& e)
 		{
@@ -428,9 +436,133 @@ namespace scada_ate::gate::adapter::sem
 			res = ResultReqest::ERR;
 		}
 
-		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		//if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
 		return res;
 	}
+
+	/*ResultReqest AdapterSharedMemory::ReadData(GenTags& data)
+	{
+		DWORD mutex_win32 = 0;
+		DWORD err_win32 = 0;
+		ResultReqest res = ResultReqest::OK;
+
+		try
+		{
+			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+			{
+				log->Warning("AdapterSharedMemory {}: ReadData IGNOR: error {}", config.NameChannel, 1);
+				return ResultReqest::IGNOR;
+			}
+
+			log->Debug("AdapterSharedMemory {}: ReadData START", config.NameChannel);
+
+			HeaderSharedMemory* head = reinterpret_cast<HeaderSharedMemory*>(buf_data);
+			char* _buf = buf_data;
+			int int_value = 0;
+			float float_value = 0;
+			double double_value = 0;
+			char char_value = 0;
+			std::string str_value;
+			char quality = 0;
+			size_t offset=0;
+			long long time_data;
+
+			ValueInt val_int;
+			ValueFloat val_float;
+
+			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
+			if (mutex_win32 != WAIT_OBJECT_0)
+			{
+				err_win32 = GetLastError();
+				throw 1;
+			}
+
+			time_data = head->TimeLastWrite;
+			val_int.time = time_data;
+			val_float.time = time_data;
+
+			for (InfoTag& tag : vec_tags_source)
+			{
+				if (tag.type == TypeValue::INT)
+				{
+					offset = TakeOffset(tag.type, tag.offset);
+					if (offset == 0) continue;
+					_buf = buf_data + offset;
+					int_value = *((int*)_buf);
+					quality = *(_buf+sizeof(int));
+					_gendata_recive.map_int_data[tag] = { time_data, int_value, quality };
+					continue;
+				}
+
+				if (tag.type == TypeValue::FLOAT)
+				{
+					offset = TakeOffset(tag.type, tag.offset);
+					if (offset == 0) continue;
+					_buf = buf_data + offset;
+					float_value = *((float*)_buf);
+					quality = *(_buf + sizeof(float));
+					_gendata_recive.map_float_data[tag] = { time_data, float_value, quality };
+					continue;
+				}
+
+				if (tag.type == TypeValue::DOUBLE)
+				{
+					offset = TakeOffset(tag.type, tag.offset);
+					if (offset == 0) continue;
+					_buf = buf_data + offset;
+					double_value = *((double*)_buf);
+					quality = *(_buf + sizeof(double));
+					_gendata_recive.map_double_data[tag] = { time_data, double_value, quality };
+					continue;
+				}
+
+				if (tag.type == TypeValue::CHAR)
+				{
+					offset = TakeOffset(tag.type, tag.offset);
+					if (offset == 0) continue;
+					_buf = buf_data + offset;
+					char_value = *(_buf);
+					quality = *(_buf + sizeof(char));
+					_gendata_recive.map_char_data[tag] = { time_data, char_value, quality };
+					continue;
+				}
+
+				if (tag.type == TypeValue::STRING)
+				{
+					offset = TakeOffset(tag.type, tag.offset);
+					if (offset == 0) continue;
+					_buf = buf_data + offset;
+					str_value = _buf;
+					quality = *(_buf + sizeof(char)*config.size_str);
+					_gendata_recive.map_str_data[tag] = { time_data, str_value, quality };
+					continue;
+				}
+
+			}
+
+			/// --- write time in header --- ///
+			_gendata_recive.time_source = head->TimeLastWrite;
+			head->TimeLastRead = TimeConverter::GetTime_LLmcs();
+			head->count_read++;
+
+			data = _gendata_recive;
+		}
+		catch (int& e)
+		{
+
+			log->Critical("AdapterSharedMemory {}: ERROR ReadData: error: {}, syserror: {}", config.NameChannel, e, err_win32);
+			res = ResultReqest::ERR;
+
+		}
+		catch (...)
+		{
+			log->Critical("AdapterSharedMemory {}: ERROR ReadData: error: {}, syserror: {}", config.NameChannel, 0, 0);
+			res = ResultReqest::ERR;
+		}
+
+		//if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		return res;
+	}*/
 
 	//////////////////////////////////////////////////////
 	/// --- функция записи данных в SharedMemory --- ///
@@ -441,7 +573,7 @@ namespace scada_ate::gate::adapter::sem
 	/// </param>
 	/// <result> 
 	/// - возвращает результат выполнения функции в типе ResultReqest
-	ResultReqest AdapterSharedMemory::WriteData(std::shared_ptr<DDSData>& buf)
+	ResultReqest AdapterSharedMemory::WriteData(const GenTags& data)
 	{	
 		DWORD mutex_win32 = 0;
 		DWORD err_win32 = 0;
@@ -455,12 +587,6 @@ namespace scada_ate::gate::adapter::sem
 				return ResultReqest::IGNOR;
 			}
 
-			if (config.DataType != TypeData::Base)
-			{
-				log->Debug("AdapterSharedMemory {}: WriteData IGNOR", config.NameChannel);
-				return ResultReqest::IGNOR;
-			}
-
 			log->Debug("AdapterSharedMemory {}: WriteData START", config.NameChannel);
 
 			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
@@ -468,67 +594,53 @@ namespace scada_ate::gate::adapter::sem
 			{
 				err_win32 = GetLastError();
 				throw 1;
-			}
+			}		
 
+			ValueInt value_int;
+			ValueFloat value_float;
+			ValueDouble value_double;
+			ValueChar value_char;
+			ValueString value_str;
+
+
+			for (const LinkTags& link_tag : vec_link_tags)
 			{
-				char* buf_out = buf_data + Offset(TypeValue::INT);
-				auto value = buf.get()->data_int().value();
-				auto quality = buf.get()->data_int().quality();
-				int size = config.size_data_int < value.size() ? config.size_data_int : value.size();
-				for (int i = 0; i < size; i++)
-				{
-					*((int*)buf_out) = value[i];
-					buf_out += sizeof(int);
-					*(buf_out) = quality[i];
-					buf_out++;
-				}
-			}
 
-
-			{
-				char* buf_out = buf_data + Offset(TypeValue::FLOAT);
-				auto value = buf.get()->data_float().value();
-				auto quality = buf.get()->data_float().quality();
-				int size = config.size_data_float < value.size() ? config.size_data_float : value.size();
-				for (int i = 0; i < size; i++)
+				if (link_tag.source.type == TypeValue::INT)
 				{
-					*((float*)buf_out) = value[i];
-					buf_out += sizeof(float);
-					*(buf_out) = quality[i];
-					buf_out++;
+					value_int = data.map_int_data.at(link_tag.source);
+					set_data(value_int, link_tag);
+					continue;
 				}
-			}
 
-			{
-				char* buf_out = buf_data + Offset(TypeValue::DOUBLE);
-				auto value = buf.get()->data_double().value();
-				auto quality = buf.get()->data_double().quality();
-				int size = config.size_data_double < value.size() ? config.size_data_double : value.size();
-				for (int i = 0; i < size; i++)
+				if (link_tag.source.type == TypeValue::FLOAT)
 				{
-					*((double*)buf_out) = value[i];
-					buf_out += sizeof(double);
-					*(buf_out) = quality[i];
-					buf_out++;
+					value_float = data.map_float_data.at(link_tag.source);
+					set_data(value_float, link_tag);
+					continue;
 				}
-			}
 
-			{
-				char* buf_out = buf_data + Offset(TypeValue::CHAR);
-				auto value = buf.get()->data_char().value();
-				auto quality = buf.get()->data_char().quality();
-				int size = config.size_data_char < value.size() ? config.size_data_char : value.size();
-				for (int i = 0; i < size; i++)
+				if (link_tag.source.type == TypeValue::DOUBLE)
 				{
-					auto data_vec = value[i].value();
-					for (int j = 0; j < config.size_str < data_vec.size() ? config.size_str : data_vec.size(); j++)
-					{
-						data_vec[j] = *buf_out;
-						buf_out++;
-					}
-					quality[i] = *buf_out;
-					buf_out++;
+					value_double = data.map_double_data.at(link_tag.source);
+					set_data(value_double, link_tag);
+					continue;
 				}
+
+				if (link_tag.source.type == TypeValue::CHAR)
+				{
+					value_char = data.map_char_data.at(link_tag.source);
+					set_data(value_char, link_tag);
+					continue;
+				}
+
+				if (link_tag.source.type == TypeValue::STRING)
+				{
+					value_str = data.map_str_data.at(link_tag.source);
+					set_data(value_str, link_tag);
+					continue;
+				}
+
 			}
 
 			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
@@ -552,272 +664,6 @@ namespace scada_ate::gate::adapter::sem
 		return res;
 	}
 
-	ResultReqest AdapterSharedMemory::ReadData(std::shared_ptr<DDSDataEx>& buf, ModeRead mode_read)
-	{
-		DWORD mutex_win32 = 0;
-		DWORD err_win32 = 0;
-		ResultReqest res = ResultReqest::OK;
-
-		try
-		{
-			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
-			{
-				log->Debug("AdapterSharedMemory {}: ReadExData IGNOR: error {}", config.NameChannel, 1);
-				return ResultReqest::IGNOR;
-			}
-
-			if (config.DataType != TypeData::Extended)
-			{
-				log->Debug("AdapterSharedMemory {}: ReadExData IGNOR: error {}", config.NameChannel, 2);
-				return ResultReqest::IGNOR;
-			}
-
-			log->Debug("AdapterSharedMemory {}: ReadExData START", config.NameChannel);
-
-			if (data_ == nullptr)
-			{
-				data_ = std::make_shared<DDSData>();
-				data_.get()->data_int().value().resize(config.size_data_int);
-				data_.get()->data_int().quality().resize(config.size_data_int);
-				data_.get()->data_float().value().resize(config.size_data_float);
-				data_.get()->data_float().quality().resize(config.size_data_float);
-				data_.get()->data_double().value().resize(config.size_data_double);
-				data_.get()->data_double().quality().resize(config.size_data_double);
-				data_.get()->data_char().value().resize(config.size_data_char);
-				data_.get()->data_char().quality().resize(config.size_data_char);
-				for (int i = 0; i < config.size_data_char; i++)
-				{
-					data_.get()->data_char().value()[i].value().resize(config.size_str);
-				}
-			}
-
-			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
-
-			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
-			if (mutex_win32 != WAIT_OBJECT_0)
-			{
-				err_win32 = GetLastError();
-				throw 1;
-			}
-
-			{
-				char* buf_in = buf_data + Offset(TypeValue::INT);
-				std::vector<int>& value = data_.get()->data_int().value();
-				std::vector<char>& quality = data_.get()->data_int().quality();
-				for (int i = 0; i < config.size_data_int; i++)
-				{
-					value[i] = *((int*)buf_in);
-					buf_in += sizeof(int);
-					quality[i] = *(buf_in);
-					buf_in += sizeof(char);
-				}
-			}
-
-			{
-				char* buf_in = buf_data + Offset(TypeValue::FLOAT);
-				std::vector<float>& value = data_.get()->data_float().value();
-				std::vector<char>& quality = data_.get()->data_float().quality();
-				for (int i = 0; i < config.size_data_float; i++)
-				{
-					value[i] = *((float*)buf_in);
-					buf_in += sizeof(float);
-					quality[i] = *(buf_in);
-					buf_in += sizeof(char);
-				}
-			}
-
-			{
-				char* buf_in = buf_data + Offset(TypeValue::FLOAT);
-				std::vector<double>& value = data_.get()->data_double().value();
-				std::vector<char>& quality = data_.get()->data_double().quality();
-				for (int i = 0; i < config.size_data_double; i++)
-				{
-					value[i] = *((double*)buf_in);
-					buf_in += sizeof(double);
-					quality[i] = *(buf_in);
-					buf_in += sizeof(char);
-				}
-			}
-
-			{
-				char* buf_in = buf_data + Offset(TypeValue::CHAR);
-				std::vector<DataChar>& value = data_.get()->data_char().value();
-				std::vector<char>& quality = data_.get()->data_char().quality();
-				for (int i = 0; i < config.size_data_char; i++)
-				{
-					auto data_vec = value[i].value();
-					for (int j = 0; j < config.size_str; j++)  /// can be faster
-					{
-						data_vec[j] = *buf_in;
-						buf_in++;
-					}
-					quality[i] = *buf_in;
-					buf_in++;
-				}
-			}
-
-			data_.get()->time_source(head->TimeLastWrite);
-
-			head->TimeLastRead = TimeConverter::GetTime_LLmcs();
-			/// --- write time in header --- /// 
-			head->count_read++;
-			head->TimeLastRead = TimeConverter::GetTime_LLmcs();
-
-			buf = create_extended_data(mode_read);
-		}
-		catch (int& e)
-		{
-
-			log->Critical("AdapterSharedMemory {}: ERROR ReadExData: error: {}, syserror: {}", config.NameChannel, e, err_win32);
-			res = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("AdapterSharedMemory {}: ERROR ReadExData: error: {}, syserror: {}", config.NameChannel, 0, 0);
-			res = ResultReqest::ERR;
-		}
-
-		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
-		return res;
-	}
-
-	ResultReqest AdapterSharedMemory::WriteData(std::shared_ptr<DDSDataEx>& buf)
-	{
-		DWORD mutex_win32 = 0;
-		DWORD err_win32 = 0;
-		ResultReqest res = ResultReqest::OK;
-
-		try
-		{
-			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
-			{
-				log->Debug("AdapterSharedMemory {}: WriteExData IGNOR", config.NameChannel);
-				return ResultReqest::IGNOR;
-			}
-
-			if (config.DataType != TypeData::Extended)
-			{
-				log->Debug("AdapterSharedMemory {}: WriteExData IGNOR", config.NameChannel);
-				return ResultReqest::IGNOR;
-			}
-
-			log->Debug("AdapterSharedMemory {}: WriteExData START", config.NameChannel);
-
-			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
-			if (mutex_win32 != WAIT_OBJECT_0)
-			{
-				err_win32 = GetLastError();
-				throw 1;
-			}
-
-			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
-
-			{
-				std::vector<DataExInt>& vec_ex = buf.get()->data_int();
-				std::map<uint32_t, uint32_t>::iterator map_element;
-				char* elements = buf_data + Offset(TypeValue::INT);
-				char* element=0;
-				for (int i = 0; i < vec_ex.size(); i++)
-				{
-					map_element = map_TagToPoint.find(vec_ex[i].id_tag());
-					if (map_element != map_TagToPoint.end())
-					{
-						element = elements + map_element->second * (sizeof(int) + sizeof(char));
-						*(int*)element = vec_ex[i].value();
-						element+= sizeof(int);
-						*element = vec_ex[i].quality();
-					}
-				}
-			}
-
-			{
-				std::vector<DataExFloat>& vec_ex = buf.get()->data_float();
-				std::map<uint32_t, uint32_t>::iterator map_element;
-				char* elements = buf_data + Offset(TypeValue::FLOAT);
-				char* element = 0;
-				for (int i = 0; i < vec_ex.size(); i++)
-				{
-					map_element = map_TagToPoint.find(vec_ex[i].id_tag());
-					if (map_element != map_TagToPoint.end())
-					{
-						element = elements + map_element->second * (sizeof(float) + sizeof(char));
-						*(float*)element = vec_ex[i].value();
-						element += sizeof(float);
-						*element = vec_ex[i].quality();
-					}
-				}
-			}
-
-			{
-				std::vector<DataExDouble>& vec_ex = buf.get()->data_double();
-				std::map<uint32_t, uint32_t>::iterator map_element;
-				char* elements = buf_data + Offset(TypeValue::DOUBLE);
-				char* element = 0;
-				for (int i = 0; i < vec_ex.size(); i++)
-				{
-					map_element = map_TagToPoint.find(vec_ex[i].id_tag());
-					if (map_element != map_TagToPoint.end())
-					{
-						element = elements + map_element->second * (sizeof(double) + sizeof(char));
-						*(double*)element = vec_ex[i].value();
-						element += sizeof(double);
-						*element = vec_ex[i].quality();
-					}
-				}
-			}
-
-			{
-				std::vector<DataExChar>& vec_ex = buf.get()->data_char();
-				std::map<uint32_t, uint32_t>::iterator map_element;
-				char* elements = buf_data + Offset(TypeValue::CHAR);
-				char* element = 0;
-				for (int i = 0; i < vec_ex.size(); i++)
-				{
-					map_element = map_TagToPoint.find(vec_ex[i].id_tag());
-					if (map_element != map_TagToPoint.end())
-					{
-						element = elements + map_element->second * (sizeof(char)*config.size_str + sizeof(char));
-						for (int j = 0; j < vec_ex[i].value().size(); j++)
-						{
-							*element = vec_ex[i].value()[j];
-							element++;
-						}
-
-						for (int j = 0; j < (config.size_str-vec_ex[i].value().size()); j++)
-						{
-							*element = '\0';
-							element++;
-						}
-
-						*element = vec_ex[i].quality();
-					}
-				}
-			}
-
-			head->count_write++;
-			head->TimeLastWrite = TimeConverter::GetTime_LLmcs();
-
-		}
-		catch (int& e)
-		{
-
-			log->Critical("AdapterSharedMemory {}: ERROR WriteExData: error: {}, syserror: {}", config.NameChannel, e, err_win32);
-			res = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("AdapterSharedMemory {}: ERROR WriteExData: error: {}, syserror: {}", config.NameChannel, 0, 0);
-			res = ResultReqest::ERR;
-		}
-
-		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
-		return res;
-	}
-
-	ResultReqest AdapterSharedMemory::ReadData(std::shared_ptr<DDSAlarm>& buf, ModeRead rise_data) { return ResultReqest::IGNOR; };
-	ResultReqest AdapterSharedMemory::WriteData(std::shared_ptr<DDSAlarm>& buf) { return ResultReqest::IGNOR; };
-	ResultReqest AdapterSharedMemory::ReadData(std::shared_ptr<DDSAlarmEx>& buf, ModeRead rise_data) { return ResultReqest::IGNOR; };
-	ResultReqest AdapterSharedMemory::WriteData(std::shared_ptr<DDSAlarmEx>& buf) { return ResultReqest::IGNOR; };
 
 	//////////////////////////////////////////////////////
 	/// --- функция чтения заголовка SharedMemory --- ///
@@ -843,222 +689,284 @@ namespace scada_ate::gate::adapter::sem
 		size_t result = 0;
 		result += sizeof(HeaderSharedMemory);
 
-		if (config.InfoType == TypeInfo::Data)
-		{
-			result += (sizeof(int) + sizeof(char)) * config.size_data_int; // size DataCollectionInt
-			result += (sizeof(float) + sizeof(char)) * config.size_data_float; // size DataCollectionFloat
-			result += (sizeof(double) + sizeof(char)) * config.size_data_double; // size DataCollectionDouble
-			result += (sizeof(char)*config.size_str + sizeof(char)) * config.size_data_char; // size DataCollectionInt
-		}
-		else if (config.InfoType == TypeInfo::Alarm)
-		{
-			result += (sizeof(uint32_t) + sizeof(uint32_t)) * (config.size_alarms/32+1); // size DataCollectionInt
-		}
+		result += (sizeof(int) + sizeof(char)) * config.size_int_data; // size DataCollectionInt
+		result += (sizeof(float) + sizeof(char)) * config.size_float_data; // size DataCollectionFloat
+		result += (sizeof(double) + sizeof(char)) * config.size_double_data; // size DataCollectionDouble
+		result += (sizeof(char) + sizeof(char)) * config.size_char_data; // size DataCollectionInt
+		result += (sizeof(char)*config.size_str + sizeof(char) + sizeof(char)) * config.size_str_data; // size DataCollectionInt
 
 		return result;
 	}
 
-	size_t AdapterSharedMemory::Offset(TypeValue type_value)
+	size_t AdapterSharedMemory::TakeOffset(const TypeValue& type_value, const size_t& ofs) const
 	{
 		size_t result = 0;
 		result += sizeof(HeaderSharedMemory);
-		if (type_value == TypeValue::INT) return result;
-		
-		result += (sizeof(int) + sizeof(char)) * config.size_data_int;
-		if (type_value == TypeValue::FLOAT) return result;
+		if (type_value == TypeValue::INT)
+		{
+			if (ofs > config.size_int_data) return 0;
+			result += ofs * (sizeof(int) + sizeof(char));
+			return result;
+		}
 
-		result += (sizeof(float) + sizeof(char)) * config.size_data_float;
-		if (type_value == TypeValue::DOUBLE) return result;
+		result += (sizeof(int) + sizeof(char)) * config.size_int_data;
+		if (type_value == TypeValue::FLOAT)
+		{
+			if (ofs > config.size_float_data) return 0;
+			result += ofs * (sizeof(float) + sizeof(char));
+			return result;
+		}
 
-		result += (sizeof(double) + sizeof(char)) * config.size_data_double;
-		if (type_value == TypeValue::CHAR) return result;
+		result += (sizeof(float) + sizeof(char)) * config.size_float_data;
+		if (type_value == TypeValue::DOUBLE)
+		{
+			if (ofs > config.size_double_data) return 0;
+			result += ofs * (sizeof(double) + sizeof(char));
+			return result;
+		}
+
+		result += (sizeof(double) + sizeof(char)) * config.size_double_data;
+		if (type_value == TypeValue::CHAR)
+		{
+			if (ofs > config.size_char_data) return 0;
+			result += ofs * (sizeof(char) + sizeof(char));
+			return result;
+		}
+
+		result += (sizeof(char) + sizeof(char)) * config.size_char_data;
+		if (type_value == TypeValue::STRING)
+		{
+			if (ofs > config.size_str_data) return 0;
+			result += ofs * (sizeof(char) * config.size_str + sizeof(char) + sizeof(char));
+			return result;
+		}
 
 		return result;
 	}
 
-	std::shared_ptr<DDSDataEx> AdapterSharedMemory::create_extended_data(ModeRead mode_read)
+	int AdapterSharedMemory::demask(const int& value, int mask_source, const int& value_target, const int& mask_target)
 	{
-		std::shared_ptr<DDSDataEx> buf_ex;
-		if (mode_read == ModeRead::Full || data_last == nullptr)
+		int val_out = value & mask_source;
+		if (mask_target > mask_source)
 		{
-			buf_ex = create_extended_fulldata();
+			while (mask_target != mask_source)
+			{
+				mask_source <<= 1;
+				val_out <<= 1;
+			}
 		}
-		else if (mode_read == ModeRead::Regular && data_last != nullptr)
+		else
 		{
-			buf_ex = create_extended_diffdata();
+			while (mask_target != mask_source)
+			{
+				mask_source >>= 1;
+				val_out >>= 1;
+			}
 		}
 
-		return buf_ex;
+		val_out = value_target & (~mask_target) | val_out;
+
+		return val_out;
 	}
 
-	std::shared_ptr<DDSDataEx> AdapterSharedMemory::create_extended_fulldata()
+	void AdapterSharedMemory::set_data(const ValueInt& value, const LinkTags& link)
 	{
-		size_t iter_tag = 0;
-		std::shared_ptr<DDSDataEx> buf_ = std::make_shared<DDSDataEx>();
-		buf_.get()->data_int().resize(config.size_data_int);
-		buf_.get()->data_float().resize(config.size_data_float);
-		buf_.get()->data_double().resize(config.size_data_double);
-		buf_.get()->data_char().resize(config.size_data_char);
-		for (int i = 0; i < config.size_data_char; i++)
-		{
-			buf_.get()->data_char()[i].value().resize(config.size_str);
-		}
+		char* buf;
+		int val_last;
+		int val_current = 0;
 
-		long long time_ = data_.get()->time_source();
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((int*)buf);
 		
+		if (link.source.mask != 0)
 		{
-			std::vector<DataExInt>& vec_ex = buf_.get()->data_int();
-			std::vector<int>& vec_value = data_.get()->data_int().value();
-			std::vector<char>& vec_quality = data_.get()->data_int().quality();
-			for (int i = 0; i < config.size_data_int; i++)
-			{
-				vec_ex[i].time_source(time_);
-				vec_ex[i].id_tag(config.v_tags[iter_tag]);
-				vec_ex[i].value(vec_value[i]);
-				vec_ex[i].quality(vec_quality[i]);
-				iter_tag++;
-			}
+			val_current = demask(value.value, link.source.mask, val_last, link.target.mask);
+		}
+		else
+		{
+			val_current = value.value;
 		}
 
+		if (link.type_registration == TypeRegistration::RECIVE)
 		{
-			std::vector<DataExFloat>& vec_ex = buf_.get()->data_float();
-			std::vector<float>& vec_value = data_.get()->data_float().value();
-			std::vector<char>& vec_quality = data_.get()->data_float().quality();
-			for (int i = 0; i < config.size_data_float; i++)
-			{
-				vec_ex[i].time_source(time_);
-				vec_ex[i].id_tag(config.v_tags[iter_tag]);
-				vec_ex[i].value(vec_value[i]);
-				vec_ex[i].quality(vec_quality[i]);
-				iter_tag++;
-			}
+			
+			*((int*)buf) = val_current;
+			buf += sizeof(int);
+			*buf = value.quality;
+			return;
 		}
 
+		if (link.type_registration == TypeRegistration::UPDATE)
 		{
-			std::vector<DataExDouble>& vec_ex = buf_.get()->data_double();
-			std::vector<double>& vec_value = data_.get()->data_double().value();
-			std::vector<char>& vec_quality = data_.get()->data_double().quality();
-			for (int i = 0; i < config.size_data_double; i++)
-			{
-				vec_ex[i].time_source(time_);
-				vec_ex[i].id_tag(config.v_tags[iter_tag]);
-				vec_ex[i].value(vec_value[i]);
-				vec_ex[i].quality(vec_quality[i]);
-				iter_tag++;
-			}
+			if (val_last == val_current) return;
+			*((int*)buf) = val_current;
+			buf += sizeof(int);
+			*buf = value.quality;
+			return;
 		}
 
+		if (link.type_registration == TypeRegistration::DELTA)
 		{
-			std::vector<DataExChar>& vec_ex = buf_.get()->data_char();
-			std::vector<DataChar>& vec_value = data_.get()->data_char().value();
-			std::vector<char>& vec_quality = data_.get()->data_char().quality();
-			for (int i = 0; i < config.size_data_double; i++)
+			if (abs(val_last - val_current) > (int)link.delta)
 			{
-				vec_ex[i].time_source(time_);
-				vec_ex[i].id_tag(config.v_tags[iter_tag]);
-				vec_ex[i].value(vec_value[i].value());
-				vec_ex[i].quality(vec_quality[i]);
-				iter_tag++;
+				*((int*)buf) = val_current;
+				buf += sizeof(int);
+				*buf = value.quality;
+				return;
 			}
 		}
-
-		data_last.swap(data_);
-		return buf_;
 	}
 
-	std::shared_ptr<DDSDataEx> AdapterSharedMemory::create_extended_diffdata()
+	void AdapterSharedMemory::set_data(const ValueFloat& value, const LinkTags& link)
 	{
-		size_t iter_tag = 0;
-		std::shared_ptr<DDSDataEx> buf_ = std::make_shared<DDSDataEx>();
+		char* buf;
+		float val_last;
 
-		long long time_ = data_.get()->time_source();
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((float*)buf);
 
+		if (link.type_registration == TypeRegistration::RECIVE)
 		{
-			std::vector<DataExInt>& vec_ex = buf_.get()->data_int();
-			DataExInt value;
-			std::vector<int>& vec_value = data_.get()->data_int().value();
-			std::vector<char>& vec_quality = data_.get()->data_int().quality();
-			std::vector<int>& vec_value_last = data_last.get()->data_int().value();
-			std::vector<char>& vec_quality_last = data_last.get()->data_int().quality();
-			for (int i = 0; i < config.size_data_int; i++)
-			{
-				if (vec_value[i] != vec_value_last[i] || vec_quality[i] != vec_quality_last[i])
-				{
-					value.time_source(time_);
-					value.id_tag(config.v_tags[iter_tag]);
-					value.value(vec_value[i]);
-					value.quality(vec_quality[i]);
-					vec_ex.push_back(value);
-				}
-				iter_tag++;
-			}
+
+			*((float*)buf) = value.value;
+			buf += sizeof(float);
+			*buf = value.quality;
+			return;
 		}
 
+		if (link.type_registration == TypeRegistration::UPDATE)
 		{
-			std::vector<DataExFloat>& vec_ex = buf_.get()->data_float();
-			DataExFloat value;
-			std::vector<float>& vec_value = data_.get()->data_float().value();
-			std::vector<char>& vec_quality = data_.get()->data_float().quality();
-			std::vector<float>& vec_value_last = data_last.get()->data_float().value();
-			std::vector<char>& vec_quality_last = data_last.get()->data_float().quality();
-			for (int i = 0; i < config.size_data_float; i++)
-			{
-				if (vec_value[i] != vec_value_last[i] || vec_quality[i] != vec_quality_last[i])
-				{
-					value.time_source(time_);
-					value.id_tag(config.v_tags[iter_tag]);
-					value.value(vec_value[i]);
-					value.quality(vec_quality[i]);
-					vec_ex.push_back(value);
-				}
-				iter_tag++;
-			}
+			if (val_last == value.value) return;
+			*((float*)buf) = value.value;
+			buf += sizeof(float);
+			*buf = value.quality;
+			return;
 		}
 
+		if (link.type_registration == TypeRegistration::DELTA)
 		{
-			std::vector<DataExDouble>& vec_ex = buf_.get()->data_double();
-			DataExDouble value;
-			std::vector<double>& vec_value = data_.get()->data_double().value();
-			std::vector<char>& vec_quality = data_.get()->data_double().quality();
-			std::vector<double>& vec_value_last = data_last.get()->data_double().value();
-			std::vector<char>& vec_quality_last = data_last.get()->data_double().quality();
-			for (int i = 0; i < config.size_data_double; i++)
+			if (fabs(val_last - value.value) > link.delta)
 			{
-				if (vec_value[i] != vec_value_last[i] || vec_quality[i] != vec_quality_last[i])
-				{
-					value.time_source(time_);
-					value.id_tag(config.v_tags[iter_tag]);
-					value.value(vec_value[i]);
-					value.quality(vec_quality[i]);
-					vec_ex.push_back(value);
-				}
-				iter_tag++;
+				*((float*)buf) = value.value;
+				buf += sizeof(float);
+				*buf = value.quality;
+				return;
 			}
 		}
+	}
 
+	void AdapterSharedMemory::set_data(const ValueDouble& value, const LinkTags& link)
+	{
+		char* buf;
+		double val_last;
+
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((double*)buf);
+
+		if (link.type_registration == TypeRegistration::RECIVE)
 		{
-			std::vector<DataExChar>& vec_ex = buf_.get()->data_char();
-			DataExChar value;
-			std::vector<DataChar>& vec_value = data_.get()->data_char().value();
-			std::vector<char>& vec_quality = data_.get()->data_char().quality();
-			std::vector<DataChar>& vec_value_last = data_last.get()->data_char().value();
-			std::vector<char>& vec_quality_last = data_last.get()->data_char().quality();
-			for (int i = 0; i < config.size_data_char; i++)
-			{
-				if (vec_value[i].value() != vec_value_last[i].value() || vec_quality[i] != vec_quality_last[i]) // проверить 
-				{
-					value.time_source(time_);
-					value.id_tag(config.v_tags[iter_tag]);
-					value.value(vec_value[i].value());
-					value.quality(vec_quality[i]);
-					vec_ex.push_back(value);
-				}
-				iter_tag++;
-			}
+
+			*((double*)buf) = value.value;
+			buf += sizeof(double);
+			*buf = value.quality;
+			return;
 		}
 
-		data_last.swap(data_);
-		return buf_;
+		if (link.type_registration == TypeRegistration::UPDATE)
+		{
+			if (val_last == value.value) return;
+			*((double*)buf) = value.value;
+			buf += sizeof(double);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::DELTA)
+		{
+			if (fabs(val_last - value.value) > link.delta)
+			{
+				*((double*)buf) = value.value;
+				buf += sizeof(double);
+				*buf = value.quality;
+				return;
+			}
+		}
+	}
+
+	void AdapterSharedMemory::set_data(const ValueChar& value, const LinkTags& link)
+	{
+		char* buf;
+		char val_last;
+
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((char*)buf);
+
+		if (link.type_registration == TypeRegistration::RECIVE)
+		{
+
+			*((char*)buf) = value.value;
+			buf += sizeof(char);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::UPDATE)
+		{
+			if (val_last == value.value) return;
+			*((char*)buf) = value.value;
+			buf += sizeof(char);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::DELTA)
+		{
+			if (fabs(val_last - value.value) > link.delta)
+			{
+				*((char*)buf) = value.value;
+				buf += sizeof(char);
+				*buf = value.quality;
+				return;
+			}
+		}
+	}
+
+	void AdapterSharedMemory::set_data(const ValueString& value, const LinkTags& link)
+	{
+		char* buf;
+		std::string val_last;
+
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((char*)buf);
+
+		if (link.type_registration == TypeRegistration::RECIVE)
+		{
+			size_t i = 0;
+			const char* str = value.value.c_str();
+			while (i < config.size_str && i < value.value.size()) 
+			{
+				*((char*)buf) = *(str + i);
+				buf += sizeof(char);
+				i++;
+			}
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::UPDATE)
+		{
+			if (val_last.compare(value.value) == 0) return;
+			size_t i = 0;
+			const char* str = value.value.c_str();
+			while (i < config.size_str && i < value.value.size())
+			{
+				*((char*)buf) = *(str + i);
+				buf += sizeof(char);
+				i++;
+			}
+			*buf = value.quality;
+			return;
+		}
 	}
 }
 

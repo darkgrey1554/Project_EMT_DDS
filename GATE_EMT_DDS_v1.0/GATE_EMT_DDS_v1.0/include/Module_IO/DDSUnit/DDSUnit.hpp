@@ -22,6 +22,8 @@
 #include <fastrtps/utils/IPLocator.h>
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
+#include <structs/TimeConverter.hpp>
+
 using namespace eprosima::fastdds::dds;
 using namespace eprosima::fastdds::rtps;
 using namespace eprosima::fastrtps::types;
@@ -67,6 +69,12 @@ namespace scada_ate::gate::ddsunit
 		NONE,
 		START,
 		STOP
+	};
+
+	enum class TypeRecieve
+	{
+		LISTEN,
+		REVIEW
 	};
 
 	struct ControlDDSUnit
@@ -120,6 +128,7 @@ namespace scada_ate::gate::ddsunit
 		gate::adapter::TypeData Typedata;
 		gate::adapter::TypeInfo Typeinfo;
 		gate::adapter::TypeAdapter Adapter;
+		TypeRecieve Typerecieve;
 		unsigned int Frequency;
 		std::string IP_MAIN;
 		std::string IP_RESERVE;
@@ -157,7 +166,7 @@ namespace scada_ate::gate::ddsunit
 	/////////////////////////////////////////////////////////////
 	///--------------- Interface DDSUnit_Subcriber---------------
 	/////////////////////////////////////////////////////////////
-
+	
 	template<class Tkind>
 	class DDSUnit_Subscriber : public IDDSUnit
 	{
@@ -178,13 +187,16 @@ namespace scada_ate::gate::ddsunit
 		Topic* topic_data = nullptr;
 		eprosima::fastdds::dds::DataReader* reader_data = nullptr;
 		std::shared_ptr<Tkind> data_point;
+
 		class SubListener : public DataReaderListener
 		{
 			std::atomic<CommandListenerSubscriber> status = CommandListenerSubscriber::NONE;
+			long long delta_trans_last = TimeConverter::GetTime_LLmcs();
+			long long delta_trans = 0;
 		public:
 			DDSUnit_Subscriber* master;
-			SubListener(DDSUnit_Subscriber* master) : master(master){};
-			~SubListener(){};
+			SubListener(DDSUnit_Subscriber* master) : master(master) {};
+			~SubListener() {};
 			void Start();
 			void Stop();
 			void on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info) override;
@@ -192,6 +204,7 @@ namespace scada_ate::gate::ddsunit
 		};
 		friend class SubListener;
 		std::shared_ptr<SubListener> listener_ = std::make_shared<SubListener>(this);
+		
 
 		void function_thread_transmite();
 		void SetStatus(StatusDDSUnit status);
@@ -255,6 +268,8 @@ namespace scada_ate::gate::ddsunit
 		Topic* topic_data = nullptr;
 		eprosima::fastdds::dds::DataWriter* writer_data = nullptr;
 		std::shared_ptr<TKind> data_point;
+
+		std::vector<long long> time_com;
 
 		void function_thread_transmite();
 		void SetStatus(StatusDDSUnit status);

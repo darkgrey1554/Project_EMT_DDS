@@ -53,9 +53,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp">
       <Filter>File\Logger</Filter>
     </ClCompile>
@@ -95,9 +92,6 @@
     <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\Module_IO\DDSUnit\DDSUnit.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarm.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -114,6 +108,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="main_test_adapterSM.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -190,9 +187,6 @@
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Module_IO\DDSUnit\DDSUnit.hpp">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarm.h">

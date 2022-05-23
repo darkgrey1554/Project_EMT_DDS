@@ -17,14 +17,7 @@ namespace scada_ate::gate::ddsunit
 			{
 				p = std::make_shared<DDSUnit_Subscriber<DDSDataEx>>(config);
 			}
-			else if (config.Typeinfo == adapter::TypeInfo::Alarm && config.Typedata == adapter::TypeData::Base)
-			{
-				p = std::make_shared<DDSUnit_Subscriber<DDSAlarm>>(config);
-			}
-			else if (config.Typeinfo == adapter::TypeInfo::Data && config.Typedata == adapter::TypeData::Extended)
-			{
-				p = std::make_shared<DDSUnit_Subscriber<DDSAlarmEx>>(config);
-			}
+
 		}
 		else if (config.TypeUnit == TypeDDSUnit::PUBLISHER)
 		{
@@ -36,14 +29,7 @@ namespace scada_ate::gate::ddsunit
 			{
 				p = std::make_shared<DDSUnit_Publisher<DDSDataEx>>(config);
 			}
-			else if (config.Typeinfo == adapter::TypeInfo::Alarm && config.Typedata == adapter::TypeData::Base)
-			{
-				p = std::make_shared<DDSUnit_Publisher<DDSAlarm>>(config);
-			}
-			else if (config.Typeinfo == adapter::TypeInfo::Data && config.Typedata == adapter::TypeData::Extended)
-			{
-				p = std::make_shared<DDSUnit_Publisher<DDSAlarmEx>>(config);
-			}
+
 		}
 
 		return p;
@@ -131,7 +117,7 @@ namespace scada_ate::gate::ddsunit
 			return ResultReqest::ERR;
 		}		
 
-		log->Debug("DDSUnit {}: Initialization done", name_unit);
+		log->Info("DDSUnit {}: Initialization done", name_unit);
 		SetStatus(StatusDDSUnit::WORK);
 		return ResultReqest::OK;
 	}
@@ -143,20 +129,16 @@ namespace scada_ate::gate::ddsunit
 		ResultReqest result{ ResultReqest::OK };
 		DomainParticipantQos qos = PARTICIPANT_QOS_DEFAULT;
 
-		/// --- инициализация политик --- ///
-		///--------------------------------------------///
-		//////////////////////////////////////////////////
-
 		qos.transport().use_builtin_transports = false;
-
 		auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
 		qos.transport().user_transports.push_back(tcp_transport);
+		qos.transport().send_socket_buffer_size = 10000000;
+		qos.transport().listen_socket_buffer_size = 10000000;
 
 		eprosima::fastrtps::rtps::Locator_t initial_peer_locator;
 		initial_peer_locator.kind = LOCATOR_KIND_TCPv4;
 		eprosima::fastrtps::rtps::IPLocator::setIPv4(initial_peer_locator, config.IP_MAIN);
 		initial_peer_locator.port = config.Port_MAIN;
-
 		qos.wire_protocol().builtin.initialPeersList.push_back(initial_peer_locator);
 		qos.transport().use_builtin_transports = false;
 
@@ -261,17 +243,19 @@ namespace scada_ate::gate::ddsunit
 	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::init_reader_data()
 	{
 		ResultReqest result{ ResultReqest::OK };
+		DataReaderQos rqos = DATAREADER_QOS_DEFAULT;
+
 		try
 		{
-			if (this->config.Frequency <= 0)
+			if (config.Typerecieve == TypeRecieve::LISTEN)
 			{
-				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, listener_.get());
+				reader_data = subscriber_->create_datareader(topic_data, rqos, listener_.get());
 				if (reader_data == nullptr) throw 1;
-				listener_->Start();
+				
 			}
-			else
+			else if (config.Typerecieve == TypeRecieve::REVIEW)
 			{
-				reader_data = subscriber_->create_datareader(topic_data, DATAREADER_QOS_DEFAULT, nullptr);
+				reader_data = subscriber_->create_datareader(topic_data, rqos, nullptr);
 				if (reader_data == nullptr) throw 2;
 				thread_transmite = std::jthread(&DDSUnit_Subscriber::function_thread_transmite, this);
 			}
@@ -318,16 +302,16 @@ namespace scada_ate::gate::ddsunit
 
 	template<class TKind> void DDSUnit_Subscriber<TKind>::function_thread_transmite()
 	{
-		std::chrono::steady_clock::time_point start, end;
-		std::chrono::milliseconds delta_ms;
-		start = std::chrono::steady_clock::now();
-		eprosima::fastrtps::types::DynamicData* array = nullptr;
+		long long start, end;
+		long delta_ms;
 		SampleInfo info;
 		ReturnCode_t res;
 		std::string helpstr;
 		std::stop_token stoper;
 		status_thread.store(StatusThreadDSSUnit::WORK, std::memory_order_relaxed);
-
+		int count_ =0;
+		start = TimeConverter::GetTime_LLmcs();
+		unsigned int count_timeout = 1;
 		try
 		{
 			stoper = thread_transmite.get_stop_token();
@@ -337,26 +321,36 @@ namespace scada_ate::gate::ddsunit
 			{
 				if (stoper.stop_requested()) break;
 
-				end = std::chrono::steady_clock::now();
-				delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-				if (delta_ms.count() < config.Frequency - scatter_frequency)
-				{ 
-					std::this_thread::sleep_for(std::chrono::microseconds(1)); 
-					continue; 
-				}
-				else if (delta_ms.count() > config.Frequency)
+				
+				while (1)
 				{
-					log->Warning("DDSUnit {}: Time out transfer data: {} ", this->name_unit, delta_ms.count());
-				}
-				start = std::chrono::steady_clock::now();
-
-				if (reader_data->take_next_sample(data_point.get(), &info) != ReturnCode_t::RETCODE_OK) //throw 2;
-				{
-					log->Warning("DDSUnit {}: Error read data in thread of thransfer", this->name_unit);
-					continue;
+					if (reader_data->take_next_sample(data_point.get(), &info) != ReturnCode_t::RETCODE_OK) //throw 2;
+					{
+						end = TimeConverter::GetTime_LLmcs();
+						if ((end - start) / 1000 > config.Frequency*count_timeout)
+						{
+							count_timeout++;
+							log->Warning("DDSUnit {}: TimeOut recieve data: {} ms", this->name_unit, (end - start)/1000);
+						}
+						std::this_thread::sleep_for(1ms);
+						continue;
+					}
+					break;
 				}
 
-				if (AdapterUnit->WriteData(data_point) != ResultReqest::OK) throw 4;
+				count_timeout=1;
+				end = TimeConverter::GetTime_LLmcs();
+				if ((end - start) / 1000 > config.Frequency)
+				{
+					count_timeout++;
+					log->Warning("DDSUnit {}: TimeOut recieve data: {} ms", this->name_unit, (end - start) / 1000);
+				}
+				start = end;
+
+				if (AdapterUnit->WriteData(data_point) != ResultReqest::OK)
+				{
+					log->Warning("DDSUnit {}: Error WriteData Adapter", this->name_unit);
+				}
 				log->Debug("DDSUnit {}: Thread of thransfer: read done", this->name_unit);
 			}
 		}
@@ -377,28 +371,40 @@ namespace scada_ate::gate::ddsunit
 		return;
 	};
 
-	template<class TKind> void DDSUnit_Subscriber<TKind>::SubListener::on_subscription_matched(DataReader*, const SubscriptionMatchedStatus& info)
+	template<class TKind> void DDSUnit_Subscriber<TKind>::SubListener::on_subscription_matched(DataReader*, const SubscriptionMatchedStatus & info)
 	{
-		master->log->Debug("connect topic");
+		///
 	}
 
 	template<class TKind> void DDSUnit_Subscriber<TKind>::SubListener::on_data_available(DataReader* reader)
 	{
 		SampleInfo info;
-		eprosima::fastrtps::types::DynamicData* array = nullptr;
 		std::string helpstr;
 		if ( status.load(std::memory_order_relaxed) != CommandListenerSubscriber::START) return;
 
 		try
 		{
-			if (master->reader_data->take_next_sample(master->data_point.get(), &info) != ReturnCode_t::RETCODE_OK) //throw 2;
+			delta_trans = TimeConverter::GetTime_LLmcs();
+
+			if ((delta_trans - delta_trans_last)/1000 > master->config.Frequency)
+			{
+				master->log->Warning("DDSUnit {}: TimeOut transfer data: {} ms", (delta_trans - delta_trans_last) / 1000);
+			}
+			
+			delta_trans_last = delta_trans;
+
+			if (reader->take_next_sample(master->data_point.get(), &info) != ReturnCode_t::RETCODE_OK)
 			{
 				master->log->Warning("DDSUnit {}: Error read data in thread of thransfer", master->name_unit);
 			}
 
-			if (master->AdapterUnit->WriteData(master->data_point) != ResultReqest::OK) throw 4;
+			if (master->AdapterUnit->WriteData(master->data_point) != ResultReqest::OK)
+			{
+				master->log->Warning("DDSUnit {}: Error WriteData Adapter", master->name_unit);
+			}
+			
 			master->log->Debug("DDSUnit {}: Thread of thransfer: read done", master->name_unit);
-
+			
 		}
 		catch (int& e)
 		{
@@ -414,16 +420,6 @@ namespace scada_ate::gate::ddsunit
 		return;
 	}
 
-	template<class TKind> void DDSUnit_Subscriber<TKind>::SubListener::Stop()
-	{
-		status.store(CommandListenerSubscriber::STOP);
-	}
-
-	template<class TKind> void DDSUnit_Subscriber<TKind>::SubListener::Start()
-	{
-		status.store(CommandListenerSubscriber::START);
-	}
-
 	template<class TKind> ResultReqest DDSUnit_Subscriber<TKind>::Stop()
 	{
 		std::string helpstr;
@@ -432,11 +428,11 @@ namespace scada_ate::gate::ddsunit
 		{
 			if (GetCurrentStatus() != StatusDDSUnit::WORK) throw 1;
 
-			listener_->Stop();
+			
 
 			if (thread_transmite.joinable())
 			{
-				thread_transmite.request_stop();
+				//thread_transmite.request_stop();
 				thread_transmite.join();
 			}
 			SetStatus(StatusDDSUnit::STOP);
@@ -467,7 +463,7 @@ namespace scada_ate::gate::ddsunit
 
 			if (this->config.Frequency <= 0)
 			{
-				listener_->Start();
+				
 			}
 			else
 			{
@@ -508,7 +504,7 @@ namespace scada_ate::gate::ddsunit
 
 		try
 		{
-			listener_->Stop();
+			
 
 			if (thread_transmite.joinable())
 			{
@@ -732,6 +728,8 @@ namespace scada_ate::gate::ddsunit
 			result = ResultReqest::ERR;
 		}		
 
+		log->Info("DDSUnit {}: Initialization done", name_unit);
+		SetStatus(StatusDDSUnit::WORK);
 		return result;
 	}
 
@@ -740,11 +738,14 @@ namespace scada_ate::gate::ddsunit
 
 		ResultReqest result{ ResultReqest::OK };
 
-		DomainParticipantQos qos;
+		DomainParticipantQos qos = PARTICIPANT_QOS_DEFAULT;
+
+		qos.transport().send_socket_buffer_size = 10000000;
+		qos.transport().listen_socket_buffer_size = 10000000;
 
 		auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
-		//tcp_transport->sendBufferSize = 9216;
-		//tcp_transport->receiveBufferSize = 9216;
+		tcp_transport->sendBufferSize = 10000000;
+		tcp_transport->receiveBufferSize = 10000000;
 		tcp_transport->add_listener_port(config.Port_MAIN);
 		tcp_transport->set_WAN_address(config.IP_MAIN);
 
@@ -880,9 +881,16 @@ namespace scada_ate::gate::ddsunit
 
 	template<class TKind> ResultReqest DDSUnit_Publisher<TKind>::init_writer_data()
 	{
+
+		DataWriterQos qos = DATAWRITER_QOS_DEFAULT;
+		qos.history().depth = 1;
+		qos.reliability().kind = BEST_EFFORT_RELIABILITY_QOS;
+		qos.publish_mode().kind = ASYNCHRONOUS_PUBLISH_MODE;
+
+
 		try
 		{
-			writer_data = publisher_->create_datawriter(topic_data, DATAWRITER_QOS_DEFAULT);
+			writer_data = publisher_->create_datawriter(topic_data, qos);
 			if (writer_data == nullptr) throw 1;		
 			thread_transmite = std::jthread(&DDSUnit_Publisher::function_thread_transmite,this);
 		}
@@ -902,9 +910,9 @@ namespace scada_ate::gate::ddsunit
 
 	template<class TKind> void DDSUnit_Publisher<TKind>::function_thread_transmite()
 	{
-		std::chrono::steady_clock::time_point start, end;
-		std::chrono::milliseconds delta_ms;
-		start = std::chrono::steady_clock::now();
+		long long start, end;
+		long long delta_ms;
+		
 		SampleInfo info;
 		ResultReqest res;
 		std::stop_token stoper;
@@ -914,41 +922,51 @@ namespace scada_ate::gate::ddsunit
 		unsigned int count_write = 0;
 		status_thread.store(StatusThreadDSSUnit::WORK, std::memory_order_relaxed);
 
+		start = TimeConverter::GetTime_LLmcs();
+
 		try
 		{
 			stoper = thread_transmite.get_stop_token();
 			if (!stoper.stop_possible()) throw 1;
+			start = TimeConverter::GetTime_LLmcs();
 
 			while (1)
 			{
 				if (stoper.stop_requested()) break;
 
-				end = std::chrono::steady_clock::now();
-				delta_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-				if (delta_ms.count() < config.Frequency - scatter_frequency)
+				end = TimeConverter::GetTime_LLmcs();
+				delta_ms = (end - start)/1000;
+				if (delta_ms < config.Frequency - scatter_frequency)
 				{
-					std::this_thread::sleep_for(std::chrono::milliseconds(1));
+					std::this_thread::sleep_for(std::chrono::milliseconds(5));
 					continue;
 				}
-				start = std::chrono::steady_clock::now();
 
-				AdapterUnit->ReadData(data_point);
-				if (!writer_data->write(data_point.get())) throw 5;
+				start = end;
+
+				if (delta_ms > config.Frequency)
+				{
+					log->Warning("Time transfer erro : {}", delta_ms);
+				}				
+
+				AdapterUnit->ReadData(data_point);			
+				
+				if (!writer_data->write(data_point.get()))
+				{
+					log->Critical("ERROR 123123  ee");
+				}
+			
 			}
 		}
 		catch (int& e)
 		{
-			//helpstr.clear();
-			//helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
-			//log->WriteLogERR(helpstr.c_str(), e, 0);
+			log->Critical("ERROR 123123  {}", e);
 			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
 			return;
 		}
 		catch (...)
 		{
-			//helpstr.clear();
-			//helpstr += "Error DDSUnit: Error in thread of thransfer: name units: " + this->name_unit;
-			//log->WriteLogERR(helpstr.c_str(), 0, 0);
+			log->Critical("ERROR 123123");
 			status_thread.store(StatusThreadDSSUnit::FAIL, std::memory_order_relaxed);
 			return;
 		}
@@ -979,7 +997,7 @@ namespace scada_ate::gate::ddsunit
 
 			if (thread_transmite.joinable())
 			{
-				thread_transmite.request_stop();
+				//thread_transmite.request_stop();
 				thread_transmite.join();
 			}
 			SetStatus(StatusDDSUnit::STOP);
@@ -1103,7 +1121,7 @@ namespace scada_ate::gate::ddsunit
 		{
 			if (thread_transmite.joinable())
 			{
-				thread_transmite.request_stop();
+				//thread_transmite.request_stop();
 				thread_transmite.join();
 			}
 

@@ -1,40 +1,262 @@
 {
-  "GATE": {
-    "IdGate": 5101
+  "node_source": "0x0000000000000", // источник конфигурационного файла
+  "node_target": "0x0000000000000", // целевой сервис файла
+
+  "dds": {
+    "hash": 123123, // hash-сумма на раздел "dds"
+    "profiles": {
+
+      "transport_descriptors": { // раздел описания транспортного уровня DDS
+        "transport_descriptor": [ // список транспортов
+          {
+            "transport_id": "tcp2_transport", // индификатор траспорта
+            "type": "TCPv4", // тип транспорта (TCPv4 , TCPv6, UDPv4, UDPv6, SHM)
+            "sendBufferSize": 9216, // размер буфера передачи (octets (byte) ) 
+            "receiveBufferSize": 9216, // размер буфера приема (octets (byte) ) 
+            "listening_ports": { // настройки порта прослушивания сервера
+              "port": 5100 // номер порта
+            },
+            "wan_addr": "80.80.99.45" // IP-адресс сервера
+          },
+          {
+            "transport_id": "tcp3_transport",
+            "type": "TCPv4"
+          }
+        ]
+      },
+
+      "participant": {
+        "-profile_name": "participant_profile", // имя конфигурации 
+        "domeinId": "0", // индификитор домена
+        "rtps": {}, // конфигурация RTPS
+        "name": {}, // имя DomianParticipant
+        "defaultUnicastLocatorList": {}, // список одноадресных локаторов приема по умолчанию для пользовательского трафика данных
+        "defaultMulticastLocatorList": {}, // список многоадресных локаторов приема по умолчанию для пользовательского трафика данных
+        "sendSocketBufferSize": {}, // размер буфера сокета передачи
+        "listenSocketBufferSize" {}, // размер буфера сокета приема
+        "builtin": { // настройка сетевого транспорта 
+          "initialPeersList": { // список всех DomainParticipants c которыми DomainParticipant будет коммуницировать 
+            "locator": [ // список локаторов
+              {
+                "tcpv4": { // тип локатора (udpv4, tcpv4, udpv6, tcpv6)
+                  "port": 5000, // порт
+                  "address": "192.168.0.10" // IP-адресс
+                }
+              },
+              {
+                "tcpv4": {
+                  "port": 5000,
+                  "address": "192.168.0.11"
+                }
+              }
+            ]
+          }
+        },
+        "port": {}, // порт RTPS протокола
+        "participantID": {}, // индификатор DomainParticipant 
+        "throughputController": {}, // настройка ограничения полосы пропускания
+        "userTransports": { // список транспортных дескрипторов используемые DomainParticipant
+          "transport_id": [
+            "tcp2_transport",
+            "tcp3_transport"
+          ]
+        },
+        "useBuiltinTransports": false, // указатель использования встроенного траспорта вместо сконфигурированных (true, false)
+        "propertiesPolicy": {}, // дополнительные свотйства конфигурации
+        "allocation": {} // конфигурация относительного поведения распределения
+      },
+
+      "datawriter": [ // конфигурация datawriter
+        {
+          "-profile_name": "datawrite_topic1_profile", // имя профайла конфигурации 
+          "qos": {}, // политики datawriter
+          "historyMemoryPolicy": {} // политики history
+        },
+        {
+          "-profile_name": "datawrite_topic2_profile",
+          "qos": {},
+          "historyMemoryPolicy": {}
+        }
+      ],
+
+      "datareader": [
+        {
+          "-profile_name": "datawreader_topic1_profile", // имя профайла конфигурации 
+          "qos": {}, // политики datareader
+          "historyMemoryPolicy": {} // политики history
+        },
+        {
+          "-profile_name": "datawreader_topic2_profile",
+          "qos": {},
+          "historyMemoryPolicy": {}
+        }
+      ],
+
+      "topic": [ // политики конфигурации топиков
+        {
+          "-profile_name": "topic1_profile", // имя профайла конфигурации 
+          "name": "", // имя топика
+          "dataType": "", // тип данных топика (DDSData, DDSDataEx, DDSAlarm, DDSAlarmEx)
+          "historyQos": {}, // политики history
+          "resourceLimitQos": {} // политики ресурсов топика
+        },
+        {
+          "-profile_name": "topic2_profile",
+          "name": "",
+          "dataType": "",
+          "historyQos": {},
+          "resourceLimitQos": {}
+        }
+      ]
+    }
   },
 
-  "MODULE_IO": {
-    "Domen": 0,
-    "TypeTransmite": "Broadcast",
-    "IPBase": "192.168.0.100",
-    "PortBase": 51100,
-    "IPReserve": "192.168.0.101",
-    "PortReserve": 51101,
-    "TopicInfo": "TopicInfoUnits"
+  "topic_defualt_size": [ // конфигурация размеров топиков в scada системе
+    {
+      "hash": "",
+      "config_types": [
+        {
+          "type_name": "DDSData", // имя типа  (DDSData, DDSDataEx, DDSAlarm, DDSAlarmEx)
+          "sizes": [
+            {
+              "type": "float",
+              "size": 10
+            },
+            {
+              "type": "int",
+              "size": 5
+            },
+
+            {
+              "type": "double",
+              "size": 5
+            },
+
+            {
+              "type": "char_vector",
+              "size": 5
+            },
+
+            {
+              "type": "char",
+              "size": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "topic_size": { // конфигурация размеров топиков сервиса
+    "hash": "",
+    "topics": [
+      {
+        "name": "", // имя топика
+        "sizes": [
+          {
+            "type": "float",
+            "size": 10
+          },
+          {
+            "type": "int",
+            "size": 5
+          },
+
+          {
+            "type": "double",
+            "size": 5
+          },
+
+          {
+            "type": "char_vector",
+            "size": 5
+          },
+
+          {
+            "type": "char",
+            "size": 5
+          }
+        ]
+      },
+    ]
   },
 
-  "LOGGER": {
-    "LogName": "log_gate_scada",
-    "SysLogName": "log_gate_scada",
-    "LogMode": "INFO",
-    "StatusLog": "ON",
-    "StatusSysLog": "OFF",
-    "SizeLogFile": 10000
-  },
 
-  "CONTROLLER_TCP": {
-    "IP": "127.0.0.1",
-    "Port": 32510
-  },
+  "adapters":
+  {
+    "hash": 123214, // hash-сумма параметров адаптеров
+    "units": [ // список адаптеров
+      {
+        "frequency" : 100,
+        "input_unit": {
+          "typeadpter": "SM",
+          "config": { // конфигурация адаптера 
+            "name_point_SM": "", // имя shared memory
+            "size_int_data": "", // размер данных типа float
+            "size_float_data": "", // размер данных типа int
+            "size_double_data": "", // размер данных типа int
+            "size_char_data": "", // размер данных типа int
+            "size_str": ""
+          }
+        },
 
-  "CONTROLLER_DDS": {
-    "Domen": 0,
-    "TypeTransmite": "Broadcast",
-    "IPBase": "192.168.0.100",
-    "PortBase": 51100,
-    "IPReserve": "192.168.0.101",
-    "PortReserve": 51101,
-    "TopicCommand": "CommandForGates",
-    "TopicAnswer": "AnswerOnCommand"
+        "output_units": [
+          {
+            "typeadapter": "DDS",
+            "config": {
+              "topic_name": "name_"
+            },
+            "id_map": 1
+          },
+          {
+            "typeadapter": "SM",
+            "config": {
+              "name_point_SM": "", // имя shared memory
+              "size_int_data": "", // размер данных типа float
+              "size_float_data": "", // размер данных типа int
+              "size_double_data": "", // размер данных типа int
+              "size_char_data": "", // размер данных типа int
+              "size_str": ""
+            },
+            "id_map": 2
+          }
+        ],
+       
+
+        "mapping": [ // список мапинга переменных
+          {
+            "id_map": 1,
+            "frq": 100, // частота передачи данных
+            "data": [
+              {
+                "input": {
+                  "tag": "", // тег переменной в системе нижнего уровня
+                  "id_tag": 1,
+                  "is_array": false, // указатель контейнеризации переменной (0/1)
+                  "offset": 0, // смещение переменной в контейнере
+                  "type": "", // тип переменной
+                  "mask": 0 // маска на значние
+                },
+
+                "output": {
+                  "tag": "", // тег переменной в системе нижнего уровня
+                  "id_tag": 1,
+                  "is_array": false, // указатель контейнеризации переменной (0/1)
+                  "offset": 0, // смещение переменной в контейнере
+                  "type": "", // тип переменной
+                  "mask": 0 // маска на значние
+                },
+
+                "type_registration": "", // тип ( to_recive, to_update, to_delta)
+                "delta": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      {
+
+      }
+    ]
   }
 }

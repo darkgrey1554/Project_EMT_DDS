@@ -1,15 +1,10 @@
-﻿  DataDds.cxx
-  DataDdsPubSubTypes.cxx
-  DataDdsTypeObject.cxx
-  DDSData.cxx
-  DDSDataPubSubTypes.cxx
-  DDSDataTypeObject.cxx
+﻿  DDSDataEx.cxx
+  DDSDataExPubSubTypes.cxx
+  DDSDataExTypeObject.cxx
   HelloWorld_main.cpp
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test_vector_size2\DDS_Laboratory\HelloWorld_main.cpp(189,27): warning C4244: =: преобразование "double" в "_Ty", возможна потеря данных
-          with
-          [
-              _Ty=float
-          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test_vector_size2\DDS_Laboratory\HelloWorld_main.cpp(47,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test_vector_size2\DDS_Laboratory\HelloWorld_main.cpp(88,1): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test_vector_size2\DDS_Laboratory\HelloWorld_main.cpp(240,12): warning C4101: t: неиспользованная локальная переменная
   Создание кода...
   LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
   DDS_Laboratory.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test_vector_size2\DDS_Laboratory\x64\Release\DDS_Laboratory.exe
