@@ -65,6 +65,7 @@ int main()
 	}
 
 	std::shared_ptr<ConfigAdapterSharedMemory> config_in = std::make_shared<ConfigAdapterSharedMemory>();
+	config_in->type_adapter = scada_ate::gate::adapter::TypeAdapter::SharedMemory;
 	config_in->NameChannel = "point_001";
 	config_in->size_int_data = size_data/2;
 	config_in->size_float_data = size_data/2;
@@ -74,6 +75,7 @@ int main()
 	config_in->vec_tags_source = _tags_in;
 
 	std::shared_ptr<ConfigAdapterSharedMemory> config_out = std::make_shared<ConfigAdapterSharedMemory>();;
+	config_out->type_adapter = scada_ate::gate::adapter::TypeAdapter::SharedMemory;
 	config_out->NameChannel = "point_001";
 	config_out->size_int_data = size_data/2;
 	config_out->size_float_data = size_data/2;
@@ -82,25 +84,25 @@ int main()
 	config_out->size_str_data = 0;
 	config_out->vec_link_tasg = link_tags;
 
-	adapt_in = CreateAdapter(TypeAdapter::SharedMemory);
-	adapt_out = CreateAdapter(TypeAdapter::SharedMemory);
+	adapt_in = CreateAdapter(config_in);
+	adapt_out = CreateAdapter(config_out);
 
-	adapt_in->InitAdapter(config_in);
-	adapt_out->InitAdapter(config_out);
+	adapt_in->InitAdapter();
+	adapt_out->InitAdapter();
 
-	GenTags data_send;
-	GenTags& data_recive = data_send;
+	std::vector<SetTags> data_send(1);
+	std::vector<SetTags>* data_recive = &data_send;// = data_send;
 	int count = 0;
 
 	for (InfoTag& tag : _tags_in)
 	{
 		if (tag.type == scada_ate::gate::adapter::TypeValue::FLOAT)
 		{
-			data_send.map_float_data[tag] = { 0, count * 0.1f , 1 };
+			data_send[0].map_float_data[tag] = {0, count * 0.1f , 1};
 		}
 		else if (tag.type == scada_ate::gate::adapter::TypeValue::INT)
 		{
-			data_send.map_int_data[tag] = {0, count, 1 };
+			data_send[0].map_int_data[tag] = {0, count, 1};
 		}
 
 		count++;
@@ -148,11 +150,11 @@ int main()
 		{
 			if (tag.type == scada_ate::gate::adapter::TypeValue::FLOAT)
 			{
-				data_send.map_float_data[tag].value++;
+				data_send[0].map_float_data[tag].value++;
 			}
 			else if (tag.type == scada_ate::gate::adapter::TypeValue::INT)
 			{
-				data_send.map_int_data[tag].value++;
+				data_send[0].map_int_data[tag].value++;
 			}
 
 			c++;

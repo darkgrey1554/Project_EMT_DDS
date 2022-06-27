@@ -1,0 +1,74 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "test_cmake_2.5.0",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "test_cmake_2.5.0",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "test_cmake_2.5.0",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "test_cmake_2.5.0::@d41e177b9041851f33e6",
+					"jsonFile" : "target-test_cmake_2.5.0-Debug-b329e7d6823c7ee8ecb1.json",
+					"name" : "test_cmake_2.5.0",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/CATE_WORK/GATE_EMT_DDS/Project_EMT_DDS/DDS_Laboratory/test_cmake_2.5.0/out/build/debug",
+		"source" : "D:/CATE_WORK/GATE_EMT_DDS/Project_EMT_DDS/DDS_Laboratory/test_cmake_2.5.0"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

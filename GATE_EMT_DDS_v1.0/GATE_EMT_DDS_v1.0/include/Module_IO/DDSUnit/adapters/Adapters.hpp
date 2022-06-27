@@ -14,6 +14,7 @@ namespace scada_ate::gate::adapter
 		DTS,
 		OPC_UA,
 		SMTP,
+		TCP,
 		Null
 	};
 
@@ -109,9 +110,10 @@ namespace scada_ate::gate::adapter
 
 	struct IConfigAdapter
 	{
-		TypeAdapter type_adapter;
+		TypeAdapter type_adapter = TypeAdapter::Null;
 		std::vector<InfoTag> vec_tags_source;
 		std::vector<LinkTags> vec_link_tasg;
+		virtual ~IConfigAdapter() {};
 	};
 
 	struct IAnswer
@@ -121,12 +123,9 @@ namespace scada_ate::gate::adapter
 		ResultReqest result;
 	};	
 
-
-
-	struct GenTags
+	struct SetTags
 	{
 		long long time_source;
-		//std::unordered_map<InfoTag, std::pair<long long , std::pair<int,char>>> map_int_data;
 		std::unordered_map<InfoTag, ValueInt , InfoTagHash, InfoTagEqual> map_int_data;
 		std::unordered_map<InfoTag, ValueFloat, InfoTagHash, InfoTagEqual> map_float_data;
 		std::unordered_map<InfoTag, ValueDouble, InfoTagHash, InfoTagEqual> map_double_data;
@@ -138,22 +137,21 @@ namespace scada_ate::gate::adapter
 	{
 	protected:
 
-		GenTags _gendata_send;
-		GenTags _gendata_recive;
-		//GenTags _gendata_last_transfer;
+		std::vector<SetTags> data;
 		std::vector<InfoTag> vec_tags_source;
 		std::vector<LinkTags> vec_link_tags;
 
 	public:
-		virtual ResultReqest InitAdapter(std::shared_ptr<IConfigAdapter> config) = 0;
-		virtual ResultReqest ReadData(GenTags& data) = 0;
-		virtual ResultReqest WriteData(const GenTags& data) = 0;
+		virtual ResultReqest InitAdapter() = 0;
+		virtual ResultReqest ReadData(std::vector<SetTags>* data) = 0;
+		virtual ResultReqest WriteData(const std::vector<SetTags>& data) = 0;
 		virtual TypeAdapter GetTypeAdapter() = 0;
 		virtual StatusAdapter GetStatusAdapter() = 0;
 		virtual std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) = 0;
+		
 		virtual ~IAdapter() {};
 	};
 
-	std::shared_ptr<IAdapter> CreateAdapter(TypeAdapter type);
+	std::shared_ptr<IAdapter> CreateAdapter(std::shared_ptr<IConfigAdapter> config);
 }
 

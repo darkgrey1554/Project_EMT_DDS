@@ -14,11 +14,6 @@
 
 namespace scada_ate::gate::adapter::sem
 {
-	enum class TypeValueOfAdapt
-	{
-		
-	};
-
 	struct HeaderSharedMemory
 	{
 		long long TimeLastWrite;
@@ -86,15 +81,14 @@ namespace scada_ate::gate::adapter::sem
 
 	public:
 
-		ResultReqest InitAdapter(std::shared_ptr<IConfigAdapter> config) override;
-		ResultReqest ReadData(GenTags& buf) override;
-		ResultReqest WriteData(const GenTags&) override;
+		ResultReqest InitAdapter() override;
+		ResultReqest ReadData(std::vector<SetTags>* buf) override;
+		ResultReqest WriteData(const std::vector<SetTags>& buf) override;
 		TypeAdapter GetTypeAdapter() override;
 		StatusAdapter GetStatusAdapter() override;
 		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) override;
 
-
-		AdapterSharedMemory();
+		AdapterSharedMemory(std::shared_ptr<IConfigAdapter> config);
 		~AdapterSharedMemory();
 
 	};

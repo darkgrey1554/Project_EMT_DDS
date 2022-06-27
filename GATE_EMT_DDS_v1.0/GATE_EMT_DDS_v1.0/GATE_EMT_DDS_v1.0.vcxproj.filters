@@ -110,6 +110,12 @@
     <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="include\structs\struct.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
     <ClCompile Include="main_test_adapterSM.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -205,6 +211,12 @@
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\structs.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

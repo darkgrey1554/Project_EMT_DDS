@@ -1,0 +1,6 @@
+# ninja log v5
+1	2548	6751014266237869	test_cmake_2.5.0/CMakeFiles/test_cmake_2.5.0.dir/test_cmake_2.5.0.cpp.obj	810afeca2d6f889e
+2549	2780	6751014268143081	test_cmake_2.5.0/test_cmake_2.5.0.exe	421071f4cd62d04f
+0	12	0	clean	9992afb1f91dc381
+1	2500	6751017115003350	test_cmake_2.5.0/CMakeFiles/test_cmake_2.5.0.dir/test_cmake_2.5.0.cpp.obj	810afeca2d6f889e
+2501	2818	6751017117667521	test_cmake_2.5.0/test_cmake_2.5.0.exe	421071f4cd62d04f

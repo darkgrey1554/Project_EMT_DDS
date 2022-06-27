@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -23,8 +23,10 @@
     <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpd.cpp" />
     <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp" />
     <ClCompile Include="include\Module_IO\DDSUnit\adapters\Adapters.cpp" />
+    <ClCompile Include="include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.cpp" />
     <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp" />
     <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.cpp" />
+    <ClCompile Include="include\structs\struct.cpp" />
     <ClCompile Include="include\structs\TimeConverter.cpp" />
     <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExPubSubTypes.cxx" />
@@ -54,10 +56,12 @@
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_DDS_CP\Unit_DDS_CP.h" />
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.h" />
     <ClInclude Include="include\Module_IO\DDSUnit\adapters\Adapters.hpp" />
+    <ClInclude Include="include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp" />
     <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp" />
     <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.hpp" />
     <ClInclude Include="include\Module_IO\ModuleIO.h" />
     <ClInclude Include="include\structs\structs.h" />
+    <ClInclude Include="include\structs\structs.hpp" />
     <ClInclude Include="include\structs\struct_unit_cp.h" />
     <ClInclude Include="include\structs\TimeConverter.hpp" />
     <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.h" />
@@ -85,26 +89,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -144,8 +148,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.6.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\CATE_WORK\logger_crossplatform;D:\CATE_WORK\rapidjson\include;C:\Program Files\eProsima\fastrtps 2.6.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.5.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\CATE_WORK\logger_crossplatform;D:\CATE_WORK\rapidjson\include;C:\Program Files\eProsima\fastrtps 2.5.0\include;D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson;$(IncludePath)</IncludePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -205,7 +209,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;_WINDOWS;FASTRTPS_DYN_LINK;FASTCDR_DYN_LINK;FOONATHAN_MEMORY=1;FOONATHAN_MEMORY_VERSION_MAJOR=0;FOONATHAN_MEMORY_VERSION_MINOR=7;FOONATHAN_MEMORY_VERSION_PATCH=1</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;D:\CATE_WORK\include_logger\logger_crossplatform;D:\CATE_WORK\include_logger;C:\Program Files\eProsima\fastrtps 2.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;D:\CATE_WORK\include_logger\logger_crossplatform;D:\CATE_WORK\include_logger;C:\Program Files\eProsima\fastrtps 2.5.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>

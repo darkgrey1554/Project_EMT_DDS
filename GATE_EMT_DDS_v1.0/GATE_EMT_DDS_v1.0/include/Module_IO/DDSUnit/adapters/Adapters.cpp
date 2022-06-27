@@ -1,5 +1,6 @@
 #include "Adapters.hpp"
 #include <Module_IO/DDSUnit/adapters/SharedMemory_Adapter/AdapterSharedMemory.hpp>
+#include <Module_IO/DDSUnit/adapters/DDS_Adapter/AdapterDDS.hpp>
 
 namespace scada_ate::gate::adapter
 {
@@ -24,11 +25,26 @@ namespace scada_ate::gate::adapter
 		return true;
 	}
 
-	std::shared_ptr<IAdapter> CreateAdapter(TypeAdapter type)
+	std::shared_ptr<IAdapter> CreateAdapter(std::shared_ptr<IConfigAdapter> config)
 	{
 		std::shared_ptr<IAdapter> adapter = nullptr;
 
-		if (type == TypeAdapter::SharedMemory) adapter = std::make_shared<sem::AdapterSharedMemory>();
+		if (config.get()->type_adapter == TypeAdapter::SharedMemory) adapter = std::make_shared<sem::AdapterSharedMemory>(config);
+
+		if (config.get()->type_adapter == TypeAdapter::DDS)
+		{
+			std::shared_ptr<scada_ate::gate::adapter::dds::ConfigAdapterDDS> config_point = 
+				std::reinterpret_pointer_cast<scada_ate::gate::adapter::dds::ConfigAdapterDDS>(config);
+
+			if (config_point->type_data == scada_ate::gate::adapter::dds::TypeDDSData::DDSAlarm) 
+				adapter = std::make_shared<dds::AdapterDDS<DDSAlarm>>(config);
+			if (config_point->type_data == scada_ate::gate::adapter::dds::TypeDDSData::DDSData)
+				adapter = std::make_shared<dds::AdapterDDS<DDSData>>(config);
+			if (config_point->type_data == scada_ate::gate::adapter::dds::TypeDDSData::DDSAlarmEx)
+				adapter = std::make_shared<dds::AdapterDDS<DDSAlarmEx>>(config);
+			if (config_point->type_data == scada_ate::gate::adapter::dds::TypeDDSData::DDSDataEx)
+				adapter = std::make_shared<dds::AdapterDDS<DDSDataEx>>(config);
+		}
 
 		return adapter;
 	};
