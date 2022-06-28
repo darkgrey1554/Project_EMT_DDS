@@ -1,7 +1,7 @@
 ﻿  Adapters.cpp
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\Adapters.hpp(50,28): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp(139,48): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp(119): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarm>::InitAdapter(void)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp(145,48): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp(125): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarm>::InitAdapter(void)"
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\type_traits(327): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarm>"
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\memory(1443): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_convertible<_Yty *,_Ty *>"
           with
@@ -10,5 +10,9 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.3132
               _Ty=scada_ate::gate::adapter::IAdapter
           ]
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\Adapters.cpp(40): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_SP_pointer_compatible<scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarm>,scada_ate::gate::adapter::IAdapter>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp(785,34): warning C4244: =: преобразование "int32_t" в "float", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp(755): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSDataEx>::write_to_vector_settags(DDSDataEx *,size_t &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp(539): message : выполняется компиляция ссылки на экземпляр шаблон функции "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSDataEx>::write_to_vector_settags(DDSDataEx *,size_t &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp(125): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSDataEx>::InitAdapter(void)"
   LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
   GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe

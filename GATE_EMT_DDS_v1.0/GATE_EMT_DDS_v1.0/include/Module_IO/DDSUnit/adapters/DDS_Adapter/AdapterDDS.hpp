@@ -62,6 +62,7 @@ namespace scada_ate::gate::adapter::dds
 
 		//std::vector<SetTags> _data;
 		SetTags template_settags;
+		std::map<unsigned int, InfoTag> map_infotag_to_idtag;
 
 		size_t count_read_packets = 10;
 
@@ -72,6 +73,11 @@ namespace scada_ate::gate::adapter::dds
 		ResultReqest init_publisher();
 		ResultReqest init_subscriber();
 		ResultReqest init_template_settags();
+		ResultReqest init_map_infotags_to_idtag();
+		ResultReqest init_buffer(DDSData* buf);
+		ResultReqest init_buffer(DDSDataEx* buf);
+		ResultReqest init_buffer(DDSAlarm* buf);
+		ResultReqest init_buffer(DDSAlarmEx* buf);
 		
 		std::string get_name_participant_profile();
 		std::string get_name_topic();
@@ -141,6 +147,8 @@ namespace scada_ate::gate::adapter::dds
 			if (init_topic() != ResultReqest::OK) throw 3;
 
 			if (init_transport() != ResultReqest::OK) throw 4;
+
+			if (init_template_settags() != ResultReqest::OK) throw 5;
 
 		}
 		catch (int& e)
@@ -430,39 +438,83 @@ namespace scada_ate::gate::adapter::dds
 
 	template<typename T> ResultReqest AdapterDDS<T>::init_template_settags()
 	{
-		for (InfoTag& tag : vec_tags_source)
+		ResultReqest result = ResultReqest::OK;
+
+		try
 		{
-			if (tag.type == TypeValue::INT)
+			for (InfoTag& tag : vec_tags_source)
 			{
-				template_settags.map_int_data[tag] = { 0,0,0 };
-				continue;
+				if (tag.type == TypeValue::INT)
+				{
+					template_settags.map_int_data[tag] = { 0,0,0 };
+					continue;
+				}
+
+				if (tag.type == TypeValue::FLOAT)
+				{
+					template_settags.map_float_data[tag] = { 0,0,0 };
+					continue;
+				}
+
+				if (tag.type == TypeValue::DOUBLE)
+				{
+					template_settags.map_double_data[tag] = { 0,0,0 };
+					continue;
+				}
+				if (tag.type == TypeValue::CHAR)
+				{
+					template_settags.map_char_data[tag] = { 0,'\0',0 };
+					continue;
+				}
+				if (tag.type == TypeValue::STRING)
+				{
+					template_settags.map_str_data[tag] = { 0,"",0 };
+					continue;
+				}
 			}
 
-			if (tag.type == TypeValue::FLOAT)
-			{
-				template_settags.map_float_data[tag] = { 0,0,0 };
-				continue;
-			}
+			data.resize(0);
+			data.push_back(template_settags);
 
-			if (tag.type == TypeValue::DOUBLE)
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterDDS id-{}: Error init tempalte settags : error: {}", this->config.id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterDDS id-{}: Error Error init tempalte settags : error: {}", this->config.id, 0);
+			result = ResultReqest::ERR;
+		}
+		
+
+		return result;
+	}
+
+	template<typename T> ResultReqest AdapterDDS<T>::init_map_infotags_to_idtag()
+	{
+		ResultReqest result = ResultReqest::OK;
+
+		try
+		{
+			for (InfoTag& tag : vec_tags_source)
 			{
-				template_settags.map_double_data[tag] = { 0,0,0 };
-				continue;
-			}
-			if (tag.type == TypeValue::CHAR)
-			{
-				template_settags.map_char_data[tag] = { 0,'\0',0 };
-				continue;
-			}
-			if (tag.type == TypeValue::STRING)
-			{
-				template_settags.map_str_data[tag] = { 0,"",0 };
-				continue;
+				map_infotag_to_idtag[tag.id_tag] = tag;
 			}
 		}
+		catch (int& e)
+		{
+			log->Critical("AdapterDDS id-{}: Error Init map of infotag to idtag : error: {}", this->config.id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterDDS id-{}: Error Init : error: {}", this->config.id, 0);
+			result = ResultReqest::ERR;
+		}
 
-		data.resize(0);
-		data.push_back(template_settags);
+
 	}
 
 	template<typename T> ResultReqest AdapterDDS<T>::ReadData(std::vector<SetTags>* _data)
@@ -475,14 +527,29 @@ namespace scada_ate::gate::adapter::dds
 			return ResultReqest::ERR;
 		}
 
-		size_t count_read = 0;
-		_dds::SampleInfo info;
-
-		while (_datareader->get_unread_count() != 0 && count_read < count_read_packets)
+		try
 		{
-			_datareader->take_next_sample(_data_dds.get(),&info);
-			count_read++;
-			write_to_vector_settags(_data_dds.get(), count_read);
+			size_t count_read = 0;
+			_dds::SampleInfo info;
+
+			while (_datareader->get_unread_count() != 0 && count_read < count_read_packets)
+			{
+				_datareader->take_next_sample(_data_dds.get(), &info);
+				count_read++;
+				write_to_vector_settags(_data_dds.get(), count_read);
+			}
+
+			_data = &data;
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterDDS id-{}: Error ReadData : error: {}", this->config.id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterDDS id-{}: Error ReadData : error: {}", this->config.id, 0);
+			result = ResultReqest::ERR;
 		}
 
 		return result;
@@ -490,7 +557,26 @@ namespace scada_ate::gate::adapter::dds
 
 	template<typename T> ResultReqest AdapterDDS<T>::WriteData(const std::vector<SetTags>& _data)
 	{
-		ResultReqest result = ResultReqest::ERR;
+		ResultReqest result = ResultReqest::OK;
+
+		try
+		{
+			for (const SetTags& tags : _data)
+			{
+				//create_buf_out();
+				_datawriter->write(_data_dds.get());
+			}
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterDDS id-{}: Error WriteData : error: {}", this->config.id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterDDS id-{}: Error WriteData : error: {}", this->config.id, 0);
+			result = ResultReqest::ERR;
+		}
 
 		return result;
 	}
@@ -580,75 +666,384 @@ namespace scada_ate::gate::adapter::dds
 
 	template<typename T> ResultReqest AdapterDDS<T>::write_to_vector_settags(DDSData* buf, size_t& count)
 	{
-		template_settags.time_source = buf->time_source();
-		long long time_packet = buf->time_source();
+		ResultReqest result = ResultReqest::OK;
 
+		try
 		{
-			std::vector<int>& value = buf->data_int().value();
-			std::vector<char>& quality = buf->data_int().quality();
+			template_settags.time_source = buf->time_source();
+			long long time_packet = buf->time_source();
 
-			for (auto it = template_settags.map_int_data.begin(); it != template_settags.map_int_data.end(); it++)
 			{
-				it->second.value = value[it->first.offset];
-				it->second.quality = quality[it->first.offset];
-				it->second.time = time_packet;
+				std::vector<int>& value = buf->data_int().value();
+				std::vector<char>& quality = buf->data_int().quality();
+
+				for (auto it = template_settags.map_int_data.begin(); it != template_settags.map_int_data.end(); it++)
+				{
+					it->second.value = value[it->first.offset];
+					it->second.quality = quality[it->first.offset];
+					it->second.time = time_packet;
+				}
 			}
-		}
-		
-		{
-			std::vector<float>& value = buf->data_float().value();
-			std::vector<char>& quality = buf->data_float().quality();
 
-			for (auto it = template_settags.map_float_data.begin(); it != template_settags.map_float_data.end(); it++)
 			{
-				it->second.value = value[it->first.offset];
-				it->second.quality = quality[it->first.offset];
-				it->second.time = time_packet;
+				std::vector<float>& value = buf->data_float().value();
+				std::vector<char>& quality = buf->data_float().quality();
+
+				for (auto it = template_settags.map_float_data.begin(); it != template_settags.map_float_data.end(); it++)
+				{
+					it->second.value = value[it->first.offset];
+					it->second.quality = quality[it->first.offset];
+					it->second.time = time_packet;
+				}
 			}
-		}
 
-		{
-			std::vector<double>& value = buf->data_double().value();
-			std::vector<char>& quality = buf->data_double().quality();
-
-			for (auto it = template_settags.map_double_data.begin(); it != template_settags.map_double_data.end(); it++)
 			{
-				it->second.value = value[it->first.offset];
-				it->second.quality = quality[it->first.offset];
-				it->second.time = time_packet;
-			};
-		}
+				std::vector<double>& value = buf->data_double().value();
+				std::vector<char>& quality = buf->data_double().quality();
 
-		{
-			std::vector<DataChar>& value = buf->data_char().value();
-			std::vector<char>& quality = buf->data_char().quality();
-
-			for (auto it = template_settags.map_str_data.begin(); it != template_settags.map_str_data.end(); it++)
-			{
-				it->second.value.clear();
-				it->second.value.copy(&value[it->first.offset].value()[0], value[it->first.offset].value().size());
-				it->second.quality = quality[it->first.offset];
-				it->second.time = time_packet;
+				for (auto it = template_settags.map_double_data.begin(); it != template_settags.map_double_data.end(); it++)
+				{
+					it->second.value = value[it->first.offset];
+					it->second.quality = quality[it->first.offset];
+					it->second.time = time_packet;
+				};
 			}
-		}
 
-		return ResultReqest::ERR;
+			{
+				std::vector<DataChar>& value = buf->data_char().value();
+				std::vector<char>& quality = buf->data_char().quality();
+
+				for (auto it = template_settags.map_str_data.begin(); it != template_settags.map_str_data.end(); it++)
+				{
+					it->second.value.clear();
+					it->second.value = std::string(&value[it->first.offset].value()[0], value[it->first.offset].value().size());
+					it->second.quality = quality[it->first.offset];
+					it->second.time = time_packet;
+				}
+			}
+
+			if (count == 1)
+			{
+				if (data.size() > 1)
+				{
+					data.resize(1);
+				}
+
+				data[0] = template_settags;
+			}
+			else
+			{
+				data.push_back(template_settags);
+			}
+
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, 0);
+			result = ResultReqest::ERR;
+		}		
+
+		return  result;
 	}
 
 	template<typename T> ResultReqest AdapterDDS<T>::write_to_vector_settags(DDSDataEx* buf, size_t& count)
 	{
-		return ResultReqest::ERR;
+		ResultReqest result = ResultReqest::OK;
+		
+		try
+		{
+			template_settags.time_source = buf->time_service();
+
+			{
+				std::vector<DataExInt>& vec = buf->data_int();
+				for (DataExInt& source: vec)
+				{
+					if (map_infotag_to_idtag.count(source.id_tag()))
+					{
+						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
+						ValueInt& target = template_settags.map_int_data[infotag];
+						target.value = source.value();
+						target.quality = source.quality();
+						target.time = target.time;
+					}
+				}
+			}
+
+			{
+				std::vector<DataExInt>& vec = buf->data_int();
+				for (DataExInt& source : vec)
+				{
+					if (map_infotag_to_idtag.count(source.id_tag()))
+					{
+						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
+						ValueFloat& target = template_settags.map_float_data[infotag];
+						target.value = source.value();
+						target.quality = source.quality();
+						target.time = target.time;
+					}
+				}
+			}
+
+
+			{
+				std::vector<DataExDouble>& vec = buf->data_double();
+				for (DataExDouble& source : vec)
+				{
+					if (map_infotag_to_idtag.count(source.id_tag()))
+					{
+						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
+						ValueDouble& target = template_settags.map_double_data[infotag];
+						target.value = source.value();
+						target.quality = source.quality();
+						target.time = target.time;
+					}
+				}
+			}
+
+			{
+				std::vector<DataExChar>& vec = buf->data_char();
+				for (DataExChar& source : vec)
+				{
+					if (map_infotag_to_idtag.count(source.id_tag()))
+					{
+						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
+						ValueString& target = template_settags.map_str_data[infotag];
+						target.value = std::string(&source.value()[0], source.value().size());
+						target.quality = source.quality();
+						target.time = target.time;
+					}
+				}
+			}
+
+			if (count == 1)
+			{
+				if (data.size() > 1)
+				{
+					data.resize(1);
+				}
+
+				data[0] = template_settags;
+			}
+			else
+			{
+				data.push_back(template_settags);
+			}
+
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, 0);
+			result = ResultReqest::ERR;
+		}
+		
+		
+		return result;
 	}
 
 	template<typename T> ResultReqest AdapterDDS<T>::write_to_vector_settags(DDSAlarm* buf, size_t& count)
 	{
-		return ResultReqest::ERR;
+		ResultReqest result = ResultReqest::OK;
+
+		try
+		{
+			template_settags.time_source = buf->time_source();
+			long long time_packet = buf->time_source();
+
+			{
+				std::vector<unsigned int>& value = buf->alarms();
+				std::vector<unsigned int>& quality = buf->quality();
+
+				for (auto it = template_settags.map_int_data.begin(); it != template_settags.map_int_data.end(); it++)
+				{
+					it->second.value = value[it->first.offset];
+					it->second.quality = quality[it->first.offset];
+					it->second.time = time_packet;
+				}
+			}
+
+			if (count == 1)
+			{
+				if (data.size() > 1)
+				{
+					data.resize(1);
+				}
+
+				data[0] = template_settags;
+			}
+			else
+			{
+				data.push_back(template_settags);
+			}
+
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
 	}
 
 	template<typename T> ResultReqest AdapterDDS<T>::write_to_vector_settags(DDSAlarmEx* buf, size_t& count)
 	{
-		return ResultReqest::ERR;
+		ResultReqest result = ResultReqest::OK;
+
+		try
+		{
+			template_settags.time_source = buf->time_service();
+
+			{
+				std::vector<Alarm>& vec = buf->alarms();
+				for (Alarm& source : vec)
+				{
+					if (map_infotag_to_idtag.count(source.id_tag()))
+					{
+						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
+						ValueChar& target = template_settags.map_char_data[infotag];
+						target.value = source.value();
+						target.quality = source.quality();
+						target.time = target.time;
+					}
+				}
+			}
+
+			if (count == 1)
+			{
+				if (data.size() > 1)
+				{
+					data.resize(1);
+				}
+
+				data[0] = template_settags;
+			}
+			else
+			{
+				data.push_back(template_settags);
+			}
+
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, 0);
+			result = ResultReqest::ERR;
+
+		}
+
+		return result;
 	}
 
-}
+	template<typename T> ResultReqest AdapterDDS<T>::init_buffer(DDSData* buf)
+	{
+		ResultReqest result = ResultReqest::OK;
 
+		size_t max_int = 0;
+		size_t max_float = 0;
+		size_t max_double = 0;
+		size_t max_str = 0;
+
+		if (config.type_transfer == TypeTransfer::SUBSCRIBER) return result;
+
+		for (LinkTags& link_tag : vec_link_tags)
+		{
+			if (link_tag.target.type == TypeValue::INT)
+			{
+				if (link_tag.target.offset > max_int) max_int = link_tag.target.offset;
+				continue;
+			}
+
+			if (link_tag.target.type == TypeValue::FLOAT)
+			{
+				if (link_tag.target.offset > max_float) max_float = link_tag.target.offset;
+				continue;
+			}
+
+			if (link_tag.target.type == TypeValue::DOUBLE)
+			{
+				if (link_tag.target.offset > max_double) max_double = link_tag.target.offset;
+				continue;
+			}
+
+			if (link_tag.target.type == TypeValue::STRING)
+			{
+				if (link_tag.target.offset > max_str) max_str = link_tag.target.offset;
+				continue;
+			}
+		}
+
+		buf->data_int().value().resize(max_int);
+		buf->data_int().quality().resize(max_int);
+
+		buf->data_float().value().resize(max_float);
+		buf->data_float().quality().resize(max_float);
+
+		buf->data_double().value().resize(max_double);
+		buf->data_double().quality().resize(max_double);
+
+		buf->data_char().value().resize(max_str);
+		buf->data_char().quality().resize(max_str);
+
+		std::vector<DataChar>& vec_char = buf->data_char().value();
+
+		for (DataChar& _char : vec_char)
+		{
+			_char.value().resize(scada_ate::typetopics::GetMaxSizeDataChar());
+		}
+
+		return result;
+	}
+
+	template<typename T> ResultReqest AdapterDDS<T>::init_buffer(DDSDataEx* buf)
+	{
+		return ResultReqest::OK;
+	}
+
+	template<typename T> ResultReqest AdapterDDS<T>::init_buffer(DDSAlarm* buf)
+	{
+		ResultReqest result = ResultReqest::OK;
+
+		size_t max_alarms = 0;
+
+		if (config.type_transfer == TypeTransfer::SUBSCRIBER) return result;
+
+		for (LinkTags& link_tag : vec_link_tags)
+		{
+			if (link_tag.target.type == TypeValue::INT)
+			{
+				if (link_tag.target.offset > max_alarms) max_alarms = link_tag.target.offset;
+				continue;
+			}
+		}
+
+		buf->alarms().resize(max_alarms);
+		buf->quality().resize(max_alarms);
+
+		return result;
+	}
+
+	template<typename T> ResultReqest AdapterDDS<T>::init_buffer(DDSAlarmEx* buf)
+	{
+		return ResultReqest::OK;
+	}
+
+} 
