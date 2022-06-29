@@ -82,8 +82,8 @@ namespace scada_ate::gate::adapter::sem
 	public:
 
 		ResultReqest InitAdapter() override;
-		ResultReqest ReadData(std::vector<SetTags>* buf) override;
-		ResultReqest WriteData(const std::vector<SetTags>& buf) override;
+		ResultReqest ReadData(std::deque<SetTags>* buf) override;
+		ResultReqest WriteData(const std::deque<SetTags>& buf) override;
 		TypeAdapter GetTypeAdapter() override;
 		StatusAdapter GetStatusAdapter() override;
 		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) override;

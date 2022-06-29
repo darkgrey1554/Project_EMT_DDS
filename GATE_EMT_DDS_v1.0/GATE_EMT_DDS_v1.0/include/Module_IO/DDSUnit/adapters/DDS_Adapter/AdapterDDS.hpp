@@ -43,6 +43,15 @@ namespace scada_ate::gate::adapter::dds
 		std::string str_config_ddslayer;
 	};
 
+	struct StoreLastValue
+	{
+		std::unordered_map<int, ValueInt> map_int;
+		std::unordered_map<int, ValueFloat> map_float;
+		std::unordered_map<int, ValueString> map_str;
+		std::unordered_map<int, ValueDouble> map_double;
+		std::unordered_map<int, ValueChar> map_double;
+	};
+
 	template<typename T>
 	class AdapterDDS : public IAdapter
 	{
@@ -63,6 +72,7 @@ namespace scada_ate::gate::adapter::dds
 		//std::vector<SetTags> _data;
 		SetTags template_settags;
 		std::map<unsigned int, InfoTag> map_infotag_to_idtag;
+		StoreLastValue _storage;
 
 		size_t count_read_packets = 10;
 
@@ -78,6 +88,7 @@ namespace scada_ate::gate::adapter::dds
 		ResultReqest init_buffer(DDSDataEx* buf);
 		ResultReqest init_buffer(DDSAlarm* buf);
 		ResultReqest init_buffer(DDSAlarmEx* buf);
+		ResultReqest init_StoreLastValue();
 		
 		std::string get_name_participant_profile();
 		std::string get_name_topic();
@@ -87,16 +98,27 @@ namespace scada_ate::gate::adapter::dds
 		std::string get_name_subscriber_profile();
 		std::string get_name_datawriter_profile();
 
-		ResultReqest write_to_vector_settags(DDSData* buf, size_t& count);
-		ResultReqest write_to_vector_settags(DDSDataEx* buf, size_t& count);
-		ResultReqest write_to_vector_settags(DDSAlarm* buf, size_t& count);
-		ResultReqest write_to_vector_settags(DDSAlarmEx* buf, size_t& count);
+		ResultReqest write_to_deque(DDSData* buf, size_t& count);
+		ResultReqest write_to_deque(DDSDataEx* buf, size_t& count);
+		ResultReqest write_to_deque(DDSAlarm* buf, size_t& count);
+		ResultReqest write_to_deque(DDSAlarmEx* buf, size_t& count);
+
+		ResultReqest create_dds_data(const SetTags& in_data);
+
+		void clear_out_buffer(DDSData* buf)
+
+		void set_data(const ValueInt& value, const LinkTags& link, DDSData* out_buf);
+		void set_data(const ValueInt& value, const LinkTags& link, DDSDataEx* out_buf);
+		void set_data(const ValueInt& value, const LinkTags& link, DDSAlarm* out_buf);
+		void set_data(const ValueInt& value, const LinkTags& link, DDSAlarmEx* out_buf);
+
+		demask(const int& value, int mask_source, const int& value_target, const int& mask_target);
 
 	public:
 
 		ResultReqest InitAdapter() override;
-		ResultReqest ReadData(std::vector<SetTags>* _data) override;
-		ResultReqest WriteData(const std::vector<SetTags>& _data) override;
+		ResultReqest ReadData(std::deque<SetTags>* _data) override;
+		ResultReqest WriteData(const std::deque<SetTags>& _data) override;
 		TypeAdapter GetTypeAdapter() override;
 		StatusAdapter GetStatusAdapter() override;
 		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) override;
@@ -149,6 +171,10 @@ namespace scada_ate::gate::adapter::dds
 			if (init_transport() != ResultReqest::OK) throw 4;
 
 			if (init_template_settags() != ResultReqest::OK) throw 5;
+
+			if (init_buffer(_data_dds.get()) != ResultReqest::OK) throw 6;
+
+			if (init_StoreLastValue() != ResultReqest::OK) throw;
 
 		}
 		catch (int& e)
@@ -517,7 +543,52 @@ namespace scada_ate::gate::adapter::dds
 
 	}
 
-	template<typename T> ResultReqest AdapterDDS<T>::ReadData(std::vector<SetTags>* _data)
+	template<typename T> ResultReqest AdapterDDS<T>::init_StoreLastValue()
+	{
+		ResultReqest result = ResultReqest::OK;
+
+		if (config.type_data == TypeDDSData::DDSData || TypeDDSData::DDSAlarm) return result;
+
+		if (config.type_data == TypeDDSData::DDSDataEx)
+		{
+			for (LinkTags& link : vec_link_tags)
+			{
+				if (link.target.type == TypeValue::INT)
+				{
+					_storage.map_int[link.target.id_tag] = { 0,0,0 };
+					continue;
+				}
+
+				if (link.target.type == TypeValue::FLOAT)
+				{
+					_storage.map_float[link.target.id_tag] = { 0,0,0 };
+					continue;
+				}
+
+				if (link.target.type == TypeValue::DOUBLE)
+				{
+					_storage.map_double[link.target.id_tag] = { 0,0,0 };
+					continue;
+				}
+
+				if (link.target.type == TypeValue::STRING)
+				{
+					_storage.map_str[link.target.id_tag] = { 0,"",0};
+					continue;
+				}
+			}
+		}
+
+		if (config.type_data == TypeDDSData::DDSAlarmEx)
+		{
+			
+			_storage.map_str[link.target.id_tag] = { 0,"",0 };
+			continue;
+		}
+
+	}
+
+	template<typename T> ResultReqest AdapterDDS<T>::ReadData(std::deque<SetTags>* _data)
 	{
 		ResultReqest result = ResultReqest::OK;
 
@@ -532,11 +603,13 @@ namespace scada_ate::gate::adapter::dds
 			size_t count_read = 0;
 			_dds::SampleInfo info;
 
+			if (data.size() > 1) data.resize(1);
+
 			while (_datareader->get_unread_count() != 0 && count_read < count_read_packets)
 			{
 				_datareader->take_next_sample(_data_dds.get(), &info);
 				count_read++;
-				write_to_vector_settags(_data_dds.get(), count_read);
+				write_to_deque(_data_dds.get(), count_read);
 			}
 
 			_data = &data;
@@ -555,7 +628,7 @@ namespace scada_ate::gate::adapter::dds
 		return result;
 	}
 
-	template<typename T> ResultReqest AdapterDDS<T>::WriteData(const std::vector<SetTags>& _data)
+	template<typename T> ResultReqest AdapterDDS<T>::WriteData(const std::deque<SetTags>& _data)
 	{
 		ResultReqest result = ResultReqest::OK;
 
@@ -563,9 +636,10 @@ namespace scada_ate::gate::adapter::dds
 		{
 			for (const SetTags& tags : _data)
 			{
-				//create_buf_out();
+				create_dds_data(tags);
 				_datawriter->write(_data_dds.get());
 			}
+
 		}
 		catch (int& e)
 		{
@@ -581,90 +655,9 @@ namespace scada_ate::gate::adapter::dds
 		return result;
 	}
 
-	template<typename T> TypeAdapter  AdapterDDS<T>::GetTypeAdapter()
-	{
-		return TypeAdapter::DDS;
 
-	}
 
-	template<typename T> StatusAdapter  AdapterDDS<T>::GetStatusAdapter()
-	{
-		return StatusAdapter::Null;
-	}
-
-	template<typename T> std::shared_ptr<IAnswer>  AdapterDDS<T>::GetInfoAdapter(ParamInfoAdapter param)
-	{
-		return nullptr;
-	}
-
-	template<typename T> std::string AdapterDDS<T>::get_name_topic()
-	{
-		std::string str;
-		str += config.topic_name;
-		return str;
-	}
-
-	template<typename T> std::string AdapterDDS<T>::get_name_topic_profile()
-	{
-		std::string str;
-		str += config.topic_name + "_profile";
-		return str;
-	}
-
-	template<typename T> std::string AdapterDDS<T>::get_name_participant_profile()
-	{
-		std::string str;
-		str += "participant_profile";
-		return str;
-	};
-
-	template<typename T> std::string AdapterDDS<T>::get_typetopic(const TypeDDSData& type_ddsdata)
-	{
-		std::string str;
-
-		switch (type_ddsdata)
-		{
-		case TypeDDSData::DDSData:
-			str += "DDSDataPubSubType";
-			break;
-		case TypeDDSData::DDSDataEx:
-			str += "DDSDataExPubSubType";
-			break;
-		case TypeDDSData::DDSAlarm:
-			str += "DDSAlarmPubSubType";
-			break;
-		case TypeDDSData::DDSAlarmEx:
-			str += "DDSAlarmExPubSubType";
-			break;
-		default:
-			str.clear();
-		};
-
-		return str;
-	}
-
-	template<typename T> std::string AdapterDDS<T>::get_name_publisher_profile()
-	{
-		std::string str;
-		str += "publisher_profile";
-		return str;
-	}
-
-	template<typename T> std::string AdapterDDS<T>::get_name_subscriber_profile()
-	{
-		std::string str;
-		str += "subscriber_profile";
-		return str;
-	}
-
-	template<typename T> std::string  AdapterDDS<T>::get_name_datawriter_profile()
-	{
-		std::string str;
-		str += "datawrite_profile";
-		return str;
-	}
-
-	template<typename T> ResultReqest AdapterDDS<T>::write_to_vector_settags(DDSData* buf, size_t& count)
+	template<typename T> ResultReqest AdapterDDS<T>::write_to_deque(DDSData* buf, size_t& count)
 	{
 		ResultReqest result = ResultReqest::OK;
 
@@ -724,12 +717,7 @@ namespace scada_ate::gate::adapter::dds
 
 			if (count == 1)
 			{
-				if (data.size() > 1)
-				{
-					data.resize(1);
-				}
-
-				data[0] = template_settags;
+				data[0] = template_settags; /// need escape copy !!!
 			}
 			else
 			{
@@ -751,7 +739,7 @@ namespace scada_ate::gate::adapter::dds
 		return  result;
 	}
 
-	template<typename T> ResultReqest AdapterDDS<T>::write_to_vector_settags(DDSDataEx* buf, size_t& count)
+	template<typename T> ResultReqest AdapterDDS<T>::write_to_deque(DDSDataEx* buf, size_t& count)
 	{
 		ResultReqest result = ResultReqest::OK;
 		
@@ -822,12 +810,7 @@ namespace scada_ate::gate::adapter::dds
 
 			if (count == 1)
 			{
-				if (data.size() > 1)
-				{
-					data.resize(1);
-				}
-
-				data[0] = template_settags;
+				data[0] = template_settags; // need escape copy
 			}
 			else
 			{
@@ -850,7 +833,7 @@ namespace scada_ate::gate::adapter::dds
 		return result;
 	}
 
-	template<typename T> ResultReqest AdapterDDS<T>::write_to_vector_settags(DDSAlarm* buf, size_t& count)
+	template<typename T> ResultReqest AdapterDDS<T>::write_to_deque(DDSAlarm* buf, size_t& count)
 	{
 		ResultReqest result = ResultReqest::OK;
 
@@ -873,12 +856,7 @@ namespace scada_ate::gate::adapter::dds
 
 			if (count == 1)
 			{
-				if (data.size() > 1)
-				{
-					data.resize(1);
-				}
-
-				data[0] = template_settags;
+				data[0] = template_settags; // need escape copy
 			}
 			else
 			{
@@ -900,7 +878,7 @@ namespace scada_ate::gate::adapter::dds
 		return result;
 	}
 
-	template<typename T> ResultReqest AdapterDDS<T>::write_to_vector_settags(DDSAlarmEx* buf, size_t& count)
+	template<typename T> ResultReqest AdapterDDS<T>::write_to_deque(DDSAlarmEx* buf, size_t& count)
 	{
 		ResultReqest result = ResultReqest::OK;
 
@@ -925,12 +903,7 @@ namespace scada_ate::gate::adapter::dds
 
 			if (count == 1)
 			{
-				if (data.size() > 1)
-				{
-					data.resize(1);
-				}
-
-				data[0] = template_settags;
+				data[0] = template_settags; // need escape copy
 			}
 			else
 			{
@@ -951,6 +924,87 @@ namespace scada_ate::gate::adapter::dds
 		}
 
 		return result;
+	}
+
+
+	template<typename T> ResultReqest AdapterDDS<T>::create_dds_data(const SetTags& in_data)
+	{
+		for (LinkTags& link : vec_link_tags)
+		{
+			if (link.source.type == TypeValue::INT)
+			{
+				auto value = in_data.map_int_data.find(link.source);
+				if (value != in_data.map_int_data.end())
+				{
+					set_data(value->second, link, _data_dds.get());
+				}
+				continue;
+			}
+		}
+
+		return ResultReqest::OK;
+	}
+
+	template<typename T> void AdapterDDS<T>::set_data(const ValueInt& value, const LinkTags& link, DDSData* out_buf) 
+	{
+		int val_current = 0;
+		int val_last = 0;
+
+		if (link.target.mask != 0)
+		{
+			val_last = out_buf->data_int().value()[link.target.offset];
+			val_current = demask(value.value, link.source.mask, val_last, link.target.mask);
+		}
+		else
+		{
+			val_current = value.value;
+		}
+
+		if (link.type_registration == TypeRegistration::RECIVE)
+		{
+			out_buf->data_int().value()[link.target.offset] = val_current;
+			out_buf->data_int().quality()[link.target.offset] = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::UPDATE)
+		{
+			if (val_last == val_current) return;
+			out_buf->data_int().value()[link.target.offset] = val_current;
+			out_buf->data_int().quality()[link.target.offset] = value.quality;
+		}
+
+		if (link.type_registration == TypeRegistration::DELTA)
+		{
+			if (abs(val_last - val_current) > (int)link.delta)
+			{
+				out_buf->data_int().value()[link.target.offset] = val_current;
+				out_buf->data_int().quality()[link.target.offset] = value.quality;;
+				return;
+			}
+		}
+
+		return;
+	}
+
+	template<typename T> void AdapterDDS<T>::set_data(const ValueInt& value, const LinkTags& link, DDSDataEx* out_buf)
+	{
+		int val_current = 0;
+		int val_last = _storage.map_int[link.target.id_tag];
+
+
+
+		return;
+	}
+
+	template<typename T> void AdapterDDS<T>::set_data(const ValueInt& value, const LinkTags& link, DDSAlarm* out_buf)
+	{
+		return;
+	}
+
+	template<typename T> void AdapterDDS<T>::set_data(const ValueInt& value, const LinkTags& link, DDSAlarmEx* out_buf)
+	{
+		return;
 	}
 
 	template<typename T> ResultReqest AdapterDDS<T>::init_buffer(DDSData* buf)
@@ -1044,6 +1098,115 @@ namespace scada_ate::gate::adapter::dds
 	template<typename T> ResultReqest AdapterDDS<T>::init_buffer(DDSAlarmEx* buf)
 	{
 		return ResultReqest::OK;
+	}
+
+
+	template<typename T> int AdapterDDS<T>::demask(const int& value, int mask_source, const int& value_target, const int& mask_target)
+	{
+		int val_out = value & mask_source;
+		if (mask_target > mask_source)
+		{
+			while (mask_target != mask_source)
+			{
+				mask_source <<= 1;
+				val_out <<= 1;
+			}
+		}
+		else
+		{
+			while (mask_target != mask_source)
+			{
+				mask_source >>= 1;
+				val_out >>= 1;
+			}
+		}
+
+		val_out = value_target & (~mask_target) | val_out;
+		return val_out;
+	}
+
+
+	template<typename T> TypeAdapter  AdapterDDS<T>::GetTypeAdapter()
+	{
+		return TypeAdapter::DDS;
+
+	}
+
+	template<typename T> StatusAdapter  AdapterDDS<T>::GetStatusAdapter()
+	{
+		return StatusAdapter::Null;
+	}
+
+	template<typename T> std::shared_ptr<IAnswer>  AdapterDDS<T>::GetInfoAdapter(ParamInfoAdapter param)
+	{
+		return nullptr;
+	}
+
+	template<typename T> std::string AdapterDDS<T>::get_name_topic()
+	{
+		std::string str;
+		str += config.topic_name;
+		return str;
+	}
+
+	template<typename T> std::string AdapterDDS<T>::get_name_topic_profile()
+	{
+		std::string str;
+		str += config.topic_name + "_profile";
+		return str;
+	}
+
+	template<typename T> std::string AdapterDDS<T>::get_name_participant_profile()
+	{
+		std::string str;
+		str += "participant_profile";
+		return str;
+	};
+
+	template<typename T> std::string AdapterDDS<T>::get_typetopic(const TypeDDSData& type_ddsdata)
+	{
+		std::string str;
+
+		switch (type_ddsdata)
+		{
+		case TypeDDSData::DDSData:
+			str += "DDSDataPubSubType";
+			break;
+		case TypeDDSData::DDSDataEx:
+			str += "DDSDataExPubSubType";
+			break;
+		case TypeDDSData::DDSAlarm:
+			str += "DDSAlarmPubSubType";
+			break;
+		case TypeDDSData::DDSAlarmEx:
+			str += "DDSAlarmExPubSubType";
+			break;
+		default:
+			str.clear();
+		};
+
+		return str;
+	}
+
+	template<typename T> std::string AdapterDDS<T>::get_name_publisher_profile()
+	{
+		std::string str;
+		str += "publisher_profile";
+		return str;
+	}
+
+	template<typename T> std::string AdapterDDS<T>::get_name_subscriber_profile()
+	{
+		std::string str;
+		str += "subscriber_profile";
+		return str;
+	}
+
+	template<typename T> std::string  AdapterDDS<T>::get_name_datawriter_profile()
+	{
+		std::string str;
+		str += "datawrite_profile";
+		return str;
 	}
 
 } 

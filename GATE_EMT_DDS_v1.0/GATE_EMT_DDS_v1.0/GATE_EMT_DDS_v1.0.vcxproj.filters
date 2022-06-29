@@ -116,7 +116,7 @@
     <ClCompile Include="include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="main_test_adapterSM.cpp">
+    <ClCompile Include="main_test_test.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

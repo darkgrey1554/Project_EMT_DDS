@@ -40,7 +40,7 @@
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.cxx" />
-    <ClCompile Include="main_test_adapterSM.cpp" />
+    <ClCompile Include="main_test_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json" />

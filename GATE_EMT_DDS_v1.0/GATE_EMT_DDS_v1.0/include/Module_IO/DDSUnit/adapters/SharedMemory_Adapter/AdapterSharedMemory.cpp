@@ -304,7 +304,7 @@ namespace scada_ate::gate::adapter::sem
 	/// --- функция чтения данных из SharedMemory --- ///
 	/////////////////////////////////////////////////////
 
-	ResultReqest AdapterSharedMemory::ReadData(std::vector<SetTags>* _data)
+	ResultReqest AdapterSharedMemory::ReadData(std::deque<SetTags>* _data)
 	{	
 		DWORD mutex_win32 = 0;
 		DWORD err_win32 = 0;
@@ -426,7 +426,7 @@ namespace scada_ate::gate::adapter::sem
 	/// --- функция записи данных в SharedMemory --- ///
 	/////////////////////////////////////////////////////
 
-	ResultReqest AdapterSharedMemory::WriteData(const std::vector<SetTags>& _data)
+	ResultReqest AdapterSharedMemory::WriteData(const std::deque<SetTags>& _data)
 	{	
 		DWORD mutex_win32 = 0;
 		DWORD err_win32 = 0;

@@ -15,15 +15,6 @@ using namespace eprosima::fastrtps::types;
 
 int main()
 {
-	DomainParticipant* partic;
-	DataWriter* data_writer;
-	Publisher* pub;
-	eprosima::fastdds::dds::Topic* tt;
-	ReturnCode_t code;
-
-	DomainParticipantQos qos = PARTICIPANT_QOS_DEFAULT;
-	DomainParticipant* participant_pub;
-	participant_pub = DomainParticipantFactory::get_instance()->create_participant(0, qos);
-
+	
 	return 0;
 }

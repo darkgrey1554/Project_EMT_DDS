@@ -2,6 +2,7 @@
 #include <structs/structs.hpp>
 #include <map>
 #include <unordered_map>
+#include <deque>
 
 
 
@@ -47,7 +48,6 @@ namespace scada_ate::gate::adapter
 	struct InfoTagHash {
 		std::size_t operator()(const InfoTag& k) const
 		{
-			std::hash<std::string>{}(k.tag);
 			std::size_t h1 = std::hash<std::string>{}(k.tag);
 			std::size_t h2 = std::hash<size_t>{}(k.offset);
 			std::size_t h3 = std::hash<int>{}(k.id_tag);
@@ -137,14 +137,14 @@ namespace scada_ate::gate::adapter
 	{
 	protected:
 
-		std::vector<SetTags> data;
+		std::deque<SetTags> data;
 		std::vector<InfoTag> vec_tags_source;
 		std::vector<LinkTags> vec_link_tags;
 
 	public:
 		virtual ResultReqest InitAdapter() = 0;
-		virtual ResultReqest ReadData(std::vector<SetTags>* data) = 0;
-		virtual ResultReqest WriteData(const std::vector<SetTags>& data) = 0;
+		virtual ResultReqest ReadData(std::deque<SetTags>* data) = 0;
+		virtual ResultReqest WriteData(const std::deque<SetTags>& data) = 0;
 		virtual TypeAdapter GetTypeAdapter() = 0;
 		virtual StatusAdapter GetStatusAdapter() = 0;
 		virtual std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) = 0;
