@@ -1,1 +1,44 @@
-﻿  GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Debug\GATE_EMT_DDS_v1.0.exe
+﻿  LoggerScada.cpp
+D:\CATE_WORK\include_logger\spdlog\spdlog.h(12,10): fatal error C1083: Не удается открыть файл включение: spdlog/common.h: No such file or directory,
+  LoggerScadaSpd.cpp
+D:\CATE_WORK\include_logger\spdlog\spdlog.h(12,10): fatal error C1083: Не удается открыть файл включение: spdlog/common.h: No such file or directory,
+  logger.cpp
+D:\CATE_WORK\include_logger\logger_crossplatform\logger.cpp(446,82): warning C4267: аргумент: преобразование из "size_t" в "DWORD"; возможна потеря данных
+  Adapters.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\Adapters.hpp(2,10): fatal error C1083: Не удается открыть файл включение: structs/structs.hpp: No such file or directory,
+  AdapterDDS.cpp
+  AdapterSharedMemory.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp(4,10): fatal error C1083: Не удается открыть файл включение: LoggerScada.hpp: No such file or directory,
+  security_handle.cpp
+  struct.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\structs\structs.hpp(5,10): fatal error C1083: Не удается открыть файл включение: logger_crossplatform/logger.h: No such file or directory,
+  TimeConverter.cpp
+  DDSAlarmEx.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.h(26,10): fatal error C1083: Не удается открыть файл включение: fastrtps/types/TypeObject.h: No such file or directory,
+  DDSAlarmExPubSubTypes.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExPubSubTypes.cxx(23,10): fatal error C1083: Не удается открыть файл включение: fastcdr/FastBuffer.h: No such file or directory,
+  DDSAlarmExTypeObject.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.h(26,10): fatal error C1083: Не удается открыть файл включение: fastrtps/types/TypeObject.h: No such file or directory,
+  DDSAlarm.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSAlarm\DDSAlarmTypeObject.h(26,10): fatal error C1083: Не удается открыть файл включение: fastrtps/types/TypeObject.h: No such file or directory,
+  DDSAlarmPubSubTypes.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSAlarm\DDSAlarmPubSubTypes.cxx(23,10): fatal error C1083: Не удается открыть файл включение: fastcdr/FastBuffer.h: No such file or directory,
+  DDSAlarmTypeObject.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSAlarm\DDSAlarmTypeObject.h(26,10): fatal error C1083: Не удается открыть файл включение: fastrtps/types/TypeObject.h: No such file or directory,
+  DDSDataEx.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.h(26,10): fatal error C1083: Не удается открыть файл включение: fastrtps/types/TypeObject.h: No such file or directory,
+  DDSDataExPubSubTypes.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSDataEx\DDSDataExPubSubTypes.cxx(23,10): fatal error C1083: Не удается открыть файл включение: fastcdr/FastBuffer.h: No such file or directory,
+  DDSDataExTypeObject.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.h(26,10): fatal error C1083: Не удается открыть файл включение: fastrtps/types/TypeObject.h: No such file or directory,
+  DDSData.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSData\DDSDataTypeObject.h(26,10): fatal error C1083: Не удается открыть файл включение: fastrtps/types/TypeObject.h: No such file or directory,
+  DDSDataPubSubTypes.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx(23,10): fatal error C1083: Не удается открыть файл включение: fastcdr/FastBuffer.h: No such file or directory,
+  Создание кода...
+  Компиляция...
+  DDSDataTypeObject.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\TypeTopicDDS\DDSData\DDSDataTypeObject.h(26,10): fatal error C1083: Не удается открыть файл включение: fastrtps/types/TypeObject.h: No such file or directory,
+  main_test_test.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main_test_test.cpp(1,10): fatal error C1083: Не удается открыть файл включение: fastdds/dds/domain/DomainParticipantFactory.hpp: No such file or directory,
+  Создание кода...

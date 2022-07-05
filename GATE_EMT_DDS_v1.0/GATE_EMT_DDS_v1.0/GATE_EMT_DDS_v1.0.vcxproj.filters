@@ -59,7 +59,7 @@
     <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpd.cpp">
       <Filter>File\Logger</Filter>
     </ClCompile>
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.cpp">
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.cpp">
       <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp">
@@ -68,13 +68,10 @@
     <ClCompile Include="include\structs\TimeConverter.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp">
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\Adapters.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx">
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\Adapters.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx">
@@ -113,10 +110,10 @@
     <ClCompile Include="include\structs\struct.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.cpp">
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="main_test_test.cpp">
+    <ClCompile Include="main_test_adapter_dds.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,7 +147,7 @@
     <ClInclude Include="include\Module_IO\ModuleIO.h">
       <Filter>File\Module_IO</Filter>
     </ClInclude>
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.hpp">
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.hpp">
       <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
     </ClInclude>
     <ClInclude Include="include\structs\struct_unit_cp.h">
@@ -168,10 +165,10 @@
     <ClInclude Include="include\structs\TimeConverter.hpp">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp">
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\Adapters.hpp">
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\Adapters.hpp">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\TypeTopicDDS\TypeTopics.h">
@@ -216,7 +213,10 @@
     <ClInclude Include="include\structs\structs.hpp">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp">
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_IO\UnitTransfer\UnitTransfer.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

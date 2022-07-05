@@ -22,10 +22,10 @@
     <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp" />
     <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpd.cpp" />
     <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp" />
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\Adapters.cpp" />
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.cpp" />
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp" />
-    <ClCompile Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.cpp" />
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\Adapters.cpp" />
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.cpp" />
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp" />
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.cpp" />
     <ClCompile Include="include\structs\struct.cpp" />
     <ClCompile Include="include\structs\TimeConverter.cpp" />
     <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.cxx" />
@@ -37,10 +37,9 @@
     <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataEx.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataExPubSubTypes.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.cxx" />
-    <ClCompile Include="main_test_test.cpp" />
+    <ClCompile Include="main_test_adapter_dds.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json" />
@@ -55,11 +54,12 @@
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_CP.h" />
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_DDS_CP\Unit_DDS_CP.h" />
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.h" />
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\Adapters.hpp" />
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\DDS_Adapter\AdapterDDS.hpp" />
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp" />
-    <ClInclude Include="include\Module_IO\DDSUnit\adapters\SharedMemory_Adapter\security_handle.hpp" />
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\Adapters.hpp" />
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp" />
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp" />
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.hpp" />
     <ClInclude Include="include\Module_IO\ModuleIO.h" />
+    <ClInclude Include="include\Module_IO\UnitTransfer\UnitTransfer.h" />
     <ClInclude Include="include\structs\structs.h" />
     <ClInclude Include="include\structs\structs.hpp" />
     <ClInclude Include="include\structs\struct_unit_cp.h" />
