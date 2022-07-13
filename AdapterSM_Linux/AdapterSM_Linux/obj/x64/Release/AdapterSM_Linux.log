@@ -1,0 +1,9 @@
+﻿  Проверка исходных файлов
+  Удаленное копирование исходных файлов в "192.168.56.102"
+  Проверка архитектуры
+  Проверка архитектуры
+  Запуск удаленной сборки.
+  Компиляция исходных файлов:
+  main.cpp
+  Связывание объектов
+  AdapterSM_Linux.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\AdapterSM_Linux\AdapterSM_Linux\bin\x64\Release\AdapterSM_Linux.out

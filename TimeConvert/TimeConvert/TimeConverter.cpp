@@ -17,8 +17,13 @@ TimePoint TimeConverter::GetTime_TimePoint()
 	time_t tp_tt;
 	auto tp_sys = std::chrono::system_clock::now();
 	tp_tt = std::chrono::system_clock::to_time_t(tp_sys);
-	localtime_s(&tp_tm, &tp_tt);
 
+#ifdef _WIN32 
+	localtime_s(&tp_tm, &tp_tt);
+#endif
+#ifdef __linux__
+	localtime_r(&tp_tt, &tp_tm);
+#endif
 	/*std::chrono::seconds now_sec = std::chrono::duration_cast<std::chrono::seconds>(tp_sys.time_since_epoch());
 	std::chrono::milliseconds now_msec = std::chrono::duration_cast<std::chrono::milliseconds>(tp_sys.time_since_epoch());
 	std::chrono::microseconds now_mcsec = std::chrono::duration_cast<std::chrono::microseconds>(tp_sys.time_since_epoch());*/
@@ -57,7 +62,13 @@ TimePoint TimeConverter::LLmcsToTimePoint(long long tp)
 	TimePoint t;
 	tm tp_tm;
 	time_t tp_tt = tp/10000000;
+
+#ifdef _WIN32 
 	localtime_s(&tp_tm, &tp_tt);
+#endif
+#ifdef __linux__
+	localtime_r(&tp_tt, &tp_tm);
+#endif
 
 	t.year = tp_tm.tm_year + 1900;
 	t.mounth = tp_tm.tm_mon + 1;
@@ -78,7 +89,13 @@ TimePoint TimeConverter::SysClockToTimePoint(std::chrono::time_point<std::chrono
 	tm tp_tm;
 	time_t tp_tt;
 	tp_tt = std::chrono::system_clock::to_time_t(tp);
+
+#ifdef _WIN32 
 	localtime_s(&tp_tm, &tp_tt);
+#endif
+#ifdef __linux__
+	localtime_r(&tp_tt, &tp_tm);
+#endif
 
 	/*std::chrono::seconds now_sec = std::chrono::duration_cast<std::chrono::seconds>(tp_sys.time_since_epoch());
 	std::chrono::milliseconds now_msec = std::chrono::duration_cast<std::chrono::milliseconds>(tp_sys.time_since_epoch());

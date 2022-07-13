@@ -1,5 +1,7 @@
 #include "security_handle.hpp"
 
+#ifdef _WIN32
+
 /// --- инициализация дескриптора безопасности ---///
 /*
  0 - ошибка AllocateAndInitializeSid
@@ -17,7 +19,7 @@ unsigned int SecurityHandle::InitSecurityAttrubuts()
 	if (!AllocateAndInitializeSid(&SIDAuthWorld, 1, SECURITY_WORLD_RID, 0, 0, 0, 0, 0, 0, 0, &pEveryoneSID))
 	{
 		lasterror = GetLastError();
-		result|= 1;
+		result |= 1;
 		return result;
 	}
 
@@ -33,7 +35,7 @@ unsigned int SecurityHandle::InitSecurityAttrubuts()
 	if (res != ERROR_SUCCESS)
 	{
 		lasterror = GetLastError();
-		result|= 2;
+		result |= 2;
 		return result;
 	}
 
@@ -41,7 +43,7 @@ unsigned int SecurityHandle::InitSecurityAttrubuts()
 	if (pSD == NULL)
 	{
 		lasterror = GetLastError();
-		result |=4;
+		result |= 4;
 		return result;
 	}
 
@@ -75,3 +77,5 @@ SECURITY_ATTRIBUTES& SecurityHandle::getsecurityattrebut()
 {
 	return sa;
 }
+
+#endif

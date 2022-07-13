@@ -14,7 +14,7 @@ int main()
 	std::shared_ptr<LoggerSpaceScada::ILoggerScada> log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
 
 	log->SetLevel(LoggerSpaceScada::LevelLog::Debug);
-	log->Info("Start");
+	log->Info("Start {} {}", 1, 2);
 
 
 	std::vector <scada_ate::gate::adapter::LinkTags> link_tags(size_data);
@@ -105,7 +105,7 @@ int main()
 
 	std::cout << "priem " << std::endl;
 
-	while (1);
+	Sleep(1000);
 
 	return 0;
 }

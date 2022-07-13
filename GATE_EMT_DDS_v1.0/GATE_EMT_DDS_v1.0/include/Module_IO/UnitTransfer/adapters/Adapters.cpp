@@ -1,6 +1,6 @@
 #include "Adapters.hpp"
-#include <Module_IO/DDSUnit/adapters/SharedMemory_Adapter/AdapterSharedMemory.hpp>
-#include <Module_IO/DDSUnit/adapters/DDS_Adapter/AdapterDDS.hpp>
+#include <Module_IO/UnitTransfer/adapters/SharedMemory_Adapter/AdapterSharedMemory.hpp>
+#include <Module_IO/UnitTransfer/adapters/DDS_Adapter/AdapterDDS.hpp>
 
 
 

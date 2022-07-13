@@ -1,4 +1,7 @@
 #pragma once
+
+#ifdef _WIN32
+
 #include <windows.h>
 #include <aclapi.h>
 #include <iostream>
@@ -12,7 +15,7 @@ class SecurityHandle
 	SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
 	PACL pACL = NULL;
 	SECURITY_ATTRIBUTES sa;
-	DWORD lasterror =0;
+	DWORD lasterror = 0;
 
 public:
 
@@ -21,3 +24,7 @@ public:
 	DWORD getlasterror();
 	SECURITY_ATTRIBUTES& getsecurityattrebut();
 };
+
+#endif
+
+

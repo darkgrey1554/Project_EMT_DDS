@@ -116,6 +116,9 @@
     <ClCompile Include="main_test_adapter_dds.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json">

@@ -1,5 +1,6 @@
 #pragma once
 #include<chrono>
+#include<time.h>
 
 struct TimePoint
 {

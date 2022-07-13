@@ -1,54 +1,18 @@
-[05/07/22 10:42:32.497] [info]	Start
-[05/07/22 10:43:46.811] [info]	Start
-[05/07/22 10:43:47.685] [critical]	AdapterDDS id-1: Error init participant : error: 0
-[05/07/22 10:43:47.686] [critical]	AdapterDDS id-1: Error Init : error: 2
-[05/07/22 10:43:52.337] [info]	Start
-[05/07/22 10:43:55.261] [critical]	AdapterDDS id-1: Error init participant : error: 0
-[05/07/22 10:43:55.263] [critical]	AdapterDDS id-1: Error Init : error: 2
-[05/07/22 11:02:35.253] [info]	Start
-[05/07/22 11:02:39.120] [debug]	dsad
-[05/07/22 11:02:39.259] [critical]	AdapterDDS id-1: Error init participant : error: 0
-[05/07/22 11:02:39.260] [critical]	AdapterDDS id-1: Error Init : error: 2
-[05/07/22 11:02:45.839] [info]	Start
-[05/07/22 11:02:51.099] [debug]	dsad
-[05/07/22 11:03:21.814] [critical]	AdapterDDS id-1: Error init participant : error: 0
-[05/07/22 11:03:21.816] [critical]	AdapterDDS id-1: Error Init : error: 2
-[05/07/22 11:04:41.438] [info]	Start
-[05/07/22 11:04:49.370] [debug]	dsad
-[05/07/22 11:04:49.479] [debug]	AdapterDDS id-1: Init participant done : defualt
-[05/07/22 11:04:49.481] [critical]	AdapterDDS id-1: Error init topic : error: 1
-[05/07/22 11:04:49.482] [critical]	AdapterDDS id-1: Error Init : error: 3
-[05/07/22 12:30:12.002] [info]	Start
-[05/07/22 12:30:26.066] [debug]	AdapterDDS id-1: Init participant done : defualt
-[05/07/22 12:30:26.067] [debug]	AdapterDDS id-1: Init topic done : defualt
-[05/07/22 12:30:26.067] [debug]	AdapterDDS id-1: Init publisher done : default
-[05/07/22 12:30:26.088] [debug]	AdapterDDS id-1: Init datawriter done : default
-[05/07/22 12:31:17.432] [debug]	AdapterDDS id-1: Error ReadData : not supported
-[05/07/22 14:38:54.755] [info]	Start
-[05/07/22 14:38:54.929] [debug]	AdapterDDS id-1: Init participant done : defualt
-[05/07/22 14:38:54.929] [debug]	AdapterDDS id-1: Init topic done : defualt
-[05/07/22 14:38:54.930] [debug]	AdapterDDS id-1: Init publisher done : default
-[05/07/22 14:38:54.932] [debug]	AdapterDDS id-1: Init datawriter done : default
-[05/07/22 14:40:40.680] [info]	Start
-[05/07/22 14:40:40.816] [debug]	AdapterDDS id-1: Init participant done : defualt
-[05/07/22 14:40:40.817] [debug]	AdapterDDS id-1: Init topic done : defualt
-[05/07/22 14:40:40.818] [debug]	AdapterDDS id-1: Init publisher done : default
-[05/07/22 14:40:40.821] [debug]	AdapterDDS id-1: Init datawriter done : default
-[05/07/22 15:05:02.868] [info]	Start
-[05/07/22 15:05:03.009] [debug]	AdapterDDS id-1: Init participant done : defualt
-[05/07/22 15:05:03.011] [debug]	AdapterDDS id-1: Init topic done : defualt
-[05/07/22 15:05:03.011] [debug]	AdapterDDS id-1: Init publisher done : default
-[05/07/22 15:05:03.014] [debug]	AdapterDDS id-1: Init datawriter done : default
-[05/07/22 15:05:03.132] [debug]	AdapterDDS id-2: Init participant done : defualt
-[05/07/22 15:05:03.133] [debug]	AdapterDDS id-2: Init topic done : defualt
-[05/07/22 15:05:03.134] [debug]	AdapterDDS id-2: Init subscriber done : default
-[05/07/22 15:05:03.136] [debug]	AdapterDDS id-2: Init datareader done : XML-file
-[05/07/22 15:19:34.923] [info]	Start
-[05/07/22 15:19:35.069] [debug]	AdapterDDS id-1: Init participant done : defualt
-[05/07/22 15:19:35.070] [debug]	AdapterDDS id-1: Init topic done : defualt
-[05/07/22 15:19:35.071] [debug]	AdapterDDS id-1: Init publisher done : default
-[05/07/22 15:19:35.072] [debug]	AdapterDDS id-1: Init datawriter done : default
-[05/07/22 15:19:35.167] [debug]	AdapterDDS id-2: Init participant done : defualt
-[05/07/22 15:19:35.168] [debug]	AdapterDDS id-2: Init topic done : defualt
-[05/07/22 15:19:35.168] [debug]	AdapterDDS id-2: Init subscriber done : default
-[05/07/22 15:19:35.171] [debug]	AdapterDDS id-2: Init datareader done : XML-file
+[06/07/22 14:01:10.199] [info]	Start 1 2
+[06/07/22 14:01:10.367] [debug]	AdapterDDS id-1: Init participant done : defualt
+[06/07/22 14:01:10.367] [debug]	AdapterDDS id-1: Init topic done : defualt
+[06/07/22 14:01:10.368] [debug]	AdapterDDS id-1: Init publisher done : default
+[06/07/22 14:01:10.369] [debug]	AdapterDDS id-1: Init datawriter done : default
+[06/07/22 14:01:10.452] [debug]	AdapterDDS id-2: Init participant done : defualt
+[06/07/22 14:01:10.453] [debug]	AdapterDDS id-2: Init topic done : defualt
+[06/07/22 14:01:10.453] [debug]	AdapterDDS id-2: Init subscriber done : default
+[06/07/22 14:01:10.455] [debug]	AdapterDDS id-2: Init datareader done : XML-file
+[06/07/22 14:01:37.805] [info]	Start 1 2
+[06/07/22 14:01:37.930] [debug]	AdapterDDS id-1: Init participant done : defualt
+[06/07/22 14:01:37.931] [debug]	AdapterDDS id-1: Init topic done : defualt
+[06/07/22 14:01:37.932] [debug]	AdapterDDS id-1: Init publisher done : default
+[06/07/22 14:01:37.933] [debug]	AdapterDDS id-1: Init datawriter done : default
+[06/07/22 14:01:38.022] [debug]	AdapterDDS id-2: Init participant done : defualt
+[06/07/22 14:01:38.023] [debug]	AdapterDDS id-2: Init topic done : defualt
+[06/07/22 14:01:38.024] [debug]	AdapterDDS id-2: Init subscriber done : default
+[06/07/22 14:01:38.025] [debug]	AdapterDDS id-2: Init datareader done : XML-file
