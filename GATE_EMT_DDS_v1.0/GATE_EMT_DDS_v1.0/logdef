@@ -16,3 +16,6 @@
 [06/07/22 14:01:38.023] [debug]	AdapterDDS id-2: Init topic done : defualt
 [06/07/22 14:01:38.024] [debug]	AdapterDDS id-2: Init subscriber done : default
 [06/07/22 14:01:38.025] [debug]	AdapterDDS id-2: Init datareader done : XML-file
+[10/08/22 13:06:21.599] [info]	Start 1 2
+[10/08/22 13:06:21.600] [debug]	Test
+[10/08/22 13:06:21.601] [debug]	TRES 1

@@ -206,6 +206,7 @@ int test_read_request_sec()
 	UA_ByteString certificate = loadFile("client_cert.der");
 	UA_ByteString privateKey = loadFile("client_key.der");
 	size_t trustListSize = 1;
+
 	//UA_ByteString* trustList;
 	UA_STACKARRAY(UA_ByteString, trustList, trustListSize);
 	trustList[0] = loadFile("SimulationServer@LAPTOP-SMDMIQSL_2048.der");

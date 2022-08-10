@@ -24,6 +24,8 @@
     <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\Adapters.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.cpp" />
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp" />
+    <ClCompile Include="main_tset_fignia.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.cpp" />
     <ClCompile Include="include\structs\struct.cpp" />
@@ -40,7 +42,6 @@
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.cxx" />
-    <ClCompile Include="main_test_adapter_dds.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json" />
@@ -57,6 +58,7 @@
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.h" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\Adapters.hpp" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp" />
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.hpp" />
     <ClInclude Include="include\Module_IO\ModuleIO.h" />
@@ -149,8 +151,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.5.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\CATE_WORK\logger_crossplatform;D:\CATE_WORK\rapidjson\include;C:\Program Files\eProsima\fastrtps 2.5.0\include;D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\open62541\lib;C:\Program Files\OpenSSL-Win64\lib;C:\Program Files\eProsima\fastrtps 2.5.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\open62541\include;D:\CATE_WORK\logger_crossplatform;D:\CATE_WORK\rapidjson\include;C:\Program Files\eProsima\fastrtps 2.5.0\include;D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson;$(IncludePath)</IncludePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -208,10 +210,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NOMINMAX;_WINDOWS;FASTRTPS_DYN_LINK;FASTCDR_DYN_LINK;FOONATHAN_MEMORY=1;FOONATHAN_MEMORY_VERSION_MAJOR=0;FOONATHAN_MEMORY_VERSION_MINOR=7;FOONATHAN_MEMORY_VERSION_PATCH=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;_WINDOWS;FASTRTPS_DYN_LINK;FASTCDR_DYN_LINK;FOONATHAN_MEMORY=1;FOONATHAN_MEMORY_VERSION_MAJOR=0;FOONATHAN_MEMORY_VERSION_MINOR=7;FOONATHAN_MEMORY_VERSION_PATCH=1</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)\include;D:\CATE_WORK\include_logger\logger_crossplatform;D:\CATE_WORK\include_logger;C:\Program Files\eProsima\fastrtps 2.5.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ExceptionHandling>Async</ExceptionHandling>
@@ -222,6 +224,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalOptions>-DUA_ARCHITECTURE_WIN32 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>libcrypto.lib;openssl.lib;open62541.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -113,6 +113,7 @@ namespace scada_ate::gate::adapter
 
 	struct IConfigAdapter
 	{
+		int id_adapter = 0;
 		TypeAdapter type_adapter = TypeAdapter::Null;
 		std::vector<InfoTag> vec_tags_source;
 		std::vector<LinkTags> vec_link_tags;

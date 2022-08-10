@@ -113,10 +113,13 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="main_test_adapter_dds.cpp">
+    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx">
+    <ClCompile Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="main_tset_fignia.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -220,6 +223,9 @@
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\Module_IO\UnitTransfer\UnitTransfer.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>
