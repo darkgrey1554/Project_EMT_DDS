@@ -57,24 +57,46 @@ namespace scada_ate::gate::adapter::sem
 		HeaderSharedMemory header;
 	};
 
-	#ifdef _WIN32
+	//#ifdef _WIN32
 	class AdapterSharedMemory : public IAdapter
 	{
 
-		/// --- переменные shared memory (WIN32)--- ///
-		ConfigAdapterSharedMemory config; /// конфигурация адапрета
-		HANDLE SM_Handle = NULL;   /// handle объекта shared memoty ядра
-		char* buf_data = nullptr; /// указатель на блок памяти
-		HANDLE Mutex_SM = NULL; /// handle мьютекса ждя доступа к shared memory
-		std::shared_ptr<SecurityHandle> security_attr; /// handle атрибута безопасности, для
+		/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ shared memory (WIN32)--- ///
+		ConfigAdapterSharedMemory config; /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		char* buf_data = nullptr; /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+		
+		#ifdef _WIN32
+		HANDLE SM_Handle = NULL;   /// handle пїЅпїЅпїЅпїЅпїЅпїЅпїЅ shared memoty пїЅпїЅпїЅпїЅ
+		HANDLE Mutex_SM = NULL; /// handle пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ shared memory
+		std::shared_ptr<SecurityHandle> security_attr; /// handle пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ
+		#endif // _WIN32
+
+		
+		#ifdef __linux__
+		int hnd_sm = 0;
+		sem_t* _semaphor = nullptr;
+		size_t size_memory = 0;
+
+		ResultReqest init_mutex();
+		ResultReqest init_shared_memory();
+		ResultReqest allocate_memory(size_t size_memory);
+		ResultReqest mapping_memory(size_t size_memory);
+		void destroy();
+
+		ResultReqest lock_semaphore();
+		ResultReqest unlock_semaphore();
+		#endif // __linux__
+
+		
 
 		std::mutex mutex_init;
-		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// переменная статуса адаптера 
-		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// логгер
+		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
+		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// пїЅпїЅпїЅпїЅпїЅпїЅ
 
-		/// --- функция формарования структуры ответа на запрос HeaderData --- ///
+		/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ HeaderData --- ///
 		std::shared_ptr<AnswerSharedMemoryHeaderData> AnswerRequestHeaderData();
 
+		void init_deque();
 		std::string CreateSMName();
 		std::string CreateSMMutexName();
 		size_t GetSizeMemory();
@@ -87,11 +109,12 @@ namespace scada_ate::gate::adapter::sem
 		size_t offset_char = 0;
 		size_t offset_str = 0;
 
-		void set_data(const ValueInt& value, const LinkTags& link);
-		void set_data(const ValueFloat& value, const LinkTags& link);
-		void set_data(const ValueDouble& value, const LinkTags& link);
-		void set_data(const ValueChar& value, const LinkTags& link);
-		void set_data(const ValueString& value, const LinkTags& link);
+		void set_data(TypeValue& type, const Value& value, const LinkTags& link);
+		void set_data_int(const Value& value, const LinkTags& link);
+		void set_data_float(const Value& value, const LinkTags& link);
+		void set_data_double(const Value& value, const LinkTags& link);
+		void set_data_char(const Value& value, const LinkTags& link);
+		void set_data_string(const Value& value, const LinkTags& link);
 
 	public:
 
@@ -106,34 +129,21 @@ namespace scada_ate::gate::adapter::sem
 		~AdapterSharedMemory();
 
 	};
-	#endif
 
-	#ifdef __linux__
+	//#endif
+
+	/*#ifdef __linux__
 	class AdapterSharedMemory : public IAdapter
 	{
-		/// --- переменные shared memory (Linux)--- ///
-		ConfigAdapterSharedMemory config;
-		char* buf_data = nullptr;
-		int hnd_sm = 0;
-		sem_t* _semaphor = nullptr;
-		size_t size_memory = 0;
-
+		/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ shared memory (Linux)--- ///
+		
 
 		std::mutex mutex_init;
-		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// переменная статуса адаптера 
-		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// логгер
+		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
+		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// пїЅпїЅпїЅпїЅпїЅпїЅ
 
-		/// --- функция формарования структуры ответа на запрос HeaderData --- ///
+		/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ HeaderData --- ///
 		std::shared_ptr<AnswerSharedMemoryHeaderData> AnswerRequestHeaderData();
-
-		ResultReqest init_mutex();
-		ResultReqest init_shared_memory();
-		ResultReqest allocate_memory(size_t size_memory);
-		ResultReqest mapping_memory(size_t size_memory);
-		void destroy();
-
-		ResultReqest lock_semaphore();
-		ResultReqest unlock_semaphore();
 
 
 		std::string CreateSMName();
@@ -148,11 +158,11 @@ namespace scada_ate::gate::adapter::sem
 		size_t offset_char = 0;
 		size_t offset_str = 0;
 
-		void set_data(const ValueInt& value, const LinkTags& link);
-		void set_data(const ValueFloat& value, const LinkTags& link);
-		void set_data(const ValueDouble& value, const LinkTags& link);
-		void set_data(const ValueChar& value, const LinkTags& link);
-		void set_data(const ValueString& value, const LinkTags& link);
+		void set_data(const int& value, const LinkTags& link);
+		void set_data(const float& value, const LinkTags& link);
+		void set_data(const double& value, const LinkTags& link);
+		void set_data(const char& value, const LinkTags& link);
+		void set_data(const std::string& value, const LinkTags& link);
 
 	public:
 
@@ -167,6 +177,6 @@ namespace scada_ate::gate::adapter::sem
 		~AdapterSharedMemory();
 
 };
-	#endif
+	#endif*/
 }
 

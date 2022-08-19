@@ -5,13 +5,13 @@
 namespace scada_ate::gate::adapter::sem
 {
 	////////////////////////////////////////
-	/// --- задает имя shared memory --- ///
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ shared memory --- ///
 	///////////////////////////////////////
 	/// <param>
-	/// source - уникальная часть имени памяти
+	/// source - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	/// </param>
 	/// <result> 
-	/// - имя shared memory
+	/// - пїЅпїЅпїЅ shared memory
 	/// 
 	std::string AdapterSharedMemory::CreateSMName()
 	{
@@ -29,23 +29,11 @@ namespace scada_ate::gate::adapter::sem
 		return str;
 	}
 	/////////////////////////////////////////////////
-	/// --- конструктор адаптера SharedMemory --- ///
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SharedMemory --- ///
 	/////////////////////////////////////////////////
 
-	AdapterSharedMemory::AdapterSharedMemory(std::shared_ptr<IConfigAdapter> config)
-	{
-		std::shared_ptr<ConfigAdapterSharedMemory> config_point = std::reinterpret_pointer_cast<ConfigAdapterSharedMemory>(config);
-
-		if (config_point != nullptr && config_point->type_adapter == TypeAdapter::SharedMemory)
-		{
-			this->config = *config_point;
-		}
-
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
-	};
-
 	/////////////////////////////////////////////////
-	/// --- деструктор адаптера SharedMemory --- ///
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SharedMemory --- ///
 	////////////////////////////////////////////////
 
 	AdapterSharedMemory::~AdapterSharedMemory()
@@ -54,16 +42,6 @@ namespace scada_ate::gate::adapter::sem
 		CloseHandle(SM_Handle);
 		CloseHandle(Mutex_SM);
 	}
-
-	/////////////////////////////////////////////////
-	/// --- деструктор адаптера SharedMemory --- ///
-	////////////////////////////////////////////////
-	/// <param>
-	/// conf - указатель на конфигурация адаптера (conf должен иметь тип ConfigSharedMemoryAdapter*)
-	/// </param>
-	/// <result> 
-	/// - результаи операции в типе ResultReqest. В случаи ести результат равен ResultReqest::ERR 
-	/// инициальзация прошла с ошибкой, подробности описанны в логировании.
 
 	ResultReqest AdapterSharedMemory::InitAdapter()
 	{
@@ -181,41 +159,8 @@ namespace scada_ate::gate::adapter::sem
 			ReleaseMutex(Mutex_SM);
 			
 			/// --- init vector GetTags --- /// 
-			
-			data.resize(1);
-			SetTags& set_data = *data.begin();
 
-			for (InfoTag& tag : this->config.vec_tags_source)
-			{
-				if (tag.type == TypeValue::INT)
-				{
-					set_data.map_int_data[tag] = {0,0,0};
-					continue;
-				}
-
-				if (tag.type == TypeValue::FLOAT)
-				{
-					set_data.map_float_data[tag] = { 0,0,0 };
-					continue;
-				}
-
-				if (tag.type == TypeValue::DOUBLE)
-				{
-					set_data.map_double_data[tag] = { 0,0,0 };
-					continue;
-				}
-				if (tag.type == TypeValue::CHAR)
-				{
-					set_data.map_char_data[tag] = { 0,'\0',0 };
-					continue;
-				}
-				if (tag.type == TypeValue::STRING)
-				{
-					set_data.map_str_data[tag] = { 0,"",0};
-					continue;
-				}
-			}
-			
+			init_deque();
 
 			current_status.store(StatusAdapter::OK, std::memory_order_relaxed);
 			log->Info("AdapterSharedMemory {} : Init DONE", this->config.NameChannel);
@@ -242,70 +187,6 @@ namespace scada_ate::gate::adapter::sem
 		return res;
 	}
 
-	///////////////////////////////////////////////////////////////////
-	/// --- запрос специфичного параметра адаптера SharedMemory --- ///
-	//////////////////////////////////////////////////////////////////
-	/// <param>
-	/// param - запрашиваемый параметр (enum ParamInfoAdapter) 
-	/// </param>
-	/// <result> 
-	/// - возвращает информацию в типе std::shared_ptr<BaseAnswer>, который является родительским для типа std::shared_ptr<HeaderDataAnswerSM>
-
-	std::shared_ptr<IAnswer> AdapterSharedMemory::GetInfoAdapter(ParamInfoAdapter param)
-	{
-		std::shared_ptr<IAnswer> answer = nullptr;
-		std::shared_ptr<AnswerSharedMemoryHeaderData> answerHeaderData = nullptr;
-
-		switch (param)
-		{
-
-		/// --- ответ на запрос Header DATA --- ///
-		case ParamInfoAdapter::HeaderData:
-
-			
-			answerHeaderData = AnswerRequestHeaderData();
-			answer = std::reinterpret_pointer_cast<IAnswer>(answerHeaderData);
-			break;
-
-		/// --- ответ не предусмотрен данным типом адапрета (ResultReqest::IGNOR) --- ///
-		default:
-
-			answer = std::make_shared<IAnswer>();
-			answer->param = param;
-			answer->result = ResultReqest::IGNOR;
-			answer->type_adapter = TypeAdapter::SharedMemory;
-
-			break;
-		}
-				
-		return answer;
-	}
-
-	/////////////////////////////////////////////////
-	/// --- запрос типа адаптера SharedMemory --- ///
-	/////////////////////////////////////////////////
-	/// <result> 
-	/// - возвращает тип адаптера (TypeAdapter::SharedMemory;)
-
-	TypeAdapter AdapterSharedMemory::GetTypeAdapter()
-	{
-		return TypeAdapter::SharedMemory;
-	}
-	
-	/////////////////////////////////////////////////////////////
-	/// --- запрос текущего статуса адаптера SharedMemory --- ///
-	////////////////////////////////////////////////////////////
-	/// <result> 
-	/// - возвращает статус адаптера (StatusAdapter)
-	StatusAdapter AdapterSharedMemory::GetStatusAdapter()
-	{
-		return current_status.load(std::memory_order::memory_order_relaxed);
-	}
-	
-	//////////////////////////////////////////////////////
-	/// --- функция чтения данных из SharedMemory --- ///
-	/////////////////////////////////////////////////////
-
 	ResultReqest AdapterSharedMemory::ReadData(std::deque<SetTags>** _data)
 	{	
 		DWORD mutex_win32 = 0;
@@ -325,16 +206,8 @@ namespace scada_ate::gate::adapter::sem
 			HeaderSharedMemory* head = reinterpret_cast<HeaderSharedMemory*>(buf_data);
 			char* _buf = buf_data;
 
-			int int_value = 0;
-			float float_value = 0;
-			double double_value = 0;
-			char char_value = 0;
-			std::string str_value;
-			char quality = 0;
 			size_t offset=0;
 			long long time_data;
-
-			SetTags& set_data = *data.begin();
 
 			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
 			if (mutex_win32 != WAIT_OBJECT_0)
@@ -343,62 +216,45 @@ namespace scada_ate::gate::adapter::sem
 				throw 1;
 			}
 
+			SetTags& set_data = *data.begin();
+
 			time_data = head->TimeLastWrite;
 
-			for (auto it = set_data.map_int_data.begin(); it != set_data.map_int_data.end(); it++)
+			for (auto it = set_data.map_data.begin(); it != set_data.map_data.end(); it++)
 			{
 				offset = TakeOffset(it->first.type, it->first.offset);
 				if (offset == 0) continue;
 				_buf = buf_data + offset;
-				it->second.value = *(int*)_buf;
-				_buf += sizeof(int);
-				it->second.quality = *_buf;
-				it->second.time = time_data;
-			}
+				
+				if (it->first.type == TypeValue::INT)
+				{
+					it->second.value = *(int*)_buf;
+					_buf += sizeof(int);
+				}
+				else if (it->first.type == TypeValue::FLOAT)
+				{
+					it->second.value = *(float*)_buf;
+					_buf += sizeof(float);
+				}
+				else if (it->first.type == TypeValue::DOUBLE)
+				{
+					it->second.value = *(double*)_buf;
+					_buf += sizeof(double);
+				}
+				else if (it->first.type == TypeValue::CHAR)
+				{
+					it->second.value = *(char*)_buf;
+					_buf += sizeof(char);
+				}
+				else if (it->first.type == TypeValue::STRING)
+				{
+					it->second.value = *(char*)_buf;
+					_buf = _buf + config.size_str;
+				}
 
-			for (auto it = set_data.map_float_data.begin(); it != set_data.map_float_data.end(); it++)
-			{
-				offset = TakeOffset(it->first.type, it->first.offset);
-				if (offset == 0) continue;
-				_buf = buf_data + offset;
-				it->second.value = *(float*)_buf;
-				_buf = _buf + sizeof(float);
 				it->second.quality = *_buf;
 				it->second.time = time_data;
-			}
-
-			for (auto it = set_data.map_double_data.begin(); it != set_data.map_double_data.end(); it++)
-			{
-				offset = TakeOffset(it->first.type, it->first.offset);
-				if (offset == 0) continue;
-				_buf = buf_data + offset;
-				it->second.value = *(double*)_buf;
-				_buf = _buf + sizeof(double);
-				it->second.quality = *_buf;
-				it->second.time = time_data;
-			}
-
-			for (auto it = set_data.map_char_data.begin(); it != set_data.map_char_data.end(); it++)
-			{
-				offset = TakeOffset(it->first.type, it->first.offset);
-				if (offset == 0) continue;
-				_buf = buf_data + offset;
-				it->second.value = *_buf;
-				_buf = _buf + sizeof(char);
-				it->second.quality = *_buf;
-				it->second.time = time_data;
-			}
-
-			for (auto it = set_data.map_str_data.begin(); it != set_data.map_str_data.end(); it++)
-			{
-				offset = TakeOffset(it->first.type, it->first.offset);
-				if (offset == 0) continue;
-				_buf = buf_data + offset;
-				it->second.value = *_buf;
-				_buf = _buf + config.size_str;
-				it->second.quality = *_buf;
-				it->second.time = time_data;
-			}
+			} 			
 
 			/// --- write time in header --- /// 
 			set_data.time_source = head->TimeLastWrite;
@@ -420,13 +276,9 @@ namespace scada_ate::gate::adapter::sem
 			res = ResultReqest::ERR;
 		}
 
-		//if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
 		return res;
 	}
-
-	//////////////////////////////////////////////////////
-	/// --- функция записи данных в SharedMemory --- ///
-	/////////////////////////////////////////////////////
 
 	ResultReqest AdapterSharedMemory::WriteData(const std::deque<SetTags>& _data)
 	{	
@@ -453,42 +305,14 @@ namespace scada_ate::gate::adapter::sem
 
 			
 			if (data.empty()) throw 2;
-			const SetTags& data_in = *_data.rbegin();
-
-			for (const LinkTags& link_tag : this->config.vec_link_tags)
+			for (const auto& data_in : _data)
 			{
-
-				if (link_tag.source.type == TypeValue::INT)
+				for (LinkTags& link_tag : this->config.vec_link_tags)
 				{
-					set_data(data_in.map_int_data.at(link_tag.source), link_tag);
-					continue;
+					auto it = data_in.map_data.find(link_tag.source);
+					if (it == data_in.map_data.end()) continue;
+					set_data(link_tag.source.type, it->second, link_tag);
 				}
-
-				if (link_tag.source.type == TypeValue::FLOAT)
-				{
-					set_data(data_in.map_float_data.at(link_tag.source), link_tag);
-					continue;
-				}
-
-				if (link_tag.source.type == TypeValue::DOUBLE)
-				{
-					
-					set_data(data_in.map_double_data.at(link_tag.source), link_tag);
-					continue;
-				}
-
-				if (link_tag.source.type == TypeValue::CHAR)
-				{
-					set_data(data_in.map_char_data.at(link_tag.source), link_tag);
-					continue;
-				}
-
-				if (link_tag.source.type == TypeValue::STRING)
-				{
-					set_data(data_in.map_str_data.at(link_tag.source), link_tag);
-					continue;
-				}
-
 			}
 
 			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
@@ -510,320 +334,8 @@ namespace scada_ate::gate::adapter::sem
 
 		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
 		return res;
-	}
+	}	   
 
-
-
-	//////////////////////////////////////////////////////
-	/// --- функция чтения заголовка SharedMemory --- ///
-	/////////////////////////////////////////////////////
-	/// <result> 
-	/// - возвращает данные в виде указателя на структуру HeaderDataAnswerSM
-
-	std::shared_ptr<AnswerSharedMemoryHeaderData> AdapterSharedMemory::AnswerRequestHeaderData()
-	{
-		std::shared_ptr<AnswerSharedMemoryHeaderData> point = std::make_shared<AnswerSharedMemoryHeaderData>();
-		HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
-		DWORD mutex_win32 = 0;
-		DWORD err_win32 = 0;
-
-		/// <summary>
-		/// доделать
-		/// </summary>
-		return 	point;
-	}
-
-	//////////////////////////////////////////////////////
-	/// --- функция расчета размера shared memory --- ///
-	/////////////////////////////////////////////////////
-
-	size_t AdapterSharedMemory::GetSizeMemory()
-	{
-		size_t result = 0;
-		result += sizeof(HeaderSharedMemory); // size header
-
-		offset_int = result; // save offset to int (for fast acсess)
-		result += (sizeof(int) + sizeof(char)) * config.size_int_data; // size DataCollectionInt
-		
-		offset_float = result;
-		result += (sizeof(float) + sizeof(char)) * config.size_float_data; // size DataCollectionFloat
-
-		offset_double = result;
-		result += (sizeof(double) + sizeof(char)) * config.size_double_data; // size DataCollectionDouble
-	
-		offset_char = result;
-		result += (sizeof(char) + sizeof(char)) * config.size_char_data; // size DataCollectionChar
-
-		offset_str = result;
-		result += (sizeof(char)*config.size_str + sizeof(char) + sizeof(char)) * config.size_str_data; // size DataCollectionStr
-
-		return result;
-	}
-
-	size_t AdapterSharedMemory::TakeOffset(const TypeValue& type_value, const size_t& ofs) const
-	{
-		if (type_value == TypeValue::INT)
-		{
-			if (ofs >= config.size_int_data) return 0;
-			return offset_int + ofs * (sizeof(int) + sizeof(char));
-		}
-
-		if (type_value == TypeValue::FLOAT)
-		{
-			if (ofs >= config.size_float_data) return 0;
-			return offset_float + ofs * (sizeof(float) + sizeof(char));
-		}
-
-		if (type_value == TypeValue::DOUBLE)
-		{
-			if (ofs >= config.size_double_data) return 0;
-			return offset_double + ofs * (sizeof(double) + sizeof(char));
-		}
-
-		if (type_value == TypeValue::DOUBLE)
-		{
-			if (ofs >= config.size_double_data) return 0;
-			return offset_double + ofs * (sizeof(double) + sizeof(char));
-		}
-
-		if (type_value == TypeValue::CHAR)
-		{
-			if (ofs >= config.size_char_data) return 0;
-			return offset_char + ofs * (sizeof(char) + sizeof(char));
-		}
-
-		if (type_value == TypeValue::STRING)
-		{
-			if (ofs >= config.size_str_data) return 0;
-			return offset_char + ofs * (config.size_str + sizeof(char));
-		}
-
-		return 0;
-	}
-
-	int AdapterSharedMemory::demask(const int& value, int mask_source, const int& value_target, const int& mask_target)
-	{
-		int val_out = value & mask_source;
-		if (mask_target > mask_source)
-		{
-			while (mask_target != mask_source)
-			{
-				mask_source <<= 1;
-				val_out <<= 1;
-			}
-		}
-		else
-		{
-			while (mask_target != mask_source)
-			{
-				mask_source >>= 1;
-				val_out >>= 1;
-			}
-		}
-
-		val_out = value_target & (~mask_target) | val_out;
-		return val_out;
-	}
-
-	void AdapterSharedMemory::set_data(const ValueInt& value, const LinkTags& link)
-	{
-		char* buf;
-		int val_last;
-		int val_current = 0;
-
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((int*)buf);
-		
-		if (link.source.mask != 0)
-		{
-			val_current = demask(value.value, link.source.mask, val_last, link.target.mask);
-		}
-		else
-		{
-			val_current = value.value;
-		}
-
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-			
-			*((int*)buf) = val_current;
-			buf += sizeof(int);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last == val_current) return;
-			*((int*)buf) = val_current;
-			buf += sizeof(int);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
-		{
-			if (abs(val_last - val_current) > (int)link.delta)
-			{
-				*((int*)buf) = val_current;
-				buf += sizeof(int);
-				*buf = value.quality;
-				return;
-			}
-		}
-	}
-
-	void AdapterSharedMemory::set_data(const ValueFloat& value, const LinkTags& link)
-	{
-		char* buf;
-		float val_last;
-
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((float*)buf);
-
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-
-			*((float*)buf) = value.value;
-			buf += sizeof(float);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last == value.value) return;
-			*((float*)buf) = value.value;
-			buf += sizeof(float);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
-		{
-			if (fabs(val_last - value.value) > link.delta)
-			{
-				*((float*)buf) = value.value;
-				buf += sizeof(float);
-				*buf = value.quality;
-				return;
-			}
-		}
-	}
-
-	void AdapterSharedMemory::set_data(const ValueDouble& value, const LinkTags& link)
-	{
-		char* buf;
-		double val_last;
-
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((double*)buf);
-
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-
-			*((double*)buf) = value.value;
-			buf += sizeof(double);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last == value.value) return;
-			*((double*)buf) = value.value;
-			buf += sizeof(double);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
-		{
-			if (fabs(val_last - value.value) > link.delta)
-			{
-				*((double*)buf) = value.value;
-				buf += sizeof(double);
-				*buf = value.quality;
-				return;
-			}
-		}
-	}
-
-	void AdapterSharedMemory::set_data(const ValueChar& value, const LinkTags& link)
-	{
-		char* buf;
-		char val_last;
-
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((char*)buf);
-
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-
-			*((char*)buf) = value.value;
-			buf += sizeof(char);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last == value.value) return;
-			*((char*)buf) = value.value;
-			buf += sizeof(char);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
-		{
-			if (fabs(val_last - value.value) > link.delta)
-			{
-				*((char*)buf) = value.value;
-				buf += sizeof(char);
-				*buf = value.quality;
-				return;
-			}
-		}
-	}
-
-	void AdapterSharedMemory::set_data(const ValueString& value, const LinkTags& link)
-	{
-		char* buf;
-		std::string val_last;
-
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((char*)buf);
-
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-			size_t i = 0;
-			const char* str = value.value.c_str();
-			while (i < config.size_str && i < value.value.size()) 
-			{
-				*((char*)buf) = *(str + i);
-				buf += sizeof(char);
-				i++;
-			}
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last.compare(value.value) == 0) return;
-			size_t i = 0;
-			const char* str = value.value.c_str();
-			while (i < config.size_str && i < value.value.size())
-			{
-				*((char*)buf) = *(str + i);
-				buf += sizeof(char);
-				i++;
-			}
-			*buf = value.quality;
-			return;
-		}
-	}
 }
 
 #endif // _WIN32
@@ -832,14 +344,9 @@ namespace scada_ate::gate::adapter::sem
 namespace scada_ate::gate::adapter::sem
 {
 	////////////////////////////////////////
-	/// --- задает имя shared memory --- ///
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ shared memory --- ///
 	///////////////////////////////////////
-	/// <param>
-	/// source - уникальная часть имени памяти
-	/// </param>
-	/// <result> 
-	/// - имя shared memory
-	/// 
+	
 	std::string AdapterSharedMemory::CreateSMName()
 	{
 		std::string str;
@@ -855,24 +362,9 @@ namespace scada_ate::gate::adapter::sem
 		str += config.NameChannel;
 		return str;
 	}
-	/////////////////////////////////////////////////
-	/// --- конструктор адаптера SharedMemory --- ///
-	/////////////////////////////////////////////////
-
-	AdapterSharedMemory::AdapterSharedMemory(std::shared_ptr<IConfigAdapter> config)
-	{
-		std::shared_ptr<ConfigAdapterSharedMemory> config_point = std::reinterpret_pointer_cast<ConfigAdapterSharedMemory>(config);
-
-		if (config_point != nullptr && config_point->type_adapter == TypeAdapter::SharedMemory)
-		{
-			this->config = *config_point;
-		}
-
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
-	};
 
 	/////////////////////////////////////////////////
-	/// --- деструктор адаптера SharedMemory --- ///
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SharedMemory --- ///
 	////////////////////////////////////////////////
 
 	AdapterSharedMemory::~AdapterSharedMemory()
@@ -881,14 +373,8 @@ namespace scada_ate::gate::adapter::sem
 	}
 
 	/////////////////////////////////////////////////
-	/// --- деструктор адаптера SharedMemory --- ///
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SharedMemory --- ///
 	////////////////////////////////////////////////
-	/// <param>
-	/// conf - указатель на конфигурация адаптера (conf должен иметь тип ConfigSharedMemoryAdapter*)
-	/// </param>
-	/// <result> 
-	/// - результаи операции в типе ResultReqest. В случаи ести результат равен ResultReqest::ERR 
-	/// инициальзация прошла с ошибкой, подробности описанны в логировании.
 
 	ResultReqest AdapterSharedMemory::InitAdapter()
 	{
@@ -956,41 +442,7 @@ namespace scada_ate::gate::adapter::sem
 
 			unlock_semaphore();
 			/// --- init vector GetTags --- /// 
-
-			data.resize(1);
-			SetTags& set_data = *data.begin();
-
-			for (InfoTag& tag : this->config.vec_tags_source)
-			{
-				if (tag.type == TypeValue::INT)
-				{
-					set_data.map_int_data[tag] = { 0,0,0 };
-					continue;
-				}
-
-				if (tag.type == TypeValue::FLOAT)
-				{
-					set_data.map_float_data[tag] = { 0,0,0 };
-					continue;
-				}
-
-				if (tag.type == TypeValue::DOUBLE)
-				{
-					set_data.map_double_data[tag] = { 0,0,0 };
-					continue;
-				}
-				if (tag.type == TypeValue::CHAR)
-				{
-					set_data.map_char_data[tag] = { 0,'\0',0 };
-					continue;
-				}
-				if (tag.type == TypeValue::STRING)
-				{
-					set_data.map_str_data[tag] = { 0,"",0 };
-					continue;
-				}
-			}
-
+			init_deque();
 
 			current_status.store(StatusAdapter::OK, std::memory_order_relaxed);
 			log->Info("AdapterSharedMemory {} : Init DONE", this->config.NameChannel);
@@ -1180,67 +632,18 @@ namespace scada_ate::gate::adapter::sem
 	}
 
 	///////////////////////////////////////////////////////////////////
-	/// --- запрос специфичного параметра адаптера SharedMemory --- ///
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SharedMemory --- ///
 	//////////////////////////////////////////////////////////////////
 	/// <param>
-	/// param - запрашиваемый параметр (enum ParamInfoAdapter) 
+	/// param - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (enum ParamInfoAdapter) 
 	/// </param>
 	/// <result> 
-	/// - возвращает информацию в типе std::shared_ptr<BaseAnswer>, который является родительским для типа std::shared_ptr<HeaderDataAnswerSM>
+	/// - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ std::shared_ptr<BaseAnswer>, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ std::shared_ptr<HeaderDataAnswerSM>
 
-	std::shared_ptr<IAnswer> AdapterSharedMemory::GetInfoAdapter(ParamInfoAdapter param)
-	{
-		std::shared_ptr<IAnswer> answer = nullptr;
-		std::shared_ptr<AnswerSharedMemoryHeaderData> answerHeaderData = nullptr;
-
-		switch (param)
-		{
-
-			/// --- ответ на запрос Header DATA --- ///
-		case ParamInfoAdapter::HeaderData:
-
-
-			answerHeaderData = AnswerRequestHeaderData();
-			answer = std::reinterpret_pointer_cast<IAnswer>(answerHeaderData);
-			break;
-
-			/// --- ответ не предусмотрен данным типом адапрета (ResultReqest::IGNOR) --- ///
-		default:
-
-			answer = std::make_shared<IAnswer>();
-			answer->param = param;
-			answer->result = ResultReqest::IGNOR;
-			answer->type_adapter = TypeAdapter::SharedMemory;
-
-			break;
-		}
-
-		return answer;
-	}
-
-	/////////////////////////////////////////////////
-	/// --- запрос типа адаптера SharedMemory --- ///
-	/////////////////////////////////////////////////
-	/// <result> 
-	/// - возвращает тип адаптера (TypeAdapter::SharedMemory;)
-
-	TypeAdapter AdapterSharedMemory::GetTypeAdapter()
-	{
-		return TypeAdapter::SharedMemory;
-	}
-
-	/////////////////////////////////////////////////////////////
-	/// --- запрос текущего статуса адаптера SharedMemory --- ///
-	////////////////////////////////////////////////////////////
-	/// <result> 
-	/// - возвращает статус адаптера (StatusAdapter)
-	StatusAdapter AdapterSharedMemory::GetStatusAdapter()
-	{
-		return current_status.load(std::memory_order::memory_order_relaxed);
-	}
+	
 
 	//////////////////////////////////////////////////////
-	/// --- функция чтения данных из SharedMemory --- ///
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ SharedMemory --- ///
 	/////////////////////////////////////////////////////
 
 	ResultReqest AdapterSharedMemory::ReadData(std::deque<SetTags>** _data)
@@ -1269,64 +672,45 @@ namespace scada_ate::gate::adapter::sem
 			size_t offset = 0;
 			long long time_data;
 
-			SetTags& set_data = *data.begin();
-
 			if (lock_semaphore() != ResultReqest::OK) throw 1;
 			status_lock = true;
 
+			SetTags& set_data = *data.begin();
+
 			time_data = head->TimeLastWrite;
 
-			for (auto it = set_data.map_int_data.begin(); it != set_data.map_int_data.end(); it++)
+			for (auto it = set_data.map_data.begin(); it != set_data.map_data.end(); it++)
 			{
 				offset = TakeOffset(it->first.type, it->first.offset);
 				if (offset == 0) continue;
 				_buf = buf_data + offset;
-				it->second.value = *(int*)_buf;
-				_buf += sizeof(int);
-				it->second.quality = *_buf;
-				it->second.time = time_data;
-			}
 
-			for (auto it = set_data.map_float_data.begin(); it != set_data.map_float_data.end(); it++)
-			{
-				offset = TakeOffset(it->first.type, it->first.offset);
-				if (offset == 0) continue;
-				_buf = buf_data + offset;
-				it->second.value = *(float*)_buf;
-				_buf = _buf + sizeof(float);
-				it->second.quality = *_buf;
-				it->second.time = time_data;
-			}
+				if (it->first.type == TypeValue::INT)
+				{
+					it->second.value = *(int*)_buf;
+					_buf += sizeof(int);
+				}
+				else if (it->first.type == TypeValue::FLOAT)
+				{
+					it->second.value = *(float*)_buf;
+					_buf += sizeof(float);
+				}
+				else if (it->first.type == TypeValue::DOUBLE)
+				{
+					it->second.value = *(double*)_buf;
+					_buf += sizeof(double);
+				}
+				else if (it->first.type == TypeValue::CHAR)
+				{
+					it->second.value = *(char*)_buf;
+					_buf += sizeof(char);
+				}
+				else if (it->first.type == TypeValue::STRING)
+				{
+					it->second.value = *(char*)_buf;
+					_buf = _buf + config.size_str;
+				}
 
-			for (auto it = set_data.map_double_data.begin(); it != set_data.map_double_data.end(); it++)
-			{
-				offset = TakeOffset(it->first.type, it->first.offset);
-				if (offset == 0) continue;
-				_buf = buf_data + offset;
-				it->second.value = *(double*)_buf;
-				_buf = _buf + sizeof(double);
-				it->second.quality = *_buf;
-				it->second.time = time_data;
-			}
-
-			for (auto it = set_data.map_char_data.begin(); it != set_data.map_char_data.end(); it++)
-			{
-				offset = TakeOffset(it->first.type, it->first.offset);
-				if (offset == 0) continue;
-				_buf = buf_data + offset;
-				it->second.value = *_buf;
-				_buf = _buf + sizeof(char);
-				it->second.quality = *_buf;
-				it->second.time = time_data;
-			}
-
-			for (auto it = set_data.map_str_data.begin(); it != set_data.map_str_data.end(); it++)
-			{
-				offset = TakeOffset(it->first.type, it->first.offset);
-				if (offset == 0) continue;
-				_buf = buf_data + offset;
-				it->second.value = *_buf;
-				_buf = _buf + config.size_str;
 				it->second.quality = *_buf;
 				it->second.time = time_data;
 			}
@@ -1355,7 +739,7 @@ namespace scada_ate::gate::adapter::sem
 	}
 
 	//////////////////////////////////////////////////////
-	/// --- функция записи данных в SharedMemory --- ///
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ SharedMemory --- ///
 	/////////////////////////////////////////////////////
 
 	ResultReqest AdapterSharedMemory::WriteData(const std::deque<SetTags>& _data)
@@ -1378,44 +762,15 @@ namespace scada_ate::gate::adapter::sem
 
 
 			if (data.empty()) throw 2;
-			const SetTags& data_in = *_data.rbegin();
-
-			for (const LinkTags& link_tag : this->config.vec_link_tags)
+			for (const auto& data_in : _data)
 			{
-
-				if (link_tag.source.type == TypeValue::INT)
+				for (LinkTags& link_tag : this->config.vec_link_tags)
 				{
-					set_data(data_in.map_int_data.at(link_tag.source), link_tag);
-					continue;
+					auto it = data_in.map_data.find(link_tag.source);
+					if (it == data_in.map_data.end()) continue;
+					set_data(link_tag.source.type, it->second, link_tag);
 				}
-
-				if (link_tag.source.type == TypeValue::FLOAT)
-				{
-					set_data(data_in.map_float_data.at(link_tag.source), link_tag);
-					continue;
-				}
-
-				if (link_tag.source.type == TypeValue::DOUBLE)
-				{
-
-					set_data(data_in.map_double_data.at(link_tag.source), link_tag);
-					continue;
-				}
-
-				if (link_tag.source.type == TypeValue::CHAR)
-				{
-					set_data(data_in.map_char_data.at(link_tag.source), link_tag);
-					continue;
-				}
-
-				if (link_tag.source.type == TypeValue::STRING)
-				{
-					set_data(data_in.map_str_data.at(link_tag.source), link_tag);
-					continue;
-				}
-
 			}
-
 			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
 			head->count_write++;
 			head->TimeLastWrite = TimeConverter::GetTime_LLmcs();
@@ -1438,37 +793,336 @@ namespace scada_ate::gate::adapter::sem
 		return res;
 	}
 
+}
+#endif
 
 
-	//////////////////////////////////////////////////////
-	/// --- функция чтения заголовка SharedMemory --- ///
-	/////////////////////////////////////////////////////
-	/// <result> 
-	/// - возвращает данные в виде указателя на структуру HeaderDataAnswerSM
-
-	std::shared_ptr<AnswerSharedMemoryHeaderData> AdapterSharedMemory::AnswerRequestHeaderData()
+namespace scada_ate::gate::adapter::sem
+{
+	AdapterSharedMemory::AdapterSharedMemory(std::shared_ptr<IConfigAdapter> config)
 	{
-		/*std::shared_ptr<AnswerSharedMemoryHeaderData> point = std::make_shared<AnswerSharedMemoryHeaderData>();
-		HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
-		DWORD mutex_win32 = 0;
-		DWORD err_win32 = 0;
+		std::shared_ptr<ConfigAdapterSharedMemory> config_point = std::reinterpret_pointer_cast<ConfigAdapterSharedMemory>(config);
 
-		/// <summary>
-		/// доделать
-		/// </summary>
-		return 	point;*/
+		if (config_point != nullptr && config_point->type_adapter == TypeAdapter::SharedMemory)
+		{
+			this->config = *config_point;
+		}
+
+		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+	};
+
+	void AdapterSharedMemory::set_data(TypeValue& type, const Value& value, const LinkTags& link)
+	{
+		if (type == TypeValue::INT)
+		{
+			set_data_int(value, link);
+			return;
+		}
+		if (type == TypeValue::FLOAT)
+		{
+			set_data_float(value, link);
+			return;
+		}
+		if (type == TypeValue::DOUBLE)
+		{
+			set_data_double(value, link);
+			return;
+		}
+		if (type == TypeValue::CHAR)
+		{
+			set_data_char(value, link);
+			return;
+		}
+		if (type == TypeValue::STRING)
+		{
+			set_data_string(value, link);
+			return;
+		}
+
+		return;
 	}
 
-	//////////////////////////////////////////////////////
-	/// --- функция расчета размера shared memory --- ///
-	/////////////////////////////////////////////////////
+	void AdapterSharedMemory::set_data_int(const Value& value, const LinkTags& link)
+	{
+		char* buf;
+		int val_last;
+		int val_current = 0;
+
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((int*)buf);
+
+		if (link.source.mask != 0)
+		{
+			val_current = demask(std::get<int>(value.value), link.source.mask, val_last, link.target.mask);
+		}
+		else
+		{
+			val_current = std::get<int>(value.value);
+		}
+
+		if (link.type_registration == TypeRegistration::RECIVE)
+		{
+
+			*((int*)buf) = val_current;
+			buf += sizeof(int);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::UPDATE)
+		{
+			if (val_last == val_current) return;
+			*((int*)buf) = val_current;
+			buf += sizeof(int);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::DELTA)
+		{
+			if (abs(val_last - val_current) > (int)link.delta)
+			{
+				*((int*)buf) = val_current;
+				buf += sizeof(int);
+				*buf = value.quality;
+				return;
+			}
+		}
+	}
+
+	void AdapterSharedMemory::set_data_float(const Value& value, const LinkTags& link)
+	{
+		char* buf;
+		float val_last;
+
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((float*)buf);
+
+		if (link.type_registration == TypeRegistration::RECIVE)
+		{
+
+			*((float*)buf) = std::get<float>(value.value);
+			buf += sizeof(float);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::UPDATE)
+		{
+			if (val_last == std::get<float>(value.value)) return;
+			*((float*)buf) = std::get<float>(value.value);
+			buf += sizeof(float);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::DELTA)
+		{
+			if (fabs(val_last - std::get<float>(value.value)) > link.delta)
+			{
+				*((float*)buf) = std::get<float>(value.value);
+				buf += sizeof(float);
+				*buf = value.quality;
+				return;
+			}
+		}
+	}
+
+	void AdapterSharedMemory::set_data_double(const Value& value, const LinkTags& link)
+	{
+		char* buf;
+		double val_last;
+
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((double*)buf);
+
+		if (link.type_registration == TypeRegistration::RECIVE)
+		{
+
+			*((double*)buf) = std::get<double>(value.value);
+			buf += sizeof(double);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::UPDATE)
+		{
+			if (val_last == std::get<double>(value.value)) return;
+			*((double*)buf) = std::get<double>(value.value);
+			buf += sizeof(double);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::DELTA)
+		{
+			if (fabs(val_last - std::get<double>(value.value)) > link.delta)
+			{
+				*((double*)buf) = std::get<double>(value.value);
+				buf += sizeof(double);
+				*buf = value.quality;
+				return;
+			}
+		}
+	}
+
+	void AdapterSharedMemory::set_data_char(const Value& value, const LinkTags& link)
+	{
+		char* buf;
+		char val_last;
+
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((char*)buf);
+
+		if (link.type_registration == TypeRegistration::RECIVE)
+		{
+
+			*((char*)buf) = std::get<char>(value.value);
+			buf += sizeof(char);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::UPDATE)
+		{
+			if (val_last == std::get<char>(value.value)) return;
+			*((char*)buf) = std::get<char>(value.value);
+			buf += sizeof(char);
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::DELTA)
+		{
+			if (fabs(val_last - std::get<char>(value.value)) > link.delta)
+			{
+				*((char*)buf) = std::get<char>(value.value);
+				buf += sizeof(char);
+				*buf = value.quality;
+				return;
+			}
+		}
+	}
+
+	void AdapterSharedMemory::set_data_string(const Value& value, const LinkTags& link)
+	{
+		char* buf;
+		std::string val_last;
+
+		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
+		val_last = *((char*)buf);
+
+		if (link.type_registration == TypeRegistration::RECIVE)
+		{
+			size_t i = 0;
+			const char* str = std::get<std::string>(value.value).c_str();
+			while (i < config.size_str && i < std::get<std::string>(value.value).size())
+			{
+				*((char*)buf) = *(str + i);
+				buf += sizeof(char);
+				i++;
+			}
+			*buf = value.quality;
+			return;
+		}
+
+		if (link.type_registration == TypeRegistration::UPDATE)
+		{
+			if (val_last.compare(std::get<std::string>(value.value)) == 0) return;
+			size_t i = 0;
+			const char* str = std::get<std::string>(value.value).c_str();
+			while (i < config.size_str && i < std::get<std::string>(value.value).size())
+			{
+				*((char*)buf) = *(str + i);
+				buf += sizeof(char);
+				i++;
+			}
+			*buf = value.quality;
+			return;
+		}
+	}
+
+	std::shared_ptr<IAnswer> AdapterSharedMemory::GetInfoAdapter(ParamInfoAdapter param)
+	{
+		std::shared_ptr<IAnswer> answer = nullptr;
+		std::shared_ptr<AnswerSharedMemoryHeaderData> answerHeaderData = nullptr;
+
+		switch (param)
+		{
+
+			/// --- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Header DATA --- ///
+		case ParamInfoAdapter::HeaderData:
+
+
+			answerHeaderData = AnswerRequestHeaderData();
+			answer = std::reinterpret_pointer_cast<IAnswer>(answerHeaderData);
+			break;
+
+			/// --- пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (ResultReqest::IGNOR) --- ///
+		default:
+
+			answer = std::make_shared<IAnswer>();
+			answer->param = param;
+			answer->result = ResultReqest::IGNOR;
+			answer->type_adapter = TypeAdapter::SharedMemory;
+
+			break;
+		}
+
+		return answer;
+	}
+
+	/////////////////////////////////////////////////
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SharedMemory --- ///
+	/////////////////////////////////////////////////
+	/// <result> 
+	/// - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (TypeAdapter::SharedMemory;)
+
+	TypeAdapter AdapterSharedMemory::GetTypeAdapter()
+	{
+		return TypeAdapter::SharedMemory;
+	}
+
+	/////////////////////////////////////////////////////////////
+	/// --- пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SharedMemory --- ///
+	////////////////////////////////////////////////////////////
+	/// <result> 
+	/// - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (StatusAdapter)
+	StatusAdapter AdapterSharedMemory::GetStatusAdapter()
+	{
+		return current_status.load(std::memory_order::memory_order_relaxed);
+	}
+
+	int AdapterSharedMemory::demask(const int& value, int mask_source, const int& value_target, const int& mask_target)
+	{
+		int val_out = value & mask_source;
+		if (mask_target > mask_source)
+		{
+			while (mask_target != mask_source)
+			{
+				mask_source <<= 1;
+				val_out <<= 1;
+			}
+		}
+		else
+		{
+			while (mask_target != mask_source)
+			{
+				mask_source >>= 1;
+				val_out >>= 1;
+			}
+		}
+
+		val_out = value_target & (~mask_target) | val_out;
+		return val_out;
+	}
 
 	size_t AdapterSharedMemory::GetSizeMemory()
 	{
 		size_t result = 0;
 		result += sizeof(HeaderSharedMemory); // size header
 
-		offset_int = result; // save offset to int (for fast acсess)
+		offset_int = result; // save offset to int (for fast acпїЅess)
 		result += (sizeof(int) + sizeof(char)) * config.size_int_data; // size DataCollectionInt
 
 		offset_float = result;
@@ -1527,228 +1181,60 @@ namespace scada_ate::gate::adapter::sem
 		return 0;
 	}
 
-	int AdapterSharedMemory::demask(const int& value, int mask_source, const int& value_target, const int& mask_target)
+	std::shared_ptr<AnswerSharedMemoryHeaderData> AdapterSharedMemory::AnswerRequestHeaderData()
 	{
-		int val_out = value & mask_source;
-		if (mask_target > mask_source)
-		{
-			while (mask_target != mask_source)
-			{
-				mask_source <<= 1;
-				val_out <<= 1;
-			}
-		}
-		else
-		{
-			while (mask_target != mask_source)
-			{
-				mask_source >>= 1;
-				val_out >>= 1;
-			}
-		}
+		std::shared_ptr<AnswerSharedMemoryHeaderData> point = std::make_shared<AnswerSharedMemoryHeaderData>();
+		HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
+		//DWORD mutex_win32 = 0;
+		//DWORD err_win32 = 0;
 
-		val_out = value_target & (~mask_target) | val_out;
-		return val_out;
+		/// <summary>
+		/// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		/// </summary>
+		return 	point;
 	}
 
-	void AdapterSharedMemory::set_data(const ValueInt& value, const LinkTags& link)
+	void AdapterSharedMemory::init_deque()
 	{
-		char* buf;
-		int val_last;
-		int val_current = 0;
+		data.resize(1);
+		SetTags& set_data = *data.begin();
 
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((int*)buf);
-
-		if (link.source.mask != 0)
+		for (InfoTag& tag : this->config.vec_tags_source)
 		{
-			val_current = demask(value.value, link.source.mask, val_last, link.target.mask);
-		}
-		else
-		{
-			val_current = value.value;
-		}
+			set_data.map_data[tag];
+			auto it = set_data.map_data.find(tag);
+			it->second.time = 0;
+			it->second.quality = 0;
 
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-
-			*((int*)buf) = val_current;
-			buf += sizeof(int);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last == val_current) return;
-			*((int*)buf) = val_current;
-			buf += sizeof(int);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
-		{
-			if (abs(val_last - val_current) > (int)link.delta)
+			if (tag.type == TypeValue::INT)
 			{
-				*((int*)buf) = val_current;
-				buf += sizeof(int);
-				*buf = value.quality;
-				return;
+				it->second.value = 0;
+				continue;
+			}
+
+			if (tag.type == TypeValue::FLOAT)
+			{
+				it->second.value = (float).0;
+				continue;
+			}
+
+			if (tag.type == TypeValue::DOUBLE)
+			{
+				it->second.value = (double).0;
+				continue;
+			}
+			if (tag.type == TypeValue::CHAR)
+			{
+				it->second.value = (char)0;
+				continue;
+			}
+			if (tag.type == TypeValue::STRING)
+			{
+				it->second.value = "";
+				continue;
 			}
 		}
-	}
 
-	void AdapterSharedMemory::set_data(const ValueFloat& value, const LinkTags& link)
-	{
-		char* buf;
-		float val_last;
-
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((float*)buf);
-
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-
-			*((float*)buf) = value.value;
-			buf += sizeof(float);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last == value.value) return;
-			*((float*)buf) = value.value;
-			buf += sizeof(float);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
-		{
-			if (fabs(val_last - value.value) > link.delta)
-			{
-				*((float*)buf) = value.value;
-				buf += sizeof(float);
-				*buf = value.quality;
-				return;
-			}
-		}
-	}
-
-	void AdapterSharedMemory::set_data(const ValueDouble& value, const LinkTags& link)
-	{
-		char* buf;
-		double val_last;
-
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((double*)buf);
-
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-
-			*((double*)buf) = value.value;
-			buf += sizeof(double);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last == value.value) return;
-			*((double*)buf) = value.value;
-			buf += sizeof(double);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
-		{
-			if (fabs(val_last - value.value) > link.delta)
-			{
-				*((double*)buf) = value.value;
-				buf += sizeof(double);
-				*buf = value.quality;
-				return;
-			}
-		}
-	}
-
-	void AdapterSharedMemory::set_data(const ValueChar& value, const LinkTags& link)
-	{
-		char* buf;
-		char val_last;
-
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((char*)buf);
-
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-
-			*((char*)buf) = value.value;
-			buf += sizeof(char);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last == value.value) return;
-			*((char*)buf) = value.value;
-			buf += sizeof(char);
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
-		{
-			if (fabs(val_last - value.value) > link.delta)
-			{
-				*((char*)buf) = value.value;
-				buf += sizeof(char);
-				*buf = value.quality;
-				return;
-			}
-		}
-	}
-
-	void AdapterSharedMemory::set_data(const ValueString& value, const LinkTags& link)
-	{
-		char* buf;
-		std::string val_last;
-
-		buf = buf_data + TakeOffset(link.target.type, link.target.offset);
-		val_last = *((char*)buf);
-
-		if (link.type_registration == TypeRegistration::RECIVE)
-		{
-			size_t i = 0;
-			const char* str = value.value.c_str();
-			while (i < config.size_str && i < value.value.size())
-			{
-				*((char*)buf) = *(str + i);
-				buf += sizeof(char);
-				i++;
-			}
-			*buf = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last.compare(value.value) == 0) return;
-			size_t i = 0;
-			const char* str = value.value.c_str();
-			while (i < config.size_str && i < value.value.size())
-			{
-				*((char*)buf) = *(str + i);
-				buf += sizeof(char);
-				i++;
-			}
-			*buf = value.quality;
-			return;
-		}
+		return;
 	}
 }
-#endif

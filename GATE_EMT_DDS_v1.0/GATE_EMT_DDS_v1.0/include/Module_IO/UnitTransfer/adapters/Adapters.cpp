@@ -1,6 +1,7 @@
 #include "Adapters.hpp"
 #include <Module_IO/UnitTransfer/adapters/SharedMemory_Adapter/AdapterSharedMemory.hpp>
 #include <Module_IO/UnitTransfer/adapters/DDS_Adapter/AdapterDDS.hpp>
+#include <Module_IO/UnitTransfer/adapters/OPCUA_Adapter/AdapterOPCUA.h>
 
 
 
@@ -47,6 +48,8 @@ namespace scada_ate::gate::adapter
 			if (config_point->type_data == scada_ate::gate::adapter::dds::TypeDDSData::DDSDataEx)
 				adapter = std::make_shared<dds::AdapterDDS<DDSDataEx>>(config);
 		}
+
+		if (config.get()->type_adapter == TypeAdapter::OPC_UA) adapter = std::make_shared<opc::AdapterOPCUA>(config);
 
 		return adapter;
 	};

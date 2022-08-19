@@ -1,0 +1,4 @@
+[19/08/22 18:04:12.212] [debug]	AdapterOPCUA id-10: Init START
+[19/08/22 18:04:12.214] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[19/08/22 18:04:12.304] [debug]	AdapterOPCUA id-10: Init DONE
+[19/08/22 18:04:13.775] [debug]	AdapterOPCUA id-10 : ReadData START

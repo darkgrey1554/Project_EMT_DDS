@@ -3,6 +3,7 @@
 #include <map>
 #include <unordered_map>
 #include <deque>
+#include <variant>
 
 
 
@@ -38,14 +39,25 @@ namespace scada_ate::gate::adapter
 		DELTA
 	};
 
+	enum class StatusTag
+	{
+		NONE,
+		NOTDETECTED,
+		BADDIMENSION,
+		BADINDEX,
+		BADTYPE,
+		OK
+	};
+
 	struct InfoTag
 	{
 		std::string tag;
-		int id_tag;
-		bool is_array;
-		size_t offset;
+		int id_tag = 0;
+		bool is_array = false;
+		size_t offset = 0;
 		TypeValue type;
-		unsigned int mask;
+		unsigned int mask = 0;
+		StatusTag status = StatusTag::NONE;
 	};
 
 	struct InfoTagHash {
@@ -68,39 +80,11 @@ namespace scada_ate::gate::adapter
 		}
 	};
 
-	struct ValueInt
+	struct Value
 	{
 		long long time = 0;
-		int value = 0;
+		std::variant<int, float, double, char, std::string> value;
 		char quality = 0;
-	};
-
-	struct ValueFloat
-	{
-		long long time;
-		float value;
-		char quality;
-	};
-
-	struct ValueDouble
-	{
-		long long time;
-		double value;
-		char quality;
-	};
-
-	struct ValueChar
-	{
-		long long time;
-		char value;
-		char quality;
-	};
-
-	struct ValueString
-	{
-		long long time;
-		std::string value;
-		char quality;
 	};
 
 	struct LinkTags
@@ -130,11 +114,7 @@ namespace scada_ate::gate::adapter
 	struct SetTags
 	{
 		long long time_source;
-		std::unordered_map<InfoTag, ValueInt , InfoTagHash, InfoTagEqual> map_int_data;
-		std::unordered_map<InfoTag, ValueFloat, InfoTagHash, InfoTagEqual> map_float_data;
-		std::unordered_map<InfoTag, ValueDouble, InfoTagHash, InfoTagEqual> map_double_data;
-		std::unordered_map<InfoTag, ValueChar, InfoTagHash, InfoTagEqual> map_char_data;
-		std::unordered_map<InfoTag, ValueString, InfoTagHash, InfoTagEqual> map_str_data;
+		std::unordered_map<InfoTag, Value , InfoTagHash, InfoTagEqual> map_data;
 	};
 
 	class IAdapter

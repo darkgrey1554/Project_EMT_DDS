@@ -25,7 +25,6 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\Adapters.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp" />
-    <ClCompile Include="main_tset_fignia.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.cpp" />
     <ClCompile Include="include\structs\struct.cpp" />
@@ -42,6 +41,7 @@
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.cxx" />
+    <ClCompile Include="main_test_opc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json" />
@@ -225,7 +225,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>-DUA_ARCHITECTURE_WIN32 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>libcrypto.lib;openssl.lib;open62541.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;libcrypto.lib;openssl.lib;open62541.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
