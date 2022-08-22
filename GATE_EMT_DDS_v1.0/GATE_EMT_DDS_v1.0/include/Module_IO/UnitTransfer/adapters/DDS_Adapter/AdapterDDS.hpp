@@ -35,8 +35,6 @@ namespace scada_ate::gate::adapter::dds
 
 	struct ConfigAdapterDDS : public IConfigAdapter
 	{
-
-		unsigned int id = 0;
 		std::string topic_name = "";
 		TypeTransfer type_transfer = TypeTransfer::SUBSCRIBER;
 		TypeDDSData type_data;
@@ -240,12 +238,12 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Error Init : error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Error Init : error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Error Init : error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Error Init : error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -273,22 +271,22 @@ namespace scada_ate::gate::adapter::dds
 					throw 1;
 				}
 
-				log->Debug("AdapterDDS id-{}: Init participant done : defualt", this->config.id);
+				log->Debug("AdapterDDS id-{}: Init participant done : defualt", this->config.id_adapter);
 			}
 			else
 			{
-				log->Debug("AdapterDDS id-{}: Init participant done : XML-file", this->config.id);
+				log->Debug("AdapterDDS id-{}: Init participant done : XML-file", this->config.id_adapter);
 			}
 
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Error init participant : error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Error init participant : error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Error init participant : error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Error init participant : error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -307,7 +305,7 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (...)
 		{
-			log->Debug("AdapterDDS id - {}: Error registration DDSData", config.id);
+			log->Debug("AdapterDDS id - {}: Error registration DDSData", config.id_adapter);
 			result = ResultReqest::ERR;
 		}
 
@@ -318,7 +316,7 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (...)
 		{
-			log->Debug("AdapterDDS id - {}: Error registration DDSDataEx", config.id);
+			log->Debug("AdapterDDS id - {}: Error registration DDSDataEx", config.id_adapter);
 			result = ResultReqest::ERR;
 		}
 
@@ -329,7 +327,7 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (...)
 		{
-			log->Debug("AdapterDDS id - {}: Error registration DDSAlarm", config.id);
+			log->Debug("AdapterDDS id - {}: Error registration DDSAlarm", config.id_adapter);
 			result = ResultReqest::ERR;
 		}
 
@@ -340,7 +338,7 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (...)
 		{
-			log->Debug("AdapterDDS id - {}: Error registration DDSAlarmEx", config.id);
+			log->Debug("AdapterDDS id - {}: Error registration DDSAlarmEx", config.id_adapter);
 			result = ResultReqest::ERR;
 		}
 
@@ -372,22 +370,22 @@ namespace scada_ate::gate::adapter::dds
 					throw 1;
 				}
 
-				log->Debug("AdapterDDS id-{}: Init topic done : defualt", this->config.id);
+				log->Debug("AdapterDDS id-{}: Init topic done : defualt", this->config.id_adapter);
 			}
 			else
 			{
-				log->Debug("AdapterDDS id-{}: Init topic done : XML-file", this->config.id);
+				log->Debug("AdapterDDS id-{}: Init topic done : XML-file", this->config.id_adapter);
 			}
 
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Error init topic : error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Error init topic : error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Error init tipic : error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Error init tipic : error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -429,11 +427,11 @@ namespace scada_ate::gate::adapter::dds
 				_publisher = _participant->create_publisher(_dds::PUBLISHER_QOS_DEFAULT);
 				if (!_publisher) throw 2;
 
-				log->Debug("AdapterDDS id-{}: Init publisher done : default", this->config.id);
+				log->Debug("AdapterDDS id-{}: Init publisher done : default", this->config.id_adapter);
 			}
 			else
 			{
-				log->Debug("AdapterDDS id-{}: Init publisher done : XML-file", this->config.id);
+				log->Debug("AdapterDDS id-{}: Init publisher done : XML-file", this->config.id_adapter);
 			}
 
 			_datawriter = _publisher->create_datawriter_with_profile(_topic_data, get_name_datawriter_profile());
@@ -447,23 +445,23 @@ namespace scada_ate::gate::adapter::dds
 				}
 				else
 				{
-					log->Debug("AdapterDDS id-{}: Init datawriter done : default", this->config.id);
+					log->Debug("AdapterDDS id-{}: Init datawriter done : default", this->config.id_adapter);
 				}
 			}
 			else
 			{
-				log->Debug("AdapterDDS id-{}: Init datawriter done : XML-file", this->config.id);
+				log->Debug("AdapterDDS id-{}: Init datawriter done : XML-file", this->config.id_adapter);
 			}
 
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Init publisher : error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Init publisher : error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Error Init publisher: error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Error Init publisher: error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -485,11 +483,11 @@ namespace scada_ate::gate::adapter::dds
 				_subscriber = _participant->create_subscriber(_dds::SUBSCRIBER_QOS_DEFAULT);
 				if (!_subscriber) throw 2;
 
-				log->Debug("AdapterDDS id-{}: Init subscriber done : default", this->config.id);
+				log->Debug("AdapterDDS id-{}: Init subscriber done : default", this->config.id_adapter);
 			}
 			else
 			{
-				log->Debug("AdapterDDS id-{}: Init subscriber done : XML-file", this->config.id);
+				log->Debug("AdapterDDS id-{}: Init subscriber done : XML-file", this->config.id_adapter);
 			}
 
 			_datareader = _subscriber->create_datareader_with_profile(_topic_data, get_name_datawriter_profile());
@@ -500,23 +498,23 @@ namespace scada_ate::gate::adapter::dds
 				if (!_datareader)
 				{
 					if (!_datareader) throw 3;
-					log->Debug("AdapterDDS id-{}: Init datareader done : default", this->config.id);
+					log->Debug("AdapterDDS id-{}: Init datareader done : default", this->config.id_adapter);
 				}
 				else
 				{
-					log->Debug("AdapterDDS id-{}: Init datareader done : XML-file", this->config.id);
+					log->Debug("AdapterDDS id-{}: Init datareader done : XML-file", this->config.id_adapter);
 				}
 			}
 
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Init subscriber : error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Init subscriber : error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Error Init subscriber : error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Error Init subscriber : error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -563,12 +561,12 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Error init tempalte settags : error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Error init tempalte settags : error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Error Error init tempalte settags : error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Error Error init tempalte settags : error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 		
@@ -589,12 +587,12 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Error Init map of infotag to idtag : error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Error Init map of infotag to idtag : error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Error Init : error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Error Init : error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -654,7 +652,7 @@ namespace scada_ate::gate::adapter::dds
 
 		if (config.type_transfer != TypeTransfer::SUBSCRIBER)
 		{
-			log->Debug("AdapterDDS id-{}: Error ReadData : not supported", this->config.id);
+			log->Debug("AdapterDDS id-{}: Error ReadData : not supported", this->config.id_adapter);
 			return ResultReqest::ERR;
 		}
 
@@ -676,12 +674,12 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Error ReadData : error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Error ReadData : error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Error ReadData : error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Error ReadData : error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -705,12 +703,12 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Error WriteData : error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Error WriteData : error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Error WriteData : error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Error WriteData : error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -783,12 +781,12 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}		
 
@@ -876,12 +874,12 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 		
@@ -922,12 +920,12 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -969,12 +967,12 @@ namespace scada_ate::gate::adapter::dds
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, e);
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id_adapter, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id, 0);
+			log->Critical("AdapterDDS id-{}: Write_to_vector_tags: error: {}", this->config.id_adapter, 0);
 			result = ResultReqest::ERR;
 
 		}
