@@ -4574,4 +4574,1942 @@
 [22/08/22 10:53:42.602] [debug]	AdapterOPCUA id-10 : ReadData START
 [22/08/22 10:53:43.614] [debug]	AdapterOPCUA id-10 : ReadData START
 [22/08/22 10:53:44.639] [debug]	AdapterOPCUA id-10 : ReadData START
-[22/08/22 10:53
+[22/08/22 10:53[22/08/22 12:19:16.283] [debug]	AdapterOPCUA id-10: Init START
+[22/08/22 12:19:16.285] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[22/08/22 12:19:16.368] [debug]	AdapterOPCUA id-10: Init DONE
+[22/08/22 12:19:16.490] [debug]	AdapterDDS id-11: Init participant done : defualt
+[22/08/22 12:19:16.491] [debug]	AdapterDDS id-11: Init topic done : defualt
+[22/08/22 12:19:16.494] [debug]	AdapterDDS id-11: Init publisher done : default
+[22/08/22 12:19:16.497] [debug]	AdapterDDS id-11: Init datawriter done : default
+[22/08/22 12:19:16.599] [debug]	AdapterDDS id-12: Init participant done : defualt
+[22/08/22 12:19:16.601] [debug]	AdapterDDS id-12: Init topic done : defualt
+[22/08/22 12:19:16.602] [debug]	AdapterDDS id-12: Init subscriber done : default
+[22/08/22 12:19:16.604] [debug]	AdapterDDS id-12: Init datareader done : XML-file
+[22/08/22 12:19:16.605] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:19:16.610] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:19:17.642] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:19:18.672] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:19:19.702] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:50.419] [debug]	AdapterOPCUA id-10: Init START
+[22/08/22 12:21:50.420] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[22/08/22 12:21:50.541] [debug]	AdapterOPCUA id-10: Init DONE
+[22/08/22 12:21:50.710] [debug]	AdapterDDS id-11: Init participant done : defualt
+[22/08/22 12:21:50.711] [debug]	AdapterDDS id-11: Init topic done : defualt
+[22/08/22 12:21:50.712] [debug]	AdapterDDS id-11: Init publisher done : default
+[22/08/22 12:21:50.717] [debug]	AdapterDDS id-11: Init datawriter done : default
+[22/08/22 12:21:50.975] [debug]	AdapterDDS id-12: Init participant done : defualt
+[22/08/22 12:21:50.978] [debug]	AdapterDDS id-12: Init topic done : defualt
+[22/08/22 12:21:50.978] [debug]	AdapterDDS id-12: Init subscriber done : default
+[22/08/22 12:21:50.981] [debug]	AdapterDDS id-12: Init datareader done : XML-file
+[22/08/22 12:21:50.983] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:50.988] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:52.018] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:53.050] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:54.088] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:55.112] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:56.137] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:57.159] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:58.188] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:21:59.211] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:00.235] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:01.258] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:02.285] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:03.302] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:04.327] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:05.352] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:06.373] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:07.394] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:08.417] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:09.438] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:10.463] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:11.485] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:12.522] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:13.542] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:14.560] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:15.583] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:16.618] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:17.638] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:18.661] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:19.688] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:20.714] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:21.740] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:22.771] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:23.793] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:24.832] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:25.859] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:26.881] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:27.918] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:28.937] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:29.962] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:30.986] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:32.026] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:33.050] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:34.073] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:35.098] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:36.118] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:37.157] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:38.179] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:39.202] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:40.224] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:41.245] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:42.272] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:43.298] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:44.321] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:45.345] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:46.369] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:47.394] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:48.413] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:49.436] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:50.461] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:51.510] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:52.547] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:53.579] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:54.603] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:55.630] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:56.651] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:57.674] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:22:58.706] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:00.231] [debug]	AdapterOPCUA id-10: Init START
+[22/08/22 12:24:00.234] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[22/08/22 12:24:00.332] [debug]	AdapterOPCUA id-10: Init DONE
+[22/08/22 12:24:00.454] [debug]	AdapterDDS id-11: Init participant done : defualt
+[22/08/22 12:24:00.454] [debug]	AdapterDDS id-11: Init topic done : defualt
+[22/08/22 12:24:00.455] [debug]	AdapterDDS id-11: Init publisher done : default
+[22/08/22 12:24:00.456] [debug]	AdapterDDS id-11: Init datawriter done : default
+[22/08/22 12:24:00.533] [debug]	AdapterDDS id-12: Init participant done : defualt
+[22/08/22 12:24:00.535] [debug]	AdapterDDS id-12: Init topic done : defualt
+[22/08/22 12:24:00.536] [debug]	AdapterDDS id-12: Init subscriber done : default
+[22/08/22 12:24:00.539] [debug]	AdapterDDS id-12: Init datareader done : XML-file
+[22/08/22 12:24:00.544] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:00.549] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:01.584] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:02.808] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:04.002] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:05.223] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:08.894] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:10.073] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:11.285] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:12.485] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:13.672] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:14.865] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:16.042] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:17.236] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:18.407] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:19.583] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:20.735] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:21.915] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:24:23.089] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:17.276] [debug]	AdapterOPCUA id-10: Init START
+[22/08/22 12:25:17.278] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[22/08/22 12:25:17.400] [debug]	AdapterOPCUA id-10: Init DONE
+[22/08/22 12:25:17.528] [debug]	AdapterDDS id-11: Init participant done : defualt
+[22/08/22 12:25:17.529] [debug]	AdapterDDS id-11: Init topic done : defualt
+[22/08/22 12:25:17.532] [debug]	AdapterDDS id-11: Init publisher done : default
+[22/08/22 12:25:17.535] [debug]	AdapterDDS id-11: Init datawriter done : default
+[22/08/22 12:25:17.785] [debug]	AdapterDDS id-12: Init participant done : defualt
+[22/08/22 12:25:17.787] [debug]	AdapterDDS id-12: Init topic done : defualt
+[22/08/22 12:25:17.788] [debug]	AdapterDDS id-12: Init subscriber done : default
+[22/08/22 12:25:17.789] [debug]	AdapterDDS id-12: Init datareader done : XML-file
+[22/08/22 12:25:17.791] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:17.795] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:18.828] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:19.863] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:20.887] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:21.921] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:22.942] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:23.970] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:24.993] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:26.035] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:27.061] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:28.083] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:29.107] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:30.130] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:31.155] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:32.175] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:33.202] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:34.227] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:35.261] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:36.289] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:37.311] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:38.338] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:39.358] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:40.401] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:41.424] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:42.443] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:43.465] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:44.486] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:45.516] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:46.542] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:47.566] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:48.587] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:49.612] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:50.638] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:51.669] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:52.701] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:53.732] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:54.755] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:55.791] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:56.813] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:57.839] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:58.858] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:25:59.884] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:26:00.964] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:26:01.998] [debug]	AdapterOPCUA id-10 : ReadData[22/08/22 12:29:56.168] [debug]	AdapterOPCUA id-10: Init START
+[22/08/22 12:29:56.169] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[22/08/22 12:29:56.279] [debug]	AdapterOPCUA id-10: Init DONE
+[22/08/22 12:29:56.450] [debug]	AdapterDDS id-11: Init participant done : defualt
+[22/08/22 12:29:56.451] [debug]	AdapterDDS id-11: Init topic done : defualt
+[22/08/22 12:29:56.452] [debug]	AdapterDDS id-11: Init publisher done : default
+[22/08/22 12:29:56.454] [debug]	AdapterDDS id-11: Init datawriter done : default
+[22/08/22 12:29:56.712] [debug]	AdapterDDS id-12: Init participant done : defualt
+[22/08/22 12:29:56.715] [debug]	AdapterDDS id-12: Init topic done : defualt
+[22/08/22 12:29:56.716] [debug]	AdapterDDS id-12: Init subscriber done : default
+[22/08/22 12:29:56.718] [debug]	AdapterDDS id-12: Init datareader done : XML-file
+[22/08/22 12:29:56.719] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:29:56.727] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:29:57.771] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:29:58.812] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:29:59.837] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:00.862] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:01.898] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:02.935] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:03.960] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:04.993] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:06.014] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:07.040] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:08.077] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:09.113] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:10.133] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:11.154] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:12.180] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:13.202] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:14.239] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:15.264] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:16.289] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:17.314] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:18.336] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:19.363] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:20.381] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:21.402] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:22.422] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:23.462] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:24.483] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:25.509] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:26.531] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:27.554] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:28.577] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:29.614] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:30.655] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:31.681] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:32.702] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:33.727] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:34.754] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:35.794] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:36.815] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:37.845] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:38.867] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:39.893] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:40.909] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:41.932] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:42.950] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:43.972] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:44.997] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:46.031] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:47.056] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:48.085] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:49.108] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:50.129] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:51.169] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:52.205] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:53.224] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:54.247] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:55.272] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:56.297] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:57.337] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:58.360] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:30:59.386] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:00.407] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:01.429] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:02.454] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:03.478] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:04.505] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:05.529] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:06.555] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:07.583] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:08.606] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:09.642] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:10.675] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:11.701] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:12.720] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:13.759] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:14.785] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:15.807] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:16.826] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:17.855] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:18.876] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:19.912] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:20.933] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:21.957] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:22.983] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:24.008] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:25.031] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:26.056] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:27.078] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:28.102] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:29.140] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:30.167] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:31.185] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:32.212] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:33.232] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:34.267] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:35.292] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:36.318] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:37.345] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:38.366] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:39.389] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:40.426] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:41.450] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:31:4[22/08/22 12:32:40.970] [debug]	AdapterOPCUA id-10: Init START
+[22/08/22 12:32:40.972] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[22/08/22 12:32:41.082] [debug]	AdapterOPCUA id-10: Init DONE
+[22/08/22 12:32:41.223] [debug]	AdapterDDS id-11: Init participant done : defualt
+[22/08/22 12:32:41.224] [debug]	AdapterDDS id-11: Init topic done : defualt
+[22/08/22 12:32:41.227] [debug]	AdapterDDS id-11: Init publisher done : default
+[22/08/22 12:32:41.229] [debug]	AdapterDDS id-11: Init datawriter done : default
+[22/08/22 12:32:41.327] [debug]	AdapterDDS id-12: Init participant done : defualt
+[22/08/22 12:32:41.327] [debug]	AdapterDDS id-12: Init topic done : defualt
+[22/08/22 12:32:41.524] [debug]	AdapterDDS id-12: Init subscriber done : default
+[22/08/22 12:32:41.530] [debug]	AdapterDDS id-12: Init datareader done : XML-file
+[22/08/22 12:32:41.532] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:41.537] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:42.557] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:43.598] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:44.620] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:45.649] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:46.670] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:47.691] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:48.730] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:49.757] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:50.779] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:51.801] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:52.819] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:53.844] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:54.864] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:55.888] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:56.910] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:57.941] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:32:58.994] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:00.015] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:01.045] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:02.068] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:03.089] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:04.114] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:05.149] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:06.173] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:07.193] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:08.213] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:09.238] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:10.276] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:11.304] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:12.330] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:13.360] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:14.399] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:15.422] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:16.442] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:17.467] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:18.489] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:19.562] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:20.599] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:21.617] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:22.643] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:23.669] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:24.688] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:33:25.715] [debug]	AdapterOPCUA id-10 : ReadData[22/08/22 12:34:27.420] [debug]	AdapterOPCUA id-10: Init START
+[22/08/22 12:34:27.421] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[22/08/22 12:34:27.532] [debug]	AdapterOPCUA id-10: Init DONE
+[22/08/22 12:34:27.675] [debug]	AdapterDDS id-11: Init participant done : defualt
+[22/08/22 12:34:27.676] [debug]	AdapterDDS id-11: Init topic done : defualt
+[22/08/22 12:34:27.679] [debug]	AdapterDDS id-11: Init publisher done : default
+[22/08/22 12:34:27.690] [debug]	AdapterDDS id-11: Init datawriter done : default
+[22/08/22 12:34:27.800] [debug]	AdapterDDS id-12: Init participant done : defualt
+[22/08/22 12:34:27.802] [debug]	AdapterDDS id-12: Init topic done : defualt
+[22/08/22 12:34:27.806] [debug]	AdapterDDS id-12: Init subscriber done : default
+[22/08/22 12:34:27.809] [debug]	AdapterDDS id-12: Init datareader done : XML-file
+[22/08/22 12:34:27.812] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:27.821] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:28.867] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:29.899] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:30.938] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:31.962] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:32.982] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:34.007] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:35.034] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:36.057] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:37.080] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:38.103] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:39.129] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:40.151] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:41.189] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:42.214] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:43.234] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:44.256] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:45.289] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:46.312] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:47.336] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:48.361] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:49.385] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:50.408] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:51.429] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:52.449] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:53.473] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:54.493] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:55.520] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:56.544] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:57.570] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:58.594] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:34:59.619] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:00.637] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:01.660] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:02.686] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:03.712] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:04.737] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:05.757] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:06.782] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:07.800] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:08.822] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:09.859] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:10.892] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:11.913] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:12.935] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:13.953] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:14.979] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:15.997] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:17.020] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:18.045] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:19.071] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:20.095] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:21.123] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:22.146] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:23.188] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:24.208] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:25.230] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:26.254] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:27.279] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:28.299] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:29.322] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:30.344] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:31.370] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:32.404] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:33.429] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:34.451] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:35.474] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:36.500] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:37.522] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:38.546] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:39.569] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:40.592] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:41.613] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:42.634] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:43.659] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:44.685] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:45.707] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:46.731] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:47.772] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:48.798] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:49.824] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:50.845] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:51.869] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:52.892] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:53.912] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:54.929] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:55.959] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:56.994] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:58.023] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:35:59.048] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:00.062] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:01.089] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:02.113] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:03.136] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:04.163] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:05.191] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:06.221] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:07.249] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:08.273] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:09.297] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:10.317] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:11.342] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:12.381] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:13.408] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:14.432] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:15.459] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:16.480] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:17.507] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:18.542] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:19.560] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:20.584] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:21.605] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:22.630] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:23.657] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:24.679] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:25.699] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:26.722] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:27.749] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:28.777] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:29.801] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:30.825] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:31.846] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:32.872] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:33.901] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:34.927] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:35.957] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:36.983] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:38.006] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:39.037] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:40.060] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:41.074] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:42.096] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:43.119] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:44.137] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:45.154] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:46.175] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:47.209] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:48.238] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:49.260] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:50.280] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:51.314] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:52.339] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:53.359] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:54.385] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:55.409] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:56.432] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:57.453] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:58.473] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:36:59.497] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:00.516] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:01.551] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:02.567] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:03.589] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:04.615] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:05.638] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:06.663] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:07.681] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:08.704] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:09.740] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:10.759] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:11.779] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:12.801] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:13.822] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:14.844] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:15.866] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:16.891] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:17.919] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:18.953] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:19.982] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:20.999] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:22.028] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:23.050] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:24.081] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:25.101] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:26.119] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:27.162] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:28.200] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:29.223] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:30.247] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:31.264] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:32.300] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:33.322] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:34.343] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:35.363] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:36.387] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:37.407] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:38.427] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:39.465] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:40.490] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:41.516] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:42.543] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:43.572] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:44.596] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:45.635] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:46.658] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:47.682] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:48.702] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:49.741] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:50.782] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:51.805] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:52.828] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:53.850] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:54.876] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:55.915] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:56.936] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:57.962] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:37:58.983] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:00.007] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:01.044] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:02.068] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:03.092] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:04.126] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:05.164] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:06.191] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:07.217] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:08.239] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:09.273] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:10.308] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:11.350] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:12.377] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:13.398] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:14.427] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:15.452] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:16.475] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:17.497] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:18.518] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:19.540] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:20.571] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:21.595] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:22.617] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:23.642] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:24.663] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:25.683] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:26.704] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:27.723] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:28.745] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:29.768] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:30.788] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:31.808] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:32.830] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:33.846] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:34.881] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:35.907] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:36.927] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:37.951] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:38.967] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:40.001] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:41.025] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:42.042] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:43.064] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:44.090] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:45.116] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:46.136] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:47.162] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:48.184] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:38:49.219] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:03.890] [debug]	AdapterOPCUA id-10: Init START
+[22/08/22 12:39:03.892] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[22/08/22 12:39:03.989] [debug]	AdapterOPCUA id-10: Init DONE
+[22/08/22 12:39:04.111] [debug]	AdapterDDS id-11: Init participant done : defualt
+[22/08/22 12:39:04.112] [debug]	AdapterDDS id-11: Init topic done : defualt
+[22/08/22 12:39:04.113] [debug]	AdapterDDS id-11: Init publisher done : default
+[22/08/22 12:39:04.116] [debug]	AdapterDDS id-11: Init datawriter done : default
+[22/08/22 12:39:04.200] [debug]	AdapterDDS id-12: Init participant done : defualt
+[22/08/22 12:39:04.203] [debug]	AdapterDDS id-12: Init topic done : defualt
+[22/08/22 12:39:04.205] [debug]	AdapterDDS id-12: Init subscriber done : default
+[22/08/22 12:39:04.223] [debug]	AdapterDDS id-12: Init datareader done : XML-file
+[22/08/22 12:39:04.230] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:04.236] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:05.270] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:06.302] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:07.340] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:08.358] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:09.400] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:10.426] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:11.447] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:12.470] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:13.492] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:14.547] [debug]	AdapterOPCUA id-10 : ReadData START
+[22/08/22 12:39:15.588] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:20:51.684] [debug]	AdapterOPCUA id-10: Init START
+[23/08/22 10:20:51.686] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[23/08/22 10:20:52.008] [debug]	AdapterOPCUA id-10: Init DONE
+[23/08/22 10:20:52.147] [debug]	AdapterDDS id-11: Init participant done : defualt
+[23/08/22 10:20:52.147] [debug]	AdapterDDS id-11: Init topic done : defualt
+[23/08/22 10:20:52.148] [debug]	AdapterDDS id-11: Init publisher done : default
+[23/08/22 10:20:52.151] [debug]	AdapterDDS id-11: Init datawriter done : default
+[23/08/22 10:20:52.233] [debug]	AdapterDDS id-12: Init participant done : defualt
+[23/08/22 10:20:52.234] [debug]	AdapterDDS id-12: Init topic done : defualt
+[23/08/22 10:20:52.236] [debug]	AdapterDDS id-12: Init subscriber done : default
+[23/08/22 10:20:52.240] [debug]	AdapterDDS id-12: Init datareader done : default
+[23/08/22 10:20:52.241] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:20:52.253] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:20:53.283] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:20:54.440] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:20:55.723] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:20:56.885] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:20:58.131] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:20:59.354] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:00.518] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:01.683] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:02.852] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:04.035] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:05.228] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:06.385] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:07.533] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:08.700] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:09.863] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:11.056] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:12.233] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:13.393] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:14.555] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:15.716] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:16.879] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:43.454] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:43.456] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:21:44.618] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:44.620] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:21:45.770] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:21:45.772] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:21:46.922] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:22:10.010] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:22:11.186] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:22:11.188] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:22:12.336] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:22:12.339] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:22:13.501] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:22:13.502] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:22:14.676] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:22:14.678] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:23:54.520] [debug]	AdapterOPCUA id-10: Init START
+[23/08/22 10:23:54.522] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[23/08/22 10:23:54.807] [debug]	AdapterOPCUA id-10: Init DONE
+[23/08/22 10:23:54.960] [debug]	AdapterDDS id-11: Init participant done : defualt
+[23/08/22 10:23:54.960] [debug]	AdapterDDS id-11: Init topic done : defualt
+[23/08/22 10:23:54.961] [debug]	AdapterDDS id-11: Init publisher done : default
+[23/08/22 10:23:54.963] [debug]	AdapterDDS id-11: Init datawriter done : default
+[23/08/22 10:23:55.203] [debug]	AdapterDDS id-12: Init participant done : defualt
+[23/08/22 10:23:55.205] [debug]	AdapterDDS id-12: Init topic done : defualt
+[23/08/22 10:23:55.206] [debug]	AdapterDDS id-12: Init subscriber done : default
+[23/08/22 10:23:55.207] [debug]	AdapterDDS id-12: Init datareader done : default
+[23/08/22 10:23:55.208] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:23:55.215] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:23:56.228] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:23:57.245] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:23:58.254] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:23:59.266] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:00.277] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:01.287] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:02.296] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:03.308] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:04.320] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:05.332] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:06.353] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:07.364] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:08.372] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:09.381] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:10.388] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:11.397] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:12.407] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:13.413] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:14.429] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:15.442] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:16.451] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:17.472] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:18.481] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:19.492] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:20.510] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:21.522] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:22.533] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:23.541] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:24.549] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:25.562] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:26.599] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:27.621] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:28.627] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:29.632] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:30.645] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:31.654] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:32.662] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:33.675] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:34.686] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:35.696] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:36.705] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:37.715] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:38.721] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:39.728] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:40.735] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:41.742] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:42.763] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:43.771] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:44.778] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:45.790] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:46.797] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:47.805] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:48.815] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:49.828] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:50.838] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:51.843] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:52.848] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:53.854] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:54.864] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:55.878] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:56.897] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:57.910] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:58.921] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:58.923] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:24:59.931] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:24:59.933] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:00.950] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:00.952] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:01.960] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:01.962] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:02.973] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:02.975] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:03.984] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:03.986] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:04.989] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:04.991] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:06.001] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:06.003] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:07.007] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:07.011] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:08.027] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:08.029] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:09.037] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:09.039] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:10.045] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:10.050] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:11.063] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:11.067] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:12.082] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:12.086] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:13.093] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:13.094] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:14.103] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:14.105] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:15.111] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:15.113] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:16.123] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:16.125] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:17.133] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:17.135] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:18.141] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:18.144] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:19.147] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:19.149] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:20.155] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:20.157] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:21.165] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:21.167] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:22.172] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:22.175] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:23.179] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:23.181] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:24.187] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:24.189] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:25.194] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:25.195] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:26.198] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:27.896] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:28.900] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:28.902] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:29.908] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:29.910] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:30.922] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:30.925] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:31.931] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:31.934] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:32.951] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:32.953] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:33.968] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:33.970] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:34.987] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:34.989] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:35.992] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:35.996] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:37.003] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:37.006] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:38.012] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:38.014] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:39.028] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:39.031] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:40.035] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:40.038] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:41.050] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:41.052] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:42.055] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:42.058] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:43.069] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:43.072] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:44.079] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:44.081] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:45.099] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:45.101] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:46.105] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:46.107] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:47.114] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:47.116] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:48.125] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:48.127] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:49.132] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:49.134] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:50.136] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:50.138] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:51.153] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:51.156] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:52.191] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:52.193] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:53.211] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:53.212] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:54.230] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:54.231] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:55.234] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:55.236] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:56.250] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:56.254] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:57.268] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:57.269] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:58.272] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:58.275] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:25:59.294] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:25:59.296] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:26:00.306] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:26:00.309] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:26:01.317] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:26:01.320] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:26:02.335] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:26:02.338] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:26:03.344] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:26:03.346] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:26:04.354] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:26:04.356] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:26:05.366] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:26:05.369] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:26:06.386] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:26:06.388] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:26:07.392] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:26:07.394] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:26:08.399] [debug]	AdapterOPCUA id-1[23/08/22 10:33:59.855] [debug]	AdapterOPCUA id-10: Init START
+[23/08/22 10:33:59.857] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[23/08/22 10:33:59.978] [debug]	AdapterOPCUA id-10: Init DONE
+[23/08/22 10:34:00.141] [debug]	AdapterDDS id-11: Init participant done : defualt
+[23/08/22 10:34:00.142] [debug]	AdapterDDS id-11: Init topic done : defualt
+[23/08/22 10:34:00.143] [debug]	AdapterDDS id-11: Init publisher done : default
+[23/08/22 10:34:00.147] [debug]	AdapterDDS id-11: Init datawriter done : default
+[23/08/22 10:34:00.256] [debug]	AdapterDDS id-12: Init participant done : defualt
+[23/08/22 10:34:00.414] [debug]	AdapterDDS id-12: Init topic done : defualt
+[23/08/22 10:34:00.415] [debug]	AdapterDDS id-12: Init subscriber done : default
+[23/08/22 10:34:00.418] [debug]	AdapterDDS id-12: Init datareader done : default
+[23/08/22 10:34:00.420] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:00.424] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:01.442] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:02.452] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:03.462] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:04.469] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:05.476] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:06.481] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:07.485] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:08.496] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:09.504] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:10.511] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:11.519] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:12.529] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:13.535] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:14.543] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:15.554] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:16.561] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:17.568] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:18.578] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:19.586] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:20.594] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:21.601] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:22.608] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:22.839] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:34:23.853] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:23.856] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:34:24.860] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:24.864] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:34:25.874] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:25.876] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:34:26.886] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:26.888] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:34:27.894] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:27.897] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:34:28.903] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:28.906] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:34:29.910] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:29.913] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:34:30.914] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:34:30.917] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:34:31.921] [debug]	AdapterOPCUA[23/08/22 10:36:46.358] [debug]	AdapterOPCUA id-10: Init START
+[23/08/22 10:36:46.359] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[23/08/22 10:36:46.668] [debug]	AdapterOPCUA id-10: Init DONE
+[23/08/22 10:36:47.091] [debug]	AdapterDDS id-11: Init participant done : defualt
+[23/08/22 10:36:47.091] [debug]	AdapterDDS id-11: Init topic done : defualt
+[23/08/22 10:36:47.092] [debug]	AdapterDDS id-11: Init publisher done : default
+[23/08/22 10:36:47.094] [debug]	AdapterDDS id-11: Init datawriter done : default
+[23/08/22 10:36:47.186] [debug]	AdapterDDS id-12: Init participant done : defualt
+[23/08/22 10:36:47.187] [debug]	AdapterDDS id-12: Init topic done : defualt
+[23/08/22 10:36:47.189] [debug]	AdapterDDS id-12: Init subscriber done : default
+[23/08/22 10:36:47.192] [debug]	AdapterDDS id-12: Init datareader done : default
+[23/08/22 10:36:47.194] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:47.205] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:48.210] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:49.232] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:50.248] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:51.265] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:52.281] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:53.300] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:54.325] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:55.337] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:56.355] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:57.363] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:58.372] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:36:59.381] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:37:00.390] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:37:01.400] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:37:02.412] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:37:57.555] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:37:58.562] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:37:58.566] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:37:59.568] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:37:59.572] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:00.580] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:00.583] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:01.585] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:01.588] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:02.595] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:02.599] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:03.602] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:03.607] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:04.621] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:04.626] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:05.638] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:05.643] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:06.647] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:06.650] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:07.652] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:07.659] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:08.673] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:08.676] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:09.687] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:09.689] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:10.690] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:10.693] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:11.694] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:11.697] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:12.702] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:12.705] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:13.707] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:13.709] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:14.713] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:14.715] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:15.718] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:15.722] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:16.726] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:16.728] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:17.730] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:17.733] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:18.742] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:18.745] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:19.750] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:19.752] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:20.759] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:20.762] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:21.768] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:21.772] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:22.784] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:22.787] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:23.796] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:23.798] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:24.806] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:24.808] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:25.811] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:25.817] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:26.833] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:26.836] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:27.845] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:27.847] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:28.852] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:28.856] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:29.861] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:29.863] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:30.870] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:30.872] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:31.882] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:31.884] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:32.893] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:32.895] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:33.900] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:33.903] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:34.904] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:34.907] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:35.910] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:35.912] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:36.917] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:36.921] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:37.927] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:37.929] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:38.941] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:38.944] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:39.951] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:39.953] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:40.960] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:40.962] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:41.966] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:41.969] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:42.974] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:42.977] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:43.984] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:43.986] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:44.990] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:44.992] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:46.002] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:46.005] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:47.010] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:47.013] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:48.020] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:48.023] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:49.025] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:49.028] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:50.032] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:50.035] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:51.037] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:51.039] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:52.044] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:52.047] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:53.049] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:53.052] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:54.053] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:54.056] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:55.060] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:55.062] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:56.065] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:56.067] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:57.068] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:57.070] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:58.075] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:58.078] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:38:59.083] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 10:38:59.085] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 2 syserror: 0
+[23/08/22 10:39:00.092] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 1[23/08/22 11:05:14.597] [debug]	AdapterOPCUA id-10: Init START
+[23/08/22 11:05:14.600] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[23/08/22 11:05:14.979] [debug]	AdapterOPCUA id-10: Init DONE
+[23/08/22 11:05:15.178] [debug]	AdapterDDS id-11: Init participant done : defualt
+[23/08/22 11:05:15.178] [debug]	AdapterDDS id-11: Init topic done : defualt
+[23/08/22 11:05:15.181] [debug]	AdapterDDS id-11: Init publisher done : default
+[23/08/22 11:05:15.185] [debug]	AdapterDDS id-11: Init datawriter done : default
+[23/08/22 11:05:15.273] [debug]	AdapterDDS id-12: Init participant done : defualt
+[23/08/22 11:05:15.275] [debug]	AdapterDDS id-12: Init topic done : defualt
+[23/08/22 11:05:15.276] [debug]	AdapterDDS id-12: Init subscriber done : default
+[23/08/22 11:05:15.279] [debug]	AdapterDDS id-12: Init datareader done : default
+[23/08/22 11:05:15.280] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:05:15.288] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:05:16.300] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:05:16.326] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 1 syserror: 0
+[23/08/22 11:05:17.342] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:18.348] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:19.353] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:20.359] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:21.374] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:22.382] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:23.390] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:24.396] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:25.400] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:26.405] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:27.421] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:28.428] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:29.445] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:30.454] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:31.460] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:32.469] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:33.476] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:34.480] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:35.488] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:36.493] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:37.502] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:38.510] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:39.513] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:40.521] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:41.538] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:42.544] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:43.553] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:44.562] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:45.570] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:46.584] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:47.587] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:48.608] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:49.617] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:50.626] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:51.633] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:52.639] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:53.647] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:54.654] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:55.664] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:56.674] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:05:57.678] [debug]	Adapt[23/08/22 11:27:39.678] [debug]	AdapterOPCUA id-10: Init START
+[23/08/22 11:27:39.680] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[23/08/22 11:27:41.738] [warning]	AdapterOPCUA id-10: error establishing_connection: error: 2, syserror: 2158821376 
+[23/08/22 11:27:41.740] [critical]	AdapterOPCUA id-10: Error initiation: error: 5 syserror: 0
+[23/08/22 11:27:41.857] [debug]	AdapterDDS id-11: Init participant done : defualt
+[23/08/22 11:27:41.857] [debug]	AdapterDDS id-11: Init topic done : defualt
+[23/08/22 11:27:41.858] [debug]	AdapterDDS id-11: Init publisher done : default
+[23/08/22 11:27:41.859] [debug]	AdapterDDS id-11: Init datawriter done : default
+[23/08/22 11:27:41.935] [debug]	AdapterDDS id-12: Init participant done : defualt
+[23/08/22 11:27:41.938] [debug]	AdapterDDS id-12: Init topic done : defualt
+[23/08/22 11:27:41.940] [debug]	AdapterDDS id-12: Init subscriber done : default
+[23/08/22 11:27:41.941] [debug]	AdapterDDS id-12: Init datareader done : default
+[23/08/22 11:27:41.942] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:41.945] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:42.975] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:43.998] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:45.024] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:46.187] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:47.355] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:48.502] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:49.668] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:50.847] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:52.014] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:53.174] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:54.333] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:55.484] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:56.642] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:57.803] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:27:58.969] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:00.144] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:01.305] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:02.482] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:03.661] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:04.836] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:06.000] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:07.173] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:08.349] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:09.508] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:10.683] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:11.845] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:12.993] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:14.159] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:15.319] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:16.479] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:17.637] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:18.784] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:19.947] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:21.111] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:22.262] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:23.439] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:24.603] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:25.779] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:26.926] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:28.090] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:29.270] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:30.428] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:31.603] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:32.703] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:33.790] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:34.873] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:35.959] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:37.043] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:38.126] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:39.212] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:40.282] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:41.345] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:42.418] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:43.490] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:44.589] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:45.671] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:46.754] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:47.842] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:48.924] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:50.011] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:51.098] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:52.184] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:53.266] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:54.340] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:55.426] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:56.484] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:57.572] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:58.653] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:28:59.756] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:00.860] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:01.944] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:03.060] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:04.145] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:05.259] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:06.360] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:07.450] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:08.576] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:09.689] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:10.788] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:11.888] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:12.974] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:14.089] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:15.192] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:16.289] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:17.373] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:18.462] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:19.564] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:20.650] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:21.737] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:22.841] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:23.927] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:25.014] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:26.084] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:27.170] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:28.253] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:29.379] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:30.487] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:31.571] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:32.657] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:29:33.741] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08[23/08/22 11:31:42.748] [debug]	AdapterOPCUA id-10: Init START
+[23/08/22 11:31:42.751] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[23/08/22 11:31:44.826] [warning]	AdapterOPCUA id-10: error establishing_connection: error: 2, syserror: 2158821376 
+[23/08/22 11:31:44.828] [critical]	AdapterOPCUA id-10: Error initiation: error: 5 syserror: 0
+[23/08/22 11:31:44.942] [debug]	AdapterDDS id-11: Init participant done : defualt
+[23/08/22 11:31:44.943] [debug]	AdapterDDS id-11: Init topic done : defualt
+[23/08/22 11:31:44.943] [debug]	AdapterDDS id-11: Init publisher done : default
+[23/08/22 11:31:44.945] [debug]	AdapterDDS id-11: Init datawriter done : default
+[23/08/22 11:31:45.024] [debug]	AdapterDDS id-12: Init participant done : defualt
+[23/08/22 11:31:45.025] [debug]	AdapterDDS id-12: Init topic done : defualt
+[23/08/22 11:31:45.026] [debug]	AdapterDDS id-12: Init subscriber done : default
+[23/08/22 11:31:45.028] [debug]	AdapterDDS id-12: Init datareader done : default
+[23/08/22 11:31:45.029] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:31:45.030] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:31:46.064] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:31:47.091] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:31:48.110] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:31:49.133] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:31:50.315] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:30.404] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:31.591] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:32.754] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:33.931] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:35.107] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:36.282] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:37.476] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:38.654] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:39.829] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:40.988] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:42.163] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:43.329] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:44.506] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:45.680] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:46.872] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:32:48.050] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:35:00.057] [debug]	AdapterOPCUA id-10: Init START
+[23/08/22 11:35:00.058] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[23/08/22 11:35:02.115] [warning]	AdapterOPCUA id-10: error establishing_connection: error: 2, syserror: 2158821376 
+[23/08/22 11:35:02.116] [critical]	AdapterOPCUA id-10: Error initiation: error: 5 syserror: 0
+[23/08/22 11:35:02.225] [debug]	AdapterDDS id-11: Init participant done : defualt
+[23/08/22 11:35:02.226] [debug]	AdapterDDS id-11: Init topic done : defualt
+[23/08/22 11:35:02.228] [debug]	AdapterDDS id-11: Init publisher done : default
+[23/08/22 11:35:02.229] [debug]	AdapterDDS id-11: Init datawriter done : default
+[23/08/22 11:35:02.298] [debug]	AdapterDDS id-12: Init participant done : defualt
+[23/08/22 11:35:02.300] [debug]	AdapterDDS id-12: Init topic done : defualt
+[23/08/22 11:35:02.304] [debug]	AdapterDDS id-12: Init subscriber done : default
+[23/08/22 11:35:02.310] [debug]	AdapterDDS id-12: Init datareader done : default
+[23/08/22 11:35:02.312] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:41:54.825] [debug]	AdapterOPCUA id-10: Init START
+[23/08/22 11:41:54.827] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[23/08/22 11:41:55.115] [debug]	AdapterOPCUA id-10: Init DONE
+[23/08/22 11:41:55.266] [debug]	AdapterDDS id-11: Init participant done : defualt
+[23/08/22 11:41:55.266] [debug]	AdapterDDS id-11: Init topic done : defualt
+[23/08/22 11:41:55.267] [debug]	AdapterDDS id-11: Init publisher done : default
+[23/08/22 11:41:55.272] [debug]	AdapterDDS id-11: Init datawriter done : default
+[23/08/22 11:41:55.554] [debug]	AdapterDDS id-12: Init participant done : defualt
+[23/08/22 11:41:55.555] [debug]	AdapterDDS id-12: Init topic done : defualt
+[23/08/22 11:41:55.556] [debug]	AdapterDDS id-12: Init subscriber done : default
+[23/08/22 11:41:55.559] [debug]	AdapterDDS id-12: Init datareader done : default
+[23/08/22 11:41:55.560] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:41:55.570] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:41:56.606] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:41:57.656] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:41:58.678] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:41:59.711] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:00.735] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:01.784] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:02.807] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:03.832] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:04.859] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:05.880] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:06.903] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:07.943] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:08.964] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:09.986] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:11.011] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:12.063] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:13.088] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:14.113] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:15.141] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:16.162] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:17.198] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:18.219] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:19.247] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:20.267] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:21.295] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:22.318] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:23.354] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:24.377] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:25.410] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:26.436] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:27.462] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:28.489] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:29.513] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:30.536] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:31.554] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:32.579] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:33.604] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:34.646] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:35.663] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:36.691] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:37.715] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:38.736] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:39.759] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:40.786] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:41.811] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:42.827] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:43.855] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:44.885] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:45.919] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:46.944] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:47.967] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:48.986] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:50.009] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:51.046] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:52.073] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:53.100] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:54.121] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:55.144] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:56.167] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:57.196] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:58.218] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:42:59.239] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:00.279] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:01.301] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:02.329] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:03.355] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:04.378] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:05.406] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:06.441] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:07.478] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:08.504] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:09.529] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:10.556] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:11.579] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:12.610] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:13.636] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:14.674] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:15.702] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:16.726] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:17.751] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:18.773] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:19.796] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:20.823] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:21.845] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:22.865] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:23.888] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:24.915] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:25.940] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:26.963] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:27.988] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:29.024] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:30.047] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:31.068] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:32.093] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:33.112] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:34.134] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:35.155] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:36.176] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:37.195] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:38.221] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:39.245] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:40.270] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:41.294] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:42.314] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:43.339] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:44.363] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:45.385] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:46.406] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:47.429] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:48.467] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:49.491] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:50.515] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:51.535] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:52.558] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:53.596] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:54.619] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:55.643] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:56.665] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:57.691] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:58.713] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:43:59.736] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:00.764] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:01.787] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:02.815] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:03.841] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:04.863] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:05.881] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:06.916] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:07.944] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:08.973] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:09.995] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:11.031] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:12.052] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:13.071] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:14.093] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:15.114] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:16.144] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:17.173] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:18.200] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:19.227] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:20.250] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:21.270] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:22.292] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:23.313] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:24.334] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:25.359] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:26.379] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:27.408] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:28.433] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:29.456] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:30.477] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:31.499] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:32.537] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:33.559] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:34.585] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:35.608] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:36.630] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:37.654] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:38.679] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:39.701] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:40.724] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:41.749] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:42.774] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:43.795] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:44.817] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:45.839] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:46.862] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:47.882] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:48.903] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:49.941] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:50.965] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:51.989] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:53.011] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:54.051] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:55.106] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:56.140] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:57.175] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:58.202] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:44:59.222] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:00.251] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:01.286] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:02.311] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:03.334] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:04.359] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:05.385] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:06.406] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:07.430] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:08.455] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:09.494] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:10.524] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:11.545] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:12.568] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:13.592] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:14.616] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:15.646] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:16.671] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:17.694] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:18.715] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:19.753] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:20.775] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:21.799] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:22.825] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:23.848] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:24.874] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:25.897] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:26.922] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:27.951] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:28.979] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:30.008] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:31.035] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:32.062] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:33.089] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:34.112] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:35.136] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:36.172] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:37.191] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:38.215] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:39.238] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:40.259] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:41.286] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:42.310] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:43.334] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:44.374] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:45.397] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:46.422] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:47.440] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:48.468] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:49.494] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:50.517] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:51.539] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:52.565] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:53.592] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:54.612] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:55.636] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:56.664] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:57.689] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:58.718] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:45:59.743] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:00.779] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:01.809] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:02.846] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:03.873] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:04.898] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:05.919] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:06.941] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:07.969] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:08.986] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:10.022] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:11.049] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:12.072] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:13.096] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:14.123] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:15.149] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:16.176] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:17.201] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:18.222] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:19.243] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:20.279] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:21.306] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:22.324] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:23.349] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:24.375] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:25.399] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:26.424] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:27.447] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:28.474] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:29.502] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:30.524] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:31.547] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:32.566] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:33.590] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:34.629] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:35.654] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:36.678] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:37.700] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:38.724] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:39.767] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:40.791] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:41.815] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:42.841] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:43.865] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:44.886] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:45.918] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:46.939] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:47.967] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:48.993] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:50.017] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:51.044] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:52.068] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:53.104] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:54.128] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:55.146] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:56.169] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:57.192] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:58.219] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:46:59.244] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:00.268] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:01.294] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:02.317] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:03.343] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:04.366] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:05.388] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:06.404] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:07.439] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:08.464] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:09.485] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:10.509] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:11.527] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:12.547] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:13.568] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:14.589] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:15.628] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:16.651] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:17.671] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:18.695] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:19.736] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:20.759] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:21.782] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:22.808] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:23.845] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:24.867] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:25.889] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:26.913] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:27.940] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:28.966] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:29.990] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:31.011] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:32.038] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:33.060] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:34.081] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:35.104] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:36.117] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:37.141] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:38.163] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:39.191] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:40.215] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:41.237] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:42.263] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:43.280] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:44.306] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:45.332] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:46.366] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:47.396] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:48.416] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:49.441] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:50.462] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:51.484] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:52.505] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:53.530] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:54.554] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:55.578] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:56.602] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:57.641] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:58.668] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:47:59.696] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:00.715] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:01.738] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:02.767] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:03.792] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:04.818] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:05.844] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:06.865] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:07.905] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:08.928] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:09.949] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:10.972] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:11.998] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:13.020] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:14.044] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:15.065] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:16.089] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:17.116] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:18.136] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:19.159] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:20.180] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:21.206] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:22.231] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:23.251] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:24.270] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:25.307] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:26.330] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:27.348] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:28.371] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:29.400] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:30.437] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:31.457] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:32.478] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:33.505] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:34.531] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:35.553] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:36.578] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:37.599] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:38.620] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:39.644] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:40.663] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:41.685] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:42.723] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:43.761] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:44.789] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:45.813] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:46.834] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:47.855] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:48.877] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:49.902] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:50.922] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:51.959] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:52.981] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:54.002] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:55.025] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:56.065] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:57.089] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:58.116] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:48:59.140] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:00.165] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:01.187] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:02.211] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:03.235] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:04.255] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:05.282] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:06.320] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:07.344] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:08.369] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:09.391] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:10.417] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:11.437] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:12.462] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:13.484] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:14.506] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:15.525] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:16.545] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:17.567] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:18.590] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:19.608] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:20.625] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:21.649] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:22.672] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:23.680] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:24.702] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:25.727] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:26.756] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:27.778] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:28.791] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:29.813] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:30.833] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:31.846] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:32.868] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:33.881] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:34.892] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:35.916] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:36.935] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:37.958] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:38.980] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:39.994] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:41.012] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:42.036] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:43.057] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:44.081] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:45.102] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:46.110] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:47.120] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:48.142] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:49.165] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:50.184] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:51.196] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:52.220] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:53.239] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:54.248] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:55.270] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:56.291] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:57.314] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:58.323] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:49:59.346] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:00.355] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:01.374] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:02.397] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:03.419] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:04.441] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:05.463] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:06.472] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:07.493] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:08.508] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:09.519] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:10.540] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:11.563] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:12.572] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:13.586] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:14.595] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:15.614] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:16.637] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:17.659] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:18.672] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:19.691] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:20.714] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:21.735] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:22.747] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:23.771] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:24.793] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:25.804] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:26.825] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:27.844] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:28.864] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:29.880] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:30.901] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:31.928] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:32.950] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:33.967] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:34.990] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:36.011] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:37.033] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:38.056] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:39.079] [debug]	AdapterOPCUA id-10 : ReadData START
+[23/08/22 11:50:39.261] [critical]	AdapterOPCUA id-10 : Error ReadData: error: 1 syserror: 0
+[23/08/22 11:50:40.272] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:41.280] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:42.287] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:43.294] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:44.302] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:45.321] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:46.342] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:47.350] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:48.371] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:49.393] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:50.416] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:51.437] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:52.448] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:53.468] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:54.490] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:55.498] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:56.509] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:57.531] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:58.539] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:50:59.546] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:00.556] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:01.563] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:02.574] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:03.584] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:04.602] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:05.613] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:06.635] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:07.653] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:08.674] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:09.682] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:10.692] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:11.713] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:12.721] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:13.728] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:14.737] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:15.746] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:16.768] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:17.788] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:18.810] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:19.819] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:20.844] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:21.868] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:22.877] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:23.895] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:24.918] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:25.940] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:26.953] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:27.964] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:28.990] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:30.009] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:31.031] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:32.053] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:33.071] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:34.092] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:35.104] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:36.112] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:37.133] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:38.154] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:39.180] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:40.187] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:41.194] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:42.219] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:43.227] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:44.248] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:45.270] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:46.279] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:47.288] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:48.311] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:49.323] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:50.348] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:51.368] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:52.389] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:53.400] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:54.422] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:55.444] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:56.453] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:57.474] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:58.496] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:51:59.503] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:00.524] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:01.534] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:02.542] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:03.565] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:04.574] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:05.596] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:06.604] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:07.626] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:08.647] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:09.669] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:10.679] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:11.704] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[23/08/22 11:52:12.714] [debug]	AdapterOPCUA id-10 : ReadData IGNOR

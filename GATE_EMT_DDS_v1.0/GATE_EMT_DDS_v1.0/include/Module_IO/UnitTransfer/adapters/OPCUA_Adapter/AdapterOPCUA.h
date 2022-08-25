@@ -85,6 +85,7 @@ namespace scada_ate::gate::adapter::opc
 		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// ���������� ������� �������� 
 		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
 		ConfigAdapterOPCUA config;
+		SetTags last_data{};
 
 		UA_ByteString certificate = UA_STRING_NULL;
 		UA_ByteString privateKey = UA_STRING_NULL;
@@ -112,6 +113,7 @@ namespace scada_ate::gate::adapter::opc
 		ResultReqest create_request_to_read();
 		ResultReqest create_request_to_write();
 		UA_DataType convert_to_UA_DataType(TypeValue& type_value);
+		const UA_DataType* convert_to_pUA_DataType(TypeValue& type_value);
 
 		ResultReqest validation_data(InfoTag& tag, UA_DataValue& value);
 		bool isequil_type(const TypeValue& type_scada,const UA_Int32& type_opc);
@@ -120,6 +122,11 @@ namespace scada_ate::gate::adapter::opc
 		Value get_opc_value(InfoTag& tag, UA_DataValue& value_opc);
 		std::variant<int, float, double, char, std::string> get_value(void* ptr_value,const UA_Int32& type_opc, size_t offset);
 		char convert_UAStatus_toScadaStatus(const UA_StatusCode& status_opc);
+
+		void init_last_data();
+		ResultReqest init_write_request();
+		UA_NodeId tag_to_nodeid(const InfoTag& tag);
+		void* set_value(InfoTag& tag);
 
 
 		void log_info_config();

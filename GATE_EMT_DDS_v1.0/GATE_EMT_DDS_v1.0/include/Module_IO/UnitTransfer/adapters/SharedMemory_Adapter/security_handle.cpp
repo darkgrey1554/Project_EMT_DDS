@@ -2,9 +2,9 @@
 
 #ifdef _WIN32
 
-/// --- инициализация дескриптора безопасности ---///
+/// --- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ---///
 /*
- 0 - ошибка AllocateAndInitializeSid
+ 0 - пїЅпїЅпїЅпїЅпїЅпїЅ AllocateAndInitializeSid
  1 - SetEntriesInAclA
  2 - LocalAlloc
  3 - InitializeSecurityDescriptor

@@ -1,6 +1,19 @@
-﻿  main_test_opc.cpp
+﻿  AdapterOPCUA.cpp
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(15,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-LINK : warning LNK4044: нераспознанный параметр "/DUA_ARCHITECTURE_WIN32"; игнорируется
-LINK : warning LNK4098: библиотека по умолчанию "LIBCMT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
-  LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
-  GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(738,3): error C2065: write_data: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(741,4): error C2065: write_data: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(770,13): error C2440: =: невозможно преобразовать "size_t" в "void *"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(770,11): message : Для преобразования из целого типа в указатель требуется reinterpret_cast, приведение в стиле С или приведение в стиле функции в круглых скобках
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(795,26): error C2065: write_data: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(795,17): error C2672: "std::get": не найдена соответствующая перегруженная функция
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(795,21): error C2975: std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\utility(532): message : см. объявление "std::get"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(799,28): error C2065: write_data: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(799,17): error C2672: "std::get": не найдена соответствующая перегруженная функция
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(799,21): error C2975: std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\utility(532): message : см. объявление "std::get"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(803,29): error C2065: write_data: необъявленный идентификатор
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(803,17): error C2672: "std::get": не найдена соответствующая перегруженная функция
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(803,21): error C2975: std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\utility(532): message : см. объявление "std::get"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(806,2): error C2059: синтаксическая ошибка: }

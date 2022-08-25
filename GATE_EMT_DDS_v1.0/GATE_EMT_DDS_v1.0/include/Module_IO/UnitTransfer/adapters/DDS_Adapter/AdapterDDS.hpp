@@ -495,15 +495,13 @@ namespace scada_ate::gate::adapter::dds
 			if (!_datareader)
 			{
 				_datareader = _subscriber->create_datareader(_topic_data, _dds::DATAREADER_QOS_DEFAULT);
-				if (!_datareader)
-				{
-					if (!_datareader) throw 3;
-					log->Debug("AdapterDDS id-{}: Init datareader done : default", this->config.id_adapter);
-				}
-				else
-				{
-					log->Debug("AdapterDDS id-{}: Init datareader done : XML-file", this->config.id_adapter);
-				}
+				if (!_datareader) throw 3;
+				log->Debug("AdapterDDS id-{}: Init datareader done : default", this->config.id_adapter);
+			
+			}
+			else
+			{
+				log->Debug("AdapterDDS id-{}: Init datareader done : XML-file", this->config.id_adapter);
 			}
 
 		}

@@ -5,7 +5,7 @@
 #include <logger_crossplatform/logger.h>
 
 /// <summary>
-///  тип шлюза
+///  пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 /// </summary>
 
 
@@ -20,7 +20,7 @@ enum class Type_Gate
 
 
 /// <summary>
-/// перечисление: результат выполнения функции
+/// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 /// </summary>
 enum class ResultReqest
 {
@@ -38,7 +38,7 @@ enum class TypeValue
 
 
 /// <summary>
-/// перечисление: направление передачи данных 
+/// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 
 /// </summary>
 
 
@@ -49,14 +49,6 @@ enum class TypeUnitTransport
 	RESERVER
 };
 
-
-enum class StatusAdapter
-{
-	OK,
-	ERROR_INIT,
-	INITIALIZATION,
-	Null
-};
 
 enum class ParamInfoAdapter
 {

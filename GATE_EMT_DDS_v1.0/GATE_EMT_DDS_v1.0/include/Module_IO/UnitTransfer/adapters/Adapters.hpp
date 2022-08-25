@@ -49,6 +49,15 @@ namespace scada_ate::gate::adapter
 		OK
 	};
 
+	enum class StatusAdapter
+	{
+		OK,
+		ERROR_INIT,
+		INITIALIZATION,
+		CRASH,
+		Null
+	};
+
 	struct InfoTag
 	{
 		std::string tag;

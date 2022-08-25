@@ -3,9 +3,14 @@
 #include<Module_IO/UnitTransfer/adapters/DDS_Adapter/AdapterDDS.hpp>
 
 using namespace std;
+
 namespace ate = scada_ate::gate::adapter;
 
 char q = '0';
+
+#define	LOG_NO_WARNING ON;
+#define	LOG_NO_ERROR ON;
+#define	LOG_NO_INFO ON;
 
 void fun_out()
 {
@@ -14,23 +19,25 @@ void fun_out()
 
 int main()
 {
-	size_t size_data_int = 10;
-	size_t size_data_float = 10;
+
+	size_t size_data_int = 100;
+	size_t size_data_float = 100;
 	std::vector<ate::InfoTag> vec_tag_source;
 	std::vector<ate::InfoTag> vec_tag_source_dds;
 	std::vector<ate::LinkTags> vec_link_tags;
-	vec_tag_source.reserve(size_data_int + size_data_float);
-	vec_tag_source_dds.reserve(size_data_int + size_data_float);
-	vec_link_tags.reserve(size_data_int + size_data_float);
-	for (size_t i = 0; i < size_data_int; i++)
+	vec_tag_source.reserve(20);
+	vec_tag_source_dds.reserve(20);
+	vec_link_tags.reserve(20);
+	for (size_t i = 0; i < 10; i++)
 	{
 		vec_tag_source.push_back({ "", 1001, 1, i, ate::TypeValue::INT });
-	}
-
-	for (size_t i = 0; i < size_data_float; i++)
-	{
 		vec_tag_source.push_back({ "", 1003, 1, i, ate::TypeValue::FLOAT });
 	}
+
+	/*for (size_t i = 0; i < size_data_float; i++)
+	{
+		
+	}*/
 
 	int counter_tag = 0;
 
@@ -43,7 +50,6 @@ int main()
 	for (auto it : vec_link_tags)
 	{
 		vec_tag_source_dds.push_back(it.target);
-		counter_tag++;
 	}
 
 	
@@ -52,12 +58,12 @@ int main()
 	std::shared_ptr<ate::dds::ConfigAdapterDDS> config_dds_pub = std::make_shared<ate::dds::ConfigAdapterDDS>();
 	std::shared_ptr<ate::dds::ConfigAdapterDDS> config_dds_sub = std::make_shared<ate::dds::ConfigAdapterDDS>();
 
-	scada_ate::typetopics::SetMaxSizeDataCollectionInt(1000);
-	scada_ate::typetopics::SetMaxSizeDataCollectionFloat(1000);
+	scada_ate::typetopics::SetMaxSizeDataCollectionInt(100);
+	scada_ate::typetopics::SetMaxSizeDataCollectionFloat(100);
 
 	config_dds_pub->id_adapter = 11;
 	config_dds_pub->str_config_ddslayer = "";
-	config_dds_pub->topic_name = "test_topic";
+	config_dds_pub->topic_name = "test_topic_1";
 	config_dds_pub->type_adapter = ate::TypeAdapter::DDS;
 	config_dds_pub->type_data = ate::dds::TypeDDSData::DDSData;
 	config_dds_pub->type_transfer = ate::dds::TypeTransfer::PUBLISHER;
@@ -65,7 +71,7 @@ int main()
 
 	config_dds_sub->id_adapter = 12;
 	config_dds_sub->str_config_ddslayer = "";
-	config_dds_sub->topic_name = "test_topic";
+	config_dds_sub->topic_name = "test_topic_1";
 	config_dds_sub->type_adapter = ate::TypeAdapter::DDS;
 	config_dds_sub->type_data = ate::dds::TypeDDSData::DDSData;
 	config_dds_sub->type_transfer = ate::dds::TypeTransfer::SUBSCRIBER;
@@ -125,6 +131,7 @@ int main()
 				}
 			}
 		}
+
 		Sleep(1000);
 		if (q == 'q') break;
 	}

@@ -137,10 +137,10 @@ int main()
 	//test_read_request_sec();
 	//test_request_write();
 	//test_request_read_mass1000_();
-	check_connent_session();
+	//check_connent_session();
 	//test_request_read_mass1000_onetoone();
 	//test_request_write_mass1000_onetoone();
-	//test_write_next_read();
+	test_write_next_read();
 	return 0;
 }	
 
@@ -800,16 +800,30 @@ int test_write_next_read()
 		UA_WriteRequest _request;
 		UA_WriteResponse _respone;
 		UA_WriteRequest_init(&_request);
-		size_t size_values = 100;
+		size_t size_values = 1;
+		int v = 99;
 
+		UA_String st = UA_String_fromChars("asdsad");
+		//UA_String_clear(&st);
+		UA_String* pst = &st;
 		UA_Variant* value = (UA_Variant*)UA_Array_new(size_values, &UA_TYPES[UA_TYPES_VARIANT]);
 		for (int i = 0; i < size_values; i++)
 		{
 			UA_Variant_init(value + i);
-			int v = 99;
-			UA_Variant_setArrayCopy(value + i, &v, 1, &UA_TYPES[UA_TYPES_INT32]);
+			
+			//UA_Variant_setScalarCopy(value + i, &v, &UA_TYPES[UA_TYPES_INT32]);
+			UA_Variant_setScalar(value + i, &st, &UA_TYPES[UA_TYPES_STRING]);
+			//UA_Variant_setArrayCopy(value + i, &v, 1, &UA_TYPES[UA_TYPES_INT32]);
 		}
 
+		for (int i = 0; i < 100; i++)
+		{
+			//UA_Variant_clear(value);
+			UA_Variant_setScalar(value, &st, &UA_TYPES[UA_TYPES_STRING]);
+		}
+
+
+		v = 67;
 
 		UA_WriteValue* vv = (UA_WriteValue*)UA_Array_new(size_values, &UA_TYPES[UA_TYPES_WRITEVALUE]);
 
@@ -824,11 +838,12 @@ int test_write_next_read()
 		{
 			_request.nodesToWrite[i].nodeId = UA_NODEID_NUMERIC(3, 1007);
 			_request.nodesToWrite[i].attributeId = UA_ATTRIBUTEID_VALUE;
+			_request.nodesToWrite[i].value.value = *(value + i);
 			_request.nodesToWrite[i].value.hasValue = true;
 			_request.nodesToWrite[i].value.value.type = &UA_TYPES[UA_TYPES_INT32];
-			_request.nodesToWrite[i].value.value.storageType = UA_VARIANT_DATA_NODELETE;
+			_request.nodesToWrite[i].value.value.storageType = UA_VARIANT_DATA;//_NODELETE;
+			//_request.nodesToWrite[i].value.value.data = &v;
 			_request.nodesToWrite[i].indexRange = UA_STRING_ALLOC(std::to_string(i).c_str());
-			_request.nodesToWrite[i].value.value = *(value + i);
 			_request.nodesToWrite[i].value.hasSourceTimestamp = true;
 		}
 
