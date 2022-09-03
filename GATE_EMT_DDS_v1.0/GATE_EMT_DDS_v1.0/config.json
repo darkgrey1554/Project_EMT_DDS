@@ -219,6 +219,18 @@
               "size_str": ""
             },
             "id_map": 2
+          },
+          {
+            "typeadapter": "OPC_UA",
+            "config": {
+              "endpoint_url": "", // имя shared memory
+              "security_mode": "", // размер данных типа float
+              "security_policy": "", // размер данных типа int
+              "user_name": "", // размер данных типа int
+              "password": "", // размер данных типа int
+              "namespace_index": ""
+            }
+            "id_map": 2
           }
         ],
        

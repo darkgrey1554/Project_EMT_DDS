@@ -155,6 +155,7 @@ namespace scada_ate::gate::adapter::sem
 			head->size_data_float = config.size_float_data;
 			head->size_data_double = config.size_double_data;
 			head->size_data_char = config.size_char_data;
+			head->size_str_data = config.size_str_data;
 			head->size_str = config.size_str;
 			ReleaseMutex(Mutex_SM);
 			
@@ -249,7 +250,7 @@ namespace scada_ate::gate::adapter::sem
 				else if (it->first.type == TypeValue::STRING)
 				{
 					it->second.value = *(char*)_buf;
-					_buf = _buf + config.size_str;
+					_buf = _buf + config.size_str+1;
 				}
 
 				it->second.quality = *_buf;
@@ -838,7 +839,6 @@ namespace scada_ate::gate::adapter::sem
 			set_data_string(value, link);
 			return;
 		}
-
 		return;
 	}
 

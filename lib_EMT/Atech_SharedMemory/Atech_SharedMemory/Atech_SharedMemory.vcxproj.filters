@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AtechClientSharedMemory.h">
+    <ClInclude Include="ClientSharedMemory.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

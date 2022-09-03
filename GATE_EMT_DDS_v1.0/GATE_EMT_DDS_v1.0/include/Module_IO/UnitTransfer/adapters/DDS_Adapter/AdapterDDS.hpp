@@ -44,10 +44,6 @@ namespace scada_ate::gate::adapter::dds
 	struct StoreLastValue
 	{
 		std::unordered_map<int, Value> _map;
-		//std::unordered_map<int, ValueFloat> map_float;
-		//std::unordered_map<int, ValueString> map_str;
-		//std::unordered_map<int, ValueDouble> map_double;
-		//std::unordered_map<int, ValueChar> map_char;
 	};
 
 	template<typename T>
@@ -1875,7 +1871,7 @@ namespace scada_ate::gate::adapter::dds
 	template<typename T> std::string  AdapterDDS<T>::get_name_datawriter_profile()
 	{
 		std::string str;
-		str += "datawrite_profile";
+		str += this->config.topic_name+"datawrite_profile";
 		return str;
 	}
 

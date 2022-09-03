@@ -37,6 +37,7 @@ namespace scada_ate::gate::adapter::sem
 		size_t size_data_float = 0;
 		size_t size_data_double = 0;
 		size_t size_data_char = 0;
+		size_t size_str_data = 0;
 		size_t size_str = 0;
 	};
 
@@ -49,7 +50,6 @@ namespace scada_ate::gate::adapter::sem
 		size_t size_char_data = 0;
 		size_t size_str_data = 0;
 		size_t size_str = 0;
-
 	};
 
 	struct AnswerSharedMemoryHeaderData : public IAnswer
