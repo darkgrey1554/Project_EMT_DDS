@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 #include <atomic>
-#include <mutex>
+//#include <mutex>
 #include <chrono>
 #include <type_traits>
 #include <cstdint>
@@ -97,7 +97,7 @@ namespace emt
 		HANDLE Mutex_SM = NULL; /// handle mutex shared memory
 		char* buffer = nullptr;
 		std::string name;
-		std::mutex _mutex_init;
+		//std::mutex _mutex_init;
 		std::atomic<Status> _status{Status::Null};
 		std::atomic<DWORD> _sys_error{0};
 		HeaderSharedMemory* _header;
@@ -261,19 +261,19 @@ namespace emt
 
 	ClientSharedMemory::~ClientSharedMemory()
 	{
-		std::lock_guard<std::mutex> lock(_mutex_init);
+		//std::lock_guard<std::mutex> lock(_mutex_init);
 		destroy();
 	};
 
 	ResultRequest ClientSharedMemory::Connect()
 	{
-		std::lock_guard<std::mutex> lock(_mutex_init);
+		//std::lock_guard<std::mutex> lock(_mutex_init);
 		return connect();
 	};
 
 	ResultRequest ClientSharedMemory::ReConnect(std::string name)
 	{
-		std::lock_guard<std::mutex> lock(_mutex_init);
+		//std::lock_guard<std::mutex> lock(_mutex_init);
 		this->name = name;
 		destroy();
 		return connect();
@@ -288,7 +288,7 @@ namespace emt
 		size_t size_str)
 	{
 		ResultRequest result{ ResultRequest::GOOD };
-		std::lock_guard<std::mutex> lock(_mutex_init);
+		//std::lock_guard<std::mutex> lock(_mutex_init);
 		result = create(number_int, number_float, number_double, number_char, number_str, size_str);
 		if (result != ResultRequest::GOOD) destroy();
 		return result;
@@ -375,7 +375,7 @@ namespace emt
 				if (this->name == name) throw ResultRequest::ERROR_MEMORY_ALREADY_INITIALIZATED;
 				destroy();
 			}
-			else if (current_status == Status::INITIALIZATION);
+			else if (current_status == Status::INITIALIZATION)
 			{
 				throw ResultRequest::WAIT_INITIALIZATION;
 			}
@@ -405,7 +405,7 @@ namespace emt
 			}
 
 			size_t size_memory = get_size_memory(number_int, number_float, number_double, number_char, number_str, size_str);
-			SM_Handle = CreateFileMappingA(INVALID_HANDLE_VALUE, &security_attr->getsecurityattrebut(), PAGE_READWRITE, 0, size_memory, CreateSMName(name).c_str());
+			SM_Handle = CreateFileMappingA(INVALID_HANDLE_VALUE, &security_attr->getsecurityattrebut(), PAGE_READWRITE, 0, (DWORD)size_memory, CreateSMName(name).c_str());
 			if (SM_Handle == NULL)
 			{
 				_sys_error.store(GetLastError());
@@ -548,6 +548,8 @@ namespace emt
 		{
 			return _header->size_str_data;
 		}
+
+		return 0;
 	}
 
 	long long ClientSharedMemory::get_time_LLmcs()

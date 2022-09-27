@@ -122,12 +122,132 @@ namespace scada_ate::gate::adapter::opc
 		Value get_opc_value(InfoTag& tag, UA_DataValue& value_opc);
 		std::variant<int, float, double, char, std::string> get_value(void* ptr_value,const UA_Int32& type_opc, size_t offset);
 		char convert_UAStatus_toScadaStatus(const UA_StatusCode& status_opc);
+		UA_StatusCode convert_ScadaStatus_toUAStatus(const char& status_scada);
+		ResultReqest init_UA_Variant(UA_Variant* variant, InfoTag& tag);
+		void update_last_data(const SetTags& data);
+		
+		template<class T> void update_value(Value& target, const Value& source, const LinkTags& link)
+		{
+				const T& val_current = std::get<T>(source.value);
+				const T& val_last = std::get<T>(target.value);
 
-		void init_last_data();
+				if (link.type_registration == TypeRegistration::RECIVE)
+				{
+					target.value = val_current;
+					target.quality = source.quality;
+					target.time = source.time;
+					return;
+				}
+
+				const char& quality_last = target.quality;
+
+				if (link.type_registration == TypeRegistration::UPDATE)
+				{
+					if (val_last == val_current && quality_last == source.quality) return;
+					target.value = val_current;
+					target.quality = source.quality;
+					target.time = source.time;
+					return;
+				}
+
+				if (link.type_registration == TypeRegistration::DELTA)
+				{
+					if (abs(val_last - val_current) > (int)link.delta || quality_last != source.quality)
+					{
+						target.value = val_current;
+						target.quality = source.quality;
+						target.time = source.time;
+						return;
+					}
+				}
+			return ;
+		};
+		template<> void update_value<int>(Value& target, const Value& source, const LinkTags& link)
+		{
+			int val_current = 0;
+			int& val_last = std::get<int>(target.value);
+
+			if (link.target.mask != 0)
+			{
+				val_last = std::get<int>(target.value);
+				val_current = demask(std::get<int>(source.value), link.source.mask, val_last, link.target.mask);
+			}
+			else
+			{
+				val_current = std::get<int>(source.value);
+			}
+
+			if (link.type_registration == TypeRegistration::RECIVE)
+			{
+				target.value = val_current;
+				target.quality = source.quality;
+				target.time = source.time;
+				return;
+			}
+
+			const char& quality_last = target.quality;
+
+			if (link.type_registration == TypeRegistration::UPDATE)
+			{
+				if (val_last == val_current && quality_last == source.quality) return;
+				target.value = val_current;
+				target.quality = source.quality;
+				target.time = source.time;
+				return;
+			}
+
+			if (link.type_registration == TypeRegistration::DELTA)
+			{
+				if (abs(val_last - val_current) > (int)link.delta || quality_last != source.quality)
+				{
+					target.value = val_current;
+					target.quality = source.quality;
+					target.time = source.time;
+					return;
+				}
+			}
+
+			return;
+		}
+		template<> void update_value<std::string>(Value& target, const Value& source, const LinkTags& link)
+		{
+
+			const std::string& val_current = std::get<std::string>(source.value);
+			const std::string& val_last = std::get<std::string>(target.value);
+
+			if (link.type_registration == TypeRegistration::RECIVE)
+			{
+				target.value = val_current;
+				target.quality = source.quality;
+				target.time = source.time;
+				return;
+			}
+
+			const char& quality_last = target.quality;
+
+			if (link.type_registration == TypeRegistration::UPDATE)
+			{
+				if (val_last == val_current && quality_last == source.quality) return;
+				target.value = val_current;
+				target.quality = source.quality;
+				target.time = source.time;
+				return;
+			}
+
+			if (link.type_registration == TypeRegistration::DELTA)
+			{
+				return;
+			}
+
+			return;
+		}
+
+		int demask(const int& value, int mask_source, const int& value_target, const int& mask_target);
+		void update_write_respone();
+
+		ResultReqest init_last_data();
 		ResultReqest init_write_request();
 		UA_NodeId tag_to_nodeid(const InfoTag& tag);
-		void* set_value(InfoTag& tag);
-
 
 		void log_info_config();
 		std::string to_string(const SecurityPolicy& value);
@@ -147,6 +267,8 @@ namespace scada_ate::gate::adapter::opc
 		StatusAdapter GetStatusAdapter() override;
 		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) override;
 	};
+
+	
 }
 
 

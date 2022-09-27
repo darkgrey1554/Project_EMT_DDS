@@ -27,6 +27,7 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.cpp" />
+    <ClCompile Include="include\Module_IO\UnitTransfer\UnitTransfer.cpp" />
     <ClCompile Include="include\structs\struct.cpp" />
     <ClCompile Include="include\structs\TimeConverter.cpp" />
     <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.cxx" />
@@ -41,7 +42,7 @@
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.cxx" />
-    <ClCompile Include="main_test_opc.cpp" />
+    <ClCompile Include="main_text_opc_write.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json" />
@@ -56,6 +57,7 @@
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_CP.h" />
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_DDS_CP\Unit_DDS_CP.h" />
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.h" />
+    <ClInclude Include="include\Module_IO\Module_IO.h" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\Adapters.hpp" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h" />

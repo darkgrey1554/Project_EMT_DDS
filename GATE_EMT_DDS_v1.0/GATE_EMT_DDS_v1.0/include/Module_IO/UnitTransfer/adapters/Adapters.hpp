@@ -67,7 +67,20 @@ namespace scada_ate::gate::adapter
 		TypeValue type;
 		unsigned int mask = 0;
 		StatusTag status = StatusTag::NONE;
+
+		bool operator == (const InfoTag& tag)
+		{
+			if (this->tag != tag.tag) return false;
+			if (this->id_tag != tag.id_tag) return false;
+			if (this->is_array && tag.is_array)
+			{
+				if (this->offset != tag.offset) return false;
+			}
+			return true;
+		};
 	};
+
+	
 
 	struct InfoTagHash {
 		std::size_t operator()(const InfoTag& k) const
@@ -107,6 +120,7 @@ namespace scada_ate::gate::adapter
 	struct IConfigAdapter
 	{
 		int id_adapter = 0;
+		int id_map = 0;
 		TypeAdapter type_adapter = TypeAdapter::Null;
 		std::vector<InfoTag> vec_tags_source;
 		std::vector<LinkTags> vec_link_tags;

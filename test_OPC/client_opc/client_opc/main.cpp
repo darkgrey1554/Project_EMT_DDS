@@ -15,6 +15,7 @@
 #include <variant>
 #include<fstream>
 #include <sstream>
+#include <thread>
 
 
 /* loadFile parses the certificate file.
@@ -88,48 +89,9 @@ int test_request_read_mass1000_onetoone();
 int test_request_write_mass1000_onetoone();
 int test_write_next_read();
 int check_connent_session();
+int test_request_write_mass100_andvaleu3();
 
-class A
-{
-	public:
-	A() { std::cout << "A" << std::endl; };
-	A(A&) { std::cout << "A&" << std::endl; };
-	A(A&&) { std::cout << "A&&" << std::endl; };
-	~A() { std::cout << "~A" << std::endl; };
-};
-
-class  C
-{
-public:
-	C() { std::cout << "C" << std::endl; };
-	C(C&) { std::cout << "C&" << std::endl; };
-	C(C&&) { std::cout << "C&&" << std::endl; };
-	~C() { std::cout << "~C" << std::endl; };
-};
-
-C f(A a)
-{
-	C b;
-	return std::move(b);
-}
-
-
-union testu
-{
-	int i;
-	float f;
-	double d;
-	//std::string str;
-	//testu() {};
-	//~testu() {};
-};
-
-struct asd
-{
-	
-};
-
-
+int test_request_write_scalar();
 
 
 int main()
@@ -140,7 +102,9 @@ int main()
 	//check_connent_session();
 	//test_request_read_mass1000_onetoone();
 	//test_request_write_mass1000_onetoone();
-	test_write_next_read();
+	test_request_write_mass100_andvaleu3();
+	//test_request_write_scalar();
+	//test_write_next_read();
 	return 0;
 }	
 
@@ -754,6 +718,263 @@ int test_request_write_mass1000_onetoone()
 	UA_Client_disconnect(client);
 	UA_Client_delete(client);
 	
+	return 0;
+}
+
+int test_request_write_mass100_andvaleu3()
+{
+	std::cout << "TEST WRITE REQUEST" << std::endl;
+
+	UA_ByteString certificate = loadFile("client_cert.der");
+	UA_ByteString privateKey = loadFile("client_key.der");
+	size_t trustListSize = 1;
+
+	//UA_ByteString* trustList;
+	UA_STACKARRAY(UA_ByteString, trustList, trustListSize);
+	trustList[0] = loadFile("SimulationServer@LAPTOP-SMDMIQSL_2048.der");
+	UA_ByteString* revocationList = NULL;
+	size_t revocationListSize = 0;
+
+	UA_Client* client = UA_Client_new();
+	UA_ClientConfig* cc = UA_Client_getConfig(client);
+	cc->securityMode = UA_MESSAGESECURITYMODE_SIGN; /* require encryption */
+	cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#Basic256");
+	UA_StatusCode retVal = UA_ClientConfig_setDefaultEncryption(cc, certificate, privateKey,
+		trustList, trustListSize,
+		revocationList, revocationListSize);
+
+	//UA_SecurityPolicy_Basic256(cc->securityPolicies, certificate, privateKey,&cc->logger);
+	UA_SecurityPolicy_None(cc->securityPolicies, certificate, &cc->logger);
+
+	cc->clientDescription.applicationUri = UA_STRING_ALLOC("urn:open62541.client.application");
+
+	UA_ByteString_clear(&certificate);
+	UA_ByteString_clear(&privateKey);
+	UA_ByteString_clear(&trustList[0]);
+
+	cc->securityMode = UA_MESSAGESECURITYMODE_SIGN;
+
+	UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer");
+	if (retval != UA_STATUSCODE_GOOD) {
+		UA_Client_delete(client);
+		return (int)retval;
+	}
+
+
+	UA_WriteRequest _request;
+	UA_WriteResponse _respone;
+	UA_WriteRequest_init(&_request);
+	size_t size_values = 100;
+
+	UA_Variant* value = (UA_Variant*)UA_Array_new(size_values+3, &UA_TYPES[UA_TYPES_VARIANT]);
+	for (int i = 0; i < size_values; i++)
+	{
+		UA_Variant_init(value + i);
+		int v = 50+i;
+		UA_Variant_setArrayCopy(value + i, &v,1,&UA_TYPES[UA_TYPES_INT32]);
+	}
+
+	{
+		UA_Variant_init(value+100);
+		int v = 100;
+		UA_Variant_setScalarCopy(value + 100, &v, &UA_TYPES[UA_TYPES_INT32]);
+	}
+
+	{
+		UA_Variant_init(value + 101);
+		int v = 101;
+		UA_Variant_setScalarCopy(value + 101, &v, &UA_TYPES[UA_TYPES_INT32]);
+	}
+
+	{
+		UA_Variant_init(value + 102);
+		int v = 102;
+		UA_Variant_setScalarCopy(value + 102, &v, &UA_TYPES[UA_TYPES_INT32]);
+	}
+
+	UA_WriteValue* vv = (UA_WriteValue*)UA_Array_new(size_values+3, &UA_TYPES[UA_TYPES_WRITEVALUE]);
+
+	for (int i = 0; i < size_values+3; i++)
+	{
+		UA_WriteValue_init(vv + i);
+	}
+
+	_request.nodesToWriteSize = size_values+3;
+	_request.nodesToWrite = vv;
+
+	for (int i = 0; i < size_values; i++)
+	{
+		_request.nodesToWrite[i].nodeId = UA_NODEID_NUMERIC(3, 1007);
+		_request.nodesToWrite[i].attributeId = UA_ATTRIBUTEID_VALUE;
+		_request.nodesToWrite[i].value.hasValue = true;
+		_request.nodesToWrite[i].value.value.type = &UA_TYPES[UA_TYPES_INT32];
+		_request.nodesToWrite[i].value.value.storageType = UA_VARIANT_DATA_NODELETE;
+		_request.nodesToWrite[i].indexRange = UA_STRING_ALLOC(std::to_string(i).c_str());
+		_request.nodesToWrite[i].value.value = *(value + i);
+		_request.nodesToWrite[i].value.hasSourceTimestamp = true;
+	}
+
+	{
+		_request.nodesToWrite[100].nodeId = UA_NODEID_NUMERIC(3, 1008);
+		_request.nodesToWrite[100].attributeId = UA_ATTRIBUTEID_VALUE;
+		_request.nodesToWrite[100].value.hasValue = true;
+		_request.nodesToWrite[100].value.value.type = &UA_TYPES[UA_TYPES_INT32];
+		_request.nodesToWrite[100].value.value.storageType = UA_VARIANT_DATA_NODELETE;
+		_request.nodesToWrite[100].indexRange = UA_STRING_ALLOC(std::to_string(0).c_str());
+		_request.nodesToWrite[100].value.value = *(value + 100);
+		_request.nodesToWrite[100].value.hasSourceTimestamp = true;
+	}
+
+	{
+		_request.nodesToWrite[101].nodeId = UA_NODEID_NUMERIC(3, 1009);
+		_request.nodesToWrite[101].attributeId = UA_ATTRIBUTEID_VALUE;
+		_request.nodesToWrite[101].value.hasValue = true;
+		_request.nodesToWrite[101].value.value.type = &UA_TYPES[UA_TYPES_INT32];
+		_request.nodesToWrite[101].value.value.storageType = UA_VARIANT_DATA_NODELETE;
+		_request.nodesToWrite[101].indexRange = UA_STRING_ALLOC(std::to_string(0).c_str());
+		_request.nodesToWrite[101].value.value = *(value + 101);
+		_request.nodesToWrite[101].value.hasSourceTimestamp = true;
+	}
+
+	{
+		_request.nodesToWrite[102].nodeId = UA_NODEID_NUMERIC(3, 1010);
+		_request.nodesToWrite[102].attributeId = UA_ATTRIBUTEID_VALUE;
+		_request.nodesToWrite[102].value.hasValue = true;
+		_request.nodesToWrite[102].value.value.type = &UA_TYPES[UA_TYPES_INT32];
+		_request.nodesToWrite[102].value.value.storageType = UA_VARIANT_DATA_NODELETE;
+		_request.nodesToWrite[102].indexRange = UA_STRING_ALLOC(std::to_string(0).c_str());
+		_request.nodesToWrite[102].value.value = *(value + 102);
+		_request.nodesToWrite[102].value.hasSourceTimestamp = true;
+	}
+
+
+	long long t = 0;
+	std::vector<long long> _time(10000);
+	int counter = 0;
+
+	for (;;)
+	{
+		t = TimeConverter::GetTime_LLmcs();
+		_respone = UA_Client_Service_write(client, _request);
+		_time[counter] = TimeConverter::GetTime_LLmcs() - t;
+		UA_WriteResponse_clear(&_respone);
+		std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+		counter++;
+		if (counter > 5) break;
+	}
+
+
+	UA_WriteRequest_clear(&_request);
+	UA_WriteResponse_clear(&_respone);
+
+	//long long sum = std::accumulate(_time.begin(), _time.end(), 0);
+	//std::cout << "TIME REQUEST WRITE: " << sum * 1.0 / _time.size() << " mcs" << std::endl;
+
+	UA_Client_disconnect(client);
+	UA_Client_delete(client);
+
+	return 0;
+}
+
+int test_request_write_scalar()
+{
+	std::cout << "TEST WRITE REQUEST" << std::endl;
+
+	UA_ByteString certificate = loadFile("client_cert.der");
+	UA_ByteString privateKey = loadFile("client_key.der");
+	size_t trustListSize = 1;
+
+	//UA_ByteString* trustList;
+	UA_STACKARRAY(UA_ByteString, trustList, trustListSize);
+	trustList[0] = loadFile("SimulationServer@LAPTOP-SMDMIQSL_2048.der");
+	UA_ByteString* revocationList = NULL;
+	size_t revocationListSize = 0;
+
+	UA_Client* client = UA_Client_new();
+	UA_ClientConfig* cc = UA_Client_getConfig(client);
+	cc->securityMode = UA_MESSAGESECURITYMODE_SIGN; /* require encryption */
+	cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#Basic256");
+	UA_StatusCode retVal = UA_ClientConfig_setDefaultEncryption(cc, certificate, privateKey,
+		trustList, trustListSize,
+		revocationList, revocationListSize);
+
+	//UA_SecurityPolicy_Basic256(cc->securityPolicies, certificate, privateKey,&cc->logger);
+	UA_SecurityPolicy_None(cc->securityPolicies, certificate, &cc->logger);
+
+	cc->clientDescription.applicationUri = UA_STRING_ALLOC("urn:open62541.client.application");
+
+	UA_ByteString_clear(&certificate);
+	UA_ByteString_clear(&privateKey);
+	UA_ByteString_clear(&trustList[0]);
+
+	cc->securityMode = UA_MESSAGESECURITYMODE_SIGN;
+
+	UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer");
+	if (retval != UA_STATUSCODE_GOOD) {
+		UA_Client_delete(client);
+		return (int)retval;
+	}
+
+
+	UA_WriteRequest _request;
+	UA_WriteResponse _respone;
+	UA_WriteRequest_init(&_request);
+	size_t size_values = 1;
+
+	UA_Variant* value = (UA_Variant*)UA_Array_new(size_values, &UA_TYPES[UA_TYPES_VARIANT]);
+	{
+		UA_Variant_init(value);
+		int v = 102;
+		UA_Variant_setScalarCopy(value, &v, &UA_TYPES[UA_TYPES_INT32]);
+	}
+
+	UA_WriteValue* vv = (UA_WriteValue*)UA_Array_new(size_values , &UA_TYPES[UA_TYPES_WRITEVALUE]);
+
+	for (int i = 0; i < size_values; i++)
+	{
+		UA_WriteValue_init(vv + i);
+	}
+
+	_request.nodesToWriteSize = size_values;
+	_request.nodesToWrite = vv;
+
+	for (int i = 0; i < size_values; i++)
+	{
+		_request.nodesToWrite[i].nodeId = UA_NODEID_NUMERIC(3, 1008);
+		_request.nodesToWrite[i].attributeId = UA_ATTRIBUTEID_VALUE;
+		_request.nodesToWrite[i].value.hasValue = true;
+		_request.nodesToWrite[i].value.value.type = &UA_TYPES[UA_TYPES_INT32];
+		_request.nodesToWrite[i].value.value.storageType = UA_VARIANT_DATA_NODELETE;
+		_request.nodesToWrite[i].indexRange = UA_STRING_ALLOC(std::to_string(i).c_str());
+		_request.nodesToWrite[i].value.value = *(value + i);
+		_request.nodesToWrite[i].value.hasSourceTimestamp = true;
+	}
+
+	long long t = 0;
+	std::vector<long long> _time(10000);
+	int counter = 0;
+
+	for (;;)
+	{
+		t = TimeConverter::GetTime_LLmcs();
+		_respone = UA_Client_Service_write(client, _request);
+		_time[counter] = TimeConverter::GetTime_LLmcs() - t;
+		UA_WriteResponse_clear(&_respone);
+		std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+		counter++;
+		if (counter > 5) break;
+	}
+
+
+	UA_WriteRequest_clear(&_request);
+	UA_WriteResponse_clear(&_respone);
+
+	//long long sum = std::accumulate(_time.begin(), _time.end(), 0);
+	//std::cout << "TIME REQUEST WRITE: " << sum * 1.0 / _time.size() << " mcs" << std::endl;
+
+	UA_Client_disconnect(client);
+	UA_Client_delete(client);
+
 	return 0;
 }
 

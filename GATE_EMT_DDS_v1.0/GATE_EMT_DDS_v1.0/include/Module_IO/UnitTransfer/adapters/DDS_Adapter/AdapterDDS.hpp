@@ -638,6 +638,7 @@ namespace scada_ate::gate::adapter::dds
 			}
 		}
 
+		return result;
 	}
 
 	template<typename T> ResultReqest AdapterDDS<T>::ReadData(std::deque<SetTags>** _data)
@@ -1363,7 +1364,6 @@ namespace scada_ate::gate::adapter::dds
 		return;
 	}
 
-
 	template<typename T> void AdapterDDS<T>::set_data_int(const Value& value, const LinkTags& link, DDSAlarm* out_buf)
 	{
 		int val_current = 0;
@@ -1448,7 +1448,6 @@ namespace scada_ate::gate::adapter::dds
 	{
 		return;
 	}
-
 
 	template<typename T> void AdapterDDS<T>::set_data_int(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf)
 	{

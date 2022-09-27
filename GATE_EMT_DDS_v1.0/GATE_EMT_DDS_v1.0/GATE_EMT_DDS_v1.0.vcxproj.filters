@@ -119,7 +119,10 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="main_test_opc.cpp">
+    <ClCompile Include="main_text_opc_write.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Module_IO\UnitTransfer\UnitTransfer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -226,6 +229,9 @@
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_IO\Module_IO.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

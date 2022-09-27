@@ -6513,3 +6513,60 @@
 [23/08/22 11:52:10.679] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
 [23/08/22 11:52:11.704] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
 [23/08/22 11:52:12.714] [debug]	AdapterOPCUA id-10 : ReadData IGNOR
+[20/09/22 10:56:53.914] [debug]	AdapterOPCUA id-10: Init START
+[20/09/22 10:56:53.917] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[20/09/22 10:56:54.071] [debug]	AdapterOPCUA id-10: Init DONE
+[20/09/22 16:40:24.827] [debug]	AdapterOPCUA id-10: Init START
+[20/09/22 16:40:24.828] [debug]	AdapterOPCUA id-10: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[20/09/22 16:40:24.935] [debug]	AdapterOPCUA id-10: Init DONE
+[20/09/22 16:40:24.938] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:26.951] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:28.958] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:30.976] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:32.987] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:34.994] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:37.009] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:39.019] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:41.033] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:43.051] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:45.068] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:47.071] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:49.086] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:51.091] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:53.102] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:55.117] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:57.130] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:40:59.146] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:01.163] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:03.171] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:05.188] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:07.202] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:09.214] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:11.228] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:13.243] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:15.259] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:17.267] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:19.282] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:21.298] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:23.316] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:25.329] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:27.340] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:29.359] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:31.376] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:33.389] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:35.393] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:37.409] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:39.413] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:41.418] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:43.428] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:45.446] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:47.459] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:49.474] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:51.490] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:53.507] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:55.517] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:57.531] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:41:59.547] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:42:01.558] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:42:03.571] [debug]	AdapterOPCUA id-10 : WriteData START
+[20/09/22 16:42:05.583] [debug]	AdapterOPCUA id-10 : WriteData START

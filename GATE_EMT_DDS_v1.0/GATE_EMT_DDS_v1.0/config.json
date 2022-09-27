@@ -33,7 +33,7 @@
         "defaultUnicastLocatorList": {}, // список одноадресных локаторов приема по умолчанию для пользовательского трафика данных
         "defaultMulticastLocatorList": {}, // список многоадресных локаторов приема по умолчанию для пользовательского трафика данных
         "sendSocketBufferSize": {}, // размер буфера сокета передачи
-        "listenSocketBufferSize" {}, // размер буфера сокета приема
+        "listenSocketBufferSize": {}, // размер буфера сокета приема
         "builtin": { // настройка сетевого транспорта 
           "initialPeersList": { // список всех DomainParticipants c которыми DomainParticipant будет коммуницировать 
             "locator": [ // список локаторов
@@ -229,7 +229,7 @@
               "user_name": "", // размер данных типа int
               "password": "", // размер данных типа int
               "namespace_index": ""
-            }
+            },
             "id_map": 2
           }
         ],

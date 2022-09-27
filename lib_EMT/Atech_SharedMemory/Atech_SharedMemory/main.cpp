@@ -4,7 +4,9 @@
 #include "ClientSharedMemory.h"
 #include<chrono>
 #include<array>
+#include<thread>
 
+namespace atech = scada_ate::lib::emt;
 
 void read_vector()
 {
