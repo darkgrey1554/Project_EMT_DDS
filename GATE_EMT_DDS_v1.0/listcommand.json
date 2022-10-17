@@ -1,0 +1,29 @@
+{
+
+	"listCommand": [
+		"RequestStatus", // message {"id":[1,23,4,5]}; message {"id":[]}
+		"Start", // message {"id":[1,23,4,5];} message {"id":[]}
+		"Stop", // message {"id":[1,23,4,5];} message {"id":[]}
+		"ReInit", // message {"id":[1,23,4,5];} message {"id":[]}
+		"ReceiveNewConfig", // message {"size":[50000];}
+		"ApplyNewConfig", // message {}
+		"Logging"
+	],
+
+	"listStatus": [
+		"Ok",
+		"Error",
+		"ErrorInit",
+		"ErrorReceive",
+		"ErrorConnect",
+
+		"Done",
+		"Ignor",
+
+		"Debug",
+		"Info",
+		"Warning",
+		"Critical"
+	]
+}
+

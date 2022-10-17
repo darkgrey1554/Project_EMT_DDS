@@ -62,9 +62,6 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.cpp">
       <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp">
-      <Filter>File\Logger</Filter>
-    </ClCompile>
     <ClCompile Include="include\structs\TimeConverter.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -119,18 +116,57 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="main_text_opc_write.cpp">
+    <ClCompile Include="include\Module_IO\UnitTransfer\UnitTransfer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\Module_IO\UnitTransfer\UnitTransfer.cpp">
+    <ClCompile Include="include\Module_IO\Module_IO.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid_DDS\UnitAid_DDS.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommandTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommandPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommand.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatus.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatusPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatusTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\config\Exception.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\config\json2xml.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\config\tinyxml2.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Module_CTRL\Module_CTRL.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\TypeTopicDDS\TopicSize.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="main_test_json.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json">
-      <Filter>File\config</Filter>
-    </None>
-    <None Include="include\config\configunits.json">
       <Filter>File\config</Filter>
     </None>
   </ItemGroup>
@@ -167,9 +203,6 @@
     </ClInclude>
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.h">
       <Filter>File\Module_CP\Unit_CP\Unit_CP_TCP</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include_logger\logger_crossplatform\logger.h">
-      <Filter>File\Logger</Filter>
     </ClInclude>
     <ClInclude Include="include\structs\TimeConverter.hpp">
       <Filter>File</Filter>
@@ -225,13 +258,64 @@
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\Module_IO\UnitTransfer\UnitTransfer.h">
+    <ClInclude Include="include\Module_IO\UnitTransfer\UnitTransfer.hpp">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\Module_IO\Module_IO.h">
+    <ClInclude Include="include\Module_IO\Module_IO.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_CTRL\Module_CTRL.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_CTRL\UnitAid\UnitAid.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Module_CTRL\UnitAid\UnitAid_DDS\UnitAid_DDS.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommandTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommandPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommand.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatus.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatusPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatusTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config\adapters.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config\Exception.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config\json.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config\json2xml.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config\MessageSerializer.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config\tinyxml2.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config\topics.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TypeTopicDDS\TopicSize.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

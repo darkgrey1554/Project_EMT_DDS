@@ -1,7 +1,7 @@
-//#include <json2xml.hpp>
-//#include <MessageSerializer.h>
-//#include <json.hpp>
-//#include <tinyxml2.h>
+#include <json2xml.hpp>
+#include <MessageSerializer.h>
+#include <json.hpp>
+#include <tinyxml2.h>
 
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
@@ -15,9 +15,7 @@
 #include <TypeTopicDDS/DDSData/DDSDataPubSubTypes.h>
 #include <TypeTopicDDS/DDSDataEx/DDSDataExPubSubTypes.h>
 
-#include <Module_IO/DDSUnit/adapters/SharedMemory_Adapter/AdapterSharedMemory.hpp>
-#include <Module_IO/DDSUnit/adapters/DDS_Adapter/AdapterDDS.hpp>
-#include <Module_IO/DDSUnit/adapters/Adapters.hpp>
+
 
 #include <TypeTopicDDS/TypeTopics.h>
 
@@ -374,40 +372,13 @@ using namespace std::chrono_literals;
 
 int main()
 {
-
-
-    //setlocale(LC_ALL, "rus");
-    //nlohmann::json jsonData = nlohmann::json::parse(j);
-
-    //auto dds = jsonData["dds"];
-    //auto profiles = dds["profiles"];
-    //std::string ddsxml = json2xml(profiles);
-    //std::cout << str << std::endl;
-
-    DomainParticipant* partic;
-    DataWriter* data_writer;
-    Publisher* pub;
-    eprosima::fastdds::dds::Topic* tt;
-    ReturnCode_t code;
-
-
-    //DomainParticipantQos qos = PARTICIPANT_QOS_DEFAULT;
-    //DomainParticipant* participant_pub;
-    //participant_pub = DomainParticipantFactory::get_instance()->create_participant(0, qos);
-
-    //Publisher* publisher_ = participant_pub->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
-
-    code = DomainParticipantFactory::get_instance()->load_XML_profiles_string(str4.c_str(), str4.size());
-    partic = DomainParticipantFactory::get_instance()->create_participant(0,PARTICIPANT_QOS_DEFAULT);
-
-    TypeSupport PtrSupporType(new DDSDataPubSubType());
-    if (PtrSupporType.register_type(partic) != ReturnCode_t::RETCODE_OK) throw 1;
-    
-    tt = partic->create_topic("asd", "DDSData", TOPIC_QOS_DEFAULT);
-
-    pub = partic->create_publisher_with_profile("pub_profile");
-
-
+    setlocale(LC_ALL, "rus");
+    nlohmann::json jsonData = nlohmann::json::parse(j);
+    std::stringstream stream;
+    std::fstream f;
+    f.open("config.json");
+    std::string str;
+    //str << f.rdbuf();
 
     return 0;
 }

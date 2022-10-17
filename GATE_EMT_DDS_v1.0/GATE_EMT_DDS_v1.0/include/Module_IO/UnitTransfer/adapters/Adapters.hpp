@@ -10,7 +10,9 @@
 namespace scada_ate::gate::adapter
 {
 	class IAdapter;
+	struct IConfigAdapter;
 	using IAdapter_ptr = std::shared_ptr<IAdapter>;
+	using IConfigAdapter_ptr = std::shared_ptr<IConfigAdapter>;
 
 	enum class TypeAdapter
 	{

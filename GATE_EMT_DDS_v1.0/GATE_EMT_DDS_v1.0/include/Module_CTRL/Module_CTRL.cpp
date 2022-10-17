@@ -1,0 +1,642 @@
+#include "Module_CTRL.hpp"
+
+namespace atech::srv::io::ctrl
+{
+	Module_CTRL::Module_CTRL()
+	{
+		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+	};
+
+	Module_CTRL::~Module_CTRL()
+	{
+		TopicCommand command;
+		
+	};
+
+	ResultReqest Module_CTRL::LoadConfigService()
+	{
+		ResultReqest result{ ResultReqest::OK };
+		try
+		{
+			std::fstream file;
+			std::stringstream stream;
+			file.open("config.json", std::ios::in);
+			if (!file.is_open()) throw 1;
+
+			config_str.clear();
+			stream << file.rdbuf();
+			config_str = stream.str();
+
+			file.close();
+
+			nlohmann::json config = nlohmann::json::parse(config_str);
+			if (config.count("node_target") == 0) throw 2;
+			if (!config["node_target"].is_number_unsigned()) throw 3;
+			_node_id = config["node_target"];
+
+			if (config.count("dds") == 0 && config.count("adapters") == 0) throw 4;
+
+		}
+		catch (int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error load config file: error {}: syserror {}", _node_id, e, 0);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error load config file: error {}: syserror {}", _node_id, 0, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::TakeConfigLogger(LoggerSpaceScada::ConfigLogger& config)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::InitDDSLayer()
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			if (config_str.empty()) throw 1;
+			nlohmann::json json = nlohmann::json::parse(config_str);
+
+			scd::common::TopicMaxSize default_size;
+			if (json.count("topic_max_size") != 0)
+			{
+				auto topic_max_size = json["topic_max_size"];
+				default_size = topic_max_size.get<scd::common::TopicMaxSize>();
+				this->registration_size_topics(default_size);
+			}
+			else
+			{
+				log->Warning("Module_CTRL node-{}: config TopicsMaxSize not detected", _node_id);
+			}
+
+			if (json.count("dds"))
+			{
+				this->registration_dds_profiles(json);
+			}
+			else
+			{
+				log->Warning("Module_CTRL node-{}: config DDS profiles not detected", _node_id);
+			}
+
+		}
+		catch (int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error DDS layer: error {}", _node_id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error DDS layer: error {}", _node_id, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::InitModuleIO()
+	{
+		ResultReqest result{ ResultReqest::OK };
+		std::vector<scada_ate::gate::adapter::ConfigUnitTransfer> vec_units;
+
+		try
+		{
+			if (config_str.empty()) throw 1;
+			if (create_vector_config_unitstreansfer(vec_units, config_str) != ResultReqest::OK) throw 2;
+			if (init_module_io(vec_units) != ResultReqest::OK) throw 3;
+		}
+		catch(int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error InitModuleIO: error {}", _node_id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error InitModuleIO: error {}", _node_id, 0);
+			result = ResultReqest::ERR;
+		}															   
+
+		return result;
+	}
+
+
+
+	ResultReqest Module_CTRL::registration_size_topics(scd::common::TopicMaxSize& default_size)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			for (auto& topic : default_size.get_dds_type_size())
+			{
+				if (topic.get_type_name() == "DDSData")
+				{
+					for (auto& data : topic.get_type_sizes())
+					{
+						if (data.get_type_name() == "int")
+						{
+							atech::common::TopicSize::SetMaxSizeDataCollectionInt(data.get_size());
+						}
+						else if (data.get_type_name() == "float")
+						{
+							atech::common::TopicSize::SetMaxSizeDataCollectionFloat(data.get_size());
+						}
+						else if (data.get_type_name() == "double")
+						{
+							atech::common::TopicSize::SetMaxSizeDataCollectionDouble(data.get_size());
+						}
+						else if (data.get_type_name() == "char")
+						{
+							atech::common::TopicSize::SetMaxSizeDataChar(data.get_size());
+						}
+						else if (data.get_type_name() == "char_vector")
+						{
+							atech::common::TopicSize::SetMaxSizeDataCollectionChar(data.get_size());
+						}
+					}
+				}
+				else if (topic.get_type_name() == "DDSDataEx")
+				{
+					for (auto& data : topic.get_type_sizes())
+					{
+						if (data.get_type_name() == "int")
+						{
+							atech::common::TopicSize::SetMaxSizeDDSDataExVectorInt(data.get_size());
+						}
+						else if (data.get_type_name() == "float")
+						{
+							atech::common::TopicSize::SetMaxSizeDDSDataExVectorFloat(data.get_size());
+						}
+						else if (data.get_type_name() == "double")
+						{
+							atech::common::TopicSize::SetMaxSizeDDSDataExVectorDouble(data.get_size());
+						}
+						else if (data.get_type_name() == "char")
+						{
+							atech::common::TopicSize::SetMaxSizeDataExVectorChar(data.get_size());
+						}
+						else if (data.get_type_name() == "char_vector")
+						{
+							atech::common::TopicSize::SetMaxSizeDDSDataExVectorChar(data.get_size());
+						}
+					}
+				}
+				else if (topic.get_type_name() == "DDSAlarm")
+				{
+					for (auto& data : topic.get_type_sizes())
+					{
+						if (data.get_type_name() == "char")
+						{
+							atech::common::TopicSize::SetMaxSizeDDSAlarmVectorAlarms(data.get_size());
+						}
+					}
+				}
+				else if (topic.get_type_name() == "DDSAlarmEx")
+				{
+					for (auto& data : topic.get_type_sizes())
+					{
+						if (data.get_type_name() == "char")
+						{
+							atech::common::TopicSize::SetMaxSizeDDSAlarmExVectorAlarms(data.get_size());
+						}
+					}
+				}
+			}
+		}
+		catch (...)
+		{
+			log->Warning("Module_CTRL node-{}: Error registration size max topics: error {}", _node_id, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::registration_dds_profiles(nlohmann::json& json)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			if (json["dds"].count("profiles"))
+			{
+				std::string profiles;
+				try
+				{
+					profiles = scd::common::json2xml(json["dds"]["profiles"]);
+				}
+				catch (...)
+				{
+					throw 2;
+				}
+
+				if (eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->load_XML_profiles_file(profiles)
+					!= ReturnCode_t::RETCODE_OK)
+					log->Warning("Module_CTRL node-{}: Error registration profiles dds layer", _node_id);
+			}
+			else
+			{
+				throw 1;
+			}
+		}
+		catch (int& e)
+		{
+			log->Warning("Module_CTRL node-{}: Error registration dds layer: error {}", _node_id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Warning("Module_CTRL node-{}: Error registration dds layer: error {}", _node_id, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::init_module_io(std::vector<scada_ate::gate::adapter::ConfigUnitTransfer>& vect_config_units)
+	{
+		ResultReqest result = ResultReqest::OK;
+		
+		_module_io_ptr.reset();
+		_module_io_ptr = std::make_shared<scada_ate::gate::Module_IO>();
+		_module_io_ptr->SetNodeID(_node_id);
+
+		for (auto& unit : vect_config_units)
+		{
+			if (_module_io_ptr->AddUnit(unit) != ResultReqest::OK)
+			{
+				log->Critical("Module_CTRL node-{}: error add unit transfer id-{}", _node_id, unit.id);
+				continue;
+			};
+			
+			if (_module_io_ptr->StartUnit(unit.id) != ResultReqest::OK)
+			{
+				log->Critical("Module_CTRL node-{}: error start unit transfer id-{}", _node_id, unit.id);
+			}
+		}
+
+		return result;
+	};
+
+	ResultReqest Module_CTRL::create_vector_config_unitstreansfer(std::vector<scada_ate::gate::adapter::ConfigUnitTransfer>& vect_config_units, std::string& stream)
+	{
+		ResultReqest result{ ResultReqest::OK };  		
+		vect_config_units.clear();
+
+		try
+		{
+			nlohmann::json json = nlohmann::json::parse(stream);
+			if (json.count("adapters") == 0) throw 1;
+			scd::common::Adapters adapters = json["adapters"].get<scd::common::Adapters>();
+
+			std::vector<scada_ate::gate::adapter::ConfigUnitTransfer> config_units;
+			auto& units_source = adapters.get_units();
+			config_units.reserve(units_source.size());
+			for (auto unit_source : units_source)
+			{
+				scada_ate::gate::adapter::ConfigUnitTransfer unit_target;
+				unit_target.frequency = unit_source.get_frequency();
+				unit_target.id = unit_source.get_id();
+				unit_target.config_input_unit.reserve(unit_source.get_input_units().size());
+				unit_target.config_output_unit.reserve(unit_source.get_output_units().size());
+				unit_target.mapping.reserve(unit_source.get_mapping().size());
+
+				for (auto& source : unit_source.get_input_units())
+				{
+					scada_ate::gate::adapter::IConfigAdapter_ptr target = nullptr;
+					target = fill_config_adapter(source);
+					unit_target.config_input_unit.push_back(std::move(target));
+				}
+
+				for (auto& source : unit_source.get_output_units())
+				{
+					scada_ate::gate::adapter::IConfigAdapter_ptr target = nullptr;
+					target = fill_config_adapter(source);
+					unit_target.config_output_unit.push_back(std::move(target));
+				};
+
+				for (auto& map_source : unit_source.get_mapping())
+				{
+					scada_ate::gate::adapter::Mapping map_target;
+					map_target.frequency = map_source.get_frequency();
+					map_target.id = map_source.get_id_map();
+					if (vec_datum_to_vec_links(map_target.vec_links, map_source.get_data()) != ResultReqest::OK)
+					{
+						log->Warning("Module_CTRL node-{}: Error registration mappin-{}", _node_id, map_source.get_id_map());
+						continue;
+					}
+					unit_target.mapping.push_back(std::move(map_target));
+				}
+
+				config_units.push_back(std::move(unit_target));
+			}
+
+			vect_config_units = std::move(config_units);
+		}
+		catch (std::string& e)
+		{
+			result = ResultReqest::ERR;
+			log->Critical("Module_CTRL node-: Error read config adapters: error: {}", _node_id, e);
+		}
+		catch (int& e)
+		{
+			result = ResultReqest::ERR;
+			log->Critical("Module_CTRL node-: Error read config adapters: error: {}", _node_id, e);
+		}
+		catch(...)
+		{
+			result = ResultReqest::ERR;
+			log->Critical("Module_CTRL node-: Error read config adapters: error: {}", _node_id, 0);
+		}
+
+		return result;
+	}
+
+	
+	
+	scada_ate::gate::adapter::IConfigAdapter_ptr Module_CTRL::fill_config_adapter(const scd::common::OutputUnit& out)
+	{
+		scada_ate::gate::adapter::IConfigAdapter_ptr adapter = nullptr;
+
+		try
+		{
+			scada_ate::gate::adapter::IConfigAdapter_ptr adapter = create_config_adapter(out.get_type_adapter());
+			if (adapter) throw 1;
+
+			adapter->id_adapter = out.get_id();
+			adapter->id_map = out.get_id_map();
+
+			if (out.get_type_adapter() == "SM")
+			{
+				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory>(adapter),
+					std::reinterpret_pointer_cast<scd::common::SmConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+			}
+			else if (out.get_type_adapter() == "DDS")
+			{
+				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::dds::ConfigAdapterDDS>(adapter),
+					std::reinterpret_pointer_cast<scd::common::DdsConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+			}
+			else if (out.get_type_adapter() == "OPC_UA")
+			{
+				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::opc::ConfigAdapterOPCUA>(adapter),
+					std::reinterpret_pointer_cast<scd::common::UaConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+			}
+		}
+		catch (...)
+		{
+			log->Warning("Module_IO node-{}: Error read config adapter id-{}: error 0: syserror 0", _node_id, out.get_id());
+		}		
+
+		return std::move(adapter);
+	};
+
+	scada_ate::gate::adapter::IConfigAdapter_ptr Module_CTRL::fill_config_adapter(const scd::common::InputUnit& out)
+	{
+		scada_ate::gate::adapter::IConfigAdapter_ptr adapter = nullptr;
+
+		try
+		{
+			scada_ate::gate::adapter::IConfigAdapter_ptr adapter = create_config_adapter(out.get_type_adapter());
+			if (adapter) throw 1;
+
+			adapter->id_adapter = out.get_id();
+			adapter->id_map = out.get_id_map();
+
+			if (out.get_type_adapter() == "SM")
+			{
+				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory>(adapter),
+					std::reinterpret_pointer_cast<scd::common::SmConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+			}
+			else if (out.get_type_adapter() == "DDS")
+			{
+				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::dds::ConfigAdapterDDS>(adapter),
+					std::reinterpret_pointer_cast<scd::common::DdsConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+			}
+			else if (out.get_type_adapter() == "OPC_UA")
+			{
+				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::opc::ConfigAdapterOPCUA>(adapter),
+					std::reinterpret_pointer_cast<scd::common::UaConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+			}
+		}
+		catch (...)
+		{
+			log->Warning("Module_IO node-{}: Error read config adapter id-{}: error 0: syserror 0", _node_id, out.get_id());
+			adapter = nullptr;
+		}
+
+		return std::move(adapter);
+	};
+
+	scada_ate::gate::adapter::IConfigAdapter_ptr Module_CTRL::create_config_adapter(const std::string& type)
+	{
+		scada_ate::gate::adapter::IConfigAdapter_ptr ptr = nullptr;
+
+		if (type == "SM")
+		{
+			ptr = std::make_shared<scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory>();
+			ptr->type_adapter = scada_ate::gate::adapter::TypeAdapter::SharedMemory;
+		}
+		else if (type == "DDS")
+		{
+			ptr = std::make_shared<scada_ate::gate::adapter::dds::ConfigAdapterDDS>();
+			ptr->type_adapter = scada_ate::gate::adapter::TypeAdapter::DDS;
+		}
+		else if (type == "OPC_UA")
+		{
+			ptr = std::make_shared<scada_ate::gate::adapter::opc::ConfigAdapterOPCUA>();
+			ptr->type_adapter = scada_ate::gate::adapter::TypeAdapter::OPC_UA;
+		}
+
+		return std::move(ptr);
+	}
+
+	ResultReqest Module_CTRL::fill_config(std::shared_ptr<scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory> target, std::shared_ptr<scd::common::SmConfig> source)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			target->NameChannel = source->get_name_point_sm();
+			target->size_char_data = source->get_size_char_data();
+			target->size_double_data = source->get_size_double_data();
+			target->size_float_data = source->get_size_float_data();
+			target->size_int_data = source->get_size_int_data();
+			target->size_str = source->get_size_str();
+			target->size_str_data = 100; /// nuzno popravit
+		}
+		catch (...)
+		{
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::fill_config(std::shared_ptr<scada_ate::gate::adapter::dds::ConfigAdapterDDS> target, std::shared_ptr<scd::common::DdsConfig> source)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			target->topic_name = source->get_topic_name();
+			if (string_to_typeddsdata(target->type_data, source->get_type_name()) != ResultReqest::OK) throw 1;
+			target->str_config_ddslayer.empty();
+		}
+		catch (...)
+		{
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::fill_config(std::shared_ptr<scada_ate::gate::adapter::opc::ConfigAdapterOPCUA> target, std::shared_ptr<scd::common::UaConfig> source)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			target->authentication = scada_ate::gate::adapter::opc::Authentication::Anonymous;
+			target->endpoint_url = source->get_endpoint_url();
+			target->namespaceindex = 1; //source->get_namespace_index();
+			target->password = source->get_password();
+			if ( string_to_security_mode_opc(target->security_mode, source->get_security_mode()) != ResultReqest::OK) throw 1;
+			if (string_to_security_policy_opc(target->security_policy, source->get_security_mode()) != ResultReqest::OK) throw 1;
+			target->user_name = source->get_user_name();
+		}
+		catch (...)
+		{
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::string_to_typeddsdata(scada_ate::gate::adapter::dds::TypeDDSData& type_dds, const std::string& str)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (str == "DDSData"){ type_dds = scada_ate::gate::adapter::dds::TypeDDSData::DDSData;}
+		else if (str == "DDSDataEx") { type_dds = scada_ate::gate::adapter::dds::TypeDDSData::DDSDataEx; }
+		else if (str == "DDSAlarm") { type_dds = scada_ate::gate::adapter::dds::TypeDDSData::DDSAlarm; }
+		else if (str == "DDSAlarmEx") { type_dds = scada_ate::gate::adapter::dds::TypeDDSData::DDSAlarmEx; }
+		else { result = ResultReqest::ERR; };
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::string_to_security_mode_opc(scada_ate::gate::adapter::opc::SecurityMode& mode, const std::string& str)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (str == "None") { mode = scada_ate::gate::adapter::opc::SecurityMode::None; }
+		else if (str == "Sign") { mode = scada_ate::gate::adapter::opc::SecurityMode::Sign; }
+		else if (str == "SignEndEncrypt") { mode = scada_ate::gate::adapter::opc::SecurityMode::SignEndEncrypt;}
+		else { result = ResultReqest::ERR; };
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::string_to_security_policy_opc(scada_ate::gate::adapter::opc::SecurityPolicy& mode, const std::string& str)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (str == "None") { mode = scada_ate::gate::adapter::opc::SecurityPolicy::None; }
+		else if (str == "Basic256") { mode = scada_ate::gate::adapter::opc::SecurityPolicy::Basic256; }
+		else if (str == "Basic256Sha256") { mode = scada_ate::gate::adapter::opc::SecurityPolicy::Basic256Sha256; }
+		else if (str == "Basic128Rsa15") { mode = scada_ate::gate::adapter::opc::SecurityPolicy::Basic128Rsa15; }
+		else if (str == "Aes256Sha256RsaPss") { mode = scada_ate::gate::adapter::opc::SecurityPolicy::Aes256Sha256RsaPss; }
+		else if (str == "Aes128Sha256RsaOaep") { mode = scada_ate::gate::adapter::opc::SecurityPolicy::Aes128Sha256RsaOaep; }
+		else { result = ResultReqest::ERR; };
+
+		return result;
+	}
+
+	ResultReqest Module_CTRL::vec_datum_to_vec_links(std::vector<scada_ate::gate::adapter::LinkTags>& vec_link, const std::vector<scd::common::Datum>& vec_datum)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			vec_link.clear();
+			vec_link.reserve(vec_datum.size());
+
+			for (auto& datum : vec_datum)
+			{
+				try
+				{
+					scada_ate::gate::adapter::LinkTags link;
+					link.type_registration = datum_to_linktags_typereg(datum.get_type_registration());
+					link.delta = datum.get_delta();
+
+					link.target.tag = datum.get_outputdata().get_tag();
+					link.target.id_tag = datum.get_outputdata().get_id_tag();
+					link.target.is_array = datum.get_outputdata().get_is_array();
+					link.target.offset = datum.get_outputdata().get_offset();
+					link.target.type = datum_to_linktags_typeval(datum.get_outputdata().get_type());
+					link.target.mask = datum.get_outputdata().get_mask();
+					//link.target.status;
+
+					link.source.tag = datum.get_inputdata().get_tag();
+					link.source.id_tag = datum.get_inputdata().get_id_tag();
+					link.source.is_array = datum.get_inputdata().get_is_array();
+					link.source.offset = datum.get_inputdata().get_offset();
+					link.source.type = datum_to_linktags_typeval(datum.get_inputdata().get_type());
+					link.source.mask = datum.get_inputdata().get_mask();
+					//link.source.status;
+
+					vec_link.push_back(std::move(link));
+				}
+				catch (...)
+				{
+					if (!datum.get_outputdata().get_tag().empty())
+					{
+						log->Warning("Module_CRTL node-{}: error registration tag-{}", _node_id, datum.get_outputdata().get_tag());
+					}
+					else
+					{
+						log->Warning("Module_CRTL node-{}: error registration id_tag-{}", _node_id, datum.get_outputdata().get_id_tag());
+					}
+				}
+			}
+		}
+		catch (...)
+		{
+			result = ResultReqest::ERR;
+			vec_link.clear();
+		}		
+
+		return result;
+	}
+
+	scada_ate::gate::adapter::TypeRegistration Module_CTRL::datum_to_linktags_typereg(const std::string& str) 
+	{
+		if (str == "r") return scada_ate::gate::adapter::TypeRegistration::RECIVE;
+		if (str == "d") return scada_ate::gate::adapter::TypeRegistration::DELTA;
+		if (str == "up") return scada_ate::gate::adapter::TypeRegistration::UPDATE;
+		return scada_ate::gate::adapter::TypeRegistration::RECIVE;
+	}
+
+	scada_ate::gate::adapter::TypeValue Module_CTRL::datum_to_linktags_typeval(const std::string str)
+	{
+		if (str == "i") return scada_ate::gate::adapter::TypeValue::INT;
+		if (str == "f") return scada_ate::gate::adapter::TypeValue::FLOAT;
+		if (str == "d") return scada_ate::gate::adapter::TypeValue::DOUBLE;
+		if (str == "c") return scada_ate::gate::adapter::TypeValue::CHAR;
+		if (str == "str") return scada_ate::gate::adapter::TypeValue::STRING;
+		throw 1;
+		return scada_ate::gate::adapter::TypeValue::INT;
+	}
+
+}
+
+

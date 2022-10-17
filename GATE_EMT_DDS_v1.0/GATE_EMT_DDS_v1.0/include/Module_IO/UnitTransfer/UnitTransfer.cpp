@@ -1,10 +1,9 @@
-#include "UnitTransfer.h"
+#include "UnitTransfer.hpp"
 
 namespace scada_ate::gate::adapter
 {
-	UnitTransfer::UnitTransfer(ConfigUnitTransfer& config)
+	UnitTransfer::UnitTransfer()
 	{
-		this->config = config;
 		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
 	}
 
@@ -23,7 +22,7 @@ namespace scada_ate::gate::adapter
 		};
 	};
 
-	ResultReqest UnitTransfer::InitUnit()
+	/*ResultReqest UnitTransfer::InitUnit()
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -90,9 +89,9 @@ namespace scada_ate::gate::adapter
 		}
 
 		return result;
-	}
+	}*/
 
-	ResultReqest UnitTransfer::update_mapping_input_adapter()
+	/*ResultReqest UnitTransfer::update_mapping_input_adapter()
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -175,11 +174,10 @@ namespace scada_ate::gate::adapter
 		}
 
 		return result;
-	};
+	};*/
 
 	void UnitTransfer::transfer_thread()
 	{
-		long long ftime_thread = 0;
 		long long time_current;
 		long long time_last;
 		std::deque<std::future<ResultReqest>> deq_write;
@@ -190,7 +188,6 @@ namespace scada_ate::gate::adapter
 			{
 				it.time = TimeConverter::GetTime_LLmcs();
 			};
-			ftime_thread = config.frequency;
 			time_last = TimeConverter::GetTime_LLmcs();
 
 			for (;;)
@@ -199,7 +196,7 @@ namespace scada_ate::gate::adapter
 				for (;;)
 				{
 					time_current = TimeConverter::GetTime_LLmcs();
-					if (time_current - time_last > ftime_thread - mcs_off) break;
+					if (time_current - time_last > frq_transfer - mcs_off) break;
 					std::this_thread::sleep_for(std::chrono::milliseconds(5));
 				}
 				time_last = time_current;
@@ -233,11 +230,11 @@ namespace scada_ate::gate::adapter
 		}
 		catch (int& e)
 		{
-			log->Critical("UnitTransfer id - {}: Error Initialization: error: {} syserror: {}", config.id, e, 0);
+			log->Critical("UnitTransfer id - {}: Error Initialization: error: {} syserror: {}", id, e, 0);
 		}
 		catch (...)
 		{
-			log->Critical("UnitTransfer id-{}: Error Initialization: error: {} syserror: {}", config.id, 0, 0);
+			log->Critical("UnitTransfer id-{}: Error Initialization: error: {} syserror: {}", id, 0, 0);
 		}
 
 		return;
@@ -260,11 +257,11 @@ namespace scada_ate::gate::adapter
 					ResultReqest res = _adapter_source->InitAdapter();
 					if (res == ResultReqest::ERR)
 					{
-						log->Critical("UnitTransfer id - {}: Error Init adapter source: error: {} syserror: {}", config.id, 0, 0);
+						log->Critical("UnitTransfer id - {}: Error Init adapter source: error: {} syserror: {}", id, 0, 0);
 					}
 					else
 					{
-						log->Warning("UnitTransfer id - {}: Init adapter source: error: {} syserror: {}", config.id, 0, 0);
+						log->Warning("UnitTransfer id - {}: Init adapter source: error: {} syserror: {}", id, 0, 0);
 					}
 				}
 
@@ -278,11 +275,11 @@ namespace scada_ate::gate::adapter
 						ResultReqest res = it.second->InitAdapter();
 						if (res == ResultReqest::ERR)
 						{
-							log->Warning("UnitTransfer id - {}: Error Init adapter target id-{}: error: {} syserror: {}", config.id, it.first, 0, 0);
+							log->Warning("UnitTransfer id - {}: Error Init adapter target id-{}: error: {} syserror: {}", id, it.first, 0, 0);
 						}
 						else
 						{
-							log->Warning("UnitTransfer id - {}: Init adapter target id- ", config.id, it.first);
+							log->Warning("UnitTransfer id - {}: Init adapter target id- ", id, it.first);
 						}
 					}
 				}
@@ -292,11 +289,11 @@ namespace scada_ate::gate::adapter
 		}
 		catch (int& e)
 		{
-			log->Critical("UnitTransfer id - {}: Error controll adapters: error: {} syserror: {}", config.id, e, 0);
+			log->Critical("UnitTransfer id - {}: Error controll adapters: error: {} syserror: {}", id, e, 0);
 		}
 		catch (...)
 		{
-			log->Critical("UnitTransfer id-{}: Error controll adapters: error: {} syserror: {}", config.id, 0, 0);
+			log->Critical("UnitTransfer id-{}: Error controll adapters: error: {} syserror: {}", id, 0, 0);
 		};
 	}
 
@@ -306,26 +303,34 @@ namespace scada_ate::gate::adapter
 
 		try
 		{
-			if (_status.load() != StatusUnitTransfer::OK)
-			{
-				return ResultReqest::IGNOR;
-			}
+			if (!_adapter_source) throw 1;
+			if (_adapters_target.empty()) throw 2;
+			if (frq_transfer < 1000) throw 3;
+
 
 			if (!_thread_transfer.joinable())
 			{
 				_command_thread_transfer.store(0);
 				_thread_transfer = std::thread(&UnitTransfer::transfer_thread, this);
 			}
+
+			if (!_thread_ctrl_adapters.joinable())
+			{
+				_command_thread_transfer.store(0);
+				_thread_ctrl_adapters = std::thread(&UnitTransfer::ctrl_adapter_thread, this);
+			}
 		}
 		catch (int& e)
 		{
-			log->Critical("UnitTransfer id - {}: Error StartTransfer: error: {} syserror: {}", config.id, e, 0);
+			log->Critical("UnitTransfer id - {}: Error StartTransfer: error: {} syserror: {}", id, e, 0);
 			result = ResultReqest::ERR;
+			_status.store(adapter::StatusUnitTransfer::ERROR_START);
 		}
 		catch (...)
 		{
-			log->Critical("UnitTransfer id-{}: Error StartTransfer: error: {} syserror: {}", config.id, 0, 0);
+			log->Critical("UnitTransfer id-{}: Error StartTransfer: error: {} syserror: {}", id, 0, 0);
 			result = ResultReqest::ERR;
+			_status.store(adapter::StatusUnitTransfer::ERROR_START);
 		}
 
 		return result;
@@ -350,19 +355,24 @@ namespace scada_ate::gate::adapter
 		}
 		catch (int& e)
 		{
-			log->Critical("UnitTransfer id - {}: Error StopTransfer: error: {} syserror: {}", config.id, e, 0);
+			log->Critical("UnitTransfer id - {}: Error StopTransfer: error: {} syserror: {}", id, e, 0);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("UnitTransfer id-{}: Error StopTransfer: error: {} syserror: {}", config.id, 0, 0);
+			log->Critical("UnitTransfer id-{}: Error StopTransfer: error: {} syserror: {}", id, 0, 0);
 			result = ResultReqest::ERR;
 		}
 
 		return result;
 	}
 
-	ResultReqest UnitTransfer::MountAdapterSource(scada_ate::gate::adapter::IConfigAdapter& config) 
+	StatusUnitTransfer UnitTransfer::GetStatus()
+	{
+		return _status.load();
+	};
+
+	/*ResultReqest UnitTransfer::MountAdapterSource(scada_ate::gate::adapter::IConfigAdapter& config) 
 	{
 		return ResultReqest::IGNOR;
 	}
@@ -370,5 +380,121 @@ namespace scada_ate::gate::adapter
 	ResultReqest UnitTransfer::AddAdapterTarget(const scada_ate::gate::adapter::IConfigAdapter& config, const Mapping& mapping)
 	{
 		return ResultReqest::IGNOR;
-	}
+	}*/
+
+	BuilderUnitTransfer::BuilderUnitTransfer() 
+	{
+		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+	};
+
+	BuilderUnitTransfer::~BuilderUnitTransfer() {};
+
+	ResultReqest BuilderUnitTransfer::CreateUnit(int64_t id) 
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			_unit = std::make_unique<UnitTransfer>();
+			if (!_unit) throw 1;
+			_unit->id = id;
+		}
+		catch (int& e)
+		{
+			log->Critical("BuilderUnitTransfer: Error create unit id-{}: error: {} syserror: {}", id, e, 0);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("BuilderUnitTransfer: Error create unit id-{}: error: {} syserror: {}", id, 0, 0);
+			result = ResultReqest::ERR;
+		}
+		
+		result;
+	};
+	
+	std::unique_ptr<UnitTransfer> BuilderUnitTransfer::GetUnit()
+	{
+		return std::move(_unit);
+
+	};
+	
+	ResultReqest BuilderUnitTransfer::SetFrqTransfer(int64_t frq) 
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			if (!_unit) throw 1;
+			_unit->frq_transfer = frq*1000;
+		}
+		catch (int& e)
+		{
+			log->Critical("BuilderUnitTransfer: Error set frequency: error: {} syserror: {}", e, 0);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("BuilderUnitTransfer: Error set frequency: error: {} syserror: {}", 0, 0);
+			result = ResultReqest::ERR;
+		}
+
+		result;
+	};
+
+	ResultReqest BuilderUnitTransfer::SetAdapterSource(IConfigAdapter_ptr config)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			if (!_unit) throw 1;
+			adapter::IAdapter_ptr adapter = adapter::CreateAdapter(config);
+			if (!adapter) throw 2;
+			adapter->InitAdapter();
+			_unit->_adapter_source = adapter;
+		}
+		catch (int& e)
+		{
+			log->Critical("BuilderUnitTransfer: Error set adapter id-{}: error: {} syserror: {}", config->id_adapter, e, 0);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("BuilderUnitTransfer: Error set adapter id-{}: error: {} syserror: {}", config->id_adapter, 0, 0);
+			result = ResultReqest::ERR;
+		}
+
+		result;
+	};
+
+	ResultReqest BuilderUnitTransfer::AddAdapterTarget(IConfigAdapter_ptr config, int64_t frq) 
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			if (!_unit) throw 1;
+			adapter::IAdapter_ptr adapter = adapter::CreateAdapter(config);
+			if (!adapter) throw 2;
+			if (adapter->InitAdapter() != ResultReqest::OK)
+			{
+				log->Warning("BuilderUnitTransfer: Error initional adapter id-{}", config->id_adapter);
+			};
+			_unit->_adapters_target[config->id_map] = adapter;
+			_unit->_vec_frq.push_back({ config->id_adapter, frq*1000, 0});
+		}
+		catch (int& e)
+		{
+			log->Critical("BuilderUnitTransfer: Error set adapter id-{}: error: {} syserror: {}", config->id_adapter, e, 0);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("BuilderUnitTransfer: Error set adapter id-{}: error: {} syserror: {}", config->id_adapter, 0, 0);
+			result = ResultReqest::ERR;
+		}
+
+		result;
+	};
 }

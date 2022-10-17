@@ -1,0 +1,11 @@
+{
+  "logger": {
+    "file_name": "file.txt",
+    "file_path": "path",
+    "size_file": 10, //MB
+    "number_file": 3, // number of file
+    "LevelLog": "level",
+    "LogDDS": "ON/OFF",
+    "LogLevelDDS": "level"
+  }
+}

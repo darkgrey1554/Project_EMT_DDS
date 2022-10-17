@@ -21,7 +21,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp" />
     <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpd.cpp" />
-    <ClCompile Include="..\..\..\..\include_logger\logger_crossplatform\logger.cpp" />
+    <ClCompile Include="include\config\Exception.cpp" />
+    <ClCompile Include="include\config\json2xml.cpp" />
+    <ClCompile Include="include\config\tinyxml2.cpp" />
+    <ClCompile Include="include\Module_CTRL\Module_CTRL.cpp" />
+    <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid.cpp" />
+    <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid_DDS\UnitAid_DDS.cpp" />
+    <ClCompile Include="include\Module_IO\Module_IO.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\Adapters.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.cpp" />
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp" />
@@ -42,29 +48,44 @@
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx" />
     <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.cxx" />
-    <ClCompile Include="main_text_opc_write.cpp" />
+    <ClCompile Include="include\TypeTopicDDS\TopicSize.cpp" />
+    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommand.cxx" />
+    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommandPubSubTypes.cxx" />
+    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommandTypeObject.cxx" />
+    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatus.cxx" />
+    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatusPubSubTypes.cxx" />
+    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatusTypeObject.cxx" />
+    <ClCompile Include="main_test_json.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json" />
-    <None Include="include\config\configunits.json" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\include_logger\LoggerScada.hpp" />
-    <ClInclude Include="..\..\..\..\include_logger\logger_crossplatform\logger.h" />
     <ClInclude Include="include\configReader\ConfigReader_main\Config_Reader.h" />
     <ClInclude Include="include\configReader\ConfigReader_units\ReaderConfigUnits.h" />
+    <ClInclude Include="include\config\adapters.h" />
+    <ClInclude Include="include\config\Exception.hpp" />
+    <ClInclude Include="include\config\json.hpp" />
+    <ClInclude Include="include\config\json2xml.hpp" />
+    <ClInclude Include="include\config\MessageSerializer.h" />
+    <ClInclude Include="include\config\tinyxml2.h" />
+    <ClInclude Include="include\config\topics.h" />
     <ClInclude Include="include\Module_CP\Module_CP.h" />
+    <ClInclude Include="include\Module_CTRL\Module_CTRL.hpp" />
+    <ClInclude Include="include\Module_CTRL\UnitAid\UnitAid.hpp" />
+    <ClInclude Include="include\Module_CTRL\UnitAid\UnitAid_DDS\UnitAid_DDS.hpp" />
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_CP.h" />
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_DDS_CP\Unit_DDS_CP.h" />
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.h" />
-    <ClInclude Include="include\Module_IO\Module_IO.h" />
+    <ClInclude Include="include\Module_IO\Module_IO.hpp" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\Adapters.hpp" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp" />
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.hpp" />
     <ClInclude Include="include\Module_IO\ModuleIO.h" />
-    <ClInclude Include="include\Module_IO\UnitTransfer\UnitTransfer.h" />
+    <ClInclude Include="include\Module_IO\UnitTransfer\UnitTransfer.hpp" />
     <ClInclude Include="include\structs\structs.h" />
     <ClInclude Include="include\structs\structs.hpp" />
     <ClInclude Include="include\structs\struct_unit_cp.h" />
@@ -81,6 +102,13 @@
     <ClInclude Include="include\TypeTopicDDS\DDSData\DDSData.h" />
     <ClInclude Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.h" />
     <ClInclude Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.h" />
+    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommand.h" />
+    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommandPubSubTypes.h" />
+    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommandTypeObject.h" />
+    <ClInclude Include="include\TypeTopicDDS\TopicSize.h" />
+    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatus.h" />
+    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatusPubSubTypes.h" />
+    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatusTypeObject.h" />
     <ClInclude Include="include\TypeTopicDDS\TypeTopics.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -226,7 +254,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>-DUA_ARCHITECTURE_WIN32 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>ws2_32.lib;wsock32.lib;libcrypto.lib;openssl.lib;open62541.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

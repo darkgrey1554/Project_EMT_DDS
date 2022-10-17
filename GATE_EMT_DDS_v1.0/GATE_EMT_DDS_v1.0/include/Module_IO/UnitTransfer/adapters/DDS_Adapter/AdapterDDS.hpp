@@ -1,8 +1,7 @@
 #pragma once
-#include <LoggerScada.hpp>
 #include <Module_IO/UnitTransfer/adapters/Adapters.hpp>
 #include <structs/TimeConverter.hpp>
-
+#include <LoggerScada.hpp>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
@@ -10,8 +9,6 @@
 #include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/publisher/DataWriter.hpp>
-
-
 #include <TypeTopicDDS/TypeTopics.h>
 
 
@@ -91,6 +88,7 @@ namespace scada_ate::gate::adapter::dds
 		std::string get_name_publisher_profile();
 		std::string get_name_subscriber_profile();
 		std::string get_name_datawriter_profile();
+		std::string get_name_datareader_profile();
 
 		ResultReqest write_to_deque(DDSData* buf, size_t& count);
 		ResultReqest write_to_deque(DDSDataEx* buf, size_t& count);
@@ -291,7 +289,6 @@ namespace scada_ate::gate::adapter::dds
 
 	template<typename T> ResultReqest AdapterDDS<T>::registration_type()
 	{
-
 		ResultReqest result = ResultReqest::OK;
 
 		try
@@ -486,7 +483,7 @@ namespace scada_ate::gate::adapter::dds
 				log->Debug("AdapterDDS id-{}: Init subscriber done : XML-file", this->config.id_adapter);
 			}
 
-			_datareader = _subscriber->create_datareader_with_profile(_topic_data, get_name_datawriter_profile());
+			_datareader = _subscriber->create_datareader_with_profile(_topic_data, get_name_datareader_profile());
 
 			if (!_datareader)
 			{
@@ -1329,7 +1326,7 @@ namespace scada_ate::gate::adapter::dds
 	template<typename T> void AdapterDDS<T>::set_data_string(const Value& value, const LinkTags& link, DDSDataEx* out_buf)
 	{
 		DataExChar dds_value;
-		dds_value.value().resize(scada_ate::typetopics::GetMaxSizeDataExVectorChar());
+		dds_value.value().resize(atech::common::TopicSize::GetMaxSizeDataExVectorChar());
 
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
@@ -1666,7 +1663,7 @@ namespace scada_ate::gate::adapter::dds
 
 		for (DataChar& _char : vec_char)
 		{
-			_char.value().resize(scada_ate::typetopics::GetMaxSizeDataChar());
+			_char.value().resize(atech::common::TopicSize::GetMaxSizeDataChar());
 		}
 
 		return result;
@@ -1871,6 +1868,13 @@ namespace scada_ate::gate::adapter::dds
 	{
 		std::string str;
 		str += this->config.topic_name+"datawrite_profile";
+		return str;
+	}
+
+	template<typename T> std::string  AdapterDDS<T>::get_name_datareader_profile()
+	{
+		std::string str;
+		str += this->config.topic_name + "dataread_profile";
 		return str;
 	}
 
