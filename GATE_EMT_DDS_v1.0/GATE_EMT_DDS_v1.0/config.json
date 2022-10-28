@@ -5,7 +5,6 @@
   "dds": {
     "hash": 123123, // hash-сумма на раздел "dds"
     "profiles": {
-
       "transport_descriptors": { // раздел описания транспортного уровня DDS
         "transport_descriptor": [ // список транспортов
           {
@@ -14,7 +13,7 @@
             "sendBufferSize": 9216, // размер буфера передачи (octets (byte) ) 
             "receiveBufferSize": 9216, // размер буфера приема (octets (byte) ) 
             "listening_ports": { // настройки порта прослушивания сервера
-              "port": 5100 // номер порта
+            "port": 5100 // номер порта
             },
             "wan_addr": "80.80.99.45" // IP-адресс сервера
           },

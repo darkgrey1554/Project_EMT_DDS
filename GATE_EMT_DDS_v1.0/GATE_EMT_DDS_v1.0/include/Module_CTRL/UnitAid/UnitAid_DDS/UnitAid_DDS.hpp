@@ -8,7 +8,7 @@
 #include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/publisher/DataWriter.hpp>
-#include <TypeTopicDDS/TypeTopics.h>
+#include <ddsformat/TypeTopics.h>
 
 namespace _dds = eprosima::fastdds::dds;
 
@@ -36,6 +36,7 @@ namespace atech::srv::io::ctrl
 		_dds::DataWriter* _responder = nullptr;
 		_dds::TypeSupport type_support_topic_command;
 		_dds::TypeSupport type_support_topic_respond;
+		std::string topic_name_config{ "DdsConfig" };
 
 
 		class SubListener : public _dds::DataReaderListener
@@ -65,13 +66,18 @@ namespace atech::srv::io::ctrl
 		std::string get_name_datawriter_profile();
 		std::string get_name_publisher_profile();
 		std::string get_name_datareader_profile();
+		std::string get_name_topic_config_profile();
+		std::string get_name_datareader_config_profile();
+
+		DdsStatus broadcast_command(DdsCommand& cmd) override;
 
 
 	public:
 
 		UnitAid_DDS(std::shared_ptr<IConfigUnitAid> config);
 		~UnitAid_DDS();
-		ResultReqest RespondStatus(TopicStatus& status) override;
+		ResultReqest RespondStatus(DdsStatus& status) override;
+		ResultReqest TakeServiceConfig(size_t size_data, std::string& str) override;
 		StatusUnitAid GetStatus() override;
 		ResultReqest InitUnitAid() override;
 	};

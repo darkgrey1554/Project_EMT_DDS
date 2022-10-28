@@ -9,7 +9,7 @@
 #include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/publisher/DataWriter.hpp>
-#include <TypeTopicDDS/TypeTopics.h>
+#include <ddsformat/TypeTopics.h>
 
 
 namespace _dds = eprosima::fastdds::dds;
@@ -1326,7 +1326,7 @@ namespace scada_ate::gate::adapter::dds
 	template<typename T> void AdapterDDS<T>::set_data_string(const Value& value, const LinkTags& link, DDSDataEx* out_buf)
 	{
 		DataExChar dds_value;
-		dds_value.value().resize(atech::common::TopicSize::GetMaxSizeDataExVectorChar());
+		dds_value.value().resize(atech::common::SizeTopics::GetMaxSizeDataExVectorChar());
 
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
@@ -1663,7 +1663,7 @@ namespace scada_ate::gate::adapter::dds
 
 		for (DataChar& _char : vec_char)
 		{
-			_char.value().resize(atech::common::TopicSize::GetMaxSizeDataChar());
+			_char.value().resize(atech::common::SizeTopics::GetMaxSizeDataChar());
 		}
 
 		return result;

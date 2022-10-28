@@ -1,6 +1,7 @@
 ﻿  maincpp.cpp
   Создание кода
-  Previous IPDB was built with incompatible compiler, fall back to full compilation.
-  All 224 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 510 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   test4.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\x64\Release\test4.exe

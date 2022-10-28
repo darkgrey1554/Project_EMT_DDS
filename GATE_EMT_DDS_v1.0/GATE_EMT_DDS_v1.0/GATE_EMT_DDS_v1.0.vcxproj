@@ -24,6 +24,28 @@
     <ClCompile Include="include\config\Exception.cpp" />
     <ClCompile Include="include\config\json2xml.cpp" />
     <ClCompile Include="include\config\tinyxml2.cpp" />
+    <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmEx.cxx" />
+    <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmExPubSubTypes.cxx" />
+    <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmExTypeObject.cxx" />
+    <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarm.cxx" />
+    <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarmPubSubTypes.cxx" />
+    <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarmTypeObject.cxx" />
+    <ClCompile Include="include\ddsformat\DdsCommand\DdsCommand.cxx" />
+    <ClCompile Include="include\ddsformat\DdsCommand\DdsCommandPubSubTypes.cxx" />
+    <ClCompile Include="include\ddsformat\DdsCommand\DdsCommandTypeObject.cxx" />
+    <ClCompile Include="include\ddsformat\DdsConfig\DdsConfig.cxx" />
+    <ClCompile Include="include\ddsformat\DdsConfig\DdsConfigPubSubTypes.cxx" />
+    <ClCompile Include="include\ddsformat\DdsConfig\DdsConfigTypeObject.cxx" />
+    <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataEx.cxx" />
+    <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataExPubSubTypes.cxx" />
+    <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataExTypeObject.cxx" />
+    <ClCompile Include="include\ddsformat\DDSData\DDSData.cxx" />
+    <ClCompile Include="include\ddsformat\DDSData\DDSDataPubSubTypes.cxx" />
+    <ClCompile Include="include\ddsformat\DDSData\DDSDataTypeObject.cxx" />
+    <ClCompile Include="include\ddsformat\DdsStatus\DdsStatus.cxx" />
+    <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.cxx" />
+    <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.cxx" />
+    <ClCompile Include="include\ddsformat\SizeTopics.cpp" />
     <ClCompile Include="include\Module_CTRL\Module_CTRL.cpp" />
     <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid.cpp" />
     <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid_DDS\UnitAid_DDS.cpp" />
@@ -36,25 +58,6 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\UnitTransfer.cpp" />
     <ClCompile Include="include\structs\struct.cpp" />
     <ClCompile Include="include\structs\TimeConverter.cpp" />
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExPubSubTypes.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarm.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmPubSubTypes.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmTypeObject.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataEx.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataExPubSubTypes.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\TopicSize.cpp" />
-    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommand.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommandPubSubTypes.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommandTypeObject.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatus.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatusPubSubTypes.cxx" />
-    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatusTypeObject.cxx" />
     <ClCompile Include="main_test_json.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +74,29 @@
     <ClInclude Include="include\config\MessageSerializer.h" />
     <ClInclude Include="include\config\tinyxml2.h" />
     <ClInclude Include="include\config\topics.h" />
+    <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmEx.h" />
+    <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmExPubSubTypes.h" />
+    <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmExTypeObject.h" />
+    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarm.h" />
+    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarmPubSubTypes.h" />
+    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarmTypeObject.h" />
+    <ClInclude Include="include\ddsformat\DdsCommand\DdsCommand.h" />
+    <ClInclude Include="include\ddsformat\DdsCommand\DdsCommandPubSubTypes.h" />
+    <ClInclude Include="include\ddsformat\DdsCommand\DdsCommandTypeObject.h" />
+    <ClInclude Include="include\ddsformat\DdsConfig\DdsConfig.h" />
+    <ClInclude Include="include\ddsformat\DdsConfig\DdsConfigPubSubTypes.h" />
+    <ClInclude Include="include\ddsformat\DdsConfig\DdsConfigTypeObject.h" />
+    <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataEx.h" />
+    <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataExPubSubTypes.h" />
+    <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataExTypeObject.h" />
+    <ClInclude Include="include\ddsformat\DDSData\DDSData.h" />
+    <ClInclude Include="include\ddsformat\DDSData\DDSDataPubSubTypes.h" />
+    <ClInclude Include="include\ddsformat\DDSData\DDSDataTypeObject.h" />
+    <ClInclude Include="include\ddsformat\DdsStatus\DdsStatus.h" />
+    <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.h" />
+    <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.h" />
+    <ClInclude Include="include\ddsformat\SizeTopics.h" />
+    <ClInclude Include="include\ddsformat\TypeTopics.h" />
     <ClInclude Include="include\Module_CP\Module_CP.h" />
     <ClInclude Include="include\Module_CTRL\Module_CTRL.hpp" />
     <ClInclude Include="include\Module_CTRL\UnitAid\UnitAid.hpp" />
@@ -86,30 +112,12 @@
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.hpp" />
     <ClInclude Include="include\Module_IO\ModuleIO.h" />
     <ClInclude Include="include\Module_IO\UnitTransfer\UnitTransfer.hpp" />
+    <ClInclude Include="include\structs\ServiceType.h" />
     <ClInclude Include="include\structs\structs.h" />
     <ClInclude Include="include\structs\structs.hpp" />
     <ClInclude Include="include\structs\struct_unit_cp.h" />
     <ClInclude Include="include\structs\TimeConverter.hpp" />
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExPubSubTypes.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarm.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmPubSubTypes.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmTypeObject.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataEx.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataExPubSubTypes.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSData\DDSData.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.h" />
-    <ClInclude Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.h" />
-    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommand.h" />
-    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommandPubSubTypes.h" />
-    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommandTypeObject.h" />
     <ClInclude Include="include\TypeTopicDDS\TopicSize.h" />
-    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatus.h" />
-    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatusPubSubTypes.h" />
-    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatusTypeObject.h" />
-    <ClInclude Include="include\TypeTopicDDS\TypeTopics.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -181,8 +189,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files %28x86%29\open62541\lib;C:\Program Files\OpenSSL-Win64\lib;C:\Program Files\eProsima\fastrtps 2.5.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Program Files %28x86%29\open62541\include;D:\CATE_WORK\logger_crossplatform;D:\CATE_WORK\rapidjson\include;C:\Program Files\eProsima\fastrtps 2.5.0\include;D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\open62541\lib;C:\Program Files\OpenSSL-Win64\lib;C:\Program Files\eProsima\fastrtps 2.7.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\open62541\include;D:\CATE_WORK\logger_crossplatform;D:\CATE_WORK\rapidjson\include;C:\Program Files\eProsima\fastrtps 2.7.0\include;D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson;$(IncludePath)</IncludePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -242,7 +250,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;_WINDOWS;FASTRTPS_DYN_LINK;FASTCDR_DYN_LINK;FOONATHAN_MEMORY=1;FOONATHAN_MEMORY_VERSION_MAJOR=0;FOONATHAN_MEMORY_VERSION_MINOR=7;FOONATHAN_MEMORY_VERSION_PATCH=1</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;D:\CATE_WORK\include_logger\logger_crossplatform;D:\CATE_WORK\include_logger;C:\Program Files\eProsima\fastrtps 2.5.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;D:\CATE_WORK\include_logger\logger_crossplatform;D:\CATE_WORK\include_logger;C:\Program Files\eProsima\fastrtps 2.7.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>

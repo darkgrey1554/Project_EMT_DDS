@@ -1,13 +1,15 @@
 #pragma once
 #include <structs/structs.hpp>
-#include <TypeTopicDDS/TopicCommand/TopicCommand.h>
-#include <TypeTopicDDS/TopicStatus/TopicStatus.h>
+#include <ddsformat/DdsCommand/DdsCommand.h>
+#include <ddsformat/DdsStatus/DdsStatus.h>
 #include <queue>
 #include <LoggerScada.hpp>
 
 
+
 namespace atech::srv::io::ctrl
 {
+	class Module_CTRL;
 
 	enum class TypeUnitAid
 	{
@@ -26,9 +28,9 @@ namespace atech::srv::io::ctrl
 
 	struct IConfigUnitAid
 	{
+		Module_CTRL* manager;
 		TypeUnitAid type_aid = TypeUnitAid::Nope;
 		uint32_t node_id = 0;
-		TopicStatus (*func)(TopicCommand& command) = nullptr;
 		virtual ~IConfigUnitAid() {};
 	};
 
@@ -39,12 +41,14 @@ namespace atech::srv::io::ctrl
 
 		std::atomic<StatusUnitAid> _status = StatusUnitAid::Nope;
 		std::mutex _mutex_init;
+		virtual DdsStatus broadcast_command(DdsCommand& cmd) = 0;
 
 	public:
 
 		virtual ~UnitAid() {};
 		virtual StatusUnitAid GetStatus() = 0;
-		virtual ResultReqest RespondStatus(TopicStatus& status) = 0;
+		virtual ResultReqest TakeServiceConfig(size_t size_data, std::string& str) = 0;
+		virtual ResultReqest RespondStatus(DdsStatus& status) = 0;
 		virtual ResultReqest InitUnitAid() = 0;
 	};
 

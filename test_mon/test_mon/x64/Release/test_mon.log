@@ -1,0 +1,8 @@
+﻿  main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_mon\test_mon\main.cpp(37,52): warning C4244: =: преобразование "ULONGLONG" в "double", возможна потеря данных
+  Создание кода
+  1 of 259 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  test_mon.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_mon\x64\Release\test_mon.exe

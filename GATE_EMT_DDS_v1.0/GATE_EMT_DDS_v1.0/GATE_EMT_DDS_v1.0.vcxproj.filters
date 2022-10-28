@@ -71,46 +71,10 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\Adapters.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataEx.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataExPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarm.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="include\structs\struct.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\DDSData\DDSData.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp">
@@ -128,24 +92,6 @@
     <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid_DDS\UnitAid_DDS.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommandTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommandPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\TopicCommand\TopicCommand.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatus.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatusPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\TopicStatus\TopicStatusTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="include\config\Exception.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -158,7 +104,70 @@
     <ClCompile Include="include\Module_CTRL\Module_CTRL.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\TypeTopicDDS\TopicSize.cpp">
+    <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarm.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarmPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarmTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmEx.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmExPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmExTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DdsCommand\DdsCommand.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DdsCommand\DdsCommandPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DdsCommand\DdsCommandTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DdsConfig\DdsConfig.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DdsConfig\DdsConfigPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DdsConfig\DdsConfigTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSData\DDSData.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSData\DDSDataPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSData\DDSDataTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataEx.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataExPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataExTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DdsStatus\DdsStatus.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\ddsformat\SizeTopics.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="main_test_json.cpp">
@@ -213,45 +222,6 @@
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\Adapters.hpp">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\TypeTopics.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSData\DDSDataTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSData\DDSData.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSData\DDSDataPubSubTypes.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataEx.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataExPubSubTypes.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSDataEx\DDSDataExTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarm.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmPubSubTypes.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarm\DDSAlarmTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmEx.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExPubSubTypes.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\DDSAlarmEx\DDSAlarmExTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
     <ClInclude Include="include\structs\structs.hpp">
       <Filter>File</Filter>
     </ClInclude>
@@ -276,24 +246,6 @@
     <ClInclude Include="include\Module_CTRL\UnitAid\UnitAid_DDS\UnitAid_DDS.hpp">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommandTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommandPubSubTypes.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\TopicCommand\TopicCommand.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatus.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatusPubSubTypes.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TypeTopicDDS\TopicStatus\TopicStatusTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
     <ClInclude Include="include\config\adapters.h">
       <Filter>File</Filter>
     </ClInclude>
@@ -316,6 +268,78 @@
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\TypeTopicDDS\TopicSize.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\ServiceType.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarm.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarmPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarmTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmEx.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmExPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmExTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DdsCommand\DdsCommand.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DdsCommand\DdsCommandPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DdsCommand\DdsCommandTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DdsConfig\DdsConfig.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DdsConfig\DdsConfigPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DdsConfig\DdsConfigTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSData\DDSData.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSData\DDSDataPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSData\DDSDataTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataEx.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataExPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataExTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DdsStatus\DdsStatus.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\SizeTopics.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\TypeTopics.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

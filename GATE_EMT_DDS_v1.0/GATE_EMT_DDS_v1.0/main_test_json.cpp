@@ -12,13 +12,6 @@
 #include <fastdds/dds/publisher/DataWriter.hpp>
 #include <fastdds/dds/publisher/Publisher.hpp>
 
-#include <TypeTopicDDS/DDSData/DDSDataPubSubTypes.h>
-#include <TypeTopicDDS/DDSDataEx/DDSDataExPubSubTypes.h>
-
-
-
-#include <TypeTopicDDS/TypeTopics.h>
-
 
 //using json = nlohmann::json;
 //using namespace tinyxml2;
@@ -372,13 +365,18 @@ using namespace std::chrono_literals;
 
 int main()
 {
+
+    {
+        std::cout << "asd" << std::endl;
+             
+        std::cout << "asd" << std::endl;
+    }
+
     setlocale(LC_ALL, "rus");
-    nlohmann::json jsonData = nlohmann::json::parse(j);
-    std::stringstream stream;
-    std::fstream f;
-    f.open("config.json");
-    std::string str;
-    //str << f.rdbuf();
+    nlohmann::json json_data = nlohmann::json::parse(j);
+
+    auto str = json_data["dds"]["profiles"];
+    auto hash = std::hash<json>{}(json_data["dds"]["profiles"]);
 
     return 0;
 }

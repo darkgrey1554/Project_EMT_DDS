@@ -5,11 +5,12 @@ namespace atech::srv::io::ctrl
 	Module_CTRL::Module_CTRL()
 	{
 		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		return;
 	};
 
 	Module_CTRL::~Module_CTRL()
 	{
-		TopicCommand command;
+		DdsCommand command;
 		
 	};
 
@@ -61,45 +62,7 @@ namespace atech::srv::io::ctrl
 	ResultReqest Module_CTRL::InitDDSLayer()
 	{
 		ResultReqest result{ ResultReqest::OK };
-
-		try
-		{
-			if (config_str.empty()) throw 1;
-			nlohmann::json json = nlohmann::json::parse(config_str);
-
-			scd::common::TopicMaxSize default_size;
-			if (json.count("topic_max_size") != 0)
-			{
-				auto topic_max_size = json["topic_max_size"];
-				default_size = topic_max_size.get<scd::common::TopicMaxSize>();
-				this->registration_size_topics(default_size);
-			}
-			else
-			{
-				log->Warning("Module_CTRL node-{}: config TopicsMaxSize not detected", _node_id);
-			}
-
-			if (json.count("dds"))
-			{
-				this->registration_dds_profiles(json);
-			}
-			else
-			{
-				log->Warning("Module_CTRL node-{}: config DDS profiles not detected", _node_id);
-			}
-
-		}
-		catch (int& e)
-		{
-			log->Critical("Module_CTRL node-{}: Error DDS layer: error {}", _node_id, e);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("Module_CTRL node-{}: Error DDS layer: error {}", _node_id, 0);
-			result = ResultReqest::ERR;
-		}
-
+		result = init_dds_layer(config_str);
 		return result;
 	}
 
@@ -112,7 +75,7 @@ namespace atech::srv::io::ctrl
 		{
 			if (config_str.empty()) throw 1;
 			if (create_vector_config_unitstreansfer(vec_units, config_str) != ResultReqest::OK) throw 2;
-			if (init_module_io(vec_units) != ResultReqest::OK) throw 3;
+			if (addunits_module_io(vec_units) != ResultReqest::OK) throw 3;
 		}
 		catch(int& e)
 		{
@@ -126,8 +89,16 @@ namespace atech::srv::io::ctrl
 		}															   
 
 		return result;
-	}
+	} 
 
+	ResultReqest Module_CTRL::InitUnitAid(std::shared_ptr<IConfigUnitAid> config)
+	{
+		ResultReqest result{ ResultReqest::OK };
+		_config_unitaid = config;
+		_unitaid = atech::srv::io::ctrl::CreateUnit_CP(config);
+		result = _unitaid->InitUnitAid();
+		return result;
+	};
 
 
 	ResultReqest Module_CTRL::registration_size_topics(scd::common::TopicMaxSize& default_size)
@@ -139,28 +110,28 @@ namespace atech::srv::io::ctrl
 			for (auto& topic : default_size.get_dds_type_size())
 			{
 				if (topic.get_type_name() == "DDSData")
-				{
+				{																			   
 					for (auto& data : topic.get_type_sizes())
 					{
 						if (data.get_type_name() == "int")
 						{
-							atech::common::TopicSize::SetMaxSizeDataCollectionInt(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDataCollectionInt(data.get_size());
 						}
 						else if (data.get_type_name() == "float")
 						{
-							atech::common::TopicSize::SetMaxSizeDataCollectionFloat(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDataCollectionFloat(data.get_size());
 						}
 						else if (data.get_type_name() == "double")
 						{
-							atech::common::TopicSize::SetMaxSizeDataCollectionDouble(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDataCollectionDouble(data.get_size());
 						}
 						else if (data.get_type_name() == "char")
 						{
-							atech::common::TopicSize::SetMaxSizeDataChar(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDataChar(data.get_size());
 						}
 						else if (data.get_type_name() == "char_vector")
 						{
-							atech::common::TopicSize::SetMaxSizeDataCollectionChar(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDataCollectionChar(data.get_size());
 						}
 					}
 				}
@@ -170,23 +141,23 @@ namespace atech::srv::io::ctrl
 					{
 						if (data.get_type_name() == "int")
 						{
-							atech::common::TopicSize::SetMaxSizeDDSDataExVectorInt(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDDSDataExVectorInt(data.get_size());
 						}
 						else if (data.get_type_name() == "float")
 						{
-							atech::common::TopicSize::SetMaxSizeDDSDataExVectorFloat(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDDSDataExVectorFloat(data.get_size());
 						}
 						else if (data.get_type_name() == "double")
 						{
-							atech::common::TopicSize::SetMaxSizeDDSDataExVectorDouble(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDDSDataExVectorDouble(data.get_size());
 						}
 						else if (data.get_type_name() == "char")
 						{
-							atech::common::TopicSize::SetMaxSizeDataExVectorChar(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDataExVectorChar(data.get_size());
 						}
 						else if (data.get_type_name() == "char_vector")
 						{
-							atech::common::TopicSize::SetMaxSizeDDSDataExVectorChar(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDDSDataExVectorChar(data.get_size());
 						}
 					}
 				}
@@ -196,7 +167,7 @@ namespace atech::srv::io::ctrl
 					{
 						if (data.get_type_name() == "char")
 						{
-							atech::common::TopicSize::SetMaxSizeDDSAlarmVectorAlarms(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDDSAlarmVectorAlarms(data.get_size());
 						}
 					}
 				}
@@ -206,7 +177,7 @@ namespace atech::srv::io::ctrl
 					{
 						if (data.get_type_name() == "char")
 						{
-							atech::common::TopicSize::SetMaxSizeDDSAlarmExVectorAlarms(data.get_size());
+							atech::common::SizeTopics::SetMaxSizeDDSAlarmExVectorAlarms(data.get_size());
 						}
 					}
 				}
@@ -262,7 +233,7 @@ namespace atech::srv::io::ctrl
 		return result;
 	}
 
-	ResultReqest Module_CTRL::init_module_io(std::vector<scada_ate::gate::adapter::ConfigUnitTransfer>& vect_config_units)
+	ResultReqest Module_CTRL::addunits_module_io(std::vector<scada_ate::gate::adapter::ConfigUnitTransfer>& vect_config_units)
 	{
 		ResultReqest result = ResultReqest::OK;
 		
@@ -361,6 +332,75 @@ namespace atech::srv::io::ctrl
 		return result;
 	}
 
+	ResultReqest Module_CTRL::init_dds_layer(std::string& config)
+	{
+		ResultReqest result {ResultReqest::OK};
+
+		try
+		{
+			if (config.empty()) throw 1;
+			nlohmann::json json = nlohmann::json::parse(config);
+
+			scd::common::TopicMaxSize default_size;
+			if (json.count("topic_max_size"))
+			{
+				auto topic_max_size = json["topic_max_size"];
+				default_size = topic_max_size.get<scd::common::TopicMaxSize>();
+				this->registration_size_topics(default_size);
+			}
+			else
+			{
+				log->Warning("Module_CTRL node-{}: config TopicsMaxSize not detected", _node_id);
+			}
+
+			if (json.count("dds"))
+			{
+				this->registration_dds_profiles(json);
+			}
+			else
+			{
+				log->Warning("Module_CTRL node-{}: config DDS profiles not detected", _node_id);
+			}
+
+		}
+		catch (int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error DDS layer: error {}", _node_id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error DDS layer: error {}", _node_id, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+	
+	ResultReqest Module_CTRL::init_module_io(std::string& config)
+	{
+		ResultReqest result{ ResultReqest::OK };
+		std::vector<scada_ate::gate::adapter::ConfigUnitTransfer> vec_units;
+
+		try
+		{
+			if (config.empty()) throw 1;
+			if (create_vector_config_unitstreansfer(vec_units, config) != ResultReqest::OK) throw 2;
+			if (addunits_module_io(vec_units) != ResultReqest::OK) throw 3;
+		}
+		catch (int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error init_module_io: error {}", _node_id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error init_module_io: error {}", _node_id, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
 	
 	
 	scada_ate::gate::adapter::IConfigAdapter_ptr Module_CTRL::fill_config_adapter(const scd::common::OutputUnit& out)
@@ -636,6 +676,172 @@ namespace atech::srv::io::ctrl
 		throw 1;
 		return scada_ate::gate::adapter::TypeValue::INT;
 	}
+
+
+	DdsStatus Module_CTRL::function_processing(DdsCommand& cmd)
+	{
+		DdsStatus status;
+		
+		status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::ERR));
+
+		if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::CatalogCommand::RECEIVE_CONFIG))
+		{
+			std::string parametr;
+			parametr.copy(&*cmd.cmd_parameter().begin(), cmd.cmd_parameter().size());
+			status = command_receive_new_config(parametr);
+		}
+
+		return status;
+	}
+
+	DdsStatus Module_CTRL::command_receive_new_config(std::string_view parametr)
+	{
+		DdsStatus status;
+		size_t size_data;
+
+		try
+		{
+			nlohmann::json json = nlohmann::json::parse(parametr);
+			if (json.count("size") == 0) throw 1;
+			if (!json["size"].is_number_unsigned()) throw 2;
+
+			size_data = json["size"].get<size_t>();
+			if (size_data == 0) throw 3;
+
+			if (_unitaid->TakeServiceConfig(size_data, config_str_new) != ResultReqest::OK) throw 4;
+
+			if (verification_config_file(config_str_new) != ResultReqest::OK) throw 5;
+
+			status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::OK));
+		}
+		catch (int& e)
+		{
+			status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::OK));
+			config_str_new.clear();
+		}
+		catch (...)
+		{
+			status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::OK));
+			config_str_new.clear();
+		}
+
+		return status;
+	}
+
+	ResultReqest Module_CTRL::verification_config_file(std::string& config)
+	{
+		ResultReqest result {ResultReqest::OK};
+
+		try
+		{
+			nlohmann::json json = nlohmann::json::parse(config);
+
+			for (;;)
+			{
+				if (json.count("node_target") != 0)
+				{
+					if (json["node_target"].is_number_unsigned())
+					{
+						if (json["node_target"].get<uint32_t>() == _node_id) break;
+					}
+				}
+				throw 1;
+			}
+
+			for (;;)
+			{
+				if (json.count("dds") != 0)
+				{
+					if (json["dds"].count("hash") != 0 && json["dds"].count("profiles") != 0)
+					{
+						if (json["dds"]["hash"].get<size_t>() == std::hash<nlohmann::json>{}(json["dds"]["profiles"])) break;
+					}
+				}
+				throw 2;
+			}
+
+			for (;;)
+			{
+				if (json.count("topic_max_size") != 0)
+				{
+					if (json["topic_max_size"].count("hash") != 0 && json["topic_max_size"].count("dds_type_size") != 0)
+					{
+						if (json["topic_max_size"]["hash"].get<size_t>() == std::hash<nlohmann::json>{}(json["topic_max_size"]["dds_type_size"])) break;
+					}
+				}
+				throw 3;
+			}
+
+			for (;;)
+			{
+				if (json.count("adapters") != 0)
+				{
+					if (json["adapters"].count("hash") != 0 && json["adapters"].count("units") != 0)
+					{
+						if (json["adapters"]["hash"].get<size_t>() == std::hash<nlohmann::json>{}(json["adapters"]["units"])) break;
+					}
+				}
+				throw 4;
+			}
+		}
+		catch (int& e)
+		{
+			log->Critical("Moduel_CTRL node-{}: Error verification new config: error {}: syserror {}", _node_id, e, 0);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("Moduel_CTRL node-{}: Error verification new config: error {}: syserror {}", _node_id, 0, 0);
+			result = ResultReqest::ERR;
+		}  	
+
+		return result;
+	}
+
+	DdsStatus Module_CTRL::command_apply_new_config()
+	{
+		DdsStatus status;
+		status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::Null));
+		if (thread_helper.joinable())
+		{
+			thread_helper.join();
+		}
+
+		thread_helper = std::thread(&Module_CTRL::apply_new_config, this);
+
+		return status;
+	}
+
+	void Module_CTRL::apply_new_config()
+	{
+		DdsStatus status;
+		
+		try
+		{
+			_unitaid = nullptr;
+			_module_io_ptr->ClearModule();
+
+			status.cmd_code(static_cast<uint32_t>(atech::common::CatalogCommand::APPLY_CONFIG));
+			status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::OK));
+
+			init_dds_layer(config_str_new);
+			init_module_io(config_str_new);
+			_unitaid = atech::srv::io::ctrl::CreateUnit_CP(_config_unitaid);
+			if (_unitaid->InitUnitAid() == ResultReqest::OK) _unitaid->RespondStatus(status);
+		}
+		catch (int& e)
+		{
+
+		}
+		catch (...)
+		{
+
+		}
+
+		return;	
+	}
+
+
 
 }
 
