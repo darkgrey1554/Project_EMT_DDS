@@ -20,69 +20,14 @@ namespace  scada_ate::gate::adapter::opc
 
 	AdapterOPCUA::~AdapterOPCUA() 
 	{
+		const std::lock_guard<std::mutex> lock_init(mutex_init);
 		destroy();
 	};
 
 	ResultReqest AdapterOPCUA::InitAdapter()
 	{
-		ResultReqest res = ResultReqest::OK;
-		unsigned int result = 0;
-		unsigned long sys_error = 0;
-
 		const std::lock_guard<std::mutex> lock_init(mutex_init);
-
-		StatusAdapter status = current_status.load(std::memory_order::memory_order_relaxed);
-		if (status == StatusAdapter::INITIALIZATION || status == StatusAdapter::OK)
-		{
-			ResultReqest res = ResultReqest::IGNOR;
-			return res;
-		}
-
-		try
-		{
-			if (config.type_adapter != TypeAdapter::OPC_UA) throw 1;
-			log->Debug("AdapterOPCUA id-{}: Init START", config.id_adapter);
-
-			log_info_config();
-
-			init_deque();
-
-			if (take_trust_list() == ResultReqest::ERR)
-			{
-				if (validation_security() != ResultReqest::OK) throw 2;
-			}
-
-			if (take_certificate() == ResultReqest::ERR)
-			{
-				if (validation_security() != ResultReqest::OK) throw 3;
-			}
-
-			if (create_client() != ResultReqest::OK) throw 4;
-
-			if (establishing_connection() == ResultReqest::ERR) throw 5;
-
-			if (create_request_to_read() == ResultReqest::ERR) {};
-
-			if (create_request_to_write() == ResultReqest::ERR) {};
-
-			current_status.store(StatusAdapter::OK);
-			log->Debug("AdapterOPCUA id-{}: Init DONE", config.id_adapter);
-		}
-		catch (int& e)
-		{
-			log->Critical("AdapterOPCUA id-{}: Error initiation: error: {} syserror: {}", config.id_adapter, e, 0);
-			res = ResultReqest::ERR;
-			current_status.store(StatusAdapter::ERROR_INIT);
-		}
-		catch (...)
-		{
-			log->Critical("AdapterOPCUA id-{}: Error initiation: error: {} syserror: {}", config.id_adapter, 0, 0);
-			res = ResultReqest::ERR;
-			current_status.store(StatusAdapter::ERROR_INIT);
-		}
-
-
-		return res;
+		return init_adapter();
 	}
 
 	UA_ByteString AdapterOPCUA::loadFile(const char* const path) 
@@ -406,6 +351,67 @@ namespace  scada_ate::gate::adapter::opc
 		UA_ReadRequest_clear(&_read_request);
 		UA_WriteRequest_clear(&_write_request);
 		UA_Client_delete(_client);
+
+		current_status.store(atech::common::Status::Null);
+	}
+
+	ResultReqest AdapterOPCUA::init_adapter()
+	{
+		ResultReqest res = ResultReqest::OK;
+		unsigned int result = 0;
+		unsigned long sys_error = 0;
+
+		atech::common::Status status = current_status.load(std::memory_order::memory_order_relaxed);
+		if (status == atech::common::Status::INIT || status == atech::common::Status::OK)
+		{
+			ResultReqest res = ResultReqest::IGNOR;
+			return res;
+		}
+
+		try
+		{
+			if (config.type_adapter != TypeAdapter::OPC_UA) throw 1;
+			log->Debug("AdapterOPCUA id-{}: Init START", config.id_adapter);
+
+			log_info_config();
+
+			init_deque();
+
+			if (take_trust_list() == ResultReqest::ERR)
+			{
+				if (validation_security() != ResultReqest::OK) throw 2;
+			}
+
+			if (take_certificate() == ResultReqest::ERR)
+			{
+				if (validation_security() != ResultReqest::OK) throw 3;
+			}
+
+			if (create_client() != ResultReqest::OK) throw 4;
+
+			if (establishing_connection() == ResultReqest::ERR) throw 5;
+
+			if (create_request_to_read() == ResultReqest::ERR) {};
+
+			if (create_request_to_write() == ResultReqest::ERR) {};
+
+			current_status.store(atech::common::Status::OK);
+			log->Debug("AdapterOPCUA id-{}: Init DONE", config.id_adapter);
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterOPCUA id-{}: Error initiation: error: {} syserror: {}", config.id_adapter, e, 0);
+			res = ResultReqest::ERR;
+			current_status.store(atech::common::Status::ERROR_INIT);
+		}
+		catch (...)
+		{
+			log->Critical("AdapterOPCUA id-{}: Error initiation: error: {} syserror: {}", config.id_adapter, 0, 0);
+			res = ResultReqest::ERR;
+			current_status.store(atech::common::Status::ERROR_INIT);
+		}
+
+		return res;
 	}
 
 
@@ -417,7 +423,7 @@ namespace  scada_ate::gate::adapter::opc
 		ResultReqest result = ResultReqest::OK;
 		uint32_t syserror = 0;
 
-		if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+		if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
 		{
 			log->Debug("AdapterOPCUA id-{} : ReadData IGNOR", config.id_adapter);
 			result = ResultReqest::IGNOR;
@@ -439,7 +445,7 @@ namespace  scada_ate::gate::adapter::opc
 				if (_state_channel == UA_SecureChannelState::UA_SECURECHANNELSTATE_CLOSED || _state_channel != UA_STATUSCODE_GOOD)
 				{
 					syserror = _state_connect;
-					current_status.store(StatusAdapter::CRASH);
+					current_status.store(atech::common::Status::ERROR_CONNECTING);
 					destroy();
 					throw 1;
 				}
@@ -652,7 +658,7 @@ namespace  scada_ate::gate::adapter::opc
 		ResultReqest result = ResultReqest::OK;
 		uint32_t syserror = 0;
 
-		if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+		if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
 		{
 			log->Debug("AdapterOPCUA id-{} : WriteData IGNOR", config.id_adapter);
 			result = ResultReqest::IGNOR;
@@ -679,7 +685,7 @@ namespace  scada_ate::gate::adapter::opc
 						if (_state_channel == UA_SecureChannelState::UA_SECURECHANNELSTATE_CLOSED || _state_channel != UA_STATUSCODE_GOOD)
 						{
 							syserror = _state_connect;
-							current_status.store(StatusAdapter::CRASH);
+							current_status.store(atech::common::Status::ERROR_CONNECTING);
 							destroy();
 							throw 1;
 						}
@@ -1050,8 +1056,66 @@ namespace  scada_ate::gate::adapter::opc
 	
 	TypeAdapter AdapterOPCUA::GetTypeAdapter() { return TypeAdapter::OPC_UA; };
 
-	StatusAdapter AdapterOPCUA::GetStatusAdapter() { return StatusAdapter::Null; };
+	std::shared_ptr<IAnswer> AdapterOPCUA::GetInfo(ParamInfoAdapter param) { return nullptr; };
 
-	std::shared_ptr<IAnswer> AdapterOPCUA::GetInfoAdapter(ParamInfoAdapter param) { return nullptr; };
+	uint32_t AdapterOPCUA::GetId()
+	{
+		return config.id_adapter;
+	}	 
+
+	ResultReqest AdapterOPCUA::GetStatus(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		st.push_back({ this->config.id_adapter, current_status.load() });
+		return ResultReqest::OK;
+	}
+
+	ResultReqest AdapterOPCUA::Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (current_status.load() == atech::common::Status::STOP ||
+			current_status.load() == atech::common::Status::OK)
+		{
+			current_status.store(atech::common::Status::OK);
+			result = ResultReqest::OK;
+		}
+		else
+		{
+			result = ResultReqest::ERR;
+		}
+
+		st.push_back({ config.id_adapter, current_status.load() });
+		return result;
+	}
+
+	ResultReqest AdapterOPCUA::Stop(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (current_status.load() == atech::common::Status::STOP ||
+			current_status.load() == atech::common::Status::OK)
+		{
+			current_status.store(atech::common::Status::STOP);
+			result = ResultReqest::OK;
+		}
+		else
+		{
+			result = ResultReqest::ERR;
+		}
+
+		st.push_back({ config.id_adapter, current_status.load() });
+		return result;
+	}
+
+	ResultReqest AdapterOPCUA::ReInit(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+		const std::lock_guard<std::mutex> lock_init(mutex_init);
+		this->destroy();
+		result = this->init_adapter();
+		st.push_back({ config.id_adapter, current_status.load() });
+		return result;
+	}
+
 }
 																				  

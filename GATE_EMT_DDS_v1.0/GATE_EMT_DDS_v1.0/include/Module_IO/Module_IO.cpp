@@ -104,29 +104,6 @@ namespace scada_ate::gate
 		return result;
 	};
 
-	ResultReqest Module_IO::GetStatusUnit(adapter::StatusUnitTransfer& status, int64_t id)
-	{
-		ResultReqest result{ ResultReqest::OK };
-		
-		try
-		{
-			if (_map_units.count(id) == 0) return ResultReqest::IGNOR;
-			status = _map_units[id]->GetStatus();
-		}
-		catch (int& e)
-		{
-			log->Critical("Module_IO node-{} : Error GetStatusUnit id-{} : error: {} syserror: {}", _node_id, id, e, 0);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("Module_IO node-{} : Error GetStatusUnit id-{} : error: {} syserror: {}", _node_id, id, 0, 0);
-			result = ResultReqest::ERR;
-		}
-		
-		return result;
-	};
-
 	ResultReqest Module_IO::RemoveUnit(int64_t id)
 	{
 		ResultReqest result{ ResultReqest::OK };
@@ -187,20 +164,101 @@ namespace scada_ate::gate
 		return result;
 	}
 
-	ResultReqest Module_IO::StartUnit(int64_t id)
+	uint32_t Module_IO::GetId()
 	{
-		if (_map_units.count(id) == 0) return ResultReqest::IGNOR;
-		return _map_units[id]->StartTransfer();
-	};
-
-	ResultReqest Module_IO::StopUnit(int64_t id)
-	{
-		if (_map_units.count(id) == 0) return ResultReqest::IGNOR;
-		return _map_units[id]->StopTransfer();
+		return 0;
 	};
 	
-	ResultReqest Module_IO::ReinitUnit(int64_t id)
+	ResultReqest Module_IO::GetStatus(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
 	{
-		return ResultReqest::IGNOR;
-	}
+		ResultReqest result { ResultReqest::OK };
+
+		if (id == 0)
+		{
+			for (auto& it : _map_units)
+			{
+				it.second->GetStatus(st);
+			}
+		}
+		else
+		{
+			for (auto& it : _map_units)
+			{
+				result  = it.second->GetStatus(st, id);
+				if (result != ResultReqest::IGNOR) break;
+			}
+		}
+
+		return result; 
+	};
+	
+	ResultReqest Module_IO::Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (id == 0)
+		{
+			for (auto& it : _map_units)
+			{
+				it.second->Start(st);
+			}
+		}
+		else
+		{
+			for (auto& it : _map_units)
+			{
+				result = it.second->Start(st, id);
+				if (result != ResultReqest::IGNOR) break;
+			}
+		}
+
+		return result;
+	};
+	
+	ResultReqest Module_IO::Stop(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (id == 0)
+		{
+			for (auto& it : _map_units)
+			{
+				it.second->Stop(st);
+			}
+		}
+		else
+		{
+			for (auto& it : _map_units)
+			{
+				result = it.second->Stop(st, id);
+				if (result != ResultReqest::IGNOR) break;
+			}
+		}
+
+		return result;
+	};
+	
+	ResultReqest Module_IO::ReInit(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (id == 0)
+		{
+			for (auto& it : _map_units)
+			{
+				it.second->ReInit(st);
+			}
+		}
+		else
+		{
+			for (auto& it : _map_units)
+			{
+				result = it.second->ReInit(st, id);
+				if (result != ResultReqest::IGNOR) break;
+			}
+		}
+
+		return result;
+	};
+
 }

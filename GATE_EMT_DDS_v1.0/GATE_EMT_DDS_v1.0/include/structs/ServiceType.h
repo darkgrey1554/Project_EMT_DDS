@@ -2,7 +2,7 @@
 
 namespace atech::common
 {
-	enum class CatalogCommand
+	enum class Command
 	{
 	   START,
 	   STOP,
@@ -16,7 +16,7 @@ namespace atech::common
 	   LOGGING
 	};
 
-	enum class CatalogStatus
+	enum class Status
 	{
 		Null,
 		OK,
@@ -27,9 +27,23 @@ namespace atech::common
 		INFO,
 		CRITICAL,
 
+		INIT,
+		STOP,
+
 		ERROR_INIT,
 		ERROR_RECEIVE,
 		ERROR_CONNECTING
+	};
+
+	enum class Service
+	{
+		None,
+		IO, // io service
+		WS, // websocket service
+		WA,  // webapi service
+		HS, // diagnostic service
+		FT, //fault tolerance service
+		DB // db service
 	};
 }
 /*

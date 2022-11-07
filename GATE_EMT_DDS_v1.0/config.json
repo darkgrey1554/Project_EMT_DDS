@@ -1,0 +1,136 @@
+{
+  "node_source": "0", // источник конфигурационного файла
+  "node_target": "65793", // целевой сервис файла
+
+  "dds": {
+    "hash": 123123, // hash-сумма на раздел "dds"
+    "profiles": {
+    }
+  },
+
+  "topic_defualt_size": [ // конфигурация размеров топиков в scada системе
+    {
+      "hash": "",
+      "config_types": [
+        {
+          "type_name": "DDSData", // имя типа  (DDSData, DDSDataEx, DDSAlarm, DDSAlarmEx)
+          "sizes": [
+            {
+              "type": "float",
+              "size": 10
+            },
+            {
+              "type": "int",
+              "size": 5
+            },
+
+            {
+              "type": "double",
+              "size": 5
+            },
+
+            {
+              "type": "char_vector",
+              "size": 5
+            },
+
+            {
+              "type": "char",
+              "size": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  
+  "adapters":
+  {
+    "hash": 123214, // hash-сумма параметров адаптеров
+    "units": [ // список адаптеров
+      {
+        "frequency" : 100,
+        "input_unit": {
+          "typeadpter": "SM",
+          "config": { // конфигурация адаптера 
+            "name_point_SM": "", // имя shared memory
+            "size_int_data": "", // размер данных типа float
+            "size_float_data": "", // размер данных типа int
+            "size_double_data": "", // размер данных типа int
+            "size_char_data": "", // размер данных типа int
+            "size_str": ""
+          }
+        },
+
+        "output_units": [
+          {
+            "typeadapter": "DDS",
+            "config": {
+              "topic_name": "name_"
+            },
+            "id_map": 1
+          },
+          {
+            "typeadapter": "SM",
+            "config": {
+              "name_point_SM": "", // имя shared memory
+              "size_int_data": "", // размер данных типа float
+              "size_float_data": "", // размер данных типа int
+              "size_double_data": "", // размер данных типа int
+              "size_char_data": "", // размер данных типа int
+              "size_str": ""
+            },
+            "id_map": 2
+          },
+          {
+            "typeadapter": "OPC_UA",
+            "config": {
+              "endpoint_url": "", // имя shared memory
+              "security_mode": "", // размер данных типа float
+              "security_policy": "", // размер данных типа int
+              "user_name": "", // размер данных типа int
+              "password": "", // размер данных типа int
+              "namespace_index": 1
+            },
+            "id_map": 2
+          }
+        ],
+       
+        "mapping": [ // список мапинга переменных
+          {
+            "id_map": 1,
+            "frq": 100, // частота передачи данных
+            "data": [
+              {
+                "input": {
+                  "tag": "", // тег переменной в системе нижнего уровня
+                  "id_tag": 1,
+                  "is_array": false, // указатель контейнеризации переменной (0/1)
+                  "offset": 0, // смещение переменной в контейнере
+                  "type": "", // тип переменной
+                  "mask": 0 // маска на значние
+                },
+
+                "output": {
+                  "tag": "", // тег переменной в системе нижнего уровня
+                  "id_tag": 1,
+                  "is_array": false, // указатель контейнеризации переменной (0/1)
+                  "offset": 0, // смещение переменной в контейнере
+                  "type": "", // тип переменной
+                  "mask": 0 // маска на значние
+                },
+
+                "type_registration": "", // тип ( to_recive, to_update, to_delta)
+                "delta": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      {
+
+      }
+    ]
+  }
+}

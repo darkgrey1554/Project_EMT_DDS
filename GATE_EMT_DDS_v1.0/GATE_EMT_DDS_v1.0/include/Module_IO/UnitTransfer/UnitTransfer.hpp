@@ -6,17 +6,10 @@
 #include <structs/TimeConverter.hpp>
 #include <queue>
 #include <future>
+#include <structs/interfaces.h>
 
 namespace scada_ate::gate::adapter
 {
-	enum class StatusUnitTransfer
-	{
-		OK,
-		ERROR_START,
-		CRASH,
-		Null
-	};
-
 	struct Mapping
 	{
 		int64_t id;
@@ -35,11 +28,12 @@ namespace scada_ate::gate::adapter
 
 	class BuilderUnitTransfer;
 
-	class UnitTransfer
+	class UnitTransfer: public atech::common::IControl
 	{
-		std::atomic<StatusUnitTransfer> _status = StatusUnitTransfer::Null;
+		std::atomic<atech::common::Status> _status = atech::common::Status::Null;
 		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log;
 		int64_t id = 0;
+		std::mutex _guarder;
 
 		scada_ate::gate::adapter::IAdapter_ptr _adapter_source;
 		std::map<int, scada_ate::gate::adapter::IAdapter_ptr> _adapters_target;
@@ -64,6 +58,9 @@ namespace scada_ate::gate::adapter
 
 		void transfer_thread();
 		void ctrl_adapter_thread();
+		ResultReqest start_transfer();
+		ResultReqest stop_transfer();
+
 		//ResultReqest update_mapping_output_adapter();
 		//ResultReqest update_mapping_input_adapter();
 
@@ -76,9 +73,12 @@ namespace scada_ate::gate::adapter
 		//ResultReqest InitUnit();
 		//ResultReqest MountAdapterSource(scada_ate::gate::adapter::IConfigAdapter& config);
 		//ResultReqest AddAdapterTarget(const scada_ate::gate::adapter::IConfigAdapter& config, const Mapping& mapping);
-		StatusUnitTransfer GetStatus();
-		ResultReqest StartTransfer();
-		ResultReqest StopTransfer();
+		uint32_t GetId() override;
+		ResultReqest GetStatus(std::deque<std::pair<uint32_t,atech::common::Status>>& st,uint32_t id = 0) override;
+		ResultReqest Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest Stop(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest ReInit(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+
 
 	};
 

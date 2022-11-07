@@ -1,5 +1,7 @@
 #pragma once
 #include <structs/structs.hpp>
+#include <structs/ServiceType.h>
+#include <structs/interfaces.h>
 #include <map>
 #include <unordered_map>
 #include <deque>
@@ -142,7 +144,7 @@ namespace scada_ate::gate::adapter
 		std::unordered_map<InfoTag, Value , InfoTagHash, InfoTagEqual> map_data;
 	};
 
-	class IAdapter
+	class IAdapter : public atech::common::IControl
 	{
 	protected:
 
@@ -153,8 +155,7 @@ namespace scada_ate::gate::adapter
 		virtual ResultReqest ReadData(std::deque<SetTags>** data) = 0;
 		virtual ResultReqest WriteData(const std::deque<SetTags>& data) = 0;
 		virtual TypeAdapter GetTypeAdapter() = 0;
-		virtual StatusAdapter GetStatusAdapter() = 0;
-		virtual std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) = 0;
+		virtual std::shared_ptr<IAnswer> GetInfo(ParamInfoAdapter param) = 0;
 		
 		virtual ~IAdapter() {};
 	};

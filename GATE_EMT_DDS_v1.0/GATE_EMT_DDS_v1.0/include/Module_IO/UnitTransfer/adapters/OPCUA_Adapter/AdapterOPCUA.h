@@ -82,7 +82,7 @@ namespace scada_ate::gate::adapter::opc
 	class AdapterOPCUA : public IAdapter
 	{
 		std::mutex mutex_init;
-		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// ���������� ������� �������� 
+		std::atomic<atech::common::Status> current_status = atech::common::Status::Null; /// ���������� ������� �������� 
 		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
 		ConfigAdapterOPCUA config;
 		SetTags last_data{};
@@ -253,7 +253,7 @@ namespace scada_ate::gate::adapter::opc
 		std::string to_string(const SecurityPolicy& value);
 		std::string to_string(const SecurityMode& value);
 		std::string to_string(const Authentication& value);
-
+		ResultReqest init_adapter();
 		void destroy();
 
 		public:
@@ -264,8 +264,12 @@ namespace scada_ate::gate::adapter::opc
 		ResultReqest ReadData(std::deque<SetTags>** data) override;
 		ResultReqest WriteData(const std::deque<SetTags>& data) override;
 		TypeAdapter GetTypeAdapter() override;
-		StatusAdapter GetStatusAdapter() override;
-		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) override;
+		uint32_t GetId() override;
+		ResultReqest Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest Stop(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest ReInit(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest GetStatus(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		std::shared_ptr<IAnswer> GetInfo(ParamInfoAdapter param) override;
 	};
 
 	

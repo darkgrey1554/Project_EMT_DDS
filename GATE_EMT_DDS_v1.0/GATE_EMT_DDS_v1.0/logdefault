@@ -1,0 +1,4 @@
+[07/11/22 16:17:21.550] [critical]	Module_CTRL node-0: Error load config file: error 0: syserror 0
+[07/11/22 16:25:07.951] [critical]	Module_CTRL node-0: Error load config file: error 3: syserror 0
+[07/11/22 16:31:09.112] [warning]	Module_CTRL node-65793: config TopicsMaxSize not detected
+[07/11/22 16:31:09.118] [warning]	Module_CTRL node-65793: Error registration profiles dds layer

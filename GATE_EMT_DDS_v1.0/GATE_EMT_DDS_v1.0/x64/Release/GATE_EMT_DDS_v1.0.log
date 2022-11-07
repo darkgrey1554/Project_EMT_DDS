@@ -1,53 +1,44 @@
-﻿  main_test_json.cpp
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main_test_json.cpp(319,20): warning C4129: <: неизвестная escape-последовательность
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\MessageSerializer.h(39,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\MessageSerializer.h(37): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>> &)"
+﻿  main_test_command.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(15,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(40,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(38): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<scd::common::WsConfig> &)"
           with
           [
-              T=std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>>
+              T=std::shared_ptr<scd::common::WsConfig>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>> &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<scd::common::WsConfig> &)"
           with
           [
-              T=std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>>
+              T=std::shared_ptr<scd::common::WsConfig>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::adl_serializer<T,void>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::adl_serializer<T,void>"
           with
           [
-              T=std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>>
+              T=std::shared_ptr<scd::common::WsConfig>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\MessageSerializer.h(39): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::to_json_function<nlohmann::adl_serializer<T,void>,BasicJsonType&,T>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(40): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::from_json_function<nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
           with
           [
-              T=std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>>,
+              T=std::shared_ptr<scd::common::WsConfig>,
               BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::detected_t<nlohmann::detail::to_json_function,nlohmann::adl_serializer<T,void>,BasicJsonType&,T>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::detected_t<nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
           with
           [
-              T=std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>>,
+              T=std::shared_ptr<scd::common::WsConfig>,
               BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\json.hpp(3489): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::is_detected_exact<void,nlohmann::detail::to_json_function,nlohmann::adl_serializer<T,void>,BasicJsonType&,T>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(3474): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::is_detected_exact<T,nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
           with
           [
-              T=std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>>,
+              T=std::shared_ptr<scd::common::WsConfig>,
               BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\json.hpp(3774): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::has_to_json<BasicJsonType,CompatibleType,void>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18918): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::has_non_default_from_json<nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,ValueType,void>"
           with
           [
-              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,
-              CompatibleType=std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>>
+              ValueType=std::shared_ptr<scd::common::WsConfig>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\json.hpp(3779): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::is_compatible_type_impl<BasicJsonType,CompatibleType,void>"
-          with
-          [
-              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,
-              CompatibleType=std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>>
-          ]
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\MessageSerializer.h(197): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::is_compatible_type<nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,std::shared_ptr<std::vector<Mapping,std::allocator<Mapping>>>>"
-D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson\json2xml.hpp(111): warning C4715: json2xml: значение возвращается не при всех путях выполнения
 LINK : warning LNK4098: библиотека по умолчанию "LIBCMT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
   LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
   GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe

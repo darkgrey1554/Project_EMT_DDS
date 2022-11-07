@@ -36,158 +36,6 @@ namespace scada_ate::gate::adapter::sem
 	/// --- ���������� �������� SharedMemory --- ///
 	////////////////////////////////////////////////
 
-	AdapterSharedMemory::~AdapterSharedMemory()
-	{
-		UnmapViewOfFile(buf_data);
-		CloseHandle(SM_Handle);
-		CloseHandle(Mutex_SM);
-	}
-
-	ResultReqest AdapterSharedMemory::InitAdapter()
-	{
-		
-		ResultReqest res = ResultReqest::OK;
-		unsigned int result = 0;
-		unsigned long sys_error =0;
-		size_t size_memory;
-
-		/// --- guard from repeated usage --- ///
-		const std::lock_guard<std::mutex> lock_init(mutex_init);
-
-		StatusAdapter status = current_status.load(std::memory_order::memory_order_relaxed);
-		if (status == StatusAdapter::INITIALIZATION || status == StatusAdapter::OK)
-		{
-			ResultReqest res = ResultReqest::IGNOR;
-			return res;
-		}
-		current_status.store(StatusAdapter::INITIALIZATION, std::memory_order_relaxed);
-
-		security_attr = std::make_shared<SecurityHandle>();
-		std::string namememory;
-		std::string namemutex;
-
-		try
-		{
-			if (config.type_adapter != TypeAdapter::SharedMemory) throw 1;
-
-			/// --- coping of configuration --- ///
-			//config.vec_link_tasg;
-			//config.vec_tags_source;
-
-			log->Info("AdapterSharedMemory {}: Init START", this->config.NameChannel);
-
-			/// --- initialization of security attributes --- ///
-			
-			if (security_attr == nullptr)
-			{
-				sys_error = 0;
-				current_status.store(StatusAdapter::ERROR_INIT, std::memory_order_relaxed);
-				throw 2;
-			}
-			
-			result = security_attr->InitSecurityAttrubuts();
-			if (result != 0)
-			{
-				sys_error = result;
-				current_status.store(StatusAdapter::ERROR_INIT, std::memory_order_relaxed);
-				throw 2;
-			}
-			
-			log->Debug("AdapterSharedMemory {} : InitSecurityAttributs DONE", this->config.NameChannel);
-
-			/// --- defining size units of data --- ///
-			size_memory = GetSizeMemory();
-
-			/// --- initialization handle of shared memory --- ///
-			if (SM_Handle != NULL)
-			{
-				current_status.store(StatusAdapter::ERROR_INIT, std::memory_order_relaxed);
-				throw 3;
-			}
-
-			namememory = CreateSMName();
-			namemutex =  CreateSMMutexName();
-
-			Mutex_SM = CreateMutexA(&security_attr->getsecurityattrebut(), TRUE, namemutex.c_str());
-			if (Mutex_SM == NULL)
-			{
-				sys_error = GetLastError();
-				current_status.store(StatusAdapter::ERROR_INIT, std::memory_order_relaxed);
-				throw 4;
-			}
-
-			log->Debug("AdapterSharedMemory {} : CreateMutex DONE", this->config.NameChannel);
-
-			SM_Handle = CreateFileMappingA(INVALID_HANDLE_VALUE, &security_attr->getsecurityattrebut(), PAGE_READWRITE, 0, size_memory, namememory.c_str());
-			if (SM_Handle == NULL)
-			{
-				sys_error = GetLastError();
-				current_status.store(StatusAdapter::ERROR_INIT, std::memory_order_relaxed);
-				res = ResultReqest::ERR;
-				throw 5;
-			}
-
-			log->Debug("AdapterSharedMemory {} : CreateFileMapping DONE", this->config.NameChannel);
-
-			buf_data = (char*)MapViewOfFile(SM_Handle, FILE_MAP_ALL_ACCESS, 0, 0, size_memory);
-			if (buf_data == NULL)
-			{
-				current_status.store(StatusAdapter::ERROR_INIT, std::memory_order_relaxed);
-				res = ResultReqest::ERR;
-				throw 6;
-			}
-
-			log->Debug("AdapterSharedMemory {} : MapViewOfFileg DONE", this->config.NameChannel);
-
-			/// --- clear shared memory --- ///
-			for (unsigned int i = 0; i < size_memory; i++)
-			{
-				*(buf_data + i) = 0;
-			}
-
-			/// --- initilization header shared memory --- ///
-			HeaderSharedMemory* head = reinterpret_cast<HeaderSharedMemory*>(buf_data);
-			head->TimeLastRead = 0;
-			head->TimeLastWrite = 0;
-			head->count_read = 0;
-			head->count_write = 0;
-			head->size_data_int = config.size_int_data;
-			head->size_data_float = config.size_float_data;
-			head->size_data_double = config.size_double_data;
-			head->size_data_char = config.size_char_data;
-			head->size_str_data = config.size_str_data;
-			head->size_str = config.size_str;
-			ReleaseMutex(Mutex_SM);
-			
-			/// --- init vector GetTags --- /// 
-
-			init_deque();
-
-			current_status.store(StatusAdapter::OK, std::memory_order_relaxed);
-			log->Info("AdapterSharedMemory {} : Init DONE", this->config.NameChannel);
-		}
-		catch (int& e)
-		{
-			log->Critical("AdapterSharedMemory {}: Error Init : error: {}, syserror: {}", this->config.NameChannel, e, sys_error);
-			if (Mutex_SM != NULL) ReleaseMutex(Mutex_SM);
-			CloseHandle(Mutex_SM);
-			UnmapViewOfFile(buf_data);
-			CloseHandle(SM_Handle);
-			res = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("AdapterSharedMemory {}: Error Init : error: {}, syserror: {}", this->config.NameChannel, 0, 0);
-			if (Mutex_SM != NULL) ReleaseMutex(Mutex_SM);
-			CloseHandle(Mutex_SM);
-			UnmapViewOfFile(buf_data);
-			CloseHandle(SM_Handle);
-			res = ResultReqest::ERR;
-		}		
-
-		return res;
-	}
-
 	ResultReqest AdapterSharedMemory::ReadData(std::deque<SetTags>** _data)
 	{	
 		DWORD mutex_win32 = 0;
@@ -196,7 +44,7 @@ namespace scada_ate::gate::adapter::sem
 
 		try
 		{
-			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+			if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
 			{
 				log->Warning("AdapterSharedMemory {}: ReadData IGNOR: error {}", config.NameChannel, 1);
 				return ResultReqest::IGNOR;
@@ -289,7 +137,7 @@ namespace scada_ate::gate::adapter::sem
 
 		try
 		{
-			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+			if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
 			{
 				log->Debug("AdapterSharedMemory {}: WriteData IGNOR", config.NameChannel);
 				return ResultReqest::IGNOR;
@@ -335,7 +183,158 @@ namespace scada_ate::gate::adapter::sem
 
 		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
 		return res;
-	}	   
+	}
+
+	void AdapterSharedMemory::destroy()
+	{
+		UnmapViewOfFile(buf_data);
+		CloseHandle(SM_Handle);
+		CloseHandle(Mutex_SM);
+		current_status.store(atech::common::Status::Null);
+	}
+
+	ResultReqest AdapterSharedMemory::init_adapter()
+	{
+		ResultReqest res = ResultReqest::OK;
+		unsigned int result = 0;
+		unsigned long sys_error = 0;
+		size_t size_memory;
+
+		/// --- guard from repeated usage --- ///	
+
+		atech::common::Status status = current_status.load(std::memory_order::memory_order_relaxed);
+		if (status == atech::common::Status::INIT || status == atech::common::Status::OK)
+		{
+			ResultReqest res = ResultReqest::IGNOR;
+			return res;
+		}
+		current_status.store(atech::common::Status::INIT, std::memory_order_relaxed);
+
+		security_attr = std::make_shared<SecurityHandle>();
+		std::string namememory;
+		std::string namemutex;
+
+		try
+		{
+			if (config.type_adapter != TypeAdapter::SharedMemory) throw 1;
+
+			/// --- coping of configuration --- ///
+			//config.vec_link_tasg;
+			//config.vec_tags_source;
+
+			log->Info("AdapterSharedMemory {}: Init START", this->config.NameChannel);
+
+			/// --- initialization of security attributes --- ///
+
+			if (security_attr == nullptr)
+			{
+				sys_error = 0;
+				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
+				throw 2;
+			}
+
+			result = security_attr->InitSecurityAttrubuts();
+			if (result != 0)
+			{
+				sys_error = result;
+				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
+				throw 2;
+			}
+
+			log->Debug("AdapterSharedMemory {} : InitSecurityAttributs DONE", this->config.NameChannel);
+
+			/// --- defining size units of data --- ///
+			size_memory = GetSizeMemory();
+
+			/// --- initialization handle of shared memory --- ///
+			if (SM_Handle != NULL)
+			{
+				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
+				throw 3;
+			}
+
+			namememory = CreateSMName();
+			namemutex = CreateSMMutexName();
+
+			Mutex_SM = CreateMutexA(&security_attr->getsecurityattrebut(), TRUE, namemutex.c_str());
+			if (Mutex_SM == NULL)
+			{
+				sys_error = GetLastError();
+				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
+				throw 4;
+			}
+
+			log->Debug("AdapterSharedMemory {} : CreateMutex DONE", this->config.NameChannel);
+
+			SM_Handle = CreateFileMappingA(INVALID_HANDLE_VALUE, &security_attr->getsecurityattrebut(), PAGE_READWRITE, 0, size_memory, namememory.c_str());
+			if (SM_Handle == NULL)
+			{
+				sys_error = GetLastError();
+				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
+				res = ResultReqest::ERR;
+				throw 5;
+			}
+
+			log->Debug("AdapterSharedMemory {} : CreateFileMapping DONE", this->config.NameChannel);
+
+			buf_data = (char*)MapViewOfFile(SM_Handle, FILE_MAP_ALL_ACCESS, 0, 0, size_memory);
+			if (buf_data == NULL)
+			{
+				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
+				res = ResultReqest::ERR;
+				throw 6;
+			}
+
+			log->Debug("AdapterSharedMemory {} : MapViewOfFileg DONE", this->config.NameChannel);
+
+			/// --- clear shared memory --- ///
+			for (unsigned int i = 0; i < size_memory; i++)
+			{
+				*(buf_data + i) = 0;
+			}
+
+			/// --- initilization header shared memory --- ///
+			HeaderSharedMemory* head = reinterpret_cast<HeaderSharedMemory*>(buf_data);
+			head->TimeLastRead = 0;
+			head->TimeLastWrite = 0;
+			head->count_read = 0;
+			head->count_write = 0;
+			head->size_data_int = config.size_int_data;
+			head->size_data_float = config.size_float_data;
+			head->size_data_double = config.size_double_data;
+			head->size_data_char = config.size_char_data;
+			head->size_str_data = config.size_str_data;
+			head->size_str = config.size_str;
+			ReleaseMutex(Mutex_SM);
+
+			/// --- init vector GetTags --- /// 
+
+			init_deque();
+
+			current_status.store(atech::common::Status::OK, std::memory_order_relaxed);
+			log->Info("AdapterSharedMemory {} : Init DONE", this->config.NameChannel);
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterSharedMemory {}: Error Init : error: {}, syserror: {}", this->config.NameChannel, e, sys_error);
+			if (Mutex_SM != NULL) ReleaseMutex(Mutex_SM);
+			CloseHandle(Mutex_SM);
+			UnmapViewOfFile(buf_data);
+			CloseHandle(SM_Handle);
+			res = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterSharedMemory {}: Error Init : error: {}, syserror: {}", this->config.NameChannel, 0, 0);
+			if (Mutex_SM != NULL) ReleaseMutex(Mutex_SM);
+			CloseHandle(Mutex_SM);
+			UnmapViewOfFile(buf_data);
+			CloseHandle(SM_Handle);
+			res = ResultReqest::ERR;
+		}
+
+		return res;
+	}
 
 }
 
@@ -368,24 +367,11 @@ namespace scada_ate::gate::adapter::sem
 	/// --- ���������� �������� SharedMemory --- ///
 	////////////////////////////////////////////////
 
-	AdapterSharedMemory::~AdapterSharedMemory()
+	ResultReqest AdapterSharedMemory::init_adapter()
 	{
-		destroy();
-	}
-
-	/////////////////////////////////////////////////
-	/// --- ���������� �������� SharedMemory --- ///
-	////////////////////////////////////////////////
-
-	ResultReqest AdapterSharedMemory::InitAdapter()
-	{
-
 		ResultReqest res = ResultReqest::OK;
 		unsigned int result = 0;
 		int sys_error = 0;
-
-		///// --- guard from repeated usage --- ///
-		const std::lock_guard<std::mutex> lock_init(mutex_init);
 
 		StatusAdapter status = current_status.load(std::memory_order::memory_order_relaxed);
 		if (status == StatusAdapter::INITIALIZATION || status == StatusAdapter::OK)
@@ -466,6 +452,10 @@ namespace scada_ate::gate::adapter::sem
 
 		return res;
 	}
+
+	/////////////////////////////////////////////////
+	/// --- ���������� �������� SharedMemory --- ///
+	////////////////////////////////////////////////
 
 	ResultReqest AdapterSharedMemory::init_mutex()
 	{
@@ -630,6 +620,8 @@ namespace scada_ate::gate::adapter::sem
 				log->Critical("AdapterSharedMemory {}: Error unlink semaphor: error: {}, syserror: {}", this->config.NameChannel, 0, errno);
 			_semaphor = nullptr;
 		}
+
+		current_status.store(atech::common::Status::Null);
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -811,6 +803,18 @@ namespace scada_ate::gate::adapter::sem
 
 		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
 	};
+
+	AdapterSharedMemory::~AdapterSharedMemory()
+	{
+		const std::lock_guard<std::mutex> lock_init(mutex_init);
+		destroy();
+	}
+
+	ResultReqest AdapterSharedMemory::InitAdapter()
+	{
+		const std::lock_guard<std::mutex> lock_init(mutex_init);
+		return init_adapter();
+	}
 
 	void AdapterSharedMemory::set_data(TypeValue& type, const Value& value, const LinkTags& link)
 	{
@@ -1042,7 +1046,7 @@ namespace scada_ate::gate::adapter::sem
 		}
 	}
 
-	std::shared_ptr<IAnswer> AdapterSharedMemory::GetInfoAdapter(ParamInfoAdapter param)
+	std::shared_ptr<IAnswer> AdapterSharedMemory::GetInfo(ParamInfoAdapter param)
 	{
 		std::shared_ptr<IAnswer> answer = nullptr;
 		std::shared_ptr<AnswerSharedMemoryHeaderData> answerHeaderData = nullptr;
@@ -1072,25 +1076,68 @@ namespace scada_ate::gate::adapter::sem
 		return answer;
 	}
 
-	/////////////////////////////////////////////////
-	/// --- ������ ���� �������� SharedMemory --- ///
-	/////////////////////////////////////////////////
-	/// <result> 
-	/// - ���������� ��� �������� (TypeAdapter::SharedMemory;)
-
 	TypeAdapter AdapterSharedMemory::GetTypeAdapter()
 	{
 		return TypeAdapter::SharedMemory;
 	}
 
-	/////////////////////////////////////////////////////////////
-	/// --- ������ �������� ������� �������� SharedMemory --- ///
-	////////////////////////////////////////////////////////////
-	/// <result> 
-	/// - ���������� ������ �������� (StatusAdapter)
-	StatusAdapter AdapterSharedMemory::GetStatusAdapter()
+	uint32_t AdapterSharedMemory::GetId()
 	{
-		return current_status.load(std::memory_order::memory_order_relaxed);
+		return config.id_adapter;
+	}
+
+	ResultReqest AdapterSharedMemory::GetStatus(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		st.push_back({ this->config.id_adapter, current_status.load() });
+		return ResultReqest::OK;
+	}
+
+	ResultReqest AdapterSharedMemory::Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (current_status.load() == atech::common::Status::STOP ||
+			current_status.load() == atech::common::Status::OK)
+		{
+			current_status.store(atech::common::Status::OK);
+			result = ResultReqest::OK;
+		}
+		else
+		{
+			result = ResultReqest::ERR;
+		}
+
+		st.push_back({ config.id_adapter, current_status.load() });
+		return result;
+	}
+
+	ResultReqest AdapterSharedMemory::Stop(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (current_status.load() == atech::common::Status::STOP ||
+			current_status.load() == atech::common::Status::OK)
+		{
+			current_status.store(atech::common::Status::STOP);
+			result = ResultReqest::OK;
+		}
+		else
+		{
+			result = ResultReqest::ERR;
+		}
+
+		st.push_back({ config.id_adapter, current_status.load() });
+		return result;
+	}
+
+	ResultReqest AdapterSharedMemory::ReInit(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result {ResultReqest::OK};
+		const std::lock_guard<std::mutex> lock_init(mutex_init);
+		this->destroy();
+		result = this->init_adapter();
+		st.push_back({ config.id_adapter, current_status.load() });
+		return result;
 	}
 
 	int AdapterSharedMemory::demask(const int& value, int mask_source, const int& value_target, const int& mask_target)

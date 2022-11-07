@@ -52,15 +52,18 @@ namespace atech::srv::io::ctrl
 		scada_ate::gate::adapter::TypeRegistration datum_to_linktags_typereg(const std::string& str);
 		scada_ate::gate::adapter::TypeValue datum_to_linktags_typeval(const std::string str);
 		ResultReqest verification_config_file(std::string& config);
-		void apply_new_config();
+		void apply_new_config(DdsCommand cmd);
+		ResultReqest get_vector_id_from_json(std::vector<uint32_t>& vector, std::string_view str);
 		
 
-		DdsStatus command_apply_new_config();
+		DdsStatus command_apply_new_config(DdsCommand& cmd);
 		DdsStatus command_receive_new_config(std::string_view parametr);
-		DdsStatus command_request_status(size_t id);
-		DdsStatus command_start(size_t id);
-		DdsStatus command_stop(size_t id);
-		DdsStatus command_reinit(size_t id);
+		DdsStatus command_request_version(uint32_t id);
+		DdsStatus command_request_status(std::string_view parametr);
+		DdsStatus command_start(std::string_view parametr);
+		DdsStatus command_stop(std::string_view parametr);
+		DdsStatus command_reinit(std::string_view parametr);
+		DdsStatus command_request_process_info(uint32_t id);
 
 	
 

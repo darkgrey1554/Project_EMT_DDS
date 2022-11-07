@@ -81,7 +81,6 @@ namespace scada_ate::gate::adapter::sem
 		ResultReqest init_shared_memory();
 		ResultReqest allocate_memory(size_t size_memory);
 		ResultReqest mapping_memory(size_t size_memory);
-		void destroy();
 
 		ResultReqest lock_semaphore();
 		ResultReqest unlock_semaphore();
@@ -90,18 +89,21 @@ namespace scada_ate::gate::adapter::sem
 		
 
 		std::mutex mutex_init;
-		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// ���������� ������� �������� 
+		std::atomic<atech::common::Status> current_status = atech::common::Status::Null; /// ���������� ������� �������� 
 		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
 
 		/// --- ������� ������������ ��������� ������ �� ������ HeaderData --- ///
 		std::shared_ptr<AnswerSharedMemoryHeaderData> AnswerRequestHeaderData();
 
+		ResultReqest init_adapter();
 		void init_deque();
 		std::string CreateSMName();
 		std::string CreateSMMutexName();
 		size_t GetSizeMemory();
 		size_t TakeOffset(const TypeValue& type_value, const size_t& ofs) const;
 		int demask(const int& value, int mask_source,const int& value_target, const int& mask_target);
+		void destroy();
+
 
 		size_t offset_int = 0;
 		size_t offset_float = 0;
@@ -122,8 +124,12 @@ namespace scada_ate::gate::adapter::sem
 		ResultReqest ReadData(std::deque<SetTags>** buf) override;
 		ResultReqest WriteData(const std::deque<SetTags>& buf) override;
 		TypeAdapter GetTypeAdapter() override;
-		StatusAdapter GetStatusAdapter() override;
-		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) override;
+		uint32_t GetId() override;
+		ResultReqest GetStatus(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest Stop(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest ReInit(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		std::shared_ptr<IAnswer> GetInfo(ParamInfoAdapter param) override;
 
 		AdapterSharedMemory(std::shared_ptr<IConfigAdapter> config);
 		~AdapterSharedMemory();
@@ -170,8 +176,12 @@ namespace scada_ate::gate::adapter::sem
 		ResultReqest ReadData(std::deque<SetTags>** buf) override;
 		ResultReqest WriteData(const std::deque<SetTags>& buf) override;
 		TypeAdapter GetTypeAdapter() override;
-		StatusAdapter GetStatusAdapter() override;
-		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) override;
+		uint32_t GetId() override;
+		atech::common::Status GetStatus() override;
+		ResultReqest Start() override;
+		ResultReqest Stop() override;
+		ResultReqest ReInit() override;
+		std::shared_ptr<IAnswer> GetInfo(ParamInfoAdapter param) override;
 
 		AdapterSharedMemory(std::shared_ptr<IConfigAdapter> config);
 		~AdapterSharedMemory();

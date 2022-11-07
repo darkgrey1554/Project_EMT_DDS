@@ -170,7 +170,7 @@
     <ClCompile Include="include\ddsformat\SizeTopics.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="main_test_json.cpp">
+    <ClCompile Include="main_test_command.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -340,6 +340,9 @@
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\ddsformat\TypeTopics.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\interfaces.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

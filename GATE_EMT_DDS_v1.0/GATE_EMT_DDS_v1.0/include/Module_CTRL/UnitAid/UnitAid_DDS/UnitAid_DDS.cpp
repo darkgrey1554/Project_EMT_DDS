@@ -477,11 +477,17 @@ namespace atech::srv::io::ctrl
 				return;
 			}
 
-			if (_master->config.node_id != data.id_target()) return;
+			if (_master->verification_node_id(data.id_target()) != ResultReqest::OK) return;
 
 			_master->log->Info("UnitAid_DDS node-{}, Receive command {}", _master->config.node_id, data.cmd_code());
 			status = _master->broadcast_command(data);
-			_master->_responder->write(&status);
+
+			status.id_source(_master->config.node_id);
+			status.id_target(data.id_source());
+			status.cmd_code(data.cmd_code());
+			status.st_time(TimeConverter::GetTime_LLmcs());
+			
+			if (status.st_code() != (uint32_t)atech::common::Status::Null) _master->_responder->write(&status);
 		}
 		catch (int& e)
 		{
@@ -525,12 +531,12 @@ namespace atech::srv::io::ctrl
 
 	std::string UnitAid_DDS::get_name_TopicCommand()
 	{
-		return "topic_command_atech_scada";
+		return "dds_command";
 	}
 
 	std::string UnitAid_DDS::get_name_TopicRespond()
 	{
-		return "topic_respond_atech_scada";
+		return "dds_status";
 	}
 
 	std::string UnitAid_DDS::get_name_topic_profile_command()
@@ -581,5 +587,22 @@ namespace atech::srv::io::ctrl
 	DdsStatus UnitAid_DDS::broadcast_command(DdsCommand& cmd)
 	{
 		return config.manager->function_processing(cmd);
+	};
+
+	ResultReqest UnitAid_DDS::verification_node_id(uint32_t node_target)
+	{
+		uint32_t node = (node_target & 0xFFFF0000) >> 16;
+		uint32_t type = (node_target & 0x0000FF00) >> 8;
+		uint32_t id = (node_target & 0x000000FF);
+
+		uint32_t node_this = (config.node_id & 0xFFFF0000) >> 16;
+		uint32_t type_this = (config.node_id & 0x0000FF00) >> 8;
+		uint32_t id_this = (config.node_id & 0x000000FF);
+
+		if (type != type_this) return ResultReqest::ERR;
+		if (node != 0 && node != node_this)	return ResultReqest::ERR;
+		if (id != 0 && id != id_this)	return ResultReqest::ERR;
+
+		return 	 ResultReqest::OK;
 	};
 }

@@ -22,160 +22,6 @@ namespace scada_ate::gate::adapter
 		};
 	};
 
-	/*ResultReqest UnitTransfer::InitUnit()
-	{
-		ResultReqest result{ ResultReqest::OK };
-
-		const std::lock_guard<std::mutex> lock_init(mutex_init);
-
-		StatusUnitTransfer status = _status.load(std::memory_order::memory_order_relaxed);
-		if (status == StatusUnitTransfer::INITIALIZATION || status == StatusUnitTransfer::OK)
-		{
-			ResultReqest res = ResultReqest::IGNOR;
-			return res;
-		}
-
-		try
-		{
-			if (update_mapping_input_adapter() != ResultReqest::OK) throw 1;
-			if (update_mapping_output_adapter() != ResultReqest::OK) throw 2;
-
-			_adapter_source = adapter::CreateAdapter(config.config_input_unit[0]);
-			if (_adapter_source == nullptr) throw 3;
-			if (_adapter_source->InitAdapter() != ResultReqest::OK) throw 4;
-			
-			_adapters_target.clear();
-			for (auto& conf : config.config_output_unit)
-			{
-				_adapters_target[conf.get()->id_adapter] = adapter::CreateAdapter(conf);
-				if (_adapters_target[conf.get()->id_adapter]->InitAdapter() != ResultReqest::ERR)
-				{
-					log->Warning("UnitTransfer id - {}: Error Initialization adapter: id - ", config.id, conf.get()->id_adapter);
-				};
-			}
-
-			try
-			{
-				_thread_transfer = std::thread(&UnitTransfer::_thread_transfer, this);
-				log->Debug("UnitTransfer id - {}: Start transfer thread", config.id);
-			}
-			catch (...)
-			{
-				throw 5;
-			}
-
-			try
-			{
-				_thread_ctrl_adapters = std::thread(&UnitTransfer::ctrl_adapter_thread, this);
-				log->Debug("UnitTransfer id - {}: Start transfer control", config.id);
-			}
-			catch (...)
-			{
-				log->Warning("UnitTransfer id - {}: Error start transfer control: error: {} syserror: {}", config.id,0,0);
-			}
-			
-			log->Debug("UnitTransfer id - {}: Initialization done", config.id);
-			_status.store(StatusUnitTransfer::OK);
-		}
-		catch (int& e)
-		{
-			log->Critical("UnitTransfer id - {}: Error Initialization: error: {} syserror: {}", config.id, e, 0);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("UnitTransfer id-{}: Error Initialization: error: {} syserror: {}", config.id, 0, 0);
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	}*/
-
-	/*ResultReqest UnitTransfer::update_mapping_input_adapter()
-	{
-		ResultReqest result{ ResultReqest::OK };
-
-		try
-		{
-			IConfigAdapter* source = config.config_input_unit[0].get();
-			source->vec_tags_source.clear();
-			
-			size_t size_maps = 0;
-			for (auto& map : config.mapping)
-			{
-				size_maps += map.vec_links.size();
-			};
-			source->vec_tags_source.reserve(size_maps);
-
-			for (auto& map : config.mapping)
-			{
-				for (auto& tag : map.vec_links)
-				{
-					if (std::find(source->vec_tags_source.begin(), source->vec_tags_source.end(), tag.source) == source->vec_tags_source.end())
-					{
-						source->vec_tags_source.push_back(tag.source);
-					}
-				}
-			};
-		}
-		catch (int& e)
-		{
-			log->Critical("UnitTransfer id - {}: Error update_mapping_input_adapter: error: {} syserror: {}", config.id, e, 0);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("UnitTransfer id-{}: Error update_mapping_input_adapter: error: {} syserror: {}", config.id, 0, 0);
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	};
-
-	ResultReqest UnitTransfer::update_mapping_output_adapter()
-	{
-		ResultReqest result{ ResultReqest::OK };
-
-		try
-		{
-			_vec_frq.clear();
-			_vec_frq.reserve(config.config_output_unit.size());
-
-			for (auto& target : config.config_output_unit)
-			{
-				IConfigAdapter* adapter = target.get();
-				adapter->vec_link_tags.clear();
-				bool flag_is = false;
-				for (auto& map : config.mapping)
-				{
-					if (adapter->id_map == map.id)
-					{
-						adapter->vec_link_tags = map.vec_links;
-						flag_is = true;
-						_vec_frq.push_back({ adapter->id_adapter, map.frequency, 0 });
-						break;
-					}
-				}
-				if (!flag_is)
-				{
-					log->Debug("UnitTransfer id - {}: Error update_mapping_output_adapter: mapping dont detected: adapter id - {}", config.id, adapter->id_adapter);
-				}
-			}
-		}
-		catch (int& e)
-		{
-			log->Critical("UnitTransfer id - {}: Error update_mapping_output_adapter: error: {} syserror: {}", config.id, e, 0);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("UnitTransfer id-{}: Error update_mapping_output_adapter: error: {} syserror: {}", config.id, 0, 0);
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	};*/
-
 	void UnitTransfer::transfer_thread()
 	{
 		long long time_current;
@@ -242,44 +88,46 @@ namespace scada_ate::gate::adapter
 
 	void UnitTransfer::ctrl_adapter_thread()
 	{
-		StatusAdapter _status;
+		std::deque<std::pair<uint32_t, atech::common::Status>> status;
+
 		try
 		{
 			for (;;)
 			{
 				if (_command_thread_ctrl_adapters.load() != 0) break;
 
-				_status = _adapter_source->GetStatusAdapter();
-				if (_status == StatusAdapter::ERROR_INIT ||
-					_status == StatusAdapter::Null ||
-					_status == StatusAdapter::CRASH)
+				_adapter_source->GetStatus(status);
+				if (status.begin()->second == atech::common::Status::ERROR_INIT ||
+					status.begin()->second == atech::common::Status::Null ||
+					status.begin()->second == atech::common::Status::ERROR_CONNECTING)
 				{
-					ResultReqest res = _adapter_source->InitAdapter();
+					ResultReqest res = _adapter_source->ReInit(status);
 					if (res == ResultReqest::ERR)
 					{
-						log->Critical("UnitTransfer id - {}: Error Init adapter source: error: {} syserror: {}", id, 0, 0);
+						log->Critical("UnitTransfer id - {}: Error ReInit adapter source: error: {} syserror: {}", id, 0, 0);
 					}
 					else
 					{
-						log->Warning("UnitTransfer id - {}: Init adapter source: error: {} syserror: {}", id, 0, 0);
+						log->Warning("UnitTransfer id - {}: ReInit adapter source: error: {} syserror: {}", id, 0, 0);
 					}
 				}
 
 				for (auto& it : _adapters_target)
 				{
-					_status = it.second->GetStatusAdapter();
-					if (_status == StatusAdapter::ERROR_INIT ||
-						_status == StatusAdapter::Null ||
-						_status == StatusAdapter::CRASH)
+					status.clear();
+					it.second->GetStatus(status);
+					if (status.begin()->second == atech::common::Status::ERROR_INIT ||
+						status.begin()->second == atech::common::Status::Null ||
+						status.begin()->second == atech::common::Status::ERROR_CONNECTING)
 					{
-						ResultReqest res = it.second->InitAdapter();
+						ResultReqest res = it.second->ReInit(status);
 						if (res == ResultReqest::ERR)
 						{
-							log->Warning("UnitTransfer id - {}: Error Init adapter target id-{}: error: {} syserror: {}", id, it.first, 0, 0);
+							log->Warning("UnitTransfer id - {}: Error ReInit adapter target id-{}: error: {} syserror: {}", id, it.first, 0, 0);
 						}
 						else
 						{
-							log->Warning("UnitTransfer id - {}: Init adapter target id- ", id, it.first);
+							log->Warning("UnitTransfer id - {}: ReInit adapter target id- ", id, it.first);
 						}
 					}
 				}
@@ -297,7 +145,7 @@ namespace scada_ate::gate::adapter
 		};
 	}
 
-	ResultReqest UnitTransfer::StartTransfer()
+	ResultReqest UnitTransfer::start_transfer()
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -319,32 +167,34 @@ namespace scada_ate::gate::adapter
 				_command_thread_transfer.store(0);
 				_thread_ctrl_adapters = std::thread(&UnitTransfer::ctrl_adapter_thread, this);
 			}
+
+			_status.store(atech::common::Status::OK);
 		}
 		catch (int& e)
 		{
 			log->Critical("UnitTransfer id - {}: Error StartTransfer: error: {} syserror: {}", id, e, 0);
 			result = ResultReqest::ERR;
-			_status.store(adapter::StatusUnitTransfer::ERROR_START);
+			_status.store(atech::common::Status::ERR);
 		}
 		catch (...)
 		{
 			log->Critical("UnitTransfer id-{}: Error StartTransfer: error: {} syserror: {}", id, 0, 0);
 			result = ResultReqest::ERR;
-			_status.store(adapter::StatusUnitTransfer::ERROR_START);
+			_status.store(atech::common::Status::ERR);
 		}
 
 		return result;
 	}	
 
-	ResultReqest UnitTransfer::StopTransfer()
+	ResultReqest UnitTransfer::stop_transfer()
 	{
 		ResultReqest result{ ResultReqest::OK };
 		
 		try 
 		{
-			if (_status.load() != StatusUnitTransfer::OK)
+			if (_status.load() != atech::common::Status::OK)
 			{
-				return ResultReqest::IGNOR;
+				return ResultReqest::ERR;
 			}
 
 			if (_thread_transfer.joinable())
@@ -352,6 +202,8 @@ namespace scada_ate::gate::adapter
 				_command_thread_transfer.store(1);
 				_thread_transfer.join();
 			}
+
+			_status.store(atech::common::Status::STOP);
 		}
 		catch (int& e)
 		{
@@ -367,20 +219,152 @@ namespace scada_ate::gate::adapter
 		return result;
 	}
 
-	StatusUnitTransfer UnitTransfer::GetStatus()
+	uint32_t UnitTransfer::GetId()
 	{
-		return _status.load();
+		return id;
+	}
+
+	ResultReqest UnitTransfer::GetStatus(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (id == 0 || id == this->id)
+		{
+			_adapter_source->GetStatus(st);
+			for (auto& it : _adapters_target)
+			{
+				it.second->GetStatus(st);
+			}
+
+			st.push_back({ this->id, _status.load() });
+		}
+		else if (id == _adapter_source->GetId())
+		{
+			_adapter_source->GetStatus(st);
+		}
+		else if ( _adapters_target.count(id) != 0)
+		{
+			_adapters_target[id]->GetStatus(st);
+		}
+		else
+		{
+			result = ResultReqest::IGNOR;
+		}
+
+		return result;
+	}
+
+	ResultReqest UnitTransfer::Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st,uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+		const std::lock_guard<std::mutex> lock(_guarder);
+
+		if (id == 0 || id == this->id)
+		{
+			_adapter_source->Start(st);
+			for (auto& it : _adapters_target)
+			{
+				it.second->Start(st);
+			}			
+			start_transfer();
+			st.push_back({ this->id,_status.load() });
+
+		}
+		else if (_adapter_source->GetId() == id)
+		{
+			_adapter_source->Start(st);
+
+			
+		}
+		else if (_adapters_target.count(id) != 0)
+		{
+			_adapters_target[id]->Start(st);
+		}
+		else
+		{
+			result = ResultReqest::IGNOR;
+		}
+
+		return result;
 	};
 
-	/*ResultReqest UnitTransfer::MountAdapterSource(scada_ate::gate::adapter::IConfigAdapter& config) 
+	ResultReqest UnitTransfer::Stop(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
 	{
-		return ResultReqest::IGNOR;
+		ResultReqest result{ ResultReqest::OK };
+		const std::lock_guard<std::mutex> lock(_guarder);
+
+		if (id == 0 || id == this->id)
+		{
+			stop_transfer();
+			st.push_back({ this->id,_status.load() });
+			_adapter_source->Stop(st);
+			for (auto& it : _adapters_target)
+			{
+				it.second->Stop(st);
+			}
+		}
+		else if (_adapter_source->GetId() == id)
+		{
+			_adapter_source->Stop(st);
+		}
+		else if (_adapters_target.count(id) != 0)
+		{
+			_adapters_target[id]->Stop(st);
+		}
+		else
+		{
+			result = ResultReqest::IGNOR;
+		}
+
+		return result;				    
+	};
+
+	ResultReqest UnitTransfer::ReInit(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+		const std::lock_guard<std::mutex> lock(_guarder);
+
+		if (id == 0 || id == this->id)
+		{
+			_command_thread_ctrl_adapters.store(1);
+			_command_thread_transfer.store(1);
+			if (_thread_ctrl_adapters.joinable())
+			{
+				_thread_ctrl_adapters.join();
+			}
+			if (_thread_transfer.joinable())
+			{
+				_thread_transfer.join();
+			}
+
+			_adapter_source->ReInit(st);
+			for (auto& it : _adapters_target)
+			{
+				it.second->ReInit(st);
+			}
+
+			start_transfer();
+			st.push_back({ this->id,_status.load() });
+		}
+		else if (_adapter_source->GetId() == id) 
+		{
+			 _adapter_source->ReInit(st);
+		}
+		else if(_adapters_target.count(id) !=0)
+		{
+			_adapters_target[id]->ReInit(st);
+		}
+		else
+		{
+			result = ResultReqest::IGNOR;
+		}
+
+		return result;
 	}
-	
-	ResultReqest UnitTransfer::AddAdapterTarget(const scada_ate::gate::adapter::IConfigAdapter& config, const Mapping& mapping)
-	{
-		return ResultReqest::IGNOR;
-	}*/
+
+
+
+
 
 	BuilderUnitTransfer::BuilderUnitTransfer() 
 	{

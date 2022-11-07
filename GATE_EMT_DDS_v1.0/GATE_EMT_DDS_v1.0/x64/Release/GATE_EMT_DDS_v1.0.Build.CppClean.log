@@ -19,7 +19,7 @@ d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x6
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\exception.obj
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\loggerscadaspd.obj
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\loggerscada.obj
-d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\main_tset_fignia.obj
+d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\main_test_json.obj
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\timeconverter.obj
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\struct.obj
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\unittransfer.obj
@@ -39,11 +39,17 @@ d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x6
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\ddsdatatypeobject.obj
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\ddsdatapubsubtypes.obj
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\ddsdata.obj
+d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\main_test_command.obj
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\x64\release\gate_emt_dds_v1.0.exe
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\x64\release\gate_emt_dds_v1.0.pdb
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\cl.command.1.tlog
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\cl.read.1.tlog
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\cl.write.1.tlog
+d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\link-cvtres.read.1.tlog
+d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\link-cvtres.write.1.tlog
+d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\link-rc.read.1.tlog
+d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\link-rc.write.1.tlog
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\link.command.1.tlog
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\link.read.1.tlog
+d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\link.read.2.tlog
 d:\cate_work\gate_emt_dds\project_emt_dds\gate_emt_dds_v1.0\gate_emt_dds_v1.0\x64\release\gate_emt.90e3ee34.tlog\link.write.1.tlog

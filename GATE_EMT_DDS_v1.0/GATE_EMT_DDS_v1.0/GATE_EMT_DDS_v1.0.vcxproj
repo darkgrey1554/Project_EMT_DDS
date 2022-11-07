@@ -58,7 +58,7 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\UnitTransfer.cpp" />
     <ClCompile Include="include\structs\struct.cpp" />
     <ClCompile Include="include\structs\TimeConverter.cpp" />
-    <ClCompile Include="main_test_json.cpp" />
+    <ClCompile Include="main_test_command.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json" />
@@ -112,6 +112,7 @@
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.hpp" />
     <ClInclude Include="include\Module_IO\ModuleIO.h" />
     <ClInclude Include="include\Module_IO\UnitTransfer\UnitTransfer.hpp" />
+    <ClInclude Include="include\structs\interfaces.h" />
     <ClInclude Include="include\structs\ServiceType.h" />
     <ClInclude Include="include\structs\structs.h" />
     <ClInclude Include="include\structs\structs.hpp" />

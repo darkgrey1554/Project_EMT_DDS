@@ -36,7 +36,7 @@ namespace atech::srv::io::ctrl
 		_dds::DataWriter* _responder = nullptr;
 		_dds::TypeSupport type_support_topic_command;
 		_dds::TypeSupport type_support_topic_respond;
-		std::string topic_name_config{ "DdsConfig" };
+		std::string topic_name_config{ "dds_config" };
 
 
 		class SubListener : public _dds::DataReaderListener
@@ -56,6 +56,7 @@ namespace atech::srv::io::ctrl
 		ResultReqest init_publisher();
 		ResultReqest registration_types();
 		ResultReqest create_topics();
+		ResultReqest verification_node_id(uint32_t node_target);
 
 		std::string get_name_participant_profile();
 		std::string get_name_TopicCommand();

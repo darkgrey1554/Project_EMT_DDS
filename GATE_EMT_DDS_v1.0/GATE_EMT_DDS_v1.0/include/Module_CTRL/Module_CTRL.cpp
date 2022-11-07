@@ -236,6 +236,7 @@ namespace atech::srv::io::ctrl
 	ResultReqest Module_CTRL::addunits_module_io(std::vector<scada_ate::gate::adapter::ConfigUnitTransfer>& vect_config_units)
 	{
 		ResultReqest result = ResultReqest::OK;
+		std::deque<std::pair<uint32_t, atech::common::Status>> st;
 		
 		_module_io_ptr.reset();
 		_module_io_ptr = std::make_shared<scada_ate::gate::Module_IO>();
@@ -249,7 +250,7 @@ namespace atech::srv::io::ctrl
 				continue;
 			};
 			
-			if (_module_io_ptr->StartUnit(unit.id) != ResultReqest::OK)
+			if (_module_io_ptr->Start(st, unit.id) != ResultReqest::OK)
 			{
 				log->Critical("Module_CTRL node-{}: error start unit transfer id-{}", _node_id, unit.id);
 			}
@@ -681,15 +682,30 @@ namespace atech::srv::io::ctrl
 	DdsStatus Module_CTRL::function_processing(DdsCommand& cmd)
 	{
 		DdsStatus status;
-		
-		status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::ERR));
+		std::string parametr;
+		parametr.copy(&*cmd.cmd_parameter().begin(), cmd.cmd_parameter().size());
 
-		if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::CatalogCommand::RECEIVE_CONFIG))
+
+		if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::Command::RECEIVE_CONFIG))
 		{
-			std::string parametr;
-			parametr.copy(&*cmd.cmd_parameter().begin(), cmd.cmd_parameter().size());
 			status = command_receive_new_config(parametr);
 		}
+		else if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::Command::SEND_STATUS))
+		{
+			status = command_request_status(parametr);
+		}
+		else if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::Command::START))
+		{
+			status = command_start(parametr);
+		}
+		else if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::Command::STOP))
+		{
+			status = command_stop(parametr);
+		}
+		else if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::Command::RESET))
+		{
+			status = command_reinit(parametr);
+		} 		
 
 		return status;
 	}
@@ -712,16 +728,16 @@ namespace atech::srv::io::ctrl
 
 			if (verification_config_file(config_str_new) != ResultReqest::OK) throw 5;
 
-			status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::OK));
+			status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
 		}
 		catch (int& e)
 		{
-			status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::OK));
+			status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
 			config_str_new.clear();
 		}
 		catch (...)
 		{
-			status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::OK));
+			status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
 			config_str_new.clear();
 		}
 
@@ -798,21 +814,21 @@ namespace atech::srv::io::ctrl
 		return result;
 	}
 
-	DdsStatus Module_CTRL::command_apply_new_config()
+	DdsStatus Module_CTRL::command_apply_new_config(DdsCommand& cmd)
 	{
 		DdsStatus status;
-		status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::Null));
+		status.st_code(static_cast<uint32_t>(atech::common::Status::Null));
 		if (thread_helper.joinable())
 		{
 			thread_helper.join();
 		}
 
-		thread_helper = std::thread(&Module_CTRL::apply_new_config, this);
+		thread_helper = std::thread(&Module_CTRL::apply_new_config, this, cmd);
 
 		return status;
 	}
 
-	void Module_CTRL::apply_new_config()
+	void Module_CTRL::apply_new_config(DdsCommand cmd)
 	{
 		DdsStatus status;
 		
@@ -821,12 +837,15 @@ namespace atech::srv::io::ctrl
 			_unitaid = nullptr;
 			_module_io_ptr->ClearModule();
 
-			status.cmd_code(static_cast<uint32_t>(atech::common::CatalogCommand::APPLY_CONFIG));
-			status.st_code(static_cast<uint32_t>(atech::common::CatalogStatus::OK));
+			status.cmd_code(static_cast<uint32_t>(atech::common::Command::APPLY_CONFIG));
+			status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
+			status.id_target(cmd.id_source());
+			status.id_source(_node_id);
 
 			init_dds_layer(config_str_new);
 			init_module_io(config_str_new);
 			_unitaid = atech::srv::io::ctrl::CreateUnit_CP(_config_unitaid);
+			status.st_time(TimeConverter::GetTime_LLmcs());
 			if (_unitaid->InitUnitAid() == ResultReqest::OK) _unitaid->RespondStatus(status);
 		}
 		catch (int& e)
@@ -841,6 +860,530 @@ namespace atech::srv::io::ctrl
 		return;	
 	}
 
+	ResultReqest  Module_CTRL::get_vector_id_from_json(std::vector<uint32_t>& vector, std::string_view str)
+	{
+		ResultReqest result { ResultReqest::OK };
+
+		try
+		{
+			nlohmann::json json = nlohmann::json::parse(str);
+			if (json.count("id") != 0) throw 1;
+			if (!json["id"].is_array()) throw 2;
+			if (!json["id"].begin()->is_number_unsigned()) throw 3;
+			for (auto& it : json["id"])
+			{
+				vector.push_back(it.get<uint32_t>());
+			}
+		}
+		catch(int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error get vector id: error {}", _node_id, e);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error get vector id: error {}", _node_id, 0);
+			result = ResultReqest::ERR;
+		} 	                    
+
+		return result;
+	}
+
+	DdsStatus  Module_CTRL::command_request_status(std::string_view parametr)
+	{
+		std::deque<std::pair<uint32_t, atech::common::Status>> parametr_answer;
+		DdsStatus status;
+		std::string str_out;
+		nlohmann::json j_param;
+		std::vector<uint32_t> vec_id{};
+
+		try
+		{
+			if (get_vector_id_from_json(vec_id, parametr) != ResultReqest::OK) throw 1;
+
+			j_param.push_back("success");
+			j_param.push_back("error");
+			j_param.push_back("unfound");
+
+			j_param["success"].array({});
+			j_param["error"].array({});
+			j_param["unfound"].array({});
+
+			if (vec_id.empty())
+			{
+				ResultReqest res;
+				res = _module_io_ptr->GetStatus(parametr_answer);
+				if (res == ResultReqest::OK)
+				{
+					for (auto& it : parametr_answer)
+					{
+						j_param["success"].push_back(it);
+					};
+				}
+			}
+			else
+			{
+				for (auto& it : vec_id)
+				{
+					ResultReqest res;
+					res = _module_io_ptr->GetStatus(parametr_answer, it);
+					if (res == ResultReqest::OK)
+					{
+						j_param["success"].push_back(parametr_answer.back());
+						parametr_answer.pop_back();
+					}
+					else if (res == ResultReqest::ERR)
+					{
+						j_param["error"].push_back(it);
+					}
+					else if (res == ResultReqest::IGNOR)
+					{
+						j_param["unfound"].push_back(it);
+					}
+				}
+			}
+
+			if (!j_param["error"].empty())
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::ERR));
+			}
+			else if (!j_param["unfound"].empty())
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::WARNING));
+			}
+			else
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
+			}
+
+			if (j_param.dump().size() >= status.st_desc().size())
+			{
+				log->Warning("Module_CTRL node-{}: command {}: description size exceeded {}", _node_id, (uint32_t)atech::common::Command::SEND_STATUS, j_param.dump());
+				short i = 0;
+				while (j_param.dump().size() >= status.st_desc().size())
+				{
+					if (!j_param["successs"].empty() && i % 3 == 0)
+					{
+						j_param["successs"].erase(j_param["success"].size() - 1);
+					}
+					if (!j_param["error"].empty() && i % 3 == 1)
+					{
+						j_param["error"].erase(j_param["error"].size() - 1);
+					}
+					if (!j_param["unfound"].empty() && i == 2)
+					{
+						j_param["unfound"].erase(j_param["unfound"].size() - 1);
+					}
+					i++;
+				}
+			}
+
+			auto st_desc = status.st_desc();
+			str_out = j_param.dump();
+			uint32_t i = 0;
+			for (auto& it : st_desc)
+			{
+				it = str_out[i];
+			}
+		}
+		catch (int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error command {}: error {}", _node_id, (uint32_t)atech::common::Command::SEND_STATUS, e);
+			status.st_code((uint32_t)atech::common::Status::ERR);
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error command {}: error {}", _node_id, (uint32_t)atech::common::Command::SEND_STATUS, 0);
+			status.st_code((uint32_t)atech::common::Status::ERR);
+		}		
+
+		return status;
+	}
+
+	DdsStatus  Module_CTRL::command_start(std::string_view parametr)
+	{
+		std::deque<std::pair<uint32_t, atech::common::Status>> parametr_answer;
+		DdsStatus status;
+		std::string str_out;
+		nlohmann::json j_param;
+		std::vector<uint32_t> vec_id{};
+
+		try
+		{
+			if (get_vector_id_from_json(vec_id, parametr) != ResultReqest::OK) throw 1;
+
+			j_param.push_back("success");
+			j_param.push_back("error");
+			j_param.push_back("unfound");
+
+			j_param["success"].array({});
+			j_param["error"].array({});
+			j_param["unfound"].array({});
+
+			if (vec_id.empty())
+			{
+				ResultReqest res;
+				res = _module_io_ptr->Start(parametr_answer);
+				if (res == ResultReqest::OK)
+				{
+					for (auto& it : parametr_answer)
+					{
+						if (it.second == atech::common::Status::OK)
+						{
+							j_param["success"].push_back(it.first);
+						}
+						else
+						{
+							j_param["error"].push_back(it.first);
+						}
+					};
+				}
+			}
+			else
+			{
+				for (auto& it : vec_id)
+				{
+					ResultReqest res;
+					res = _module_io_ptr->Start(parametr_answer, it);
+					if (res == ResultReqest::OK)
+					{
+						if (parametr_answer.back().second == atech::common::Status::OK)
+						{
+							j_param["success"].push_back(it);
+						}
+						else
+						{
+							j_param["error"].push_back(it);
+						}
+						parametr_answer.pop_back();
+					}
+					else if (res == ResultReqest::ERR)
+					{
+						j_param["error"].push_back(it);
+					}
+					else if (res == ResultReqest::IGNOR)
+					{
+						j_param["unfound"].push_back(it);
+					}
+				}
+			}
+
+			if (!j_param["error"].empty())
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::ERR));
+			}
+			else if (!j_param["unfound"].empty())
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::WARNING));
+			}
+			else
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
+			}
+
+			if (j_param.dump().size() >= status.st_desc().size())
+			{
+				log->Warning("Module_CTRL node-{}: command {}: description size exceeded {}", _node_id, (uint32_t)atech::common::Command::START, j_param.dump());
+				short i = 0;
+				while (j_param.dump().size() >= status.st_desc().size())
+				{
+					if (!j_param["successs"].empty() && i % 3 == 0)
+					{
+						j_param["successs"].erase(j_param["success"].size() - 1);
+					}
+					if (!j_param["error"].empty() && i % 3 == 1)
+					{
+						j_param["error"].erase(j_param["error"].size() - 1);
+					}
+					if (!j_param["unfound"].empty() && i == 2)
+					{
+						j_param["unfound"].erase(j_param["unfound"].size() - 1);
+					}
+					i++;
+				}
+			}
+
+			auto st_desc = status.st_desc();
+			str_out = j_param.dump();
+			uint32_t i = 0;
+			for (auto& it : st_desc)
+			{
+				it = str_out[i];
+			}
+		}
+		catch (int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error command {}: error {}", _node_id, (uint32_t)atech::common::Command::START, e);
+			status.st_code((uint32_t)atech::common::Status::ERR);
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error command {}: error {}", _node_id, (uint32_t)atech::common::Command::START, 0);
+			status.st_code((uint32_t)atech::common::Status::ERR);
+		} 		
+
+		return status;
+	}
+
+	DdsStatus  Module_CTRL::command_stop(std::string_view parametr)
+	{
+		std::deque<std::pair<uint32_t, atech::common::Status>> parametr_answer;
+		DdsStatus status;
+		std::string str_out;
+		nlohmann::json j_param;
+		std::vector<uint32_t> vec_id{};			
+
+		try
+		{
+			if (get_vector_id_from_json(vec_id, parametr) != ResultReqest::OK) throw 1;
+
+			j_param.push_back("success");
+			j_param.push_back("error");
+			j_param.push_back("unfound");
+
+			j_param["success"].array({});
+			j_param["error"].array({});
+			j_param["unfound"].array({});
+
+			if (vec_id.empty())
+			{
+				ResultReqest res;
+				res = _module_io_ptr->Stop(parametr_answer);
+				if (res == ResultReqest::OK)
+				{
+					for (auto& it : parametr_answer)
+					{
+						if (it.second == atech::common::Status::STOP)
+						{
+							j_param["success"].push_back(it.first);
+						}
+						else
+						{
+							j_param["error"].push_back(it.first);
+						}
+					};
+				}
+			}
+			else
+			{
+				for (auto& it : vec_id)
+				{
+					ResultReqest res;
+					res = _module_io_ptr->Stop(parametr_answer, it);
+					if (res == ResultReqest::OK)
+					{
+						if (parametr_answer.back().second == atech::common::Status::STOP)
+						{
+							j_param["success"].push_back(it);
+						}
+						else
+						{
+							j_param["error"].push_back(it);
+						}
+						parametr_answer.pop_back();
+					}
+					else if (res == ResultReqest::ERR)
+					{
+						j_param["error"].push_back(it);
+					}
+					else if (res == ResultReqest::IGNOR)
+					{
+						j_param["unfound"].push_back(it);
+					}
+				}
+			}
+
+			if (!j_param["error"].empty())
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::ERR));
+			}
+			else if (!j_param["unfound"].empty())
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::WARNING));
+			}
+			else
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
+			}
+
+			if (j_param.dump().size() >= status.st_desc().size())
+			{
+				log->Warning("Module_CTRL node-{}: command {}: description size exceeded {}", _node_id, (uint32_t)atech::common::Command::START, j_param.dump());
+				short i = 0;
+				while (j_param.dump().size() >= status.st_desc().size())
+				{
+					if (!j_param["successs"].empty() && i % 3 == 0)
+					{
+						j_param["successs"].erase(j_param["success"].size() - 1);
+					}
+					if (!j_param["error"].empty() && i % 3 == 1)
+					{
+						j_param["error"].erase(j_param["error"].size() - 1);
+					}
+					if (!j_param["unfound"].empty() && i == 2)
+					{
+						j_param["unfound"].erase(j_param["unfound"].size() - 1);
+					}
+					i++;
+				}
+			}
+
+			auto st_desc = status.st_desc();
+			str_out = j_param.dump();
+			uint32_t i = 0;
+			for (auto& it : st_desc)
+			{
+				it = str_out[i];
+			}
+		}
+		catch (int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error command {}: error {}", _node_id, (uint32_t)atech::common::Command::STOP, e);
+			status.st_code((uint32_t)atech::common::Status::ERR);
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error command {}: error {}", _node_id, (uint32_t)atech::common::Command::STOP, 0);
+			status.st_code((uint32_t)atech::common::Status::ERR);
+		}
+
+		return status;
+	}
+
+	DdsStatus  Module_CTRL::command_reinit(std::string_view parametr)
+	{
+		std::deque<std::pair<uint32_t, atech::common::Status>> parametr_answer;
+		DdsStatus status;
+		std::string str_out;
+		nlohmann::json j_param;
+		std::vector<uint32_t> vec_id{};
+
+		try
+		{
+			if (get_vector_id_from_json(vec_id, parametr) != ResultReqest::OK) throw 1;
+
+			j_param.push_back("success");
+			j_param.push_back("error");
+			j_param.push_back("unfound");
+
+			j_param["success"].array({});
+			j_param["error"].array({});
+			j_param["unfound"].array({});
+
+			if (vec_id.empty())
+			{
+				ResultReqest res;
+				res = _module_io_ptr->ReInit(parametr_answer);
+				if (res == ResultReqest::OK)
+				{
+					for (auto& it : parametr_answer)
+					{
+						if (it.second == atech::common::Status::OK)
+						{
+							j_param["success"].push_back(it.first);
+						}
+						else
+						{
+							j_param["error"].push_back(it.first);
+						}
+					};
+				}
+			}
+			else
+			{
+				for (auto& it : vec_id)
+				{
+					ResultReqest res;
+					res = _module_io_ptr->ReInit(parametr_answer, it);
+					if (res == ResultReqest::OK)
+					{
+						if (parametr_answer.back().second == atech::common::Status::OK)
+						{
+							j_param["success"].push_back(it);
+						}
+						else
+						{
+							j_param["error"].push_back(it);
+						}
+						parametr_answer.pop_back();
+					}
+					else if (res == ResultReqest::ERR)
+					{
+						j_param["error"].push_back(it);
+					}
+					else if (res == ResultReqest::IGNOR)
+					{
+						j_param["unfound"].push_back(it);
+					}
+				}
+			}
+
+			if (!j_param["error"].empty())
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::ERR));
+			}
+			else if (!j_param["unfound"].empty())
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::WARNING));
+			}
+			else
+			{
+				status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
+			}
+
+			if (j_param.dump().size() >= status.st_desc().size())
+			{
+				log->Warning("Module_CTRL node-{}: command {}: description size exceeded {}", _node_id, (uint32_t)atech::common::Command::START, j_param.dump());
+				short i = 0;
+				while (j_param.dump().size() >= status.st_desc().size())
+				{
+					if (!j_param["successs"].empty() && i % 3 == 0)
+					{
+						j_param["successs"].erase(j_param["success"].size() - 1);
+					}
+					if (!j_param["error"].empty() && i % 3 == 1)
+					{
+						j_param["error"].erase(j_param["error"].size() - 1);
+					}
+					if (!j_param["unfound"].empty() && i == 2)
+					{
+						j_param["unfound"].erase(j_param["unfound"].size() - 1);
+					}
+					i++;
+				}
+			}
+
+			auto st_desc = status.st_desc();
+			str_out = j_param.dump();
+			uint32_t i = 0;
+			for (auto& it : st_desc)
+			{
+				it = str_out[i];
+			}
+		}
+		catch (int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error command {}: error {}", _node_id, (uint32_t)atech::common::Command::STOP, e);
+			status.st_code((uint32_t)atech::common::Status::ERR);
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error command {}: error {}", _node_id, (uint32_t)atech::common::Command::STOP, 0);
+			status.st_code((uint32_t)atech::common::Status::ERR);
+		}
+
+		return status;
+	}
+
+	DdsStatus Module_CTRL::command_request_version(uint32_t id)
+	{
+		return DdsStatus{};
+	}
+
+	DdsStatus Module_CTRL::command_request_process_info(uint32_t id)
+	{
+		return DdsStatus{};
+	}
 
 
 }

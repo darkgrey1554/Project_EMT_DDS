@@ -49,7 +49,7 @@ namespace scada_ate::gate::adapter::dds
 		
 		ConfigAdapterDDS config;
 		std::mutex mutex_init;
-		std::atomic<StatusAdapter> current_status = StatusAdapter::Null;
+		std::atomic<atech::common::Status> current_status = atech::common::Status::Null;
 		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
 
 		_dds::DomainParticipant* _participant = nullptr;
@@ -80,6 +80,9 @@ namespace scada_ate::gate::adapter::dds
 		ResultReqest init_buffer(DDSAlarm* buf);
 		ResultReqest init_buffer(DDSAlarmEx* buf);
 		ResultReqest init_StoreLastValue();
+		
+		ResultReqest init_adapter();
+		void destroy();
 		
 		std::string get_name_participant_profile();
 		std::string get_name_topic();
@@ -142,8 +145,13 @@ namespace scada_ate::gate::adapter::dds
 		ResultReqest ReadData(std::deque<SetTags>** _data) override;
 		ResultReqest WriteData(const std::deque<SetTags>& _data) override;
 		TypeAdapter GetTypeAdapter() override;
-		StatusAdapter GetStatusAdapter() override;
-		std::shared_ptr<IAnswer> GetInfoAdapter(ParamInfoAdapter param) override;
+		ResultReqest GetStatus(std::deque<std::pair<uint32_t, atech::common::Status>>& st ,uint32_t id = 0) override;
+		uint32_t GetId() override;
+		ResultReqest Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest Stop(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+		ResultReqest ReInit(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
+
+		std::shared_ptr<IAnswer> GetInfo(ParamInfoAdapter param) override;
 
 		AdapterDDS(std::shared_ptr<IConfigAdapter> config);
 		~AdapterDDS();
@@ -163,51 +171,30 @@ namespace scada_ate::gate::adapter::dds
 
 	template<class T> AdapterDDS<T>::~AdapterDDS()
 	{
-		if (_datawriter != nullptr)
-		{
-			_publisher->delete_datawriter(_datawriter);
-		}
-
-		if (_datareader != nullptr)
-		{
-			_subscriber->delete_datareader(_datareader);
-		}
-
-		if (_publisher != nullptr)
-		{
-			_participant->delete_publisher(_publisher);
-		}
-
-		if (_subscriber != nullptr)
-		{
-			_participant->delete_subscriber(_subscriber);
-		}
-
-		if (_topic_data != nullptr)
-		{
-			_participant->delete_topic(_topic_data);
-		}
-
-		if (_participant != nullptr)
-		{
-			eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->delete_participant(_participant);
-		}
+		const std::lock_guard<std::mutex> lock_init(mutex_init);
+		destroy();
 	};
 
 	template<typename T> ResultReqest  AdapterDDS<T>::InitAdapter()
 	{
+		const std::lock_guard<std::mutex> lock_init(mutex_init);
+		return init_adapter();
+	}
+
+	template<typename T> ResultReqest  AdapterDDS<T>::init_adapter()
+	{
 		ResultReqest result = ResultReqest::OK;
 
 		/// --- guard from repeated usage --- ///
-		const std::lock_guard<std::mutex> lock_init(mutex_init);
 
-		StatusAdapter status = current_status.load(std::memory_order::memory_order_relaxed);
-		if (status == StatusAdapter::INITIALIZATION || status == StatusAdapter::OK)
+
+		atech::common::Status status = current_status.load(std::memory_order::memory_order_relaxed);
+		if (status == atech::common::Status::INIT || status == atech::common::Status::OK)
 		{
 			ResultReqest res = ResultReqest::IGNOR;
 			return res;
 		}
-		current_status.store(StatusAdapter::INITIALIZATION, std::memory_order_relaxed);
+		current_status.store(atech::common::Status::INIT, std::memory_order_relaxed);
 
 		try
 		{
@@ -229,20 +216,23 @@ namespace scada_ate::gate::adapter::dds
 
 			if (init_StoreLastValue() != ResultReqest::OK) throw;
 
+			current_status.store(atech::common::Status::OK);
 		}
 		catch (int& e)
 		{
 			log->Critical("AdapterDDS id-{}: Error Init : error: {}", this->config.id_adapter, e);
+			current_status.store(atech::common::Status::ERROR_INIT);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
 			log->Critical("AdapterDDS id-{}: Error Init : error: {}", this->config.id_adapter, 0);
+			current_status.store(atech::common::Status::ERROR_INIT);
 			result = ResultReqest::ERR;
 		}
 
 		return result;
-	}
+	};
 
 	template<typename T> ResultReqest AdapterDDS<T>::init_participant()
 	{
@@ -1794,16 +1784,6 @@ namespace scada_ate::gate::adapter::dds
 
 	}
 
-	template<typename T> StatusAdapter  AdapterDDS<T>::GetStatusAdapter()
-	{
-		return StatusAdapter::Null;
-	}
-
-	template<typename T> std::shared_ptr<IAnswer>  AdapterDDS<T>::GetInfoAdapter(ParamInfoAdapter param)
-	{
-		return nullptr;
-	}
-
 	template<typename T> std::string AdapterDDS<T>::get_name_topic()
 	{
 		std::string str;
@@ -1876,6 +1856,105 @@ namespace scada_ate::gate::adapter::dds
 		std::string str;
 		str += this->config.topic_name + "dataread_profile";
 		return str;
+	}
+
+	template<typename T> std::shared_ptr<IAnswer>  AdapterDDS<T>::GetInfo(ParamInfoAdapter param)
+	{
+		return nullptr;
+	}
+
+	template<typename T> uint32_t AdapterDDS<T>::GetId()
+	{
+		return config.id_adapter;
+	}
+
+	template<typename T> ResultReqest AdapterDDS<T>::GetStatus(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		st.push_back({ this->config.id_adapter, current_status.load() });
+		return ResultReqest::OK;
+	}
+
+	template<typename T> ResultReqest AdapterDDS<T>::Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (current_status.load() == atech::common::Status::STOP ||
+			current_status.load() == atech::common::Status::OK)
+		{
+			current_status.store(atech::common::Status::OK);
+			result = ResultReqest::OK;
+		}
+		else
+		{
+			result = ResultReqest::ERR;
+		}
+
+		st.push_back({ config.id_adapter, current_status.load() });
+		return result;
+	}
+
+	template<typename T> ResultReqest AdapterDDS<T>::Stop(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		if (current_status.load() == atech::common::Status::STOP ||
+			current_status.load() == atech::common::Status::OK)
+		{
+			current_status.store(atech::common::Status::STOP);
+			result = ResultReqest::OK;
+		}
+		else
+		{
+			result = ResultReqest::ERR;
+		}
+
+		st.push_back({ config.id_adapter, current_status.load() });
+		return result;
+	}
+
+	template<typename T> ResultReqest AdapterDDS<T>::ReInit(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id)
+	{
+		ResultReqest result{ ResultReqest::OK };
+		const std::lock_guard<std::mutex> lock_init(mutex_init);
+		this->destroy();
+		result = this->init_adapter();
+		st.push_back({ config.id_adapter, current_status.load() });
+		return result;
+	}
+
+	template<typename T> void AdapterDDS<T>::destroy()
+	{
+		if (_datawriter != nullptr)
+		{
+			_publisher->delete_datawriter(_datawriter);
+		}
+
+		if (_datareader != nullptr)
+		{
+			_subscriber->delete_datareader(_datareader);
+		}
+
+		if (_publisher != nullptr)
+		{
+			_participant->delete_publisher(_publisher);
+		}
+
+		if (_subscriber != nullptr)
+		{
+			_participant->delete_subscriber(_subscriber);
+		}
+
+		if (_topic_data != nullptr)
+		{
+			_participant->delete_topic(_topic_data);
+		}
+
+		if (_participant != nullptr)
+		{
+			eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->delete_participant(_participant);
+		}
+
+		return;
 	}
 
 } 
