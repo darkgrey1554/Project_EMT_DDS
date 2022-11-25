@@ -1,0 +1,98 @@
+[13/11/22 16:35:59.381] [warning]	Module_CTRL node-65793: Error registration profiles dds layer
+[13/11/22 16:35:59.444] [debug]	UnitAid_DDS node-65793: Init participant done : defualt
+[13/11/22 16:35:59.445] [debug]	UnitAid_DDS node-65793: Init topic command done : defualt
+[13/11/22 16:35:59.447] [debug]	UnitAid_DDS node-65793: Init topic command done : defualt
+[13/11/22 16:35:59.449] [debug]	UnitAid_DDS node-65793: Init subscriber done : default
+[13/11/22 16:35:59.458] [debug]	UnitAid_DDS node-65793: Init datareader done : default
+[13/11/22 16:35:59.459] [debug]	UnitAid_DDS node-65793: Init publisher done : default
+[13/11/22 16:35:59.466] [debug]	UnitAid_DDS node-65793: Init datawriter done : default
+[13/11/22 16:35:59.468] [info]	UnitAdi_DDS node_id-65793 : Initialization done
+[13/11/22 16:35:59.470] [debug]	AdapterOPCUA id-1: Init START
+[13/11/22 16:35:59.470] [debug]	AdapterOPCUA id-1: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[13/11/22 16:35:59.471] [warning]	AdapterOPCUA id-1: error read_trust_list: error: 1, syserror: 0 
+[13/11/22 16:35:59.472] [critical]	AdapterOPCUA id-1: Error initiation: error: 2 syserror: 0
+[13/11/22 16:35:59.518] [debug]	AdapterDDS id-2: Init participant done : defualt
+[13/11/22 16:35:59.519] [debug]	AdapterDDS id-2: Init topic done : defualt
+[13/11/22 16:35:59.520] [debug]	AdapterDDS id-2: Init publisher done : default
+[13/11/22 16:35:59.527] [debug]	AdapterDDS id-2: Init datawriter done : default
+[13/11/22 16:35:59.572] [debug]	AdapterDDS id-3: Init participant done : defualt
+[13/11/22 16:35:59.572] [debug]	AdapterDDS id-3: Init topic done : defualt
+[13/11/22 16:35:59.574] [debug]	AdapterDDS id-3: Init publisher done : default
+[13/11/22 16:35:59.578] [debug]	AdapterDDS id-3: Init datawriter done : default
+[13/11/22 16:35:59.579] [critical]	UnitTransfer id-101: Error controll adapters: error: 0 syserror: 0
+[13/11/22 16:36:00.560] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:00.560] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:01.541] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:01.542] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:02.520] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:02.521] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:03.498] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:03.499] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:04.487] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:04.488] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:05.469] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:05.470] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:06.452] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:06.453] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:07.442] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:07.443] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:08.417] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:08.418] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:09.407] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:09.408] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:10.387] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:10.388] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:11.366] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:11.367] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:12.346] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:12.349] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:13.327] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:13.331] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:14.305] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:14.306] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:15.296] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:15.297] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:36:16.285] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:36:16.286] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:02.597] [warning]	Module_CTRL node-65793: Error registration profiles dds layer
+[13/11/22 16:37:02.661] [debug]	UnitAid_DDS node-65793: Init participant done : defualt
+[13/11/22 16:37:02.662] [debug]	UnitAid_DDS node-65793: Init topic command done : defualt
+[13/11/22 16:37:02.664] [debug]	UnitAid_DDS node-65793: Init topic command done : defualt
+[13/11/22 16:37:02.666] [debug]	UnitAid_DDS node-65793: Init subscriber done : default
+[13/11/22 16:37:02.675] [debug]	UnitAid_DDS node-65793: Init datareader done : default
+[13/11/22 16:37:02.676] [debug]	UnitAid_DDS node-65793: Init publisher done : default
+[13/11/22 16:37:02.678] [debug]	UnitAid_DDS node-65793: Init datawriter done : default
+[13/11/22 16:37:02.679] [info]	UnitAdi_DDS node_id-65793 : Initialization done
+[13/11/22 16:37:02.680] [debug]	AdapterOPCUA id-1: Init START
+[13/11/22 16:37:02.680] [debug]	AdapterOPCUA id-1: Config: Endpoint_url : opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer, SecurityMode: Sign, SecurityPolicy: Basic256, Authentication: Anonymous, User: , Password: 
+[13/11/22 16:37:02.681] [warning]	AdapterOPCUA id-1: error read_trust_list: error: 1, syserror: 0 
+[13/11/22 16:37:02.681] [critical]	AdapterOPCUA id-1: Error initiation: error: 2 syserror: 0
+[13/11/22 16:37:02.711] [debug]	AdapterDDS id-2: Init participant done : defualt
+[13/11/22 16:37:02.712] [debug]	AdapterDDS id-2: Init topic done : defualt
+[13/11/22 16:37:02.713] [debug]	AdapterDDS id-2: Init publisher done : default
+[13/11/22 16:37:02.727] [debug]	AdapterDDS id-2: Init datawriter done : default
+[13/11/22 16:37:02.761] [debug]	AdapterDDS id-3: Init participant done : defualt
+[13/11/22 16:37:02.761] [debug]	AdapterDDS id-3: Init topic done : defualt
+[13/11/22 16:37:02.764] [debug]	AdapterDDS id-3: Init publisher done : default
+[13/11/22 16:37:02.768] [debug]	AdapterDDS id-3: Init datawriter done : default
+[13/11/22 16:37:02.769] [critical]	UnitTransfer id-101: Error controll adapters: error: 0 syserror: 0
+[13/11/22 16:37:03.755] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:03.756] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:04.736] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:04.737] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:05.726] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:16.475] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:16.476] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:16.476] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:17.466] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:17.468] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:18.442] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:18.443] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:19.421] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:19.421] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:20.397] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:20.398] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:21.374] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:21.375] [warning]	UnitTransfer id - 101: Error recive data
+[13/11/22 16:37:22.351] [debug]	AdapterOPCUA id-1 : ReadData IGNOR
+[13/11/22 16:37:22.352] [warning]	UnitTransfer id - 101: Error recive data

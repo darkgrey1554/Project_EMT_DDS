@@ -6,8 +6,21 @@
 #include <vector>
 #include <memory>
 
-namespace scd {
-    namespace common {
+constexpr const char* OPC_UA_CONFIG = "OPC_UA";
+constexpr const char* DDS_CONFIG = "DDS";
+constexpr const char* SM_CONFIG = "SM";
+constexpr const char* WS_CONFIG = "WS";
+constexpr const char* WA_CONFIG = "WA";
+constexpr const char* HS_CONFIG = "HS";
+constexpr const char* FT_CONFIG = "FT";
+constexpr const char* DB_CONFIG = "DB";
+
+namespace atech 
+{
+    namespace common 
+    {
+
+      
 
         class Topic {
         public:
@@ -16,16 +29,16 @@ namespace scd {
 
         private:
             std::string topic_name;
-            std::vector<int64_t> tag_ids;
+            std::vector<size_t> tag_ids;
 
         public:
             const std::string& get_topic_name() const { return topic_name; }
             std::string& get_mutable_topic_name() { return topic_name; }
             void set_topic_name(const std::string& value) { this->topic_name = value; }
 
-            const std::vector<int64_t>& get_tag_ids() const { return tag_ids; }
-            std::vector<int64_t>& get_mutable_tag_ids() { return tag_ids; }
-            void set_tag_ids(const std::vector<int64_t>& value) { this->tag_ids = value; }
+            const std::vector<size_t>& get_tag_ids() const { return tag_ids; }
+            std::vector<size_t>& get_mutable_tag_ids() { return tag_ids; }
+            void set_tag_ids(const std::vector<size_t>& value) { this->tag_ids = value; }
         };
 
         class Config { /*virtual ~Config() { }*/ };
@@ -59,36 +72,36 @@ namespace scd {
         private:
 
             std::string name_point_sm;
-            int64_t size_int_data;
-            int64_t size_float_data;
-            int64_t size_double_data;
-            int64_t size_char_data;
-            int64_t size_str;
+            size_t size_int_data;
+            size_t size_float_data;
+            size_t size_double_data;
+            size_t size_char_data;
+            size_t size_str;
 
         public:
             const std::string& get_name_point_sm() const { return name_point_sm; }
             std::string& get_mutable_name_point_sm() { return name_point_sm; }
             void set_name_point_sm(const std::string& value) { this->name_point_sm = value; }
 
-            const int64_t& get_size_int_data() const { return size_int_data; }
-            int64_t& get_mutable_size_int_data() { return size_int_data; }
-            void set_size_int_data(const int64_t& value) { this->size_int_data = value; }
+            const size_t& get_size_int_data() const { return size_int_data; }
+            size_t& get_mutable_size_int_data() { return size_int_data; }
+            void set_size_int_data(const size_t& value) { this->size_int_data = value; }
 
-            const int64_t& get_size_float_data() const { return size_float_data; }
-            int64_t& get_mutable_size_float_data() { return size_float_data; }
-            void set_size_float_data(const int64_t& value) { this->size_float_data = value; }
+            const size_t& get_size_float_data() const { return size_float_data; }
+            size_t& get_mutable_size_float_data() { return size_float_data; }
+            void set_size_float_data(const size_t& value) { this->size_float_data = value; }
 
-            const int64_t& get_size_double_data() const { return size_double_data; }
-            int64_t& get_mutable_size_double_data() { return size_double_data; }
-            void set_size_double_data(const int64_t& value) { this->size_double_data = value; }
+            const size_t& get_size_double_data() const { return size_double_data; }
+            size_t& get_mutable_size_double_data() { return size_double_data; }
+            void set_size_double_data(const size_t& value) { this->size_double_data = value; }
 
-            const int64_t& get_size_char_data() const { return size_char_data; }
-            int64_t& get_mutable_size_char_data() { return size_char_data; }
-            void set_size_char_data(const int64_t& value) { this->size_char_data = value; }
+            const size_t& get_size_char_data() const { return size_char_data; }
+            size_t& get_mutable_size_char_data() { return size_char_data; }
+            void set_size_char_data(const size_t& value) { this->size_char_data = value; }
 
-            const int64_t& get_size_str() const { return size_str; }
-            int64_t& get_mutable_size_str() { return size_str; }
-            void set_size_str(const int64_t& value) { this->size_str = value; }
+            const size_t& get_size_str() const { return size_str; }
+            size_t& get_mutable_size_str() { return size_str; }
+            void set_size_str(const size_t& value) { this->size_str = value; }
         };
 
         class UaConfig :public Config {
@@ -176,6 +189,71 @@ namespace scd {
             void set_topics(const std::vector<Topic>& value) { this->topics = value; }
         };
 
+        class FtConfig:public Config {
+        public:
+            FtConfig() = default;
+            virtual ~FtConfig() = default;
+
+        private:
+            std::string host;
+            size_t port;
+            std::string driver;
+            std::string database;
+            std::string schema;
+            std::string user;
+            std::string password;
+            size_t maxconnections;
+            size_t timeout;
+            std::string encrypt;
+            size_t monitor_period;
+            size_t check_period;
+            size_t health_period;
+            size_t cusage_interval;
+
+        public:
+            const std::string& get_host() const { return host; }
+            void set_host(const std::string& value) { this->host = value; }
+
+            const size_t& get_port() const { return port; }
+            void set_port(const size_t& value) { this->port = value; }
+
+            const std::string& get_driver() const { return driver; }
+            void set_driver(const std::string& value) { this->driver = value; }
+
+            const std::string& get_database() const { return database; }
+            void set_database(const std::string& value) { this->database = value; }
+
+            const std::string& get_schema() const { return schema; }
+            void set_schema(const std::string& value) { this->schema = value; }
+
+            const std::string& get_user() const { return user; }
+            void set_user(const std::string& value) { this->user = value; }
+
+            const std::string& get_password() const { return password; }
+            void set_password(const std::string& value) { this->password = value; }
+
+            const size_t& get_maxconnections() const { return maxconnections; }
+            void set_maxconnections(const size_t& value) { this->maxconnections = value; }
+
+            const size_t& get_timeout() const { return timeout; }
+            void set_timeout(const size_t& value) { this->timeout = value; }
+
+            const std::string& get_encrypt() const { return encrypt; }
+            void set_encrypt(const std::string& value) { this->encrypt = value; }
+
+            const size_t& get_monitor_period() const { return monitor_period; }
+            void set_monitor_period(const size_t& value) { this->monitor_period = value; }
+
+            const size_t& get_check_period() const { return check_period; }
+            void set_check_period(const size_t& value) { this->check_period = value; }
+
+            const size_t& get_health_period() const { return health_period; }
+            void set_health_period(const size_t& value) { this->health_period = value; }
+
+            const size_t& get_cusage_interval() const { return cusage_interval; }
+            void set_cusage_interval(const size_t& value) { this->cusage_interval = value; }
+        };
+
         class Putdata {
         public:
             Putdata() = default;
@@ -251,18 +329,18 @@ namespace scd {
             virtual ~Mapping() = default;
 
         private:
-            int64_t id_map;
-            int64_t frequency;
+            uint32_t id_map;
+            size_t frequency;
             std::vector<Datum> data;
 
         public:
-            const int64_t& get_id_map() const { return id_map; }
-            int64_t& get_mutable_id_map() { return id_map; }
-            void set_id_map(const int64_t& value) { this->id_map = value; }
+            const uint32_t& get_id_map() const { return id_map; }
+            uint32_t& get_mutable_id_map() { return id_map; }
+            void set_id_map(const uint32_t& value) { this->id_map = value; }
 
-            const int64_t& get_frequency() const { return frequency; }
-            int64_t& get_mutable_frequency() { return frequency; }
-            void set_frequency(const int64_t& value) { this->frequency = value; }
+            const size_t& get_frequency() const { return frequency; }
+            size_t& get_mutable_frequency() { return frequency; }
+            void set_frequency(const size_t& value) { this->frequency = value; }
 
             const std::vector<Datum>& get_data() const { return data; }
             std::vector<Datum>& get_mutable_data() { return data; }
@@ -275,26 +353,31 @@ namespace scd {
             virtual ~InputUnit() = default;
 
         private:
-            int64_t id;
+            uint32_t id;
+            std::string version;
             std::string type_adapter;
             std::shared_ptr<Config> config;
-            int64_t id_map;
+            uint32_t id_map;
 
         public:
-            const int64_t get_id() const { return id; }
-            int64_t& get_mutable_id() { return id; }
-            void set_id(const int64_t value) { this->id = value; }
+            const uint32_t get_id() const { return id; }
+            uint32_t& get_mutable_id() { return id; }
+            void set_id(const uint32_t value) { this->id = value; }
 
             const std::string& get_type_adapter() const { return type_adapter; }
             std::string& get_mutable_type_adapter() { return type_adapter; }
             void set_type_adapter(const std::string& value) { this->type_adapter = value; }
 
+            const std::string& get_version() const { return version; }
+            std::string& get_mutable_version() { return version; }
+            void set_version(const std::string& value) { this->version = value; }
+
             std::shared_ptr<Config> get_config() const { return config; }
             void set_config(std::shared_ptr<Config> value) { this->config = value; }
 
-            const int64_t& get_id_map() const { return id_map; }
-            int64_t& get_mutable_id_map() { return id_map; }
-            void set_id_map(const int64_t& value) { this->id_map = value; }
+            const uint32_t& get_id_map() const { return id_map; }
+            uint32_t& get_mutable_id_map() { return id_map; }
+            void set_id_map(const uint32_t& value) { this->id_map = value; }
         };
 
 
@@ -304,15 +387,20 @@ namespace scd {
             virtual ~OutputUnit() = default;
 
         private:
-            int64_t id;
+            uint32_t id;
+            std::string version;
             std::string type_adapter;
             std::shared_ptr<Config> config;
-            int64_t id_map;
+            uint32_t id_map;
 
         public:
-            const int64_t& get_id() const { return id; }
-            int64_t& get_mutable_id() { return id; }
-            void set_id(const int64_t& value) { this->id = value; }
+            const uint32_t& get_id() const { return id; }
+            uint32_t& get_mutable_id() { return id; }
+            void set_id(const uint32_t& value) { this->id = value; }
+
+            const std::string& get_version() const { return version; }
+            std::string& get_mutable_version() { return version; }
+            void set_version(const std::string& value) { this->version = value; }
 
             const std::string& get_type_adapter() const { return type_adapter; }
             std::string& get_mutable_type_adapter() { return type_adapter; }
@@ -321,9 +409,9 @@ namespace scd {
             std::shared_ptr<Config> get_config() const { return config; }
             void set_config(std::shared_ptr<Config> value) { this->config = value; }
 
-            const int64_t& get_id_map() const { return id_map; }
-            int64_t& get_mutable_id_map() { return id_map; }
-            void set_id_map(const int64_t& value) { this->id_map = value; }
+            const uint32_t& get_id_map() const { return id_map; }
+            uint32_t& get_mutable_id_map() { return id_map; }
+            void set_id_map(const uint32_t& value) { this->id_map = value; }
         };
 
 
@@ -333,20 +421,20 @@ namespace scd {
             virtual ~Unit() = default;
 
         private:
-            int64_t id;
-            int64_t frequency;
+            uint32_t id;
+            size_t frequency;
             std::vector<InputUnit> input_units;
             std::vector<OutputUnit> output_units;
             std::vector<Mapping> mapping;
 
         public:
-            const int64_t& get_id() const { return id; }
-            int64_t& get_mutable_id() { return id; }
-            void set_id(const int64_t& value) { this->id = value; }
+            const uint32_t& get_id() const { return id; }
+            uint32_t& get_mutable_id() { return id; }
+            void set_id(const uint32_t& value) { this->id = value; }
 
-            const int64_t& get_frequency() const { return frequency; }
-            int64_t& get_mutable_frequency() { return frequency; }
-            void set_frequency(const int64_t& value) { this->frequency = value; }
+            const size_t& get_frequency() const { return frequency; }
+            size_t& get_mutable_frequency() { return frequency; }
+            void set_frequency(const size_t& value) { this->frequency = value; }
 
             const std::vector<InputUnit>& get_input_units() const { return input_units; }
             std::vector<InputUnit>& get_mutable_input_units() { return input_units; }

@@ -1,7 +1,13 @@
-﻿  maincpp.cpp
+﻿  main_test_command.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\main_test_command.cpp(200,28): warning C4267: аргумент: преобразование из "size_t" в "_Ty"; возможна потеря данных
+          with
+          [
+              _Ty=std::_Vbase
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\main_test_command.cpp(231,39): warning C4267: аргумент: преобразование из "size_t" в "uint32_t"; возможна потеря данных
   Создание кода
-  1 of 510 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  1 of 4023 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    7 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   test4.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\x64\Release\test4.exe

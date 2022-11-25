@@ -30,7 +30,7 @@ namespace scada_ate::gate::adapter
 
 	class UnitTransfer: public atech::common::IControl
 	{
-		std::atomic<atech::common::Status> _status = atech::common::Status::Null;
+		std::atomic<atech::common::Status> _status = atech::common::Status::NONE;
 		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log;
 		int64_t id = 0;
 		std::mutex _guarder;

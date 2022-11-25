@@ -1,0 +1,198 @@
+{
+  "node_source": 0,
+  "node_target": 65793,
+
+  "dds": {
+    "hash": 123123,
+    "profiles": {
+    }
+  },
+
+  "topic_max_size": {
+    "hash": 12345,
+    "dds_type_size": [
+      {
+        "type_name": "DDSData",
+        "type_sizes": [
+          {
+            "type_name": "float",
+            "size": 100
+          },
+          {
+            "type_name": "int",
+            "size": 100
+          },
+
+          {
+            "type_name": "double",
+            "size": 100
+          },
+
+          {
+            "type_name": "char_vector",
+            "size": 100
+          },
+
+          {
+            "type_name": "char",
+            "size": 100
+          }
+        ]
+      },
+      {
+        "type_name": "DDSDataEx",
+        "type_sizes": [
+          {
+            "type_name": "float",
+            "size": 100
+          },
+          {
+            "type_name": "int",
+            "size": 100
+          },
+
+          {
+            "type_name": "double",
+            "size": 100
+          },
+
+          {
+            "type_name": "char_vector",
+            "size": 100
+          },
+
+          {
+            "type_name": "char",
+            "size": 100
+          }
+        ]
+      },
+      {
+        "type_name": "DDSAlarm",
+        "type_sizes": [
+          {
+            "type_name": "long",
+            "size": 100
+          }
+        ]
+      },
+      {
+        "type_name": "DDSAlarmEx",
+        "type_sizes": [
+          {
+            "type_name": "char",
+            "size": 100
+          }
+        ]
+      }
+    ]
+  },
+
+  "adapters": {
+    "hash": 123214,
+    "units": [
+      {
+        "id": 101,
+        "frequency": 1000,
+        "input_units": [
+          {
+            "id": 1,
+            "type_adapter": "OPC_UA",
+            "version": "",
+            "config": {
+              "endpoint_url": "opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer",
+              "security_mode": "Sign",
+              "security_policy": "Basic256",
+              "user_name": "",
+              "password": "",
+              "namespace_index": "3"
+            },
+            "id_map": 0
+          }
+        ],
+
+        "output_units": [
+          {
+            "id": 2,
+            "type_adapter": "DDS",
+            "version": "",
+            "config": {
+              "topic_name": "test_1_topic",
+              "type_name": "DDSData"
+            },
+            "id_map": 1
+          },
+          {
+            "id": 3,
+            "type_adapter": "DDS",
+            "version": "",
+            "config": {
+              "topic_name": "test_2_topic",
+              "type_name": "DDSData"
+            },
+            "id_map": 1
+          }
+        ],
+
+        "mapping": [
+          {
+            "id_map": 1,
+            "frequency": 1000,
+            "data": [
+              {
+                "inputdata": {
+                  "tag": "",
+                  "id_tag": 1001,
+                  "is_array": true,
+                  "offset": 0,
+                  "type": "i",
+                  "mask": 0
+                },
+
+                "outputdata": {
+                  "tag": "",
+                  "id_tag": 1,
+                  "is_array": true,
+                  "offset": 0,
+                  "type": "i",
+                  "mask": 0
+                },
+
+                "type_registration": "",
+                "delta": 0.0
+              }
+            ]
+          },
+          {
+            "id_map": 2,
+            "frequency": 1000,
+            "data": [
+              {
+                "inputdata": {
+                  "tag": "",
+                  "id_tag": 1001,
+                  "is_array": true,
+                  "offset": 1,
+                  "type": "i",
+                  "mask": 0
+                },
+
+                "outputdata": {
+                  "tag": "",
+                  "id_tag": 2,
+                  "is_array": true,
+                  "offset": 0,
+                  "type": "i",
+                  "mask": 0
+                },
+
+                "type_registration": "",
+                "delta": 0.0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -173,6 +173,18 @@
     <ClCompile Include="main_test_command.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="include\structs\FactoryDds.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\monitor_process\atechlib\mon\src\scd_global_accessors.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\monitor_process\atechlib\mon\src\scd_process.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\monitor_process\atechlib\mon\src\sys_usage.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json">
@@ -343,6 +355,39 @@
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\structs\interfaces.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\FactoryDds.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\src\ecal_win_main.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\src\getenvvar.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\src\scd_global_accessors.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\src\scd_process_stub.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\src\scd_win_main.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\src\sys_usage.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\include\mon\scd_os.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\include\mon\scd_process.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\include\mon\scd_process_mode.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monitor_process\atechlib\mon\include\mon\scd_process_severity.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

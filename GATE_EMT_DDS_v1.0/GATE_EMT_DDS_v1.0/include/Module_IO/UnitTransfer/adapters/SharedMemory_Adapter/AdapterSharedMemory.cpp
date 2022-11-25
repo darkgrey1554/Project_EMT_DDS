@@ -190,7 +190,7 @@ namespace scada_ate::gate::adapter::sem
 		UnmapViewOfFile(buf_data);
 		CloseHandle(SM_Handle);
 		CloseHandle(Mutex_SM);
-		current_status.store(atech::common::Status::Null);
+		current_status.store(atech::common::Status::NONE);
 	}
 
 	ResultReqest AdapterSharedMemory::init_adapter()
@@ -621,7 +621,7 @@ namespace scada_ate::gate::adapter::sem
 			_semaphor = nullptr;
 		}
 
-		current_status.store(atech::common::Status::Null);
+		current_status.store(atech::common::Status::NONE);
 	}
 
 	///////////////////////////////////////////////////////////////////

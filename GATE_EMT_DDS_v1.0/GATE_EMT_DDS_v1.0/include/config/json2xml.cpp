@@ -1,10 +1,11 @@
 #include "json2xml.hpp"
 
-namespace scd {
+namespace atech {
 	namespace common {
 
-        std::string json2xml(const nlohmann::basic_json<>& src)
+        std::string json2xml(const nlohmann::ordered_json& src)
         {
+            std::string ret="";
             try {
 
                 XMLDocument xmlDoc;
@@ -16,7 +17,7 @@ namespace scd {
                 XMLElement* pElement = xmlDoc.NewElement("profiles");
                 pRoot->InsertEndChild(pElement);
 
-                recursive_iterate(src, pElement, &xmlDoc, [&](json::const_iterator it, XMLElement* pElement) {
+                recursive_iterate(src, pElement, &xmlDoc, [&](nlohmann::ordered_json::const_iterator it, XMLElement* pElement) {
 
                     if (it->is_number_float())
                         pElement->SetText(it.value().get<float>());
@@ -31,12 +32,14 @@ namespace scd {
                 //xmlDoc.SaveFile("SavedData.xml");
                 XMLPrinter printer;
                 pRoot->Accept(&printer);
-                return printer.CStr();
+                ret=printer.CStr();
+
             }
             catch (std::exception const& e)
             {
                 std::cerr << "Error: " << e.what() << std::endl;
             }
+            return ret;
 
         }
 

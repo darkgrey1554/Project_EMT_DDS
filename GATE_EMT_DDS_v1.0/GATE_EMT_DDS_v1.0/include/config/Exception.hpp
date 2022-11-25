@@ -25,7 +25,7 @@
 
 
 
-namespace scd {
+namespace atech {
 namespace common {
 
 /**
@@ -270,7 +270,7 @@ public:
 };
 
 } // namespace json_backend
-} // namespace scd
+} // namespace atech
 
 
 #endif // _JSON_BACKEND_EXCEPTION_EXCEPTION_HPP_

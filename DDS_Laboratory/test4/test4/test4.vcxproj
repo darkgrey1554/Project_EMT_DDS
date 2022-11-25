@@ -81,8 +81,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\eProsima\fastrtps 2.5.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.5.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4;C:\Program Files\eProsima\fastrtps 2.8.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.8.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -143,13 +143,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ddsformat\DdsCommand\DdsCommand.cxx" />
+    <ClCompile Include="ddsformat\DdsCommand\DdsCommandPubSubTypes.cxx" />
+    <ClCompile Include="ddsformat\DdsCommand\DdsCommandTypeObject.cxx" />
+    <ClCompile Include="ddsformat\DdsConfig\DdsConfig.cxx" />
+    <ClCompile Include="ddsformat\DdsConfig\DdsConfigPubSubTypes.cxx" />
+    <ClCompile Include="ddsformat\DdsConfig\DdsConfigTypeObject.cxx" />
+    <ClCompile Include="ddsformat\DDSData\DDSData.cxx" />
+    <ClCompile Include="ddsformat\DDSData\DDSDataPubSubTypes.cxx" />
+    <ClCompile Include="ddsformat\DDSData\DDSDataTypeObject.cxx" />
+    <ClCompile Include="ddsformat\DdsStatus\DdsStatus.cxx" />
+    <ClCompile Include="ddsformat\DdsStatus\DdsStatusPubSubTypes.cxx" />
+    <ClCompile Include="ddsformat\DdsStatus\DdsStatusTypeObject.cxx" />
+    <ClCompile Include="ddsformat\SizeTopics.cpp" />
     <ClCompile Include="HelloWorld.cxx" />
     <ClCompile Include="HelloWorldPubSubTypes.cxx" />
-    <ClCompile Include="maincpp.cpp" />
+    <ClCompile Include="main_test_command.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ddsformat\DdsCommand\DdsCommand.h" />
+    <ClInclude Include="ddsformat\DdsCommand\DdsCommandPubSubTypes.h" />
+    <ClInclude Include="ddsformat\DdsCommand\DdsCommandTypeObject.h" />
+    <ClInclude Include="ddsformat\DdsConfig\DdsConfig.h" />
+    <ClInclude Include="ddsformat\DdsConfig\DdsConfigPubSubTypes.h" />
+    <ClInclude Include="ddsformat\DdsConfig\DdsConfigTypeObject.h" />
+    <ClInclude Include="ddsformat\DDSData\DDSData.h" />
+    <ClInclude Include="ddsformat\DDSData\DDSDataPubSubTypes.h" />
+    <ClInclude Include="ddsformat\DDSData\DDSDataTypeObject.h" />
+    <ClInclude Include="ddsformat\DdsStatus\DdsStatus.h" />
+    <ClInclude Include="ddsformat\DdsStatus\DdsStatusPubSubTypes.h" />
+    <ClInclude Include="ddsformat\DdsStatus\DdsStatusTypeObject.h" />
     <ClInclude Include="HelloWorld.h" />
     <ClInclude Include="HelloWorldPubSubTypes.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="ServiceType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

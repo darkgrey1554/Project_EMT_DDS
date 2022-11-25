@@ -9,11 +9,15 @@
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/publisher/DataWriter.hpp>
 #include <ddsformat/TypeTopics.h>
+#include <structs/FactoryDds.h>
 
 namespace _dds = eprosima::fastdds::dds;
 
 namespace atech::srv::io::ctrl
 {
+	class ConfigUnitAid_DDS;
+	using ConfigUnitAid_DDS_ptr = std::shared_ptr<ConfigUnitAid_DDS>;
+
 	class ConfigUnitAid_DDS : public IConfigUnitAid
 	{
 
@@ -27,15 +31,9 @@ namespace atech::srv::io::ctrl
 		LoggerSpaceScada::ILoggerScada_ptr log = nullptr;
 		ConfigUnitAid_DDS config;
 
-		_dds::DomainParticipant* _participant = nullptr;
-		_dds::Publisher* _publisher = nullptr;
-		_dds::Subscriber* _subscriber = nullptr;
-		_dds::Topic* topic_command = nullptr;
-		_dds::Topic* topic_respond = nullptr;
+		std::shared_ptr<atech::srv::io::FactoryDDS> _factory_dds = nullptr;
 		_dds::DataReader* _reader_command = nullptr;
 		_dds::DataWriter* _responder = nullptr;
-		_dds::TypeSupport type_support_topic_command;
-		_dds::TypeSupport type_support_topic_respond;
 		std::string topic_name_config{ "dds_config" };
 
 
@@ -51,10 +49,8 @@ namespace atech::srv::io::ctrl
 		std::shared_ptr<SubListener> _listener = std::make_shared<SubListener>(this);
 ;
 		ResultReqest clear_properties();
-		ResultReqest init_participant();
 		ResultReqest init_subscriber();
 		ResultReqest init_publisher();
-		ResultReqest registration_types();
 		ResultReqest create_topics();
 		ResultReqest verification_node_id(uint32_t node_target);
 

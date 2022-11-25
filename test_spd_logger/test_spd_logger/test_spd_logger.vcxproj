@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -82,6 +82,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <ExternalIncludePath>D:\CATE_WORK\include_logger;$(ExternalIncludePath)</ExternalIncludePath>
+    <IncludePath>C:\Program Files\eProsima\fastrtps 2.8.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\eProsima\fastrtps 2.8.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -130,11 +132,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOGGER_SCADA_SPDLOG_DDS;NDEBUG;_CONSOLE;WIN32_LEAN_AND_MEAN;NOMINMAX;_WINDOWS;FASTRTPS_DYN_LINK;FASTCDR_DYN_LINK;FOONATHAN_MEMORY=1;FOONATHAN_MEMORY_VERSION_MAJOR=0;FOONATHAN_MEMORY_VERSION_MINOR=7;FOONATHAN_MEMORY_VERSION_PATCH=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\CATE_WORK\include_logger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>Async</ExceptionHandling>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -145,13 +147,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp" />
-    <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpdcpp.cpp" />
+    <ClCompile Include="DdsStatus.cxx" />
+    <ClCompile Include="DdsStatusPubSubTypes.cxx" />
+    <ClCompile Include="DdsStatusTypeObject.cxx" />
+    <ClCompile Include="LoggerScadaSpdDDS.cpp" />
     <ClCompile Include="test_spd_logger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\include_logger\LoggerScada.hpp" />
-    <ClInclude Include="..\..\..\..\include_logger\LoggerScadaspd.hpp" />
+    <ClInclude Include="LoggerScadaSpdDDS.h" />
+    <ClInclude Include="LoggerScada.h" />
+    <ClInclude Include="ServiceType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

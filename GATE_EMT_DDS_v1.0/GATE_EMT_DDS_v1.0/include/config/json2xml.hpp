@@ -11,7 +11,8 @@
 #include "json.hpp"
 #include "tinyxml2.h"
 
-namespace scd {
+
+namespace atech {
     namespace common {
 
         using json = nlohmann::json;
@@ -19,7 +20,7 @@ namespace scd {
         using namespace std;
 
         template<class UnaryFunction>
-        void recursive_iterate(const json& j, XMLNode* pNode, XMLDocument* xmlDoc, UnaryFunction f)
+        void recursive_iterate(const nlohmann::ordered_json& j, XMLNode* pNode, XMLDocument* xmlDoc, UnaryFunction f)
         {
 
 
@@ -76,7 +77,9 @@ namespace scd {
             }
         }
 
-        std::string json2xml(const nlohmann::basic_json<>& src);
+        std::string json2xml(const nlohmann::ordered_json& src);
+
+
     }
 }
 

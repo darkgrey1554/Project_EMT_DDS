@@ -1,0 +1,33 @@
+﻿  DdsCommand.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DdsCommand\DdsCommand.h(26,10): fatal  error C1083: Не удается открыть файл включение: fastrtps/utils/fixed_size_string.hpp: No such file or directory,
+  DdsCommandPubSubTypes.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DdsCommand\DdsCommandPubSubTypes.cxx(23,10): fatal  error C1083: Не удается открыть файл включение: fastcdr/FastBuffer.h: No such file or directory,
+  DdsCommandTypeObject.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DdsCommand\DdsCommand.h(26,10): fatal  error C1083: Не удается открыть файл включение: fastrtps/utils/fixed_size_string.hpp: No such file or directory,
+  DdsConfig.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DdsConfig\DdsConfig.h(26,10): fatal  error C1083: Не удается открыть файл включение: fastrtps/utils/fixed_size_string.hpp: No such file or directory,
+  DdsConfigPubSubTypes.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DdsConfig\DdsConfigPubSubTypes.cxx(23,10): fatal  error C1083: Не удается открыть файл включение: fastcdr/FastBuffer.h: No such file or directory,
+  DdsConfigTypeObject.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DdsConfig\DdsConfig.h(26,10): fatal  error C1083: Не удается открыть файл включение: fastrtps/utils/fixed_size_string.hpp: No such file or directory,
+  DDSData.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DDSData\DDSData.h(32,10): fatal  error C1083: Не удается открыть файл включение: ddsformat/SizeTopics.h: No such file or directory,
+  DDSDataPubSubTypes.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DDSData\DDSDataPubSubTypes.cxx(23,10): fatal  error C1083: Не удается открыть файл включение: fastcdr/FastBuffer.h: No such file or directory,
+  DDSDataTypeObject.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DDSData\DDSData.h(32,10): fatal  error C1083: Не удается открыть файл включение: ddsformat/SizeTopics.h: No such file or directory,
+  DdsStatus.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DdsStatus\DdsStatus.h(26,10): fatal  error C1083: Не удается открыть файл включение: fastrtps/utils/fixed_size_string.hpp: No such file or directory,
+  DdsStatusPubSubTypes.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DdsStatus\DdsStatusPubSubTypes.cxx(23,10): fatal  error C1083: Не удается открыть файл включение: fastcdr/FastBuffer.h: No such file or directory,
+  DdsStatusTypeObject.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\DdsStatus\DdsStatus.h(26,10): fatal  error C1083: Не удается открыть файл включение: fastrtps/utils/fixed_size_string.hpp: No such file or directory,
+  SizeTopics.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\SizeTopics.h(5,1): error C2429: для функция языка "nested-namespace-definition" нужен флаг компилятора "/std:c++17"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\ddsformat\SizeTopics.cpp(4,1): error C2429: для функция языка "nested-namespace-definition" нужен флаг компилятора "/std:c++17"
+  HelloWorld.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\HelloWorld.cxx(28,10): fatal  error C1083: Не удается открыть файл включение: fastcdr/Cdr.h: No such file or directory,
+  HelloWorldPubSubTypes.cxx
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\HelloWorldPubSubTypes.cxx(23,10): fatal  error C1083: Не удается открыть файл включение: fastcdr/FastBuffer.h: No such file or directory,
+  main_test_command.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\test4\test4\main_test_command.cpp(1,10): fatal  error C1083: Не удается открыть файл включение: fastdds/dds/domain/DomainParticipantFactory.hpp: No such file or directory,

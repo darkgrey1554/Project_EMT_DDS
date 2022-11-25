@@ -82,7 +82,7 @@ namespace scada_ate::gate::adapter::opc
 	class AdapterOPCUA : public IAdapter
 	{
 		std::mutex mutex_init;
-		std::atomic<atech::common::Status> current_status = atech::common::Status::Null; /// ���������� ������� �������� 
+		std::atomic<atech::common::Status> current_status = atech::common::Status::NONE; /// ���������� ������� �������� 
 		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
 		ConfigAdapterOPCUA config;
 		SetTags last_data{};

@@ -10,6 +10,9 @@
 namespace atech::srv::io::ctrl
 {
 	class Module_CTRL;
+	struct IConfigUnitAid;
+	using  Module_CTRL_ptr = std::shared_ptr<Module_CTRL>;
+	using  IConfigUnitAid_ptr = std::shared_ptr<IConfigUnitAid>;
 
 	enum class TypeUnitAid
 	{
@@ -53,5 +56,7 @@ namespace atech::srv::io::ctrl
 	};
 
 	std::shared_ptr<UnitAid> CreateUnit_CP(std::shared_ptr<IConfigUnitAid> config);
+
+	
 	
 }

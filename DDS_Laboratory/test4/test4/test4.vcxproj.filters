@@ -13,15 +13,57 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{32126313-dd85-4bf6-9db8-3aaf8b71f536}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="maincpp.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="HelloWorld.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="HelloWorldPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DDSData\DDSData.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DDSData\DDSDataPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DDSData\DDSDataTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\SizeTopics.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DdsCommand\DdsCommand.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DdsCommand\DdsCommandPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DdsCommand\DdsCommandTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DdsConfig\DdsConfig.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DdsConfig\DdsConfigPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DdsConfig\DdsConfigTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DdsStatus\DdsStatus.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DdsStatus\DdsStatusPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ddsformat\DdsStatus\DdsStatusTypeObject.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="main_test_command.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -31,6 +73,48 @@
     </ClInclude>
     <ClInclude Include="HelloWorldPubSubTypes.h">
       <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DDSData\DDSData.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DDSData\DDSDataPubSubTypes.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DDSData\DDSDataTypeObject.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceType.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DdsCommand\DdsCommand.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DdsCommand\DdsCommandPubSubTypes.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DdsCommand\DdsCommandTypeObject.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DdsConfig\DdsConfig.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DdsConfig\DdsConfigPubSubTypes.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DdsConfig\DdsConfigTypeObject.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DdsStatus\DdsStatus.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DdsStatus\DdsStatusPubSubTypes.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ddsformat\DdsStatus\DdsStatusTypeObject.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

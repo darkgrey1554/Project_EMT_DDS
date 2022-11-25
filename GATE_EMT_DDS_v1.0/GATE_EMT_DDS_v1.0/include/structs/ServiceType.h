@@ -4,25 +4,25 @@ namespace atech::common
 {
 	enum class Command
 	{
-	   START,
-	   STOP,
-	   RESET,
-	   SEND_STATUS,
-	   SEND_PROCESS_INFO,
-	   SEND_VERSION,
-	   RECEIVE_CONFIG,
-	   APPLY_CONFIG,
-	   SET_LOGGING_LEVEL,
-	   LOGGING
+		NONE,
+		START,
+		STOP,
+		RESET,
+		SEND_STATUS,
+		SEND_PROCESS_INFO,
+		SEND_VERSION,
+		RECEIVE_CONFIG,
+		APPLY_CONFIG,
+		SET_LOGGING_LEVEL,
+		LOGGING	   
 	};
 
 	enum class Status
 	{
-		Null,
+		NONE,
 		OK,
 		ERR,
 		WARNING,
-
 		DEBUG,
 		INFO,
 		CRITICAL,

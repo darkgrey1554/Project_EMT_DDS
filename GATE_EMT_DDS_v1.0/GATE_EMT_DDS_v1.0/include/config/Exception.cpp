@@ -18,7 +18,7 @@
 
 #include "Exception.hpp"
 
-namespace scd{
+namespace atech{
 namespace common {
 
 Exception::Exception(
@@ -99,4 +99,4 @@ CorruptedFile::CorruptedFile(
 }
 
 } // namespace json_backend
-} // namespace scd
+} // namespace atech

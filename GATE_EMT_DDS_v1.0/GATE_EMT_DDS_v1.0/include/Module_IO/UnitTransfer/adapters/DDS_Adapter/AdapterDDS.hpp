@@ -10,6 +10,7 @@
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/publisher/DataWriter.hpp>
 #include <ddsformat/TypeTopics.h>
+#include <structs/FactoryDds.h>
 
 
 namespace _dds = eprosima::fastdds::dds;
@@ -49,18 +50,14 @@ namespace scada_ate::gate::adapter::dds
 		
 		ConfigAdapterDDS config;
 		std::mutex mutex_init;
-		std::atomic<atech::common::Status> current_status = atech::common::Status::Null;
+		std::atomic<atech::common::Status> current_status = atech::common::Status::NONE;
 		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
 
-		_dds::DomainParticipant* _participant = nullptr;
-		_dds::Subscriber* _subscriber = nullptr;
+		std::shared_ptr<atech::srv::io::FactoryDDS> _factory_dds = nullptr;
 		_dds::DataReader* _datareader = nullptr;
-		_dds::Publisher* _publisher = nullptr;
 		_dds::DataWriter* _datawriter = nullptr;
-		_dds::Topic* _topic_data = nullptr;
 		std::shared_ptr<T> _data_dds;
 
-		//std::vector<SetTags> _data;
 		SetTags template_settags;
 		std::map<unsigned int, InfoTag> map_infotag_to_idtag;
 		StoreLastValue _storage;
@@ -80,6 +77,7 @@ namespace scada_ate::gate::adapter::dds
 		ResultReqest init_buffer(DDSAlarm* buf);
 		ResultReqest init_buffer(DDSAlarmEx* buf);
 		ResultReqest init_StoreLastValue();
+		atech::srv::io::TypeTopic typetopic_to_typeDataDDS(const TypeDDSData& type_dds);
 		
 		ResultReqest init_adapter();
 		void destroy();
@@ -187,7 +185,6 @@ namespace scada_ate::gate::adapter::dds
 
 		/// --- guard from repeated usage --- ///
 
-
 		atech::common::Status status = current_status.load(std::memory_order::memory_order_relaxed);
 		if (status == atech::common::Status::INIT || status == atech::common::Status::OK)
 		{
@@ -198,25 +195,33 @@ namespace scada_ate::gate::adapter::dds
 
 		try
 		{
+			log->Debug("AdapterDDS id-{}: Start init", config.id_adapter);
+
 			if (config.type_adapter != TypeAdapter::DDS) throw 1;
 
-			if (init_participant() != ResultReqest::OK) throw 2;
+			if (!_factory_dds)
+			{
+				_factory_dds = atech::srv::io::FactoryDDS::get_instance();
+				if (!_factory_dds) throw 2;
+			}
 
-			if (registration_type() != ResultReqest::OK);
+			if (_factory_dds->init_dds() != ResultReqest::OK) throw 3;
 
-			if (init_topic() != ResultReqest::OK) throw 3;
+			if (init_topic() != ResultReqest::OK) throw 4;
 
-			if (init_transport() != ResultReqest::OK) throw 4;
+			if (init_transport() != ResultReqest::OK) throw 5;
 
-			if (init_template_settags() != ResultReqest::OK) throw 5;
+			if (init_template_settags() != ResultReqest::OK) throw 6;
 
 			_data_dds = std::make_shared<T>(T());
 
-			if (init_buffer(_data_dds.get()) != ResultReqest::OK) throw 6;
+			if (init_buffer(_data_dds.get()) != ResultReqest::OK) throw 7;
 
-			if (init_StoreLastValue() != ResultReqest::OK) throw;
+			if (init_StoreLastValue() != ResultReqest::OK) throw 8;
 
 			current_status.store(atech::common::Status::OK);
+
+			log->Info("AdapterDDS id - {}: Init done", config.id_adapter);
 		}
 		catch (int& e)
 		{
@@ -234,132 +239,14 @@ namespace scada_ate::gate::adapter::dds
 		return result;
 	};
 
-	template<typename T> ResultReqest AdapterDDS<T>::init_participant()
-	{
-
-		ResultReqest result = ResultReqest::OK;
-
-		try
-		{
-			if (!config.str_config_ddslayer.empty())
-			{
-				_dds::DomainParticipantFactory::get_instance()->load_XML_profiles_string(config.str_config_ddslayer.c_str(), config.str_config_ddslayer.size());
-			}
-
-			_participant = _dds::DomainParticipantFactory::get_instance()->create_participant_with_profile(get_name_participant_profile());
-			if (!_participant)
-			{
-				_participant = _dds::DomainParticipantFactory::get_instance()->create_participant(0, _dds::PARTICIPANT_QOS_DEFAULT);
-				if (!_participant)
-				{
-					throw 1;
-				}
-
-				log->Debug("AdapterDDS id-{}: Init participant done : defualt", this->config.id_adapter);
-			}
-			else
-			{
-				log->Debug("AdapterDDS id-{}: Init participant done : XML-file", this->config.id_adapter);
-			}
-
-		}
-		catch (int& e)
-		{
-			log->Critical("AdapterDDS id-{}: Error init participant : error: {}", this->config.id_adapter, e);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("AdapterDDS id-{}: Error init participant : error: {}", this->config.id_adapter, 0);
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	}
-
-	template<typename T> ResultReqest AdapterDDS<T>::registration_type()
-	{
-		ResultReqest result = ResultReqest::OK;
-
-		try
-		{
-			_dds::TypeSupport PtrSupporTypeDDSData(new DDSDataPubSubType());
-			if (PtrSupporTypeDDSData.register_type(_participant) != ReturnCode_t::RETCODE_OK) throw 1;
-		}
-		catch (...)
-		{
-			log->Debug("AdapterDDS id - {}: Error registration DDSData", config.id_adapter);
-			result = ResultReqest::ERR;
-		}
-
-		try
-		{
-			_dds::TypeSupport PtrSupporTypeDDSDataEx(new DDSDataExPubSubType());
-			if (PtrSupporTypeDDSDataEx.register_type(_participant) != ReturnCode_t::RETCODE_OK) throw 1;
-		}
-		catch (...)
-		{
-			log->Debug("AdapterDDS id - {}: Error registration DDSDataEx", config.id_adapter);
-			result = ResultReqest::ERR;
-		}
-
-		try
-		{
-			_dds::TypeSupport PtrSupporTypeDDSAlarm(new DDSAlarmPubSubType());
-			if (PtrSupporTypeDDSAlarm.register_type(_participant) != ReturnCode_t::RETCODE_OK) throw 1;
-		}
-		catch (...)
-		{
-			log->Debug("AdapterDDS id - {}: Error registration DDSAlarm", config.id_adapter);
-			result = ResultReqest::ERR;
-		}
-
-		try
-		{
-			_dds::TypeSupport PtrSupporTypeDDSAlarmEx(new DDSAlarmExPubSubType());
-			if (PtrSupporTypeDDSAlarmEx.register_type(_participant) != ReturnCode_t::RETCODE_OK) throw 1;
-		}
-		catch (...)
-		{
-			log->Debug("AdapterDDS id - {}: Error registration DDSAlarmEx", config.id_adapter);
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	}
-
 	template<typename T> ResultReqest AdapterDDS<T>::init_topic()
 	{
 		ResultReqest result = ResultReqest::OK;
 
 		try
 		{
-			if (!_participant)
-			{
+			if (_factory_dds->registration_topic(config.topic_name, typetopic_to_typeDataDDS(config.type_data)) != ResultReqest::OK)
 				throw 1;
-			}
-
-			_topic_data = _participant->create_topic_with_profile(get_name_topic(),
-				get_typetopic(config.type_data),
-				get_name_topic_profile());
-
-			if (!_topic_data)
-			{
-				_topic_data = _participant->create_topic(get_name_topic(),
-					get_typetopic(config.type_data),
-					_dds::TOPIC_QOS_DEFAULT);
-				if (!_topic_data)
-				{
-					throw 1;
-				}
-
-				log->Debug("AdapterDDS id-{}: Init topic done : defualt", this->config.id_adapter);
-			}
-			else
-			{
-				log->Debug("AdapterDDS id-{}: Init topic done : XML-file", this->config.id_adapter);
-			}
-
 		}
 		catch (int& e)
 		{
@@ -401,41 +288,8 @@ namespace scada_ate::gate::adapter::dds
 
 		try
 		{
-			if (!_participant) throw 1;
-
-			_publisher = _participant->create_publisher_with_profile(get_name_publisher_profile());
-
-			if (!_publisher)
-			{
-				_publisher = _participant->create_publisher(_dds::PUBLISHER_QOS_DEFAULT);
-				if (!_publisher) throw 2;
-
-				log->Debug("AdapterDDS id-{}: Init publisher done : default", this->config.id_adapter);
-			}
-			else
-			{
-				log->Debug("AdapterDDS id-{}: Init publisher done : XML-file", this->config.id_adapter);
-			}
-
-			_datawriter = _publisher->create_datawriter_with_profile(_topic_data, get_name_datawriter_profile());
-
-			if (!_datawriter)
-			{
-				_datawriter = _publisher->create_datawriter(_topic_data, _dds::DATAWRITER_QOS_DEFAULT);
-				if (!_datawriter)
-				{
-					throw 3;
-				}
-				else
-				{
-					log->Debug("AdapterDDS id-{}: Init datawriter done : default", this->config.id_adapter);
-				}
-			}
-			else
-			{
-				log->Debug("AdapterDDS id-{}: Init datawriter done : XML-file", this->config.id_adapter);
-			}
-
+			_datawriter = _factory_dds->get_datawriter(config.topic_name);
+			if (!_datawriter) throw 1;
 		}
 		catch (int& e)
 		{
@@ -457,36 +311,8 @@ namespace scada_ate::gate::adapter::dds
 
 		try
 		{
-			if (!_participant) throw 1;
-
-			_subscriber = _participant->create_subscriber_with_profile(get_name_subscriber_profile());
-
-			if (!_subscriber)
-			{
-				_subscriber = _participant->create_subscriber(_dds::SUBSCRIBER_QOS_DEFAULT);
-				if (!_subscriber) throw 2;
-
-				log->Debug("AdapterDDS id-{}: Init subscriber done : default", this->config.id_adapter);
-			}
-			else
-			{
-				log->Debug("AdapterDDS id-{}: Init subscriber done : XML-file", this->config.id_adapter);
-			}
-
-			_datareader = _subscriber->create_datareader_with_profile(_topic_data, get_name_datareader_profile());
-
-			if (!_datareader)
-			{
-				_datareader = _subscriber->create_datareader(_topic_data, _dds::DATAREADER_QOS_DEFAULT);
-				if (!_datareader) throw 3;
-				log->Debug("AdapterDDS id-{}: Init datareader done : default", this->config.id_adapter);
-			
-			}
-			else
-			{
-				log->Debug("AdapterDDS id-{}: Init datareader done : XML-file", this->config.id_adapter);
-			}
-
+			_datareader = _factory_dds->get_datareader(config.topic_name);
+			if (!_datareader) throw 1;
 		}
 		catch (int& e)
 		{
@@ -632,6 +458,12 @@ namespace scada_ate::gate::adapter::dds
 	{
 		ResultReqest result = ResultReqest::OK;
 
+		if (current_status.load() != atech::common::Status::OK)
+		{
+			result = ResultReqest::IGNOR;
+			return result;
+		}
+
 		if (config.type_transfer != TypeTransfer::SUBSCRIBER)
 		{
 			log->Debug("AdapterDDS id-{}: Error ReadData : not supported", this->config.id_adapter);
@@ -672,8 +504,14 @@ namespace scada_ate::gate::adapter::dds
 	{
 		ResultReqest result = ResultReqest::OK;
 
-		try
+		if (current_status.load() != atech::common::Status::OK)
 		{
+			result = ResultReqest::IGNOR;
+			return result;
+		}
+
+		try
+		{  
 			for (const SetTags& tags : _data)
 			{
 				clear_out_buffer(_data_dds.get());
@@ -1924,37 +1762,34 @@ namespace scada_ate::gate::adapter::dds
 
 	template<typename T> void AdapterDDS<T>::destroy()
 	{
+		log->Debug("AdapterDDS id-{}: Start delete", this->config.id_adapter);
+		
 		if (_datawriter != nullptr)
 		{
-			_publisher->delete_datawriter(_datawriter);
+			_factory_dds->delete_datawriter(_datawriter);
 		}
 
 		if (_datareader != nullptr)
 		{
-			_subscriber->delete_datareader(_datareader);
+			_factory_dds->delete_datareader(_datareader);
 		}
 
-		if (_publisher != nullptr)
-		{
-			_participant->delete_publisher(_publisher);
-		}
+		_factory_dds->unregistration_topic(config.topic_name);
 
-		if (_subscriber != nullptr)
-		{
-			_participant->delete_subscriber(_subscriber);
-		}
+		log->Debug("AdapterDDS id-{}: Delete done", this->config.id_adapter);
 
-		if (_topic_data != nullptr)
-		{
-			_participant->delete_topic(_topic_data);
-		}
-
-		if (_participant != nullptr)
-		{
-			eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->delete_participant(_participant);
-		}
+		current_status.store(atech::common::Status::NONE);
 
 		return;
+	}
+
+	template<typename T> atech::srv::io::TypeTopic AdapterDDS<T>::typetopic_to_typeDataDDS(const TypeDDSData & type_dds)
+	{
+		if (type_dds == TypeDDSData::DDSData) return  atech::srv::io::TypeTopic::DDSData;
+		if (type_dds == TypeDDSData::DDSDataEx) return  atech::srv::io::TypeTopic::DDSDataEx;
+		if (type_dds == TypeDDSData::DDSAlarm) return  atech::srv::io::TypeTopic::DDSAlarm;
+		if (type_dds == TypeDDSData::DDSAlarmEx) return  atech::srv::io::TypeTopic::DDSAlarmEx;
+		return atech::srv::io::TypeTopic::DDSData;
 	}
 
 } 

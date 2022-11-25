@@ -13,7 +13,6 @@ namespace atech::srv::io::ctrl
 	UnitAid_DDS::~UnitAid_DDS()
 	{
 		clear_properties();
-		return;
 	}
 
 
@@ -36,13 +35,14 @@ namespace atech::srv::io::ctrl
 		{
 			if (!config.manager) throw 0;
 
-			if (init_participant() != ResultReqest::OK) throw 1;
-			if (registration_types() != ResultReqest::OK) throw 2;
+			_factory_dds = atech::srv::io::FactoryDDS::get_instance();
+			if (!_factory_dds) throw 1;
+
 			if (create_topics() != ResultReqest::OK) throw 3;
 			if (init_subscriber() != ResultReqest::OK) throw 4;
-			if (init_publisher() != ResultReqest::OK) {};
+			if (init_publisher() != ResultReqest::OK) throw 5;
 
-			log->Info("UnitAdi_DDS node_id-{} : Initialization done");
+			log->Info("UnitAdi_DDS node_id-{} : Initialization done",config.node_id);
 			_status.store(StatusUnitAid::OK);
 		}
 		catch (int& e)
@@ -64,37 +64,22 @@ namespace atech::srv::io::ctrl
 	ResultReqest UnitAid_DDS::TakeServiceConfig(size_t size_data, std::string& str)
 	{
 		ResultReqest result{ ResultReqest::OK };
-		_dds::TypeSupport type;
-		_dds::Topic* topic_config = nullptr;
 		_dds::DataReader* data_reader = nullptr;
 		DdsConfig config;
 		_dds::SampleInfo info;
 
 		try
 		{
-			str.clear();
-			if (!_participant) throw 1;
-			if (!_subscriber) throw 2;
+			if (!_factory_dds) throw 1;
+			atech::common::SizeTopics::SetMaxSizeDdsConfig(size_data);
+			if (_factory_dds->registration_type_config() != ResultReqest::OK)
+				throw 2;
 
-			type = _dds::TypeSupport(new DdsConfigPubSubType());
-			_participant->unregister_type(type.get_type_name());
-			if (type.register_type(_participant) != ReturnCode_t::RETCODE_OK) throw 3;
+			if (_factory_dds->registration_topic(topic_name_config, atech::srv::io::TypeTopic::DDSConfig) != ResultReqest::OK)
+				throw 3;
 
-
-			topic_config = _participant->create_topic_with_profile(topic_name_config, type.get_type_name(), get_name_topic_config_profile());
-			if (topic_config)
-			{
-				topic_config = _participant->create_topic(topic_name_config, type.get_type_name(), _dds::TOPIC_QOS_DEFAULT);
-			}
-			if (!topic_config) throw 4;
-
-			_dds::DataReader* data_reader = _subscriber->create_datareader_with_profile(topic_config, get_name_datareader_config_profile());
-			if (!data_reader)
-			{
-				data_reader = _subscriber->create_datareader(topic_config, _dds::DATAREADER_QOS_DEFAULT);
-			}
-			if (!data_reader) throw 5;
-
+			data_reader = _factory_dds->get_datareader(topic_name_config);
+			if (!data_reader) throw 4;
 
 			for (int i = 0; i < 10; i++)
 			{
@@ -108,9 +93,9 @@ namespace atech::srv::io::ctrl
 			if (config.id_target() != this->config.node_id) throw 6;
 
 			std::vector<char>& cf = config.conf_subject();
-			str.copy(&*cf.begin(),cf.size());
+			str = std::string(&cf[0], cf.size());
 
-			log->Info("UnitAid node-{}: Received new config");
+			log->Info("UnitAid node-{}: Received new config", this->config.node_id);
 		}
 		catch(int& e)
 		{
@@ -125,12 +110,13 @@ namespace atech::srv::io::ctrl
 
 		try
 		{
-			if (data_reader) _subscriber->delete_datareader(data_reader);
-			if (topic_config) _participant->delete_topic(topic_config);
-			_participant->unregister_type(type.get_type_name());
+			_factory_dds->delete_datareader(data_reader);
+			_factory_dds->unregistration_topic(topic_name_config);
+			_factory_dds->unregistration_type_config();
 		}
 		catch (...)
 		{	
+			log->Critical("UnitAid_DDS node-{}: Error delete topic of config: error {}: syserror {}", this->config.node_id, 0, 0);
 		}
 		
 		return result;
@@ -145,54 +131,18 @@ namespace atech::srv::io::ctrl
 		{
 			if (_reader_command != nullptr)
 			{
-				res = _subscriber->delete_datareader(_reader_command);
-				if (res != ReturnCode_t::RETCODE_OK) throw 1;
+				_factory_dds->delete_datareader(_reader_command);
 				_reader_command = nullptr;
 			}
 
 			if (_responder != nullptr)
 			{
-				res = _publisher->delete_datawriter(_responder);
-				if (res != ReturnCode_t::RETCODE_OK) throw 2;
+				_factory_dds->delete_datawriter(_responder);
 				_responder = nullptr;
 			}
 
-			if (_subscriber != nullptr)
-			{
-				res = _participant->delete_subscriber(_subscriber);
-				if (res != ReturnCode_t::RETCODE_OK) throw 3;
-				_subscriber = nullptr;
-			}
-
-			if (_publisher != nullptr)
-			{
-				res = _participant->delete_publisher(_publisher);
-				if (res != ReturnCode_t::RETCODE_OK) throw 4;
-				_publisher = nullptr;
-			}
-
-			if (topic_command != nullptr)
-			{
-				res = _participant->delete_topic(topic_command);
-				if (res != ReturnCode_t::RETCODE_OK) throw 5;
-				topic_command = nullptr;
-			}
-
-			if (topic_respond != nullptr)
-			{
-				res = _participant->delete_topic(topic_respond);
-				if (res != ReturnCode_t::RETCODE_OK) throw 6;
-				topic_respond = nullptr;
-			}
-
-			if (_participant != nullptr)
-			{
-				_participant->unregister_type(type_support_topic_command.get_type_name());
-				_participant->unregister_type(type_support_topic_respond.get_type_name());
-				res = _dds::DomainParticipantFactory::get_instance()->delete_participant(_participant);
-				if (res != ReturnCode_t::RETCODE_OK) throw 7;
-				_participant = nullptr;
-			}
+			_factory_dds->unregistration_topic(get_name_TopicCommand());
+			_factory_dds->unregistration_topic(get_name_TopicRespond());
 		}
 		catch (int& e)
 		{
@@ -208,87 +158,29 @@ namespace atech::srv::io::ctrl
 		return result;
 	};
 
-	ResultReqest UnitAid_DDS::init_participant()
-	{
-		ResultReqest result = ResultReqest::OK;
-
-		try
-		{
-			_participant = _dds::DomainParticipantFactory::get_instance()->create_participant_with_profile(get_name_participant_profile());
-			if (!_participant)
-			{
-				_participant = _dds::DomainParticipantFactory::get_instance()->create_participant(0, _dds::PARTICIPANT_QOS_DEFAULT);
-				if (!_participant)
-				{
-					throw 1;
-				}
-
-				log->Debug("UnitAid_DDS node-{}: Init participant done : defualt", this->config.node_id);
-			}
-			else
-			{
-				log->Debug("UnitAid_DDS node-{}: Init participant done : XML-file", this->config.node_id);
-			}
-
-		}
-		catch (int& e)
-		{
-			log->Critical("UnitAid_DDS node-{}: Error init participant : error: {}", this->config.node_id, e);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("UnitAid_DDS node-{}: Error init participant : error: {}", this->config.node_id, 0);
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	};
-
 	ResultReqest UnitAid_DDS::init_subscriber()
 	{
 		ResultReqest result = ResultReqest::OK;
 
 		try
 		{
-			if (!_participant) throw 1;
-
-			_subscriber = _participant->create_subscriber_with_profile(get_name_subscriber_profile());
-
-			if (!_subscriber)
-			{
-				_subscriber = _participant->create_subscriber(_dds::SUBSCRIBER_QOS_DEFAULT);
-				if (!_subscriber) throw 2;
-
-				log->Debug("UnitAid_DDS node-{}: Init subscriber done : default", this->config.node_id);
-			}
-			else
-			{
-				log->Debug("UnitAid_DDS node-{}: Init subscriber done : XML-file", this->config.node_id);
-			}
-
-			_reader_command = _subscriber->create_datareader_with_profile(topic_command, get_name_datareader_profile(), _listener.get());
-
 			if (!_reader_command)
 			{
-				_reader_command = _subscriber->create_datareader(topic_command, _dds::DATAREADER_QOS_DEFAULT, _listener.get());
-				if (!_reader_command) throw 3;
-				log->Debug("UnitAid_DDS node-{}: Init datareader done : default", this->config.node_id);
+				//_reader_command = _subscriber->create_datareader(topic_command, _dds::DATAREADER_QOS_DEFAULT, _listener.get());
+				_reader_command = _factory_dds->get_datareader(get_name_TopicCommand());
+				if (!_reader_command) throw 1;
+				_reader_command->set_listener(_listener.get());
 			}
-			else
-			{
-				log->Debug("UnitAid_DDS node-{}: Init datareader done : XML-file", this->config.node_id);
-			}
-
+			log->Debug("UnitAid_DDS node-{}: Init datareader done", this->config.node_id);
 		}
 		catch (int& e)
 		{
-			log->Critical("UnitAid_DDS node-{}: Init subscriber : error: {}", this->config.node_id, e);
+			log->Critical("UnitAid_DDS node-{}: Error init datareader : error: {}", this->config.node_id, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("UnitAid_DDS node-{}: Error init subscriber : error: {}", this->config.node_id, 0);
+			log->Critical("UnitAid_DDS node-{}: Error init datareader : error: {}", this->config.node_id, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -301,78 +193,21 @@ namespace atech::srv::io::ctrl
 
 		try
 		{
-			if (!_participant) throw 1;
-
-			_publisher = _participant->create_publisher_with_profile(get_name_publisher_profile());
-
-			if (!_publisher)
-			{
-				_publisher = _participant->create_publisher(_dds::PUBLISHER_QOS_DEFAULT);
-				if (!_publisher) throw 2;
-				log->Debug("UnitAid_DDS node-{}: Init publisher done : default", this->config.node_id);
-			}
-			else
-			{
-				log->Debug("UnitAid_DDS node-{}: Init publisher done : XML-file", this->config.node_id);
-			}
-
-			_responder = _publisher->create_datawriter_with_profile(topic_respond, get_name_datawriter_profile());
-
 			if (!_responder)
 			{
-				_responder = _publisher->create_datawriter(topic_respond, _dds::DATAWRITER_QOS_DEFAULT);
-				if (!_responder)
-				{
-					throw 3;
-				}
-				else
-				{
-					log->Debug("UnitAid_DDS node-{}: Init datawriter done : default", this->config.node_id);
-				}
+				_responder = _factory_dds->get_datawriter(get_name_TopicRespond());
+				if (!_responder) throw 1;
 			}
-			else
-			{
-				log->Debug("UnitAid_DSS node-{}: Init datawriter done : XML-file", this->config.node_id);
-			}
-
+			log->Debug("UnitAid_DDS node-{}: Init datawriter done", this->config.node_id);
 		}
 		catch (int& e)
 		{
-			log->Critical("UnitAid_DSS node-{}: Init publisher : error: {}", this->config.node_id, e);
+			log->Critical("UnitAid_DDS node-{}: Error init datawriter : error: {}", this->config.node_id, e);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("UnitAid_DSS node-{}: Error Init publisher: error: {}", this->config.node_id, 0);
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	};
-
-	ResultReqest UnitAid_DDS::registration_types()
-	{
-		ResultReqest result = ResultReqest::OK;
-
-		try
-		{
-			type_support_topic_command = _dds::TypeSupport(new DdsCommandPubSubType());
-			if (type_support_topic_command.register_type(_participant) != ReturnCode_t::RETCODE_OK) throw 1;
-		}																															 
-		catch (...)
-		{
-			log->Debug("UnitAid_DDS node-{}: Error registration TopicCommand", config.node_id);
-			result = ResultReqest::ERR;
-		}
-
-		try
-		{
-			type_support_topic_respond = _dds::TypeSupport(new DdsStatusPubSubType());
-			if (type_support_topic_respond.register_type(_participant) != ReturnCode_t::RETCODE_OK) throw 1;
-		}
-		catch (...)
-		{
-			log->Debug("UnitAid_DDS node-{}: Error registration TopicStatus", config.node_id);
+			log->Critical("UnitAid_DDS node-{}: Error init datawriter : error: {}", this->config.node_id, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -385,53 +220,28 @@ namespace atech::srv::io::ctrl
 
 		try
 		{
-			if (!_participant)
+			if (!_factory_dds)
 			{
 				throw 1;
 			}
 
-			topic_command = _participant->create_topic_with_profile(get_name_TopicCommand(),
-				type_support_topic_command.get_type_name(),
-				get_name_topic_profile_command());
-
-			if (!topic_command)
+			if (_factory_dds->registration_topic(get_name_TopicCommand(), atech::srv::io::TypeTopic::DDSCommand) != ResultReqest::OK)
 			{
-				topic_command = _participant->create_topic(get_name_TopicCommand(),
-					type_support_topic_command.get_type_name(),
-					_dds::TOPIC_QOS_DEFAULT);
-				if (!topic_command)
-				{
-					throw 1;
-				}
-
-				log->Debug("UnitAid_DDS node-{}: Init topic command done : defualt", this->config.node_id);
+				log->Critical("UnitAid_DDS node-{}: Error init topic of command", this->config.node_id);
 			}
 			else
 			{
-				log->Debug("UnitAid_DDS node-{}: Init topic done : XML-file", this->config.node_id);
+				log->Debug("UnitAid_DDS node-{}: Init topic of command done", this->config.node_id);
 			}
 
-			topic_respond = _participant->create_topic_with_profile(get_name_TopicRespond(),
-				type_support_topic_respond.get_type_name(),
-				get_name_topic_profile_respond());
-
-			if (!topic_command)
+			if (_factory_dds->registration_topic(get_name_TopicRespond(), atech::srv::io::TypeTopic::DDSStatus) != ResultReqest::OK)
 			{
-				topic_command = _participant->create_topic(get_name_TopicRespond(),
-					type_support_topic_respond.get_type_name(),
-					_dds::TOPIC_QOS_DEFAULT);
-				if (!topic_command)
-				{
-					throw 2;
-				}
-
-				log->Debug("UnitAid_DDS node-{}: Init topic command done : defualt", this->config.node_id);
+				log->Critical("UnitAid_DDS node-{}: Error init topic of status done", this->config.node_id);
 			}
 			else
 			{
-				log->Debug("UnitAid_DDS node-{}: Init topic done : XML-file", this->config.node_id);
+				log->Debug("UnitAid_DDS node-{}: Init topic of status done", this->config.node_id);
 			}
-
 		}
 		catch (int& e)
 		{
@@ -452,11 +262,11 @@ namespace atech::srv::io::ctrl
 	{
 		if (info.current_count_change == 1)
 		{
-			_master->log->Info("UnitAid_DDS node-{}: Subscriber mathed");
+			_master->log->Info("UnitAid_DDS node-{}: Subscriber mathed",_master->config.node_id);
 		}
 		else if (info.current_count_change == -1)
 		{
-			_master->log->Info("UnitAid_DDS node-{}: Subscriber unmathed");
+			_master->log->Info("UnitAid_DDS node-{}: Subscriber unmathed", _master->config.node_id);
 		}
 
 		return;
@@ -487,7 +297,7 @@ namespace atech::srv::io::ctrl
 			status.cmd_code(data.cmd_code());
 			status.st_time(TimeConverter::GetTime_LLmcs());
 			
-			if (status.st_code() != (uint32_t)atech::common::Status::Null) _master->_responder->write(&status);
+			if (status.st_code() != (uint32_t)atech::common::Status::NONE) _master->_responder->write(&status);
 		}
 		catch (int& e)
 		{
@@ -576,7 +386,7 @@ namespace atech::srv::io::ctrl
 
 	std::string UnitAid_DDS::get_name_datareader_config_profile()
 	{
-		return topic_name_config + "_datareader_profile";
+		return topic_name_config + "datareader_profile";
 	};
 
 	StatusUnitAid UnitAid_DDS::GetStatus()
@@ -599,7 +409,7 @@ namespace atech::srv::io::ctrl
 		uint32_t type_this = (config.node_id & 0x0000FF00) >> 8;
 		uint32_t id_this = (config.node_id & 0x000000FF);
 
-		if (type != type_this) return ResultReqest::ERR;
+		if (type != 0 && type != type_this) return ResultReqest::ERR;
 		if (node != 0 && node != node_this)	return ResultReqest::ERR;
 		if (id != 0 && id != id_this)	return ResultReqest::ERR;
 

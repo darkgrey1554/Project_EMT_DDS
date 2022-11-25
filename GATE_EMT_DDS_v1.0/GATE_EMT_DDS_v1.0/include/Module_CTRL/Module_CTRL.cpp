@@ -95,13 +95,15 @@ namespace atech::srv::io::ctrl
 	{
 		ResultReqest result{ ResultReqest::OK };
 		_config_unitaid = config;
+		_config_unitaid->manager = this;
+		_config_unitaid->node_id = _node_id;
 		_unitaid = atech::srv::io::ctrl::CreateUnit_CP(config);
 		result = _unitaid->InitUnitAid();
 		return result;
 	};
 
 
-	ResultReqest Module_CTRL::registration_size_topics(scd::common::TopicMaxSize& default_size)
+	ResultReqest Module_CTRL::registration_size_topics(atech::common::TopicMaxSize& default_size)
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -165,7 +167,7 @@ namespace atech::srv::io::ctrl
 				{
 					for (auto& data : topic.get_type_sizes())
 					{
-						if (data.get_type_name() == "char")
+						if (data.get_type_name() == "long")
 						{
 							atech::common::SizeTopics::SetMaxSizeDDSAlarmVectorAlarms(data.get_size());
 						}
@@ -203,15 +205,14 @@ namespace atech::srv::io::ctrl
 				std::string profiles;
 				try
 				{
-					profiles = scd::common::json2xml(json["dds"]["profiles"]);
+					profiles = atech::common::json2xml(json["dds"]["profiles"]);
 				}
 				catch (...)
 				{
 					throw 2;
 				}
 
-				if (eprosima::fastdds::dds::DomainParticipantFactory::get_instance()->load_XML_profiles_file(profiles)
-					!= ReturnCode_t::RETCODE_OK)
+				if (_factory_dds->install_config_xml(profiles) != ResultReqest::OK)
 					log->Warning("Module_CTRL node-{}: Error registration profiles dds layer", _node_id);
 			}
 			else
@@ -268,7 +269,7 @@ namespace atech::srv::io::ctrl
 		{
 			nlohmann::json json = nlohmann::json::parse(stream);
 			if (json.count("adapters") == 0) throw 1;
-			scd::common::Adapters adapters = json["adapters"].get<scd::common::Adapters>();
+			atech::common::Adapters adapters = json["adapters"].get<atech::common::Adapters>();
 
 			std::vector<scada_ate::gate::adapter::ConfigUnitTransfer> config_units;
 			auto& units_source = adapters.get_units();
@@ -286,6 +287,13 @@ namespace atech::srv::io::ctrl
 				{
 					scada_ate::gate::adapter::IConfigAdapter_ptr target = nullptr;
 					target = fill_config_adapter(source);
+					/////// crutch
+					if (target->type_adapter == scada_ate::gate::adapter::TypeAdapter::DDS)
+					{
+						((scada_ate::gate::adapter::dds::ConfigAdapterDDS*)target.get())->type_transfer = 
+							scada_ate::gate::adapter::dds::TypeTransfer::PUBLISHER;
+					}
+					///////
 					unit_target.config_input_unit.push_back(std::move(target));
 				}
 
@@ -317,17 +325,17 @@ namespace atech::srv::io::ctrl
 		catch (std::string& e)
 		{
 			result = ResultReqest::ERR;
-			log->Critical("Module_CTRL node-: Error read config adapters: error: {}", _node_id, e);
+			log->Critical("Module_CTRL node-{}: Error read config adapters: error: {}", _node_id, e);
 		}
 		catch (int& e)
 		{
 			result = ResultReqest::ERR;
-			log->Critical("Module_CTRL node-: Error read config adapters: error: {}", _node_id, e);
+			log->Critical("Module_CTRL node-{}: Error read config adapters: error: {}", _node_id, e);
 		}
 		catch(...)
 		{
 			result = ResultReqest::ERR;
-			log->Critical("Module_CTRL node-: Error read config adapters: error: {}", _node_id, 0);
+			log->Critical("Module_CTRL node-{}: Error read config adapters: error: {}", _node_id, 0);
 		}
 
 		return result;
@@ -342,17 +350,20 @@ namespace atech::srv::io::ctrl
 			if (config.empty()) throw 1;
 			nlohmann::json json = nlohmann::json::parse(config);
 
-			scd::common::TopicMaxSize default_size;
+			atech::common::TopicMaxSize default_size;
 			if (json.count("topic_max_size"))
 			{
 				auto topic_max_size = json["topic_max_size"];
-				default_size = topic_max_size.get<scd::common::TopicMaxSize>();
+				default_size = topic_max_size.get<atech::common::TopicMaxSize>();
 				this->registration_size_topics(default_size);
 			}
 			else
 			{
 				log->Warning("Module_CTRL node-{}: config TopicsMaxSize not detected", _node_id);
 			}
+
+			_factory_dds = atech::srv::io::FactoryDDS::get_instance();
+			if (!_factory_dds) throw 2;
 
 			if (json.count("dds"))
 			{
@@ -361,6 +372,11 @@ namespace atech::srv::io::ctrl
 			else
 			{
 				log->Warning("Module_CTRL node-{}: config DDS profiles not detected", _node_id);
+			}
+
+			if (_factory_dds->init_dds() != ResultReqest::OK)
+			{
+				log->Warning("Module_CTRL node-{}: error init dds layer", _node_id);
 			}
 
 		}
@@ -404,32 +420,32 @@ namespace atech::srv::io::ctrl
 	}
 	
 	
-	scada_ate::gate::adapter::IConfigAdapter_ptr Module_CTRL::fill_config_adapter(const scd::common::OutputUnit& out)
+	scada_ate::gate::adapter::IConfigAdapter_ptr Module_CTRL::fill_config_adapter(const atech::common::OutputUnit& out)
 	{
 		scada_ate::gate::adapter::IConfigAdapter_ptr adapter = nullptr;
 
 		try
 		{
-			scada_ate::gate::adapter::IConfigAdapter_ptr adapter = create_config_adapter(out.get_type_adapter());
-			if (adapter) throw 1;
+			adapter = create_config_adapter(out.get_type_adapter());
+			if (!adapter) throw 1;
 
 			adapter->id_adapter = out.get_id();
 			adapter->id_map = out.get_id_map();
 
 			if (out.get_type_adapter() == "SM")
 			{
-				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory>(adapter),
-					std::reinterpret_pointer_cast<scd::common::SmConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+				if (fill_config((scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory*)adapter.get(),
+					(atech::common::SmConfig*)out.get_config().get()) != ResultReqest::OK) throw 1;
 			}
 			else if (out.get_type_adapter() == "DDS")
 			{
-				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::dds::ConfigAdapterDDS>(adapter),
-					std::reinterpret_pointer_cast<scd::common::DdsConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+				if (fill_config((scada_ate::gate::adapter::dds::ConfigAdapterDDS*)adapter.get(),
+					(atech::common::DdsConfig*)out.get_config().get()) != ResultReqest::OK) throw 1;
 			}
 			else if (out.get_type_adapter() == "OPC_UA")
 			{
-				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::opc::ConfigAdapterOPCUA>(adapter),
-					std::reinterpret_pointer_cast<scd::common::UaConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+				if (fill_config((scada_ate::gate::adapter::opc::ConfigAdapterOPCUA*)adapter.get(),
+					(atech::common::UaConfig*)out.get_config().get()) != ResultReqest::OK) throw 1;
 			}
 		}
 		catch (...)
@@ -440,38 +456,38 @@ namespace atech::srv::io::ctrl
 		return std::move(adapter);
 	};
 
-	scada_ate::gate::adapter::IConfigAdapter_ptr Module_CTRL::fill_config_adapter(const scd::common::InputUnit& out)
+	scada_ate::gate::adapter::IConfigAdapter_ptr Module_CTRL::fill_config_adapter(const atech::common::InputUnit& out)
 	{
 		scada_ate::gate::adapter::IConfigAdapter_ptr adapter = nullptr;
 
 		try
 		{
-			scada_ate::gate::adapter::IConfigAdapter_ptr adapter = create_config_adapter(out.get_type_adapter());
-			if (adapter) throw 1;
+			adapter = create_config_adapter(out.get_type_adapter());
+			if (!adapter) throw 1;
 
 			adapter->id_adapter = out.get_id();
 			adapter->id_map = out.get_id_map();
 
 			if (out.get_type_adapter() == "SM")
 			{
-				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory>(adapter),
-					std::reinterpret_pointer_cast<scd::common::SmConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+				if (fill_config((scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory*)adapter.get(),
+					(atech::common::SmConfig*)out.get_config().get()) != ResultReqest::OK) throw 2;
 			}
 			else if (out.get_type_adapter() == "DDS")
 			{
-				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::dds::ConfigAdapterDDS>(adapter),
-					std::reinterpret_pointer_cast<scd::common::DdsConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+				if (fill_config((scada_ate::gate::adapter::dds::ConfigAdapterDDS*)adapter.get(),
+					(atech::common::DdsConfig*)out.get_config().get()) != ResultReqest::OK) throw 3;
 			}
 			else if (out.get_type_adapter() == "OPC_UA")
 			{
-				if (fill_config(std::reinterpret_pointer_cast<scada_ate::gate::adapter::opc::ConfigAdapterOPCUA>(adapter),
-					std::reinterpret_pointer_cast<scd::common::UaConfig>(out.get_config())) != ResultReqest::OK) throw 1;
+				if (fill_config((scada_ate::gate::adapter::opc::ConfigAdapterOPCUA*)adapter.get(),
+					(atech::common::UaConfig*)out.get_config().get()) != ResultReqest::OK) throw 4;
 			}
 		}
 		catch (...)
 		{
-			log->Warning("Module_IO node-{}: Error read config adapter id-{}: error 0: syserror 0", _node_id, out.get_id());
 			adapter = nullptr;
+			log->Warning("Module_IO node-{}: Error read config adapter id-{}: error 0: syserror 0", _node_id, out.get_id());
 		}
 
 		return std::move(adapter);
@@ -500,7 +516,7 @@ namespace atech::srv::io::ctrl
 		return std::move(ptr);
 	}
 
-	ResultReqest Module_CTRL::fill_config(std::shared_ptr<scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory> target, std::shared_ptr<scd::common::SmConfig> source)
+	ResultReqest Module_CTRL::fill_config(scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory* target, atech::common::SmConfig* source)
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -522,7 +538,7 @@ namespace atech::srv::io::ctrl
 		return result;
 	}
 
-	ResultReqest Module_CTRL::fill_config(std::shared_ptr<scada_ate::gate::adapter::dds::ConfigAdapterDDS> target, std::shared_ptr<scd::common::DdsConfig> source)
+	ResultReqest Module_CTRL::fill_config(scada_ate::gate::adapter::dds::ConfigAdapterDDS* target, atech::common::DdsConfig* source)
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -530,6 +546,7 @@ namespace atech::srv::io::ctrl
 		{
 			target->topic_name = source->get_topic_name();
 			if (string_to_typeddsdata(target->type_data, source->get_type_name()) != ResultReqest::OK) throw 1;
+			target->type_transfer = scada_ate::gate::adapter::dds::TypeTransfer::PUBLISHER;
 			target->str_config_ddslayer.empty();
 		}
 		catch (...)
@@ -540,7 +557,7 @@ namespace atech::srv::io::ctrl
 		return result;
 	}
 
-	ResultReqest Module_CTRL::fill_config(std::shared_ptr<scada_ate::gate::adapter::opc::ConfigAdapterOPCUA> target, std::shared_ptr<scd::common::UaConfig> source)
+	ResultReqest Module_CTRL::fill_config(scada_ate::gate::adapter::opc::ConfigAdapterOPCUA* target, atech::common::UaConfig* source)
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -548,10 +565,10 @@ namespace atech::srv::io::ctrl
 		{
 			target->authentication = scada_ate::gate::adapter::opc::Authentication::Anonymous;
 			target->endpoint_url = source->get_endpoint_url();
-			target->namespaceindex = 1; //source->get_namespace_index();
+			target->namespaceindex = std::atoi(source->get_namespace_index().c_str());
 			target->password = source->get_password();
 			if ( string_to_security_mode_opc(target->security_mode, source->get_security_mode()) != ResultReqest::OK) throw 1;
-			if (string_to_security_policy_opc(target->security_policy, source->get_security_mode()) != ResultReqest::OK) throw 1;
+			if (string_to_security_policy_opc(target->security_policy, source->get_security_policy()) != ResultReqest::OK) throw 1;
 			target->user_name = source->get_user_name();
 		}
 		catch (...)
@@ -602,7 +619,7 @@ namespace atech::srv::io::ctrl
 		return result;
 	}
 
-	ResultReqest Module_CTRL::vec_datum_to_vec_links(std::vector<scada_ate::gate::adapter::LinkTags>& vec_link, const std::vector<scd::common::Datum>& vec_datum)
+	ResultReqest Module_CTRL::vec_datum_to_vec_links(std::vector<scada_ate::gate::adapter::LinkTags>& vec_link, const std::vector<atech::common::Datum>& vec_datum)
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -682,9 +699,7 @@ namespace atech::srv::io::ctrl
 	DdsStatus Module_CTRL::function_processing(DdsCommand& cmd)
 	{
 		DdsStatus status;
-		std::string parametr;
-		parametr.copy(&*cmd.cmd_parameter().begin(), cmd.cmd_parameter().size());
-
+		std::string parametr = std::string(&cmd.cmd_parameter()[0], cmd.cmd_parameter().size());
 
 		if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::Command::RECEIVE_CONFIG))
 		{
@@ -705,7 +720,15 @@ namespace atech::srv::io::ctrl
 		else if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::Command::RESET))
 		{
 			status = command_reinit(parametr);
-		} 		
+		}
+		else if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::Command::SEND_PROCESS_INFO))
+		{
+			status = command_request_process_info();
+		}
+		else if (cmd.cmd_code() == static_cast<uint32_t>(atech::common::Command::APPLY_CONFIG))
+		{
+			status = command_apply_new_config(cmd);
+		}
 
 		return status;
 	}
@@ -732,12 +755,14 @@ namespace atech::srv::io::ctrl
 		}
 		catch (int& e)
 		{
-			status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
+			log->Warning("Module_CTRL node-{}, Error receive new config: error {}: syserror: {}", _node_id, e, 0);
+			status.st_code(static_cast<uint32_t>(atech::common::Status::ERR));
 			config_str_new.clear();
 		}
 		catch (...)
 		{
-			status.st_code(static_cast<uint32_t>(atech::common::Status::OK));
+			log->Warning("Module_CTRL node-{}, Error receive new config: error {}: syserror: {}", _node_id, 0, 0);
+			status.st_code(static_cast<uint32_t>(atech::common::Status::ERR));
 			config_str_new.clear();
 		}
 
@@ -768,6 +793,7 @@ namespace atech::srv::io::ctrl
 			{
 				if (json.count("dds") != 0)
 				{
+					break;
 					if (json["dds"].count("hash") != 0 && json["dds"].count("profiles") != 0)
 					{
 						if (json["dds"]["hash"].get<size_t>() == std::hash<nlohmann::json>{}(json["dds"]["profiles"])) break;
@@ -780,6 +806,7 @@ namespace atech::srv::io::ctrl
 			{
 				if (json.count("topic_max_size") != 0)
 				{
+					break;
 					if (json["topic_max_size"].count("hash") != 0 && json["topic_max_size"].count("dds_type_size") != 0)
 					{
 						if (json["topic_max_size"]["hash"].get<size_t>() == std::hash<nlohmann::json>{}(json["topic_max_size"]["dds_type_size"])) break;
@@ -792,6 +819,7 @@ namespace atech::srv::io::ctrl
 			{
 				if (json.count("adapters") != 0)
 				{
+					break;
 					if (json["adapters"].count("hash") != 0 && json["adapters"].count("units") != 0)
 					{
 						if (json["adapters"]["hash"].get<size_t>() == std::hash<nlohmann::json>{}(json["adapters"]["units"])) break;
@@ -816,14 +844,29 @@ namespace atech::srv::io::ctrl
 
 	DdsStatus Module_CTRL::command_apply_new_config(DdsCommand& cmd)
 	{
-		DdsStatus status;
-		status.st_code(static_cast<uint32_t>(atech::common::Status::Null));
-		if (thread_helper.joinable())
+		DdsStatus status; 
+		try 
 		{
-			thread_helper.join();
-		}
+			status.st_code(static_cast<uint32_t>(atech::common::Status::NONE));
 
-		thread_helper = std::thread(&Module_CTRL::apply_new_config, this, cmd);
+			if (config_str_new.empty()) throw 1;
+			if (thread_helper.joinable())
+			{
+				thread_helper.join();
+			}
+
+			thread_helper = std::thread(&Module_CTRL::apply_new_config, this, cmd);
+		}
+		catch(int& e)
+		{
+			log->Warning("Module_CTRL node-{}: Error command aplply new config: error {}: syserror: {}", _node_id, e, 0);
+			status.st_code(static_cast<uint32_t>(atech::common::Status::ERR));
+		}
+		catch (...)
+		{
+			log->Warning("Module_CTRL node-{}: Error command aplply new config: error {}: syserror: {}", _node_id, 0, 0);
+			status.st_code(static_cast<uint32_t>(atech::common::Status::ERR));
+		}																					   
 
 		return status;
 	}
@@ -834,6 +877,8 @@ namespace atech::srv::io::ctrl
 		
 		try
 		{
+			log->Info("Module_CTRL node-{}, Start apply new config", _node_id);
+
 			_unitaid = nullptr;
 			_module_io_ptr->ClearModule();
 
@@ -846,15 +891,21 @@ namespace atech::srv::io::ctrl
 			init_module_io(config_str_new);
 			_unitaid = atech::srv::io::ctrl::CreateUnit_CP(_config_unitaid);
 			status.st_time(TimeConverter::GetTime_LLmcs());
-			if (_unitaid->InitUnitAid() == ResultReqest::OK) _unitaid->RespondStatus(status);
+			if (_unitaid->InitUnitAid() == ResultReqest::OK)
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+				_unitaid->RespondStatus(status);
+			}
+
+			log->Info("Module_CTRL node-{}, Apply new config done", _node_id);
 		}
 		catch (int& e)
 		{
-
+			log->Warning("Module_CTRL node-{}, Error apply new config: error {}: syserror: {}", _node_id, 0, 0);
 		}
 		catch (...)
 		{
-
+			log->Warning("Module_CTRL node-{}, Error apply new config: error {}: syserror: {}", _node_id, 0, 0);
 		}
 
 		return;	
@@ -867,9 +918,9 @@ namespace atech::srv::io::ctrl
 		try
 		{
 			nlohmann::json json = nlohmann::json::parse(str);
-			if (json.count("id") != 0) throw 1;
+			if (json.count("id") == 0) throw 1;
 			if (!json["id"].is_array()) throw 2;
-			if (!json["id"].begin()->is_number_unsigned()) throw 3;
+			if (!json["id"].empty()) { if (!json["id"].begin()->is_number_unsigned()) throw 3; };
 			for (auto& it : json["id"])
 			{
 				vector.push_back(it.get<uint32_t>());
@@ -891,7 +942,7 @@ namespace atech::srv::io::ctrl
 
 	DdsStatus  Module_CTRL::command_request_status(std::string_view parametr)
 	{
-		std::deque<std::pair<uint32_t, atech::common::Status>> parametr_answer;
+		std::deque<std::pair<uint32_t, atech::common::Status>> parametr_answer{};
 		DdsStatus status;
 		std::string str_out;
 		nlohmann::json j_param;
@@ -901,13 +952,9 @@ namespace atech::srv::io::ctrl
 		{
 			if (get_vector_id_from_json(vec_id, parametr) != ResultReqest::OK) throw 1;
 
-			j_param.push_back("success");
-			j_param.push_back("error");
-			j_param.push_back("unfound");
-
-			j_param["success"].array({});
-			j_param["error"].array({});
-			j_param["unfound"].array({});
+			j_param["success"] = std::vector<std::pair<uint32_t,atech::common::Status>>{};
+			j_param["error"] = std::vector<uint32_t>{};;
+			j_param["unfound"] = std::vector<uint32_t>{};;
 
 			if (vec_id.empty())
 			{
@@ -917,7 +964,10 @@ namespace atech::srv::io::ctrl
 				{
 					for (auto& it : parametr_answer)
 					{
-						j_param["success"].push_back(it);
+						nlohmann::json j;
+						j["id"] = it.first;
+						j["status"] = it.second;
+						j_param["success"].push_back(j);
 					};
 				}
 			}
@@ -926,11 +976,18 @@ namespace atech::srv::io::ctrl
 				for (auto& it : vec_id)
 				{
 					ResultReqest res;
+					parametr_answer.clear();
 					res = _module_io_ptr->GetStatus(parametr_answer, it);
 					if (res == ResultReqest::OK)
 					{
-						j_param["success"].push_back(parametr_answer.back());
-						parametr_answer.pop_back();
+						while (!parametr_answer.empty())
+						{
+							nlohmann::json j;
+							j["id"] = parametr_answer.back().first;
+							j["status"] = parametr_answer.back().second;
+							j_param["success"].push_back(j);
+							parametr_answer.pop_back();
+						};
 					}
 					else if (res == ResultReqest::ERR)
 					{
@@ -960,7 +1017,7 @@ namespace atech::srv::io::ctrl
 			{
 				log->Warning("Module_CTRL node-{}: command {}: description size exceeded {}", _node_id, (uint32_t)atech::common::Command::SEND_STATUS, j_param.dump());
 				short i = 0;
-				while (j_param.dump().size() >= status.st_desc().size())
+				while (j_param.dump().size() > status.st_desc().size())
 				{
 					if (!j_param["successs"].empty() && i % 3 == 0)
 					{
@@ -978,12 +1035,13 @@ namespace atech::srv::io::ctrl
 				}
 			}
 
-			auto st_desc = status.st_desc();
+			auto& st_desc = status.st_desc();
 			str_out = j_param.dump();
-			uint32_t i = 0;
-			for (auto& it : st_desc)
+			volatile uint32_t i = 0;
+			for (auto& it : str_out)
 			{
-				it = str_out[i];
+				st_desc[i] = it;
+				i++;
 			}
 		}
 		catch (int& e)
@@ -1012,13 +1070,9 @@ namespace atech::srv::io::ctrl
 		{
 			if (get_vector_id_from_json(vec_id, parametr) != ResultReqest::OK) throw 1;
 
-			j_param.push_back("success");
-			j_param.push_back("error");
-			j_param.push_back("unfound");
-
-			j_param["success"].array({});
-			j_param["error"].array({});
-			j_param["unfound"].array({});
+			j_param["success"] = std::vector<std::pair<uint32_t, atech::common::Status>>{};
+			j_param["error"] = std::vector<uint32_t>{};;
+			j_param["unfound"] = std::vector<uint32_t>{};;
 
 			if (vec_id.empty())
 			{
@@ -1103,12 +1157,13 @@ namespace atech::srv::io::ctrl
 				}
 			}
 
-			auto st_desc = status.st_desc();
+			auto& st_desc = status.st_desc();
 			str_out = j_param.dump();
-			uint32_t i = 0;
-			for (auto& it : st_desc)
+			volatile uint32_t i = 0;
+			for (auto& it : str_out)
 			{
-				it = str_out[i];
+				st_desc[i] = it;
+				i++;
 			}
 		}
 		catch (int& e)
@@ -1137,13 +1192,9 @@ namespace atech::srv::io::ctrl
 		{
 			if (get_vector_id_from_json(vec_id, parametr) != ResultReqest::OK) throw 1;
 
-			j_param.push_back("success");
-			j_param.push_back("error");
-			j_param.push_back("unfound");
-
-			j_param["success"].array({});
-			j_param["error"].array({});
-			j_param["unfound"].array({});
+			j_param["success"] = std::vector<std::pair<uint32_t, atech::common::Status>>{};
+			j_param["error"] = std::vector<uint32_t>{};;
+			j_param["unfound"] = std::vector<uint32_t>{};;
 
 			if (vec_id.empty())
 			{
@@ -1228,12 +1279,13 @@ namespace atech::srv::io::ctrl
 				}
 			}
 
-			auto st_desc = status.st_desc();
+			auto& st_desc = status.st_desc();
 			str_out = j_param.dump();
-			uint32_t i = 0;
-			for (auto& it : st_desc)
+			volatile uint32_t i = 0;
+			for (auto& it : str_out)
 			{
-				it = str_out[i];
+				st_desc[i] = it;
+				i++;
 			}
 		}
 		catch (int& e)
@@ -1262,13 +1314,9 @@ namespace atech::srv::io::ctrl
 		{
 			if (get_vector_id_from_json(vec_id, parametr) != ResultReqest::OK) throw 1;
 
-			j_param.push_back("success");
-			j_param.push_back("error");
-			j_param.push_back("unfound");
-
-			j_param["success"].array({});
-			j_param["error"].array({});
-			j_param["unfound"].array({});
+			j_param["success"] = std::vector<std::pair<uint32_t, atech::common::Status>>{};
+			j_param["error"] = std::vector<uint32_t>{};;
+			j_param["unfound"] = std::vector<uint32_t>{};;
 
 			if (vec_id.empty())
 			{
@@ -1353,12 +1401,13 @@ namespace atech::srv::io::ctrl
 				}
 			}
 
-			auto st_desc = status.st_desc();
+			auto& st_desc = status.st_desc();
 			str_out = j_param.dump();
-			uint32_t i = 0;
-			for (auto& it : st_desc)
+			volatile uint32_t i = 0;
+			for (auto& it : str_out)
 			{
-				it = str_out[i];
+				st_desc[i] = it;
+				i++;
 			}
 		}
 		catch (int& e)
@@ -1380,11 +1429,63 @@ namespace atech::srv::io::ctrl
 		return DdsStatus{};
 	}
 
-	DdsStatus Module_CTRL::command_request_process_info(uint32_t id)
+	DdsStatus Module_CTRL::command_request_process_info()
+	{
+		DdsStatus answer;
+		atech::common::ProcessInfo proc_info;
+
+		answer.cmd_code((uint32_t)atech::common::Command::SEND_PROCESS_INFO);
+
+		try
+		{
+			proc_info.set_hname(atech::Process::GetHostName());
+			proc_info.set_pcpu(atech::Process::GetProcessCpuUsage(500));
+			proc_info.set_pid(atech::Process::GetProcessID());
+			proc_info.set_pinfo("srv");
+			proc_info.set_pmemory(atech::Process::GetProcessMemory());
+			proc_info.set_pname(atech::Process::GetProcessName());
+			proc_info.set_pparam(atech::Process::GetProcessParameter());
+			proc_info.set_state(0);
+
+			nlohmann::ordered_json json;
+			json["process"];
+			nlohmann::adl_serializer<atech::common::ProcessInfo>::to_json(json["process"], proc_info);
+
+			auto& mass = answer.st_desc();
+			auto str = json.dump();
+			if (mass.size() < str.size())
+			{
+				std::cout << str << std::endl;
+				throw 1;
+			}
+
+			volatile int i = 0;
+			for (auto& s : str)
+			{
+				mass[i] = s; 
+				i++;
+			}
+
+			answer.st_code((uint32_t)atech::common::Status::OK);
+		}
+		catch (int& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error command request process info: error {}: syserror {}", _node_id, e, 0);
+			answer.st_code((uint32_t)atech::common::Status::ERR);
+		}
+		catch (...)
+		{
+			log->Critical("Module_CTRL node-{}: Error command request process info: error {}: syserror {}", _node_id, 0, 0);
+			answer.st_code((uint32_t)atech::common::Status::ERR);
+		} 
+
+		return answer;
+	}
+
+	DdsStatus command_set_log_level(std::string_view parametr)
 	{
 		return DdsStatus{};
 	}
-
 
 }
 

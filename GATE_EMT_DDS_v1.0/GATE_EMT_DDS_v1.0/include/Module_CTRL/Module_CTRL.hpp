@@ -1,3 +1,4 @@
+
 #pragma once					
 #include <Module_IO/Module_IO.hpp>
 #include <Module_CTRL/UnitAid/UnitAid.hpp>
@@ -12,9 +13,12 @@
 #include <Module_IO/UnitTransfer/adapters/DDS_Adapter/AdapterDDS.hpp>
 #include <Module_IO/UnitTransfer/adapters/OPCUA_Adapter/AdapterOPCUA.h>
 #include <structs/ServiceType.h>
-
+#include <Module_CTRL/UnitAid/UnitAid_DDS/UnitAid_DDS.hpp>
+#include <structs/FactoryDds.h>
 #include <sstream>
 #include <fstream>
+#include <monitor_process/atechlib/mon/include/mon/scd_process.h>
+#include <config/MessageSerializer.h>;
 
 namespace atech::srv::io::ctrl
 {
@@ -31,24 +35,25 @@ namespace atech::srv::io::ctrl
 		std::string config_str_new;
 		std::thread thread_helper;
 		std::shared_ptr<atech::srv::io::ctrl::IConfigUnitAid> _config_unitaid;
+		std::shared_ptr<atech::srv::io::FactoryDDS> _factory_dds = nullptr;
 
 		ResultReqest init_dds_layer(std::string& config);
 		ResultReqest init_module_io(std::string& config);
-		ResultReqest registration_size_topics(scd::common::TopicMaxSize& data);
+		ResultReqest registration_size_topics(atech::common::TopicMaxSize& data);
 		ResultReqest registration_dds_profiles(nlohmann::json& json);
 		ResultReqest addunits_module_io(std::vector<scada_ate::gate::adapter::ConfigUnitTransfer>& vect_config_units);
 		ResultReqest create_vector_config_unitstreansfer(std::vector<scada_ate::gate::adapter::ConfigUnitTransfer>& vect_config_units, std::string& stream);
 
-		scada_ate::gate::adapter::IConfigAdapter_ptr fill_config_adapter(const scd::common::InputUnit& in);
-		scada_ate::gate::adapter::IConfigAdapter_ptr fill_config_adapter(const scd::common::OutputUnit& out);
+		scada_ate::gate::adapter::IConfigAdapter_ptr fill_config_adapter(const atech::common::InputUnit& in);
+		scada_ate::gate::adapter::IConfigAdapter_ptr fill_config_adapter(const atech::common::OutputUnit& out);
 		scada_ate::gate::adapter::IConfigAdapter_ptr create_config_adapter(const std::string& type);
-		ResultReqest fill_config(std::shared_ptr<scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory> target, std::shared_ptr<scd::common::SmConfig> source);
-		ResultReqest fill_config(std::shared_ptr < scada_ate::gate::adapter::dds::ConfigAdapterDDS> target, std::shared_ptr<scd::common::DdsConfig> source);
-		ResultReqest fill_config(std::shared_ptr < scada_ate::gate::adapter::opc::ConfigAdapterOPCUA> target, std::shared_ptr<scd::common::UaConfig> source);
+		ResultReqest fill_config(scada_ate::gate::adapter::sem::ConfigAdapterSharedMemory* target, atech::common::SmConfig* source);
+		ResultReqest fill_config(scada_ate::gate::adapter::dds::ConfigAdapterDDS* target, atech::common::DdsConfig* source);
+		ResultReqest fill_config(scada_ate::gate::adapter::opc::ConfigAdapterOPCUA* target, atech::common::UaConfig* source);
 		ResultReqest string_to_typeddsdata(scada_ate::gate::adapter::dds::TypeDDSData& type_dds, const std::string& str);
 		ResultReqest string_to_security_mode_opc(scada_ate::gate::adapter::opc::SecurityMode& mode, const std::string& str);
 		ResultReqest string_to_security_policy_opc(scada_ate::gate::adapter::opc::SecurityPolicy& mode, const std::string& str);
-		ResultReqest vec_datum_to_vec_links(std::vector<scada_ate::gate::adapter::LinkTags>& vec_link, const std::vector<scd::common::Datum>& vec_datum);
+		ResultReqest vec_datum_to_vec_links(std::vector<scada_ate::gate::adapter::LinkTags>& vec_link, const std::vector<atech::common::Datum>& vec_datum);
 		scada_ate::gate::adapter::TypeRegistration datum_to_linktags_typereg(const std::string& str);
 		scada_ate::gate::adapter::TypeValue datum_to_linktags_typeval(const std::string str);
 		ResultReqest verification_config_file(std::string& config);
@@ -63,7 +68,8 @@ namespace atech::srv::io::ctrl
 		DdsStatus command_start(std::string_view parametr);
 		DdsStatus command_stop(std::string_view parametr);
 		DdsStatus command_reinit(std::string_view parametr);
-		DdsStatus command_request_process_info(uint32_t id);
+		DdsStatus command_request_process_info();
+		DdsStatus command_set_log_level(std::string_view parametr);
 
 	
 

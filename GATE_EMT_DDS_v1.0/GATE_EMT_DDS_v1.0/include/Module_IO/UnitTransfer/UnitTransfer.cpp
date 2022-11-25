@@ -20,6 +20,8 @@ namespace scada_ate::gate::adapter
 			_command_thread_ctrl_adapters.store(1);
 			_thread_ctrl_adapters.join();
 		};
+
+		log->Debug("UnitTransfer id-{}: Destroy", id);
 	};
 
 	void UnitTransfer::transfer_thread()
@@ -61,7 +63,7 @@ namespace scada_ate::gate::adapter
 
 				if (_adapter_source->ReadData(&_data) != ResultReqest::OK)
 				{
-					log->Warning("UnitTransfer id - {}: Error recive data");
+					log->Warning("UnitTransfer id - {}: Error recive data", id);
 					continue;
 				}
 
@@ -76,11 +78,11 @@ namespace scada_ate::gate::adapter
 		}
 		catch (int& e)
 		{
-			log->Critical("UnitTransfer id - {}: Error Initialization: error: {} syserror: {}", id, e, 0);
+			log->Critical("UnitTransfer id - {}: Error thread transfer: error: {} syserror: {}", id, e, 0);
 		}
 		catch (...)
 		{
-			log->Critical("UnitTransfer id-{}: Error Initialization: error: {} syserror: {}", id, 0, 0);
+			log->Critical("UnitTransfer id-{}: Error thread transfer: error: {} syserror: {}", id, 0, 0);
 		}
 
 		return;
@@ -95,10 +97,11 @@ namespace scada_ate::gate::adapter
 			for (;;)
 			{
 				if (_command_thread_ctrl_adapters.load() != 0) break;
-
+				status.clear();
 				_adapter_source->GetStatus(status);
 				if (status.begin()->second == atech::common::Status::ERROR_INIT ||
-					status.begin()->second == atech::common::Status::Null ||
+					status.begin()->second == atech::common::Status::ERR ||
+					status.begin()->second == atech::common::Status::NONE ||
 					status.begin()->second == atech::common::Status::ERROR_CONNECTING)
 				{
 					ResultReqest res = _adapter_source->ReInit(status);
@@ -117,7 +120,7 @@ namespace scada_ate::gate::adapter
 					status.clear();
 					it.second->GetStatus(status);
 					if (status.begin()->second == atech::common::Status::ERROR_INIT ||
-						status.begin()->second == atech::common::Status::Null ||
+						status.begin()->second == atech::common::Status::NONE ||
 						status.begin()->second == atech::common::Status::ERROR_CONNECTING)
 					{
 						ResultReqest res = it.second->ReInit(status);
@@ -394,7 +397,7 @@ namespace scada_ate::gate::adapter
 			result = ResultReqest::ERR;
 		}
 		
-		result;
+		return result;
 	};
 	
 	std::unique_ptr<UnitTransfer> BuilderUnitTransfer::GetUnit()
@@ -423,7 +426,7 @@ namespace scada_ate::gate::adapter
 			result = ResultReqest::ERR;
 		}
 
-		result;
+		return result;
 	};
 
 	ResultReqest BuilderUnitTransfer::SetAdapterSource(IConfigAdapter_ptr config)
@@ -449,7 +452,7 @@ namespace scada_ate::gate::adapter
 			result = ResultReqest::ERR;
 		}
 
-		result;
+		return result;
 	};
 
 	ResultReqest BuilderUnitTransfer::AddAdapterTarget(IConfigAdapter_ptr config, int64_t frq) 
@@ -465,7 +468,7 @@ namespace scada_ate::gate::adapter
 			{
 				log->Warning("BuilderUnitTransfer: Error initional adapter id-{}", config->id_adapter);
 			};
-			_unit->_adapters_target[config->id_map] = adapter;
+			_unit->_adapters_target[config->id_adapter] = adapter;
 			_unit->_vec_frq.push_back({ config->id_adapter, frq*1000, 0});
 		}
 		catch (int& e)
@@ -479,6 +482,6 @@ namespace scada_ate::gate::adapter
 			result = ResultReqest::ERR;
 		}
 
-		result;
+		return result;
 	};
 }

@@ -18,18 +18,27 @@
     <ClCompile Include="test_spd_logger.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp">
+    <ClCompile Include="LoggerScadaSpdDDS.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpdcpp.cpp">
+    <ClCompile Include="DdsStatus.cxx">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="DdsStatusPubSubTypes.cxx">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="DdsStatusTypeObject.cxx">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\include_logger\LoggerScada.hpp">
+    <ClInclude Include="LoggerScada.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\include_logger\LoggerScadaspd.hpp">
+    <ClInclude Include="LoggerScadaSpdDDS.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceType.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

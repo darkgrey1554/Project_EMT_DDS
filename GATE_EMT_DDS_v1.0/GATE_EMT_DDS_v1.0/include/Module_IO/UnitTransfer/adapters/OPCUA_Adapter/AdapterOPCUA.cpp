@@ -342,17 +342,32 @@ namespace  scada_ate::gate::adapter::opc
 
 	void AdapterOPCUA::destroy()
 	{
-		UA_ByteString_clear(&certificate);
-		UA_ByteString_clear(&privateKey);
-		for (size_t i = 0; i < trustListSize; i++)
+		try
 		{
-			UA_ByteString_clear(&trustList[i]);
+			log->Debug("AdapterOPCUA id-{}: Start destroy", config.id_adapter);
+			UA_ByteString_clear(&certificate);
+			UA_ByteString_clear(&privateKey);
+			for (size_t i = 0; i < trustListSize; i++)
+			{
+				UA_ByteString_clear(&trustList[i]);
+			}
+			UA_ReadRequest_clear(&_read_request);
+			UA_WriteRequest_clear(&_write_request);
+			UA_Client_delete(_client);
+			_client = nullptr;
+			current_status.store(atech::common::Status::NONE);
+			log->Debug("AdapterOPCUA id-{}: Destroy done", this->config.id_adapter);
 		}
-		UA_ReadRequest_clear(&_read_request);
-		UA_WriteRequest_clear(&_write_request);
-		UA_Client_delete(_client);
-
-		current_status.store(atech::common::Status::Null);
+		catch (int& e)
+		{
+			log->Critical("AdapterOPCUA id-{}: Error destroy: error {}: syserror {} ", config.id_adapter, e, 0);
+		}
+		catch (...)
+		{
+			log->Critical("AdapterOPCUA id-{}: Error destroy: error {}: syserror {} ", config.id_adapter, 0, 0);
+		} 	
+		
+		return;
 	}
 
 	ResultReqest AdapterOPCUA::init_adapter()
@@ -371,7 +386,7 @@ namespace  scada_ate::gate::adapter::opc
 		try
 		{
 			if (config.type_adapter != TypeAdapter::OPC_UA) throw 1;
-			log->Debug("AdapterOPCUA id-{}: Init START", config.id_adapter);
+			log->Debug("AdapterOPCUA id-{}: Start init", config.id_adapter);
 
 			log_info_config();
 
@@ -427,7 +442,6 @@ namespace  scada_ate::gate::adapter::opc
 		{
 			log->Debug("AdapterOPCUA id-{} : ReadData IGNOR", config.id_adapter);
 			result = ResultReqest::IGNOR;
-			*data = &this->data;
 			return result;
 		}
 		log->Debug("AdapterOPCUA id-{} : ReadData START", config.id_adapter);
@@ -446,7 +460,7 @@ namespace  scada_ate::gate::adapter::opc
 				{
 					syserror = _state_connect;
 					current_status.store(atech::common::Status::ERROR_CONNECTING);
-					destroy();
+					//destroy();
 					throw 1;
 				}
 				throw 2;
@@ -481,6 +495,7 @@ namespace  scada_ate::gate::adapter::opc
 		}
 
 		*data = &this->data;
+
 		return result;
 	};
 

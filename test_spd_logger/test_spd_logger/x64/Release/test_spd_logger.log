@@ -1,9 +1,7 @@
-﻿  LoggerScada.cpp
-  LoggerScadaSpdcpp.cpp
-  test_spd_logger.cpp
-     Создается библиотека D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_spd_logger\x64\Release\test_spd_logger.lib и объект D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_spd_logger\x64\Release\test_spd_logger.exp
+﻿  test_spd_logger.cpp
   Создание кода
-  Previous IPDB not found, fall back to full compilation.
-  All 4603 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  1 of 4909 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   test_spd_logger.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_spd_logger\x64\Release\test_spd_logger.exe

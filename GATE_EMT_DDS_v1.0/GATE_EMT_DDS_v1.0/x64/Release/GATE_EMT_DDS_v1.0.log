@@ -1,44 +1,295 @@
-﻿  main_test_command.cpp
+﻿  LoggerScada.cpp
+  LoggerScadaSpd.cpp
+  Exception.cpp
+  json2xml.cpp
+  tinyxml2.cpp
+  DDSAlarmEx.cxx
+  DDSAlarmExPubSubTypes.cxx
+  DDSAlarmExTypeObject.cxx
+  DDSAlarm.cxx
+  DDSAlarmPubSubTypes.cxx
+  DDSAlarmTypeObject.cxx
+  DdsCommand.cxx
+  DdsCommandPubSubTypes.cxx
+  DdsCommandTypeObject.cxx
+  DdsConfig.cxx
+  DdsConfigPubSubTypes.cxx
+  DdsConfigTypeObject.cxx
+  DDSDataEx.cxx
+  DDSDataExPubSubTypes.cxx
+  DDSDataExTypeObject.cxx
+  Создание кода...
+  Компиляция...
+  DDSData.cxx
+  DDSDataPubSubTypes.cxx
+  DDSDataTypeObject.cxx
+  DdsStatus.cxx
+  DdsStatusPubSubTypes.cxx
+  DdsStatusTypeObject.cxx
+  SizeTopics.cpp
+  Module_CTRL.cpp
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(15,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(40,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(38): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<scd::common::WsConfig> &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.hpp(21,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(99,30): warning C4244: =: преобразование "int64_t" в "uint32_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(254,38): warning C4244: аргумент: преобразование "int64_t" в "uint32_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(550,37): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(640,60): warning C4244: =: преобразование "const int64_t" в "int", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(644,56): warning C4244: =: преобразование "const int64_t" в "unsigned int", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(648,59): warning C4244: =: преобразование "const int64_t" в "int", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(652,55): warning C4244: =: преобразование "const int64_t" в "unsigned int", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(888,21): warning C4244: аргумент: преобразование "int64_t" в "uint32_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(902,15): warning C4101: e: неиспользованная локальная переменная
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(44): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
           with
           [
-              T=std::shared_ptr<scd::common::WsConfig>
+              T=std::shared_ptr<atech::common::FtConfig>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<scd::common::WsConfig> &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
           with
           [
-              T=std::shared_ptr<scd::common::WsConfig>
+              T=std::shared_ptr<atech::common::FtConfig>
           ]
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::adl_serializer<T,void>"
           with
           [
-              T=std::shared_ptr<scd::common::WsConfig>
+              T=std::shared_ptr<atech::common::FtConfig>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(40): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::from_json_function<nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::from_json_function<nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
           with
           [
-              T=std::shared_ptr<scd::common::WsConfig>,
+              T=std::shared_ptr<atech::common::FtConfig>,
               BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
           ]
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::detected_t<nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
           with
           [
-              T=std::shared_ptr<scd::common::WsConfig>,
+              T=std::shared_ptr<atech::common::FtConfig>,
               BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
           ]
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(3474): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::is_detected_exact<T,nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
           with
           [
-              T=std::shared_ptr<scd::common::WsConfig>,
+              T=std::shared_ptr<atech::common::FtConfig>,
               BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
           ]
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18918): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::has_non_default_from_json<nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,ValueType,void>"
           with
           [
-              ValueType=std::shared_ptr<scd::common::WsConfig>
+              ValueType=std::shared_ptr<atech::common::FtConfig>
           ]
+  UnitAid.cpp
+  UnitAid_DDS.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(15,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.hpp(21,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(44): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::adl_serializer<T,void>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::from_json_function<nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::detected_t<nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(3474): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::is_detected_exact<T,nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18918): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::has_non_default_from_json<nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,ValueType,void>"
+          with
+          [
+              ValueType=std::shared_ptr<atech::common::FtConfig>
+          ]
+  Module_IO.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\Module_IO.cpp(16,14): warning C4244: =: преобразование "int64_t" в "int", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\Module_IO.cpp(113,25): warning C4244: аргумент: преобразование "int64_t" в "const int", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\Module_IO.cpp(114,21): warning C4244: аргумент: преобразование "int64_t" в "const int", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\Module_IO.cpp(136,31): warning C4244: аргумент: преобразование "const int64_t" в "const int", возможна потеря данных
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(256,16): warning C4244: инициализация: преобразование "_Ty" в "_Ty1", возможна потеря данных
+          with
+          [
+              _Ty=int64_t
+          ]
+          and
+          [
+              _Ty1=const int
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xmemory(675): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>,0>(std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>> &&) noexcept"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xmemory(682): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>,0>(std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>> &&) noexcept"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xtree(804): message : выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>(_Alloc &,_Objty *const ,std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>> &&)"
+          with
+          [
+              _Alloc=std::allocator<std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>::void_pointer>>,
+              _Ty=std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,
+              _Objty=std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xtree(805): message : выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Default_allocator_traits<_Alloc>::construct<_Ty,std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>(_Alloc &,_Objty *const ,std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>> &&)"
+          with
+          [
+              _Alloc=std::allocator<std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>::void_pointer>>,
+              _Ty=std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,
+              _Objty=std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xtree(992): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::_Tree_temp_node<std::allocator<std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<_Alloc>::void_pointer>>>::_Tree_temp_node<_Ty>(_Alnode &,std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<_Alloc>::void_pointer> *,_Ty &&)"
+          with
+          [
+              _Alloc=std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>,
+              _Ty=std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,
+              _Alnode=std::allocator<std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>::void_pointer>>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xtree(1008): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::_Tree_temp_node<std::allocator<std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<_Alloc>::void_pointer>>>::_Tree_temp_node<_Ty>(_Alnode &,std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<_Alloc>::void_pointer> *,_Ty &&)"
+          with
+          [
+              _Alloc=std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>,
+              _Ty=std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,
+              _Alnode=std::allocator<std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>::void_pointer>>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xtree(1029): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<_Alloc>::void_pointer> *,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Emplace<std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>(std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>> &&)"
+          with
+          [
+              _Alloc=std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>,
+              _Kty=int,
+              _Ty=std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>,
+              _Pr=std::less<int>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xtree(1030): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<std::_Tree_node<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,std::_Default_allocator_traits<_Alloc>::void_pointer> *,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Emplace<std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>(std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>> &&)"
+          with
+          [
+              _Alloc=std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>,
+              _Kty=int,
+              _Ty=std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>,
+              _Pr=std::less<int>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\map(163): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace<std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>(std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>> &&)"
+          with
+          [
+              _Kty=int,
+              _Ty=std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>,
+              _Pr=std::less<int>,
+              _Alloc=std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\map(163): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace<std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>(std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>> &&)"
+          with
+          [
+              _Kty=int,
+              _Ty=std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>,
+              _Pr=std::less<int>,
+              _Alloc=std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\Module_IO.cpp(91): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>>,bool> std::map<int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>,std::less<int>,std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>::insert<std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,0>(_Valty &&)"
+          with
+          [
+              _Valty=std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\Module_IO.cpp(91): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>>,bool> std::map<int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>,std::less<int>,std::allocator<std::pair<const int,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>>>::insert<std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>,0>(_Valty &&)"
+          with
+          [
+              _Valty=std::pair<int64_t,std::unique_ptr<scada_ate::gate::adapter::UnitTransfer,std::default_delete<scada_ate::gate::adapter::UnitTransfer>>>
+          ]
+  Adapters.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(15,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  AdapterDDS.cpp
+  AdapterOPCUA.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(15,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  AdapterSharedMemory.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp(269,146): warning C4267: аргумент: преобразование из "size_t" в "DWORD"; возможна потеря данных
+  security_handle.cpp
+  UnitTransfer.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\UnitTransfer.cpp(227,10): warning C4244: return: преобразование "int64_t" в "uint32_t", возможна потеря данных
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(190,16): warning C4244: инициализация: преобразование "int64_t" в "_Ty1", возможна потеря данных
+          with
+          [
+              _Ty1=uint32_t
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\UnitTransfer.cpp(242): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<uint32_t,atech::common::Status>::pair<int64_t&,atech::common::Status,0>(_Other1,_Other2 &&) noexcept"
+          with
+          [
+              _Other1=int64_t &,
+              _Other2=atech::common::Status
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\UnitTransfer.cpp(242): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::pair<uint32_t,atech::common::Status>::pair<int64_t&,atech::common::Status,0>(_Other1,_Other2 &&) noexcept"
+          with
+          [
+              _Other1=int64_t &,
+              _Other2=atech::common::Status
+          ]
+  scd_global_accessors.cpp
+  scd_process.cpp
+  sys_usage.cpp
+  Создание кода...
+  Компиляция...
+  FactoryDds.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\structs\FactoryDds.cpp(151,14): warning C4101: e: неиспользованная локальная переменная
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\structs\FactoryDds.cpp(186,15): warning C4101: e: неиспользованная локальная переменная
+  struct.cpp
+  TimeConverter.cpp
+  main_test_command.cpp
+C:\Program Files (x86)\open62541\include\open62541\config.h(23,1): warning C4005: UA_LOGLEVEL: изменение макроопределения
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main_test_command.cpp(20): message : см. предыдущее определение "UA_LOGLEVEL"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(15,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.hpp(21,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(44): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::adl_serializer<T,void>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::from_json_function<nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::detected_t<nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(3474): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::is_detected_exact<T,nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18918): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::has_non_default_from_json<nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,ValueType,void>"
+          with
+          [
+              ValueType=std::shared_ptr<atech::common::FtConfig>
+          ]
+  Создание кода...
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\structs\FactoryDds.cpp(379): warning C4715: atech::srv::io::FactoryDDS::unregistration_type_config: значение возвращается не при всех путях выполнения
 LINK : warning LNK4098: библиотека по умолчанию "LIBCMT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
   LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
   GATE_EMT_DDS_v1.0.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\x64\Release\GATE_EMT_DDS_v1.0.exe

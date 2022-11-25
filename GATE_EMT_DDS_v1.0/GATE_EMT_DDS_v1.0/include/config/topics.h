@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 
-namespace scd {
+namespace atech {
     namespace common {
 
         class TypeSize {
@@ -16,16 +16,16 @@ namespace scd {
 
         private:
             std::string type_name;
-            int64_t size;
+            size_t size;
 
         public:
             const std::string& get_type_name() const { return type_name; }
             std::string& get_mutable_type_name() { return type_name; }
             void set_type_name(const std::string& value) { this->type_name = value; }
 
-            const int64_t& get_size() const { return size; }
-            int64_t& get_mutable_size() { return size; }
-            void set_size(const int64_t& value) { this->size = value; }
+            const size_t& get_size() const { return size; }
+            size_t& get_mutable_size() { return size; }
+            void set_size(const size_t& value) { this->size = value; }
         };
 
 
