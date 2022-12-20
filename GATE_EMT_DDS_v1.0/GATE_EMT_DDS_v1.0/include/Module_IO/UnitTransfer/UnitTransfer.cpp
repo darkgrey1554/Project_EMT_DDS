@@ -4,7 +4,7 @@ namespace scada_ate::gate::adapter
 {
 	UnitTransfer::UnitTransfer()
 	{
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	}
 
 	UnitTransfer::~UnitTransfer()
@@ -130,10 +130,11 @@ namespace scada_ate::gate::adapter
 						}
 						else
 						{
-							log->Warning("UnitTransfer id - {}: ReInit adapter target id- ", id, it.first);
+							log->Warning("UnitTransfer id - {}: ReInit adapter target id - {}", id, it.first);
 						}
 					}
 				}
+
 
 				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 			}
@@ -371,7 +372,7 @@ namespace scada_ate::gate::adapter
 
 	BuilderUnitTransfer::BuilderUnitTransfer() 
 	{
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	};
 
 	BuilderUnitTransfer::~BuilderUnitTransfer() {};

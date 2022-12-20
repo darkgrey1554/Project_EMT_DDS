@@ -1,5 +1,7 @@
 #pragma once
 
+#if defined(LOGGER_ATECH_SCADA_SPDLOG_DDS)
+
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
@@ -69,4 +71,8 @@ namespace atech::logger
 		eprosima::fastdds::dds::DataWriter* GetDataWriterDDS() const;
 		ResultRequest ClearDataWriterDDS();
 	};
+
+	using LoggerScadaSpdDds_ptr = std::shared_ptr<LoggerScadaSpdDds>;
 }
+
+#endif

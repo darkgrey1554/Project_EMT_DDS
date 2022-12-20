@@ -8,191 +8,93 @@
 
 namespace atech = scada_ate::lib::emt;
 
-void read_vector()
+char c = 'w';
+
+void fun_write(atech::ClientSharedMemory& client)
 {
-	atech::ClientSharedMemory memory("test_memory");
 
-	memory.Connect();
-
-	std::vector < std::string > vec(10);
-
-	for (;;)
+	std::vector<int> buf_int(100);
+	std::vector<float> buf_float(100);
+	for (int i = 0; i < 100; i++)
 	{
-		memory.ReadData(vec);
+		buf_int[i] = i;
+		buf_float[i] = i;
+	}
 
-		std::cout << "float { ";
-		for (auto& it : vec)
+	while (c != 'q')
+	{
+		client.WriteData(buf_int);
+		client.WriteData(buf_float);
+
+		for (int i = 0; i < 100; i++)
 		{
-			std::cout << it << ", ";
+			buf_int[i]+=1;
+			buf_float[i]+=0.1;
 		}
-		std::cout << "}" << std::endl;
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-		
+		std::this_thread::sleep_for(std::chrono::seconds(1));		
 	}
+}
 
-	return;
-};
-
-void read_array()
+void fun_read(atech::ClientSharedMemory& client)
 {
-	atech::ClientSharedMemory memory("test_memory");
+	std::vector<int> buf_int(100);
+	std::vector<float> buf_float(100);
 
-	memory.Connect();
-
-	std::array<char, 10> arr{};
-
-	for (;;)
+	while (c != 'q')
 	{
-		memory.ReadData(&arr.front(), 10);
+		client.ReadData(buf_int);
+		client.ReadData(buf_float);
 
-		std::cout << "float { ";
-		for (auto& it : arr)
+		for (int i = 0; i < 100; i++)
 		{
-			std::cout << it << ", ";
+			std::cout << "--- Receive --- \n";
+			std::cout << "buf_int[0] = " << buf_int[0] << "\n";
+			std::cout << "buf_int[last] = " << buf_int[buf_int.size()-1] << "\n";
+			std::cout << "buf_float[0] = " << buf_float[0] << "\n";
+			std::cout << "buf_float[last] = " << buf_float[buf_float.size() - 1] << "\n";
+			std::cout << std::endl;
 		}
-		std::cout << "}" << std::endl;
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
-
-	return;
-};
-
-void write_vector()
-{
-	atech::ClientSharedMemory memory("test_memory");
-
-	memory.Connect();
-
-	std::vector<int> vec(100);
-	int counter = 0;
-	for (auto& it : vec)
-	{
-		it = counter;
-		counter++;
-	}
-
-	for (;;)
-	{
-		for (auto& it : vec)
-		{
-			it ++;
-		}
-		memory.WriteData(vec);
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	}
-
-	return;
 }
 
-void write_array()
+int main(int argv, char* argc[])
 {
-	atech::ClientSharedMemory memory("test_memory");
+	if (argv != 3) return 1;
 
-	memory.Connect();
+	std::string command = argc[1];
+	std::string name_memory = argc[2];
+	
 
-	std::array<int, 10> arr;
-	for (int i = 0; i < arr.size(); i++)
+	atech::ClientSharedMemory memory(name_memory);
+
+	while (1)
 	{
-		arr[i] = i/10.;
+		std::cout << "TRY CONNECT" << std::endl;
+		if (memory.Connect() == atech::ResultRequest::GOOD) break;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+	
+	std::cout << "CONNECT DONE" << std::endl;
+
+	std::thread  t;
+	if (command == "w")
+	{
+		t = std::thread(fun_write, memory);
+	}
+	else
+	{
+		std::thread t = std::thread(fun_read, memory);
 	}
 
-	for (;;)
+	while (c != 'q')
 	{
-		for (auto& it : arr)
-		{
-			it++;
-		}
-		memory.WriteData(&arr.front(), arr.size());
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		std::cin >> c;
 	}
 
-	return;
-}
-
-void write_array_str()
-{
-	atech::ClientSharedMemory memory("test_memory");
-
-	memory.Connect();
-
-	std::array<std::string,20> arr;
-	int counter = 0;
-	for (auto& it : arr)
-	{
-		it = "asdqwe123";
-		counter++;
-	}
-
-	for (;;)
-	{
-		memory.WriteData(&arr.front(), arr.size());
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	}
-
-	return;
-}
-
-void write_vector_str ()
-{
-	atech::ClientSharedMemory memory("test_memory");
-
-	memory.Connect();
-
-	std::vector<std::string> vec(100);
-	int counter = 0;
-	for (auto& it : vec)
-	{
-		it = "asdqwe";
-		counter++;
-	}
-
-	for (;;)
-	{
-		/*for (auto& it : vec)
-		{
-			it++;
-		}*/
-		memory.WriteData(vec);
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	}
-
-	return;
-}
-
-void write_vector_char()
-{
-	atech::ClientSharedMemory memory("test_memory");
-
-	memory.Connect();
-
-	std::vector<char> vec(100);
-	int counter = 0;
-	for (auto& it : vec)
-	{
-		it = 'a' + counter;
-		counter++;
-	}
-
-	for (;;)
-	{
-		/*for (auto& it : vec)
-		{
-			it++;
-		}*/
-		memory.WriteData(vec);
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-	}
-
-	return;
-}
-
-int main()
-{
-	write_array_str();
-	write_array();
+	t.join();
 
 	return 0;
 }

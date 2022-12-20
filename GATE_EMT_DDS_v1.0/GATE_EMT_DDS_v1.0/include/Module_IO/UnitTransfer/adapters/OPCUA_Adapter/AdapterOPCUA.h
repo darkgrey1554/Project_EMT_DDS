@@ -1,10 +1,8 @@
 #pragma once
 #include <filesystem>
-
-#include <LoggerScada.hpp>
+#include <LoggerScada.h>
 #include <Module_IO/UnitTransfer/adapters/Adapters.hpp>
 #include <structs/TimeConverter.hpp>
-
 #include <open62541/client_config_default.h>
 #include <open62541/client_highlevel.h>
 #include <open62541/plugin/log_stdout.h>
@@ -83,7 +81,7 @@ namespace scada_ate::gate::adapter::opc
 	{
 		std::mutex mutex_init;
 		std::atomic<atech::common::Status> current_status = atech::common::Status::NONE; /// ���������� ������� �������� 
-		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
+		atech::logger::ILoggerScada_ptr log; /// ������
 		ConfigAdapterOPCUA config;
 		SetTags last_data{};
 

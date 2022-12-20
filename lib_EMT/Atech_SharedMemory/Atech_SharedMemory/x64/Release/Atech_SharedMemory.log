@@ -1,12 +1,36 @@
 ﻿  main.cpp
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\lib_EMT\Atech_SharedMemory\Atech_SharedMemory\main.cpp(99,13): warning C4244: =: преобразование "double" в "_Ty", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\lib_EMT\Atech_SharedMemory\Atech_SharedMemory\main.cpp(21,18): warning C4244: =: преобразование "int" в "_Ty", возможна потеря данных
           with
           [
-              _Ty=int
+              _Ty=float
           ]
-  Создание кода
-  3 of 318 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
-  Создание кода завершено
-  Atech_SharedMemory.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\lib_EMT\Atech_SharedMemory\x64\Release\Atech_SharedMemory.exe
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\lib_EMT\Atech_SharedMemory\Atech_SharedMemory\main.cpp(32,21): warning C4305: +=: усечение из "double" в "_Ty"
+          with
+          [
+              _Ty=float
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\memory(3437,35): error C2661: std::tuple<void (__cdecl *)(scada_ate::lib::emt::ClientSharedMemory &),scada_ate::lib::emt::ClientSharedMemory>::tuple: нет перегруженной функции, принимающей 2 аргументов
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(66): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::unique_ptr<_Tuple,std::default_delete<_Tuple>> std::make_unique<_Tuple,void(__cdecl &)(scada_ate::lib::emt::ClientSharedMemory &),scada_ate::lib::emt::ClientSharedMemory&,0>(void (__cdecl &)(scada_ate::lib::emt::ClientSharedMemory &),scada_ate::lib::emt::ClientSharedMemory &)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(89): message : выполняется компиляция ссылки на экземпляр шаблон функции "void std::thread::_Start<void(__cdecl &)(scada_ate::lib::emt::ClientSharedMemory &),scada_ate::lib::emt::ClientSharedMemory&>(_Fn,scada_ate::lib::emt::ClientSharedMemory &)"
+          with
+          [
+              _Fn=void (__cdecl &)(scada_ate::lib::emt::ClientSharedMemory &)
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\lib_EMT\Atech_SharedMemory\Atech_SharedMemory\main.cpp(89): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::thread::thread<void(__cdecl &)(scada_ate::lib::emt::ClientSharedMemory &),scada_ate::lib::emt::ClientSharedMemory&,0>(_Fn,scada_ate::lib::emt::ClientSharedMemory &)"
+          with
+          [
+              _Fn=void (__cdecl &)(scada_ate::lib::emt::ClientSharedMemory &)
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(55,14): error C2672: "invoke": не найдена соответствующая перегруженная функция
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\type_traits(1552,19): message : может быть "unknown-type std::invoke(_Callable &&,_Ty1 &&,_Types2 &&...) noexcept(<expr>)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(55,14): message : Сбой при специализации функции-шаблона "unknown-type std::invoke(_Callable &&,_Ty1 &&,_Types2 &&...) noexcept(<expr>)".
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\type_traits(1552): message : см. объявление "std::invoke"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(51,5): message : Со следующими аргументами шаблона:
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(51,5): message : "_Callable=void (__cdecl *)(scada_ate::lib::emt::ClientSharedMemory &)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(51,5): message : "_Ty1=scada_ate::lib::emt::ClientSharedMemory"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(51,5): message : "_Types2={}"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\type_traits(1546,19): message : или       "unknown-type std::invoke(_Callable &&) noexcept(<expr>)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(55,14): message : unknown-type std::invoke(_Callable &&) noexcept(<expr>): требует аргументов: 1, имеется: 2
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\type_traits(1546): message : см. объявление "std::invoke"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(61): message : выполняется компиляция ссылки на экземпляр шаблон функции "unsigned int std::thread::_Invoke<_Tuple,0,1>(void *) noexcept"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(66): message : выполняется компиляция ссылки на экземпляр шаблон функции "unsigned int (__cdecl *std::thread::_Get_invoke<_Tuple,0,1>(std::integer_sequence<size_t,0,1>) noexcept)(void *) noexcept"

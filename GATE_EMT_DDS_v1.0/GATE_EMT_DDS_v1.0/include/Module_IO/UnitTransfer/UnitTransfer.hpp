@@ -2,7 +2,7 @@
 
 #include <Module_IO/UnitTransfer/adapters/Adapters.hpp>
 #include <thread>
-#include <LoggerScada.hpp>
+#include <LoggerScada.h>
 #include <structs/TimeConverter.hpp>
 #include <queue>
 #include <future>
@@ -31,7 +31,7 @@ namespace scada_ate::gate::adapter
 	class UnitTransfer: public atech::common::IControl
 	{
 		std::atomic<atech::common::Status> _status = atech::common::Status::NONE;
-		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log;
+		atech::logger::ILoggerScada_ptr log;
 		int64_t id = 0;
 		std::mutex _guarder;
 
@@ -85,7 +85,7 @@ namespace scada_ate::gate::adapter
 	class BuilderUnitTransfer
 	{
 		std::unique_ptr<UnitTransfer> _unit = nullptr;
-		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log;
+		atech::logger::ILoggerScada_ptr log;
 
 		public:
 

@@ -1,0 +1,24 @@
+﻿  main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(532,48): warning C4244: +=: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(535,50): warning C4244: +=: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(538,51): warning C4244: +=: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(541,49): warning C4244: +=: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(543,100): warning C4244: +=: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(553,18): warning C4244: return: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(557,18): warning C4244: return: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(561,18): warning C4244: return: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(565,18): warning C4244: return: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(569,18): warning C4244: return: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\ClientSharedMemory.h(697,20): warning C4244: инициализация: преобразование "unsigned __int64" в "size_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\main.cpp(25,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\main.cpp(29,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\main.cpp(31,18): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\main.cpp(52,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\main.cpp(56,21): warning C4018: <: несоответствие типов со знаком и без знака
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\sm_test\main.cpp(58,21): warning C4305: +=: усечение из "double" в "float"
+  Создание кода
+  13 of 444 functions ( 2.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  sm_test.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\sm_test\Release\sm_test.exe

@@ -3,6 +3,10 @@
 #include <memory>
 #include <spdlog/fmt/fmt.h>
 
+#if defined(LOGGER_ATECH_SCADA_SPDLOG_DDS)
+#include "LoggerScadaSpdDDS.h"
+#endif
+
 namespace atech::logger
 {	
 	enum class TypeLogger

@@ -14,7 +14,7 @@
 	#include <semaphore.h>
 #endif // __linux__
 
-#include <LoggerScada.hpp>
+#include <LoggerScada.h>
 #include <chrono>
 #include <time.h>
 #include <stdio.h>
@@ -90,7 +90,7 @@ namespace scada_ate::gate::adapter::sem
 
 		std::mutex mutex_init;
 		std::atomic<atech::common::Status> current_status = atech::common::Status::NONE; /// ���������� ������� �������� 
-		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
+		atech::logger::ILoggerScada_ptr log; /// ������
 
 		/// --- ������� ������������ ��������� ������ �� ������ HeaderData --- ///
 		std::shared_ptr<AnswerSharedMemoryHeaderData> AnswerRequestHeaderData();

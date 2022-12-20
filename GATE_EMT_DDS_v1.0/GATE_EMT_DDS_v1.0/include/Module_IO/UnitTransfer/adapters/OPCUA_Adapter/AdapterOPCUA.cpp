@@ -15,7 +15,7 @@ namespace  scada_ate::gate::adapter::opc
 		UA_WriteRequest_init(&_write_request);
 		data.clear();
 
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	};
 
 	AdapterOPCUA::~AdapterOPCUA() 
@@ -633,16 +633,16 @@ namespace  scada_ate::gate::adapter::opc
 		switch (type_opc)
 		{
 		case  UA_DataTypeKind::UA_DATATYPEKIND_INT16:
-			value = *(int*)((int16_t*)ptr_value + offset);
+			value = (int)*((int16_t*)ptr_value + offset);
 			break;
 		case  UA_DataTypeKind::UA_DATATYPEKIND_UINT16:
-			value = *(int*)((uint16_t*)ptr_value + offset);
+			value = (int)*((uint16_t*)ptr_value + offset);
 			break;
 		case  UA_DataTypeKind::UA_DATATYPEKIND_INT32:
-			value = *(int*)((int32_t*)ptr_value + offset);
+			value = (int)*((int32_t*)ptr_value + offset);
 			break;
 		case  UA_DataTypeKind::UA_DATATYPEKIND_UINT32:
-			value = *(int*)((uint32_t*)ptr_value + offset);
+			value = (int)*((uint32_t*)ptr_value + offset);
 			break;
 		case  UA_DataTypeKind::UA_DATATYPEKIND_FLOAT:
 			value = *((float*)ptr_value + offset);
@@ -701,7 +701,7 @@ namespace  scada_ate::gate::adapter::opc
 						{
 							syserror = _state_connect;
 							current_status.store(atech::common::Status::ERROR_CONNECTING);
-							destroy();
+							//destroy();
 							throw 1;
 						}
 						throw 2;
@@ -826,7 +826,7 @@ namespace  scada_ate::gate::adapter::opc
 				if (it.target.is_array) pointer->indexRange = UA_STRING_ALLOC(std::to_string(it.target.offset).c_str());
 				pointer->value.hasValue = UA_TRUE;
 				pointer->value.hasStatus = UA_TRUE;
-				pointer->value.hasSourceTimestamp = true;
+				//pointer->value.hasSourceTimestamp = true;	// €блоко раздора 
 				pointer->value.status = UA_STATUSCODE_BAD;
 
 				UA_Variant* variant = UA_Variant_new();
@@ -969,7 +969,7 @@ namespace  scada_ate::gate::adapter::opc
 		}
 		else 
 		{ 
-			return UA_NODEID_STRING(config.namespaceindex, (char*)tag.tag.c_str()); 
+			return UA_NODEID_STRING_ALLOC(config.namespaceindex, tag.tag.c_str()); 
 		};
 	}
 

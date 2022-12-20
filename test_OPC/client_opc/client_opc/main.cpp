@@ -97,12 +97,12 @@ int test_request_write_scalar();
 int main()
 {	
 	//test_read_request_sec();
-	//test_request_write();
+	test_request_write();
 	//test_request_read_mass1000_();
 	//check_connent_session();
 	//test_request_read_mass1000_onetoone();
 	//test_request_write_mass1000_onetoone();
-	test_request_write_mass100_andvaleu3();
+	//test_request_write_mass100_andvaleu3();
 	//test_request_write_scalar();
 	//test_write_next_read();
 	return 0;
@@ -236,19 +236,20 @@ int test_read_request_sec()
 
 	//UA_ByteString* trustList;
 	UA_STACKARRAY(UA_ByteString, trustList, trustListSize);
-	trustList[0] = loadFile("SimulationServer@LAPTOP-SMDMIQSL_2048.der");
+	trustList[0] = loadFile("uagateway.der");
+	//trustList[0] = loadFile("SimulationServer@LAPTOP-SMDMIQSL_2048.der");
 	UA_ByteString* revocationList = NULL;
 	size_t revocationListSize = 0;
 
 	UA_Client* client = UA_Client_new();
 	UA_ClientConfig* cc = UA_Client_getConfig(client);
-	cc->securityMode = UA_MESSAGESECURITYMODE_SIGNANDENCRYPT; /* require encryption */
-	cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#Basic256");
+	cc->securityMode = UA_MESSAGESECURITYMODE_SIGN; /* require encryption */
+	cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256");
 	UA_StatusCode retVal = UA_ClientConfig_setDefaultEncryption(cc, certificate, privateKey,
 		trustList, trustListSize,
 		revocationList, revocationListSize);
 
-	//UA_SecurityPolicy_Basic256(cc->securityPolicies, certificate, privateKey,&cc->logger);
+	//UA_SecurityPolicy_Basic256Sha256(cc->securityPolicies, certificate, privateKey,&cc->logger);
 	UA_SecurityPolicy_None(cc->securityPolicies, certificate, &cc->logger);
 
 	cc->clientDescription.applicationUri = UA_STRING_ALLOC("urn:open62541.client.application");
@@ -257,9 +258,10 @@ int test_read_request_sec()
 	UA_ByteString_clear(&privateKey);
 	UA_ByteString_clear(&trustList[0]);
 
-	cc->securityMode = UA_MESSAGESECURITYMODE_SIGNANDENCRYPT;
+	cc->securityMode = UA_MESSAGESECURITYMODE_SIGN;
 
-	UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer");
+	//UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer");
+	UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://192.168.0.120:48050");
 	if (retval != UA_STATUSCODE_GOOD) {
 		UA_Client_delete(client);
 		return (int)retval;
@@ -331,19 +333,24 @@ int test_request_write()
 
 	//UA_ByteString* trustList;
 	UA_STACKARRAY(UA_ByteString, trustList, trustListSize);
-	trustList[0] = loadFile("SimulationServer@LAPTOP-SMDMIQSL_2048.der");
+	//trustList[0] = loadFile("uaservercpp.der");
+	trustList[0] = loadFile("uagateway.der");
+	//trustList[0] = loadFile("SimulationServer@LAPTOP-SMDMIQSL_2048.der");
 	UA_ByteString* revocationList = NULL;
 	size_t revocationListSize = 0;
 
 	UA_Client* client = UA_Client_new();
 	UA_ClientConfig* cc = UA_Client_getConfig(client);
 	cc->securityMode = UA_MESSAGESECURITYMODE_SIGN; /* require encryption */
-	cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#Basic256");
+	//cc->securityMode = UA_MESSAGESECURITYMODE_NONE; /* require encryption */
+	//cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#None");
+	//cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256");
+	//cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#Basic256");
 	UA_StatusCode retVal = UA_ClientConfig_setDefaultEncryption(cc, certificate, privateKey,
 		trustList, trustListSize,
 		revocationList, revocationListSize);
 
-	//UA_SecurityPolicy_Basic256(cc->securityPolicies, certificate, privateKey,&cc->logger);
+	//UA_SecurityPolicy_Basic256Sha256(cc->securityPolicies, certificate, privateKey,&cc->logger);
 	UA_SecurityPolicy_None(cc->securityPolicies, certificate, &cc->logger);
 
 	cc->clientDescription.applicationUri = UA_STRING_ALLOC("urn:open62541.client.application");
@@ -352,13 +359,17 @@ int test_request_write()
 	UA_ByteString_clear(&privateKey);
 	UA_ByteString_clear(&trustList[0]);
 
-	cc->securityMode = UA_MESSAGESECURITYMODE_SIGN;
-
-	UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer");
+	//UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer");
+	UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://192.168.0.120:48050");
 	if (retval != UA_STATUSCODE_GOOD) {
 		UA_Client_delete(client);
 		return (int)retval;
 	}
+
+	/////////////////
+
+	/////////////////
+
 
 	UA_WriteRequest _request;
 	UA_WriteResponse _respone;
@@ -366,42 +377,45 @@ int test_request_write()
 
 	UA_Variant value;
 	UA_Variant_init(&value);
-	int v[1000]; for (int i = 0; i < 1000; i++) v[i] = 99;
-	UA_Variant_setArrayCopy(&value, &v,1000,&UA_TYPES[UA_TYPES_INT32]);
+	int16_t v[100]; for (int i = 0; i < 99; i++) v[i] = 100;
+	float f = 300;
+	UA_Variant_setArrayCopy(&value, &v,1,&UA_TYPES[UA_TYPES_INT16]);
+	//UA_Variant_setScalarCopy(&value, &f, &UA_TYPES[UA_TYPES_FLOAT]);
+	//UA_Variant_setScalarCopy(&value, &v, &UA_TYPES[UA_TYPES_INT16]);
 
 	UA_WriteValue* vv = (UA_WriteValue*)UA_Array_new(1, &UA_TYPES[UA_TYPES_WRITEVALUE]);
 	UA_WriteValue_init(vv);
 	_request.nodesToWriteSize = 1;
 	_request.nodesToWrite = vv;
-	_request.nodesToWrite[0].nodeId = UA_NODEID_NUMERIC(3, 1007);
-	_request.nodesToWrite[0].attributeId = UA_ATTRIBUTEID_VALUE;
+	//_request.nodesToWrite[0].nodeId = UA_NODEID_STRING_ALLOC(2, "Demo.Static.Arrays.Int16");
+	_request.nodesToWrite[0].nodeId = UA_NODEID_STRING_ALLOC(7, "MAIN.mass_int_opc");
+	//_request.nodesToWrite[0].nodeId = UA_NODEID_NUMERIC(3, 1007);
+	_request.nodesToWrite[0].indexRange = UA_STRING_ALLOC("1");
+	_request.nodesToWrite[0].attributeId = UA_AttributeId::UA_ATTRIBUTEID_VALUE;
 	_request.nodesToWrite[0].value.hasValue = true;
-	_request.nodesToWrite[0].value.value.type = &UA_TYPES[UA_TYPES_INT32];
-	_request.nodesToWrite[0].value.value.storageType = UA_VARIANT_DATA_NODELETE;
-	_request.nodesToWrite[0].value.value = value;
-	_request.nodesToWrite[0].value.hasSourceTimestamp = true;
+	_request.nodesToWrite[0].value.hasServerPicoseconds = false;
+	_request.nodesToWrite[0].value.hasServerTimestamp = false;
+	_request.nodesToWrite[0].value.hasSourcePicoseconds = false;
+	_request.nodesToWrite[0].value.hasSourceTimestamp = false;
+	_request.nodesToWrite[0].value.hasStatus = true;
+	_request.nodesToWrite[0].value.status = UA_STATUSCODE_GOOD;
+	//_request.nodesToWrite[0].value.sourceTimestamp = TimeConverter::GetTime_LLmcs() * 10LL + UA_DATETIME_UNIX_EPOCH;
+	//_request.nodesToWrite[0].value.serverTimestamp = TimeConverter::GetTime_LLmcs() * 10LL + UA_DATETIME_UNIX_EPOCH;
 
-	long long t = 0;
-	std::vector<long long> _time(10000);
-	int counter = 0;
+	_request.nodesToWrite[0].value.value.type = &UA_TYPES[UA_TYPES_INT16];
+	//_request.nodesToWrite[0].value.value.type = &UA_TYPES[UA_TYPES_FLOAT];
+	//_request.nodesToWrite[0].value.value.storageType = UA_VARIANT_DATA_NODELETE;
+	_request.nodesToWrite[0].value.value = value;
+	
 
 	for (;;)
 	{
 
-		t = TimeConverter::GetTime_LLmcs();
 		_respone = UA_Client_Service_write(client, _request);
-		_time[counter] = TimeConverter::GetTime_LLmcs() - t;
 		UA_WriteResponse_clear(&_respone);
-		counter++;
-		if (counter % 100 == 0)
-		{
-			std::cout << counter / 100 << "%" << std::endl;
-		}
-		if (counter >= 10000) break;
+		break;
+		
 	}
-
-	long long sum = std::accumulate(_time.begin(), _time.end(),0);
-	std::cout << "TIME REQUEST WRITE: " << sum * 1.0 / _time.size() << " mcs" << std::endl;
 
 	UA_WriteRequest_clear(&_request);
 	UA_WriteResponse_clear(&_respone);

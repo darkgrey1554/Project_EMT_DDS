@@ -7,7 +7,7 @@ namespace atech::srv::io::ctrl
 	UnitAid_DDS::UnitAid_DDS(std::shared_ptr<IConfigUnitAid> config)
 	{
 		this->config = *std::reinterpret_pointer_cast<ConfigUnitAid_DDS>(config);
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	}
 
 	UnitAid_DDS::~UnitAid_DDS()

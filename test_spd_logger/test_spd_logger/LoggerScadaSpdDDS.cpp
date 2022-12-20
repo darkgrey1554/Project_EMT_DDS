@@ -1,3 +1,5 @@
+#if defined(LOGGER_ATECH_SCADA_SPDLOG_DDS)
+
 #include "LoggerScadaSpdDDS.h"
 
 namespace atech::logger
@@ -168,7 +170,7 @@ namespace atech::logger
 				result = ResultRequest::IGNOR;
 			}
 
-			std::this_thread::sleep_for(std::chrono::seconds(1));
+			//std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 		catch (...)
 		{
@@ -339,9 +341,6 @@ namespace atech::logger
 
 		return lspd;
 	}
+}	
 
-
-
-
-
-}		  
+#endif

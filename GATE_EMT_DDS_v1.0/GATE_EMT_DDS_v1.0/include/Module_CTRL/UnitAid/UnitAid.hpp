@@ -3,7 +3,7 @@
 #include <ddsformat/DdsCommand/DdsCommand.h>
 #include <ddsformat/DdsStatus/DdsStatus.h>
 #include <queue>
-#include <LoggerScada.hpp>
+#include <LoggerScada.h>
 
 
 

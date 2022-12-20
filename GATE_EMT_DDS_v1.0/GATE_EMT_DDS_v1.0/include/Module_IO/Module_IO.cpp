@@ -4,7 +4,7 @@ namespace scada_ate::gate
 {
 	Module_IO::Module_IO()
 	{
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	};
 
 	Module_IO::~Module_IO()

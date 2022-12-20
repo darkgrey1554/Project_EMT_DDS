@@ -1,7 +1,7 @@
 #pragma once
 #include <Module_IO/UnitTransfer/adapters/Adapters.hpp>
 #include <structs/TimeConverter.hpp>
-#include <LoggerScada.hpp>
+#include <LoggerScada.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
@@ -51,7 +51,7 @@ namespace scada_ate::gate::adapter::dds
 		ConfigAdapterDDS config;
 		std::mutex mutex_init;
 		std::atomic<atech::common::Status> current_status = atech::common::Status::NONE;
-		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
+		atech::logger::ILoggerScada_ptr log; /// ������
 
 		std::shared_ptr<atech::srv::io::FactoryDDS> _factory_dds = nullptr;
 		_dds::DataReader* _datareader = nullptr;
@@ -164,7 +164,7 @@ namespace scada_ate::gate::adapter::dds
 			this->config = *config_point;
 		}
 
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	};
 
 	template<class T> AdapterDDS<T>::~AdapterDDS()
@@ -519,7 +519,6 @@ namespace scada_ate::gate::adapter::dds
 				update_head(tags.time_source, _data_dds.get());
 				_datawriter->write(_data_dds.get());
 			}
-
 		}
 		catch (int& e)
 		{

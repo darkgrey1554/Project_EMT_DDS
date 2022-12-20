@@ -125,7 +125,11 @@ namespace scada_ate::gate::adapter::sem
 			res = ResultReqest::ERR;
 		}
 
-		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		try 
+		{
+			if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		}
+		catch (...) {};
 		return res;
 	}
 
@@ -181,16 +185,23 @@ namespace scada_ate::gate::adapter::sem
 			res = ResultReqest::ERR;
 		}		
 
-		if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		try
+		{
+			if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		}
+		catch (...) {};
 		return res;
 	}
 
 	void AdapterSharedMemory::destroy()
 	{
 		UnmapViewOfFile(buf_data);
+		buf_data = nullptr;
 		CloseHandle(SM_Handle);
-		CloseHandle(Mutex_SM);
-		current_status.store(atech::common::Status::NONE);
+		SM_Handle = NULL;
+		CloseHandle(Mutex_SM); 
+		Mutex_SM = NULL;
+		current_status.store(atech::common::Status::NONE, std::memory_order_relaxed);
 	}
 
 	ResultReqest AdapterSharedMemory::init_adapter()
@@ -229,7 +240,6 @@ namespace scada_ate::gate::adapter::sem
 			if (security_attr == nullptr)
 			{
 				sys_error = 0;
-				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
 				throw 2;
 			}
 
@@ -237,7 +247,6 @@ namespace scada_ate::gate::adapter::sem
 			if (result != 0)
 			{
 				sys_error = result;
-				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
 				throw 2;
 			}
 
@@ -249,7 +258,6 @@ namespace scada_ate::gate::adapter::sem
 			/// --- initialization handle of shared memory --- ///
 			if (SM_Handle != NULL)
 			{
-				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
 				throw 3;
 			}
 
@@ -260,7 +268,6 @@ namespace scada_ate::gate::adapter::sem
 			if (Mutex_SM == NULL)
 			{
 				sys_error = GetLastError();
-				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
 				throw 4;
 			}
 
@@ -270,8 +277,6 @@ namespace scada_ate::gate::adapter::sem
 			if (SM_Handle == NULL)
 			{
 				sys_error = GetLastError();
-				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
-				res = ResultReqest::ERR;
 				throw 5;
 			}
 
@@ -280,8 +285,7 @@ namespace scada_ate::gate::adapter::sem
 			buf_data = (char*)MapViewOfFile(SM_Handle, FILE_MAP_ALL_ACCESS, 0, 0, size_memory);
 			if (buf_data == NULL)
 			{
-				current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
-				res = ResultReqest::ERR;
+				sys_error = GetLastError();
 				throw 6;
 			}
 
@@ -318,18 +322,16 @@ namespace scada_ate::gate::adapter::sem
 		{
 			log->Critical("AdapterSharedMemory {}: Error Init : error: {}, syserror: {}", this->config.NameChannel, e, sys_error);
 			if (Mutex_SM != NULL) ReleaseMutex(Mutex_SM);
-			CloseHandle(Mutex_SM);
-			UnmapViewOfFile(buf_data);
-			CloseHandle(SM_Handle);
+			destroy();
+			current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
 			res = ResultReqest::ERR;
 		}
 		catch (...)
 		{
 			log->Critical("AdapterSharedMemory {}: Error Init : error: {}, syserror: {}", this->config.NameChannel, 0, 0);
 			if (Mutex_SM != NULL) ReleaseMutex(Mutex_SM);
-			CloseHandle(Mutex_SM);
-			UnmapViewOfFile(buf_data);
-			CloseHandle(SM_Handle);
+			destroy();
+			current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
 			res = ResultReqest::ERR;
 		}
 
@@ -801,7 +803,7 @@ namespace scada_ate::gate::adapter::sem
 			this->config = *config_point;
 		}
 
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	};
 
 	AdapterSharedMemory::~AdapterSharedMemory()
@@ -812,8 +814,11 @@ namespace scada_ate::gate::adapter::sem
 
 	ResultReqest AdapterSharedMemory::InitAdapter()
 	{
+		ResultReqest result{ ResultReqest::OK };
 		const std::lock_guard<std::mutex> lock_init(mutex_init);
-		return init_adapter();
+		result = init_adapter();
+		if (result == ResultReqest::ERR) current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
+		return result;
 	}
 
 	void AdapterSharedMemory::set_data(TypeValue& type, const Value& value, const LinkTags& link)

@@ -2,7 +2,7 @@
 #include <structs/structs.hpp>
 
 #include <structs/TimeConverter.hpp>
-#include <LoggerScada.hpp>
+#include <LoggerScada.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
@@ -32,7 +32,7 @@ namespace atech::srv::io
 		static std::mutex singlton;
 		std::mutex guarden;
 		
-		LoggerSpaceScada::ILoggerScada_ptr log;
+		atech::logger::ILoggerScada_ptr log;
 		eprosima::fastdds::dds::DomainParticipant* _participant = nullptr;
 		eprosima::fastdds::dds::Publisher* _publisher = nullptr;
 		eprosima::fastdds::dds::Subscriber* _subscriber = nullptr;

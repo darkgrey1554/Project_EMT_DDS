@@ -277,6 +277,7 @@ namespace nlohmann {
         static void from_json(const ordered_json& message, atech::common::SmConfig& data) {
             try {
                 data.set_name_point_sm(message.at("name_point_sm").get<std::string>());
+                data.set_size_int_data(message.at("size_int_data").get<size_t>());
                 data.set_size_float_data(message.at("size_float_data").get<size_t>());
                 data.set_size_double_data(message.at("size_double_data").get<size_t>());
                 data.set_size_char_data(message.at("size_char_data").get<size_t>());

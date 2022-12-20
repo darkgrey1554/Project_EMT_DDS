@@ -59,6 +59,20 @@ namespace emt
 		char quality = 0;
 	};
 
+	class Locker
+	{
+		LPCRITICAL_SECTION p;
+		public:
+			Locker(LPCRITICAL_SECTION point) : p(point)
+			{
+				EnterCriticalSection(p);
+			}
+			~Locker()
+			{
+				LeaveCriticalSection(p);
+			}
+	};
+
 	class ClientSharedMemory
 	{
 		class SecurityHandle
@@ -95,6 +109,7 @@ namespace emt
 
 		HANDLE SM_Handle = NULL;   /// handle shared memory
 		HANDLE Mutex_SM = NULL; /// handle mutex shared memory
+		CRITICAL_SECTION guarder;
 		char* buffer = nullptr;
 		std::string name;
 		//std::mutex _mutex_init;
@@ -257,25 +272,30 @@ namespace emt
 
 	ClientSharedMemory::ClientSharedMemory(std::string name) : name(name), _header(nullptr)
 	{
+		InitializeCriticalSection(&guarder);
 	};																		
 
 	ClientSharedMemory::~ClientSharedMemory()
 	{
-		//std::lock_guard<std::mutex> lock(_mutex_init);
-		destroy();
+		{
+			Locker lock(&guarder); //std::lock_guard<std::mutex> lock(_mutex_init);
+			destroy();
+			_status.store(Status::Null);
+		}
+		DeleteCriticalSection(&guarder);
 	};
 
 	ResultRequest ClientSharedMemory::Connect()
 	{
-		//std::lock_guard<std::mutex> lock(_mutex_init);
+		Locker lock(&guarder); //std::lock_guard<std::mutex> lock(_mutex_init);
 		return connect();
 	};
 
 	ResultRequest ClientSharedMemory::ReConnect(std::string name)
 	{
-		//std::lock_guard<std::mutex> lock(_mutex_init);
-		this->name = name;
+		Locker lock(&guarder); //std::lock_guard<std::mutex> lock(_mutex_init);
 		destroy();
+		this->name = name;
 		return connect();
 	};
 
@@ -288,7 +308,7 @@ namespace emt
 		size_t size_str)
 	{
 		ResultRequest result{ ResultRequest::GOOD };
-		//std::lock_guard<std::mutex> lock(_mutex_init);
+		Locker lock(&guarder); //std::lock_guard<std::mutex> lock(_mutex_init);
 		result = create(number_int, number_float, number_double, number_char, number_str, size_str);
 		if (result != ResultRequest::GOOD) destroy();
 		return result;
@@ -308,7 +328,7 @@ namespace emt
 
 			if (current_status == Status::INITIALIZATION)
 			{
-				throw ResultRequest::WAIT_INITIALIZATION;
+				return ResultRequest::WAIT_INITIALIZATION;
 			};
 
 			_status.store(Status::INITIALIZATION);
@@ -377,7 +397,7 @@ namespace emt
 			}
 			else if (current_status == Status::INITIALIZATION)
 			{
-				throw ResultRequest::WAIT_INITIALIZATION;
+				return ResultRequest::WAIT_INITIALIZATION;
 			}
 			_status.store(Status::INITIALIZATION);
 
@@ -602,7 +622,7 @@ namespace emt
 	{
 		ResultRequest result{ ResultRequest::GOOD };
 		DWORD res = 0;
-		if (Mutex_SM == NULL || buffer == nullptr) return ResultRequest::IGNOR;
+		if (_status.load() != Status::GOOD) return ResultRequest::IGNOR;
 
 		try
 		{
@@ -639,7 +659,8 @@ namespace emt
 			result = ResultRequest::ERROR_NOT_INDIFICATED;
 		}
 
-		if (res == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		try { if (res == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM); }
+		catch (...) {};
 
 		return result;
 	}
@@ -648,7 +669,7 @@ namespace emt
 	{
 		ResultRequest result{ ResultRequest::GOOD };
 		DWORD res = 0;
-		if (Mutex_SM == NULL || buffer == nullptr) return ResultRequest::IGNOR;
+		if (_status.load() != Status::GOOD) return ResultRequest::IGNOR;
 
 		try
 		{
@@ -699,7 +720,8 @@ namespace emt
 			result = ResultRequest::ERROR_NOT_INDIFICATED;
 		}
 
-		if (res == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		try { if (res == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM); }
+		catch (...) {};
 
 		return result;
 	}
@@ -708,7 +730,7 @@ namespace emt
 	{
 		ResultRequest result{ ResultRequest::GOOD };
 		DWORD res = 0;
-		if (Mutex_SM == NULL || buffer == nullptr) return ResultRequest::IGNOR;
+		if (_status.load() != Status::GOOD) return ResultRequest::IGNOR;
 
 		try
 		{
@@ -745,7 +767,8 @@ namespace emt
 			result = ResultRequest::ERROR_NOT_INDIFICATED;
 		}
 
-		if (res == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		try { if (res == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM); }
+		catch (...) {};
 
 		return result;
 	}
@@ -754,7 +777,7 @@ namespace emt
 	{
 		ResultRequest result{ ResultRequest::GOOD };
 		DWORD res = 0;
-		if (Mutex_SM == NULL || buffer == nullptr) return ResultRequest::IGNOR;
+		if (_status.load() != Status::GOOD) return ResultRequest::IGNOR;
 
 		try
 		{
@@ -801,7 +824,8 @@ namespace emt
 			result = ResultRequest::ERROR_NOT_INDIFICATED;
 		}
 
-		if (res == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
+		try { if (res == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM); }
+		catch (...) {};
 
 		return result;
 	}

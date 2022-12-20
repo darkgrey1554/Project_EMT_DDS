@@ -1,0 +1,82 @@
+﻿  ConfigUtils.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\MessageSerializer.h(47,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\MessageSerializer.h(45): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::adl_serializer<T,void>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\MessageSerializer.h(47): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::from_json_function<nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::detected_t<nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(3474): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::is_detected_exact<T,nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(18918): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::has_non_default_from_json<nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,ValueType,void>"
+          with
+          [
+              ValueType=std::shared_ptr<atech::common::FtConfig>
+          ]
+  main.cpp
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\MessageSerializer.h(47,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\MessageSerializer.h(45): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::adl_serializer<T,void>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\MessageSerializer.h(47): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::from_json_function<nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::detected_t<nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(3474): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::is_detected_exact<T,nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\generator_config\config\json.hpp(18918): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::has_non_default_from_json<nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,ValueType,void>"
+          with
+          [
+              ValueType=std::shared_ptr<atech::common::FtConfig>
+          ]
+  Создание кода...
+  generator_config.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\DDS_Laboratory\generator_config\x64\Debug\generator_config.exe

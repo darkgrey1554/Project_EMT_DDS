@@ -8,7 +8,7 @@ namespace scada_ate::gate
 	class Module_IO : public atech::common::IControl 
 	{
 		std::map<int, std::unique_ptr<adapter::UnitTransfer>> _map_units;
-		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log;
+		atech::logger::ILoggerScada_ptr log;
 		int _node_id = 0;
 
 		ResultReqest verification_config_unit(const adapter::ConfigUnitTransfer& config);

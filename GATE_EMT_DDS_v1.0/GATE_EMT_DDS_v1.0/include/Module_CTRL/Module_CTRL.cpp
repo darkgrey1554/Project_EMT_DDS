@@ -4,7 +4,7 @@ namespace atech::srv::io::ctrl
 {
 	Module_CTRL::Module_CTRL()
 	{
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 		return;
 	};
 
@@ -52,7 +52,7 @@ namespace atech::srv::io::ctrl
 		return result;
 	}
 
-	ResultReqest Module_CTRL::TakeConfigLogger(LoggerSpaceScada::ConfigLogger& config)
+	ResultReqest Module_CTRL::TakeConfigLogger(atech::logger::ConfigLogger& config)
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -291,7 +291,7 @@ namespace atech::srv::io::ctrl
 					if (target->type_adapter == scada_ate::gate::adapter::TypeAdapter::DDS)
 					{
 						((scada_ate::gate::adapter::dds::ConfigAdapterDDS*)target.get())->type_transfer = 
-							scada_ate::gate::adapter::dds::TypeTransfer::PUBLISHER;
+							scada_ate::gate::adapter::dds::TypeTransfer::SUBSCRIBER;
 					}
 					///////
 					unit_target.config_input_unit.push_back(std::move(target));

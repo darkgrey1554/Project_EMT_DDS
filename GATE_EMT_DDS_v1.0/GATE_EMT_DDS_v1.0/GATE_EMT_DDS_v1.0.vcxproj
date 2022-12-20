@@ -19,8 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\include_logger\LoggerScada.cpp" />
-    <ClCompile Include="..\..\..\..\include_logger\LoggerScadaSpd.cpp" />
     <ClCompile Include="include\config\Exception.cpp" />
     <ClCompile Include="include\config\json2xml.cpp" />
     <ClCompile Include="include\config\tinyxml2.cpp" />
@@ -46,6 +44,7 @@
     <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.cxx" />
     <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.cxx" />
     <ClCompile Include="include\ddsformat\SizeTopics.cpp" />
+    <ClCompile Include="include\logger\LoggerScadaSpdDDS.cpp" />
     <ClCompile Include="include\Module_CTRL\Module_CTRL.cpp" />
     <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid.cpp" />
     <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid_DDS\UnitAid_DDS.cpp" />
@@ -68,7 +67,6 @@
     <None Include="include\config\config.json" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\include_logger\LoggerScada.hpp" />
     <ClInclude Include="include\configReader\ConfigReader_main\Config_Reader.h" />
     <ClInclude Include="include\configReader\ConfigReader_units\ReaderConfigUnits.h" />
     <ClInclude Include="include\config\adapters.h" />
@@ -101,6 +99,127 @@
     <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.h" />
     <ClInclude Include="include\ddsformat\SizeTopics.h" />
     <ClInclude Include="include\ddsformat\TypeTopics.h" />
+    <ClInclude Include="include\logger\fmt\bin_to_hex.h" />
+    <ClInclude Include="include\logger\fmt\bundled\args.h" />
+    <ClInclude Include="include\logger\fmt\bundled\chrono.h" />
+    <ClInclude Include="include\logger\fmt\bundled\color.h" />
+    <ClInclude Include="include\logger\fmt\bundled\compile.h" />
+    <ClInclude Include="include\logger\fmt\bundled\core.h" />
+    <ClInclude Include="include\logger\fmt\bundled\format-inl.h" />
+    <ClInclude Include="include\logger\fmt\bundled\format.h" />
+    <ClInclude Include="include\logger\fmt\bundled\locale.h" />
+    <ClInclude Include="include\logger\fmt\bundled\os.h" />
+    <ClInclude Include="include\logger\fmt\bundled\ostream.h" />
+    <ClInclude Include="include\logger\fmt\bundled\printf.h" />
+    <ClInclude Include="include\logger\fmt\bundled\ranges.h" />
+    <ClInclude Include="include\logger\fmt\bundled\xchar.h" />
+    <ClInclude Include="include\logger\fmt\chrono.h" />
+    <ClInclude Include="include\logger\fmt\compile.h" />
+    <ClInclude Include="include\logger\fmt\fmt.h" />
+    <ClInclude Include="include\logger\fmt\ostr.h" />
+    <ClInclude Include="include\logger\fmt\xchar.h" />
+    <ClInclude Include="include\logger\LoggerScada.h" />
+    <ClInclude Include="include\logger\LoggerScadaInterface.h" />
+    <ClInclude Include="include\logger\LoggerScadaSpdDDS.h" />
+    <ClInclude Include="include\logger\spdlog\async.h" />
+    <ClInclude Include="include\logger\spdlog\async_logger-inl.h" />
+    <ClInclude Include="include\logger\spdlog\async_logger.h" />
+    <ClInclude Include="include\logger\spdlog\cfg\argv.h" />
+    <ClInclude Include="include\logger\spdlog\cfg\env.h" />
+    <ClInclude Include="include\logger\spdlog\cfg\helpers-inl.h" />
+    <ClInclude Include="include\logger\spdlog\cfg\helpers.h" />
+    <ClInclude Include="include\logger\spdlog\common-inl.h" />
+    <ClInclude Include="include\logger\spdlog\common.h" />
+    <ClInclude Include="include\logger\spdlog\details\backtracer-inl.h" />
+    <ClInclude Include="include\logger\spdlog\details\backtracer.h" />
+    <ClInclude Include="include\logger\spdlog\details\circular_q.h" />
+    <ClInclude Include="include\logger\spdlog\details\console_globals.h" />
+    <ClInclude Include="include\logger\spdlog\details\file_helper-inl.h" />
+    <ClInclude Include="include\logger\spdlog\details\file_helper.h" />
+    <ClInclude Include="include\logger\spdlog\details\fmt_helper.h" />
+    <ClInclude Include="include\logger\spdlog\details\log_msg-inl.h" />
+    <ClInclude Include="include\logger\spdlog\details\log_msg.h" />
+    <ClInclude Include="include\logger\spdlog\details\log_msg_buffer-inl.h" />
+    <ClInclude Include="include\logger\spdlog\details\log_msg_buffer.h" />
+    <ClInclude Include="include\logger\spdlog\details\mpmc_blocking_q.h" />
+    <ClInclude Include="include\logger\spdlog\details\null_mutex.h" />
+    <ClInclude Include="include\logger\spdlog\details\os-inl.h" />
+    <ClInclude Include="include\logger\spdlog\details\os.h" />
+    <ClInclude Include="include\logger\spdlog\details\periodic_worker-inl.h" />
+    <ClInclude Include="include\logger\spdlog\details\periodic_worker.h" />
+    <ClInclude Include="include\logger\spdlog\details\registry-inl.h" />
+    <ClInclude Include="include\logger\spdlog\details\registry.h" />
+    <ClInclude Include="include\logger\spdlog\details\synchronous_factory.h" />
+    <ClInclude Include="include\logger\spdlog\details\tcp_client-windows.h" />
+    <ClInclude Include="include\logger\spdlog\details\tcp_client.h" />
+    <ClInclude Include="include\logger\spdlog\details\thread_pool-inl.h" />
+    <ClInclude Include="include\logger\spdlog\details\thread_pool.h" />
+    <ClInclude Include="include\logger\spdlog\details\udp_client-windows.h" />
+    <ClInclude Include="include\logger\spdlog\details\udp_client.h" />
+    <ClInclude Include="include\logger\spdlog\details\windows_include.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bin_to_hex.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\args.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\chrono.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\color.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\compile.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\core.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\format-inl.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\format.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\locale.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\os.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\ostream.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\printf.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\ranges.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\bundled\xchar.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\chrono.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\compile.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\fmt.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\ostr.h" />
+    <ClInclude Include="include\logger\spdlog\fmt\xchar.h" />
+    <ClInclude Include="include\logger\spdlog\formatter.h" />
+    <ClInclude Include="include\logger\spdlog\fwd.h" />
+    <ClInclude Include="include\logger\spdlog\logger-inl.h" />
+    <ClInclude Include="include\logger\spdlog\logger.h" />
+    <ClInclude Include="include\logger\spdlog\LoggerScada.h" />
+    <ClInclude Include="include\logger\spdlog\pattern_formatter-inl.h" />
+    <ClInclude Include="include\logger\spdlog\pattern_formatter.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\android_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\ansicolor_sink-inl.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\ansicolor_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\base_sink-inl.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\base_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\basic_file_sink-inl.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\basic_file_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\daily_file_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\dist_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\dup_filter_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\hourly_file_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\mongo_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\msvc_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\null_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\ostream_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\qt_sinks.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\ringbuffer_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\rotating_file_sink-inl.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\rotating_file_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\sink-inl.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\stdout_color_sinks-inl.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\stdout_color_sinks.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\stdout_sinks-inl.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\stdout_sinks.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\syslog_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\systemd_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\tcp_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\udp_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\wincolor_sink-inl.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\wincolor_sink.h" />
+    <ClInclude Include="include\logger\spdlog\sinks\win_eventlog_sink.h" />
+    <ClInclude Include="include\logger\spdlog\spdlog-inl.h" />
+    <ClInclude Include="include\logger\spdlog\spdlog.h" />
+    <ClInclude Include="include\logger\spdlog\stopwatch.h" />
+    <ClInclude Include="include\logger\spdlog\tweakme.h" />
+    <ClInclude Include="include\logger\spdlog\version.h" />
     <ClInclude Include="include\Module_CP\Module_CP.h" />
     <ClInclude Include="include\Module_CTRL\Module_CTRL.hpp" />
     <ClInclude Include="include\Module_CTRL\UnitAid\UnitAid.hpp" />
@@ -206,7 +325,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>C:\Program Files %28x86%29\open62541\lib;C:\Program Files\OpenSSL-Win64\lib;C:\Program Files\eProsima\fastrtps 2.7.0\lib\x64Win64VS2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Program Files %28x86%29\open62541\include;D:\CATE_WORK\logger_crossplatform;D:\CATE_WORK\rapidjson\include;C:\Program Files\eProsima\fastrtps 2.7.0\include;D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files %28x86%29\open62541\include;C:\Program Files\eProsima\fastrtps 2.7.0\include;D:\CATE_WORK\GATE_EMT_DDS\JsonConverter\scadasolution-master\TestJson;$(IncludePath)</IncludePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -264,9 +383,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;_WINDOWS;FASTRTPS_DYN_LINK;FASTCDR_DYN_LINK;FOONATHAN_MEMORY=1;FOONATHAN_MEMORY_VERSION_MAJOR=0;FOONATHAN_MEMORY_VERSION_MINOR=7;FOONATHAN_MEMORY_VERSION_PATCH=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LOGGER_ATECH_SCADA_SPDLOG_DDS_CONSOLE;LOGGER_ATECH_SCADA_SPDLOG_DDS;WIN32_LEAN_AND_MEAN;NOMINMAX;_WINDOWS;FASTRTPS_DYN_LINK;FASTCDR_DYN_LINK;FOONATHAN_MEMORY=1;FOONATHAN_MEMORY_VERSION_MAJOR=0;FOONATHAN_MEMORY_VERSION_MINOR=7;FOONATHAN_MEMORY_VERSION_PATCH=1</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;D:\CATE_WORK\include_logger\logger_crossplatform;D:\CATE_WORK\include_logger;C:\Program Files\eProsima\fastrtps 2.7.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include\logger;$(ProjectDir)\include;C:\Program Files\eProsima\fastrtps 2.7.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>

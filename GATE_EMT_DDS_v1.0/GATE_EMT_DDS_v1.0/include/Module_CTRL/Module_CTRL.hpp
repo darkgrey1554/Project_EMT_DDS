@@ -28,7 +28,7 @@ namespace atech::srv::io::ctrl
 		//std::vector<std::shared_ptr<UnitAid>> vector_unitaid;
 		std::shared_ptr<UnitAid> _unitaid = nullptr;
 		std::shared_ptr<scada_ate::gate::Module_IO> _module_io_ptr = nullptr;
-		LoggerSpaceScada::ILoggerScada_ptr log;
+		atech::logger::ILoggerScada_ptr log;
 		int64_t _node_id = 0;
 		DdsStatus function_processing(DdsCommand& command);
 		std::string config_str;
@@ -83,7 +83,7 @@ namespace atech::srv::io::ctrl
 		int64_t GetNodeID();
 
 		ResultReqest LoadConfigService();
-		ResultReqest TakeConfigLogger(LoggerSpaceScada::ConfigLogger& config);
+		ResultReqest TakeConfigLogger(atech::logger::ConfigLogger& config);
 		ResultReqest InitDDSLayer();
 		ResultReqest InitModuleIO();
 		ResultReqest InitLogger();

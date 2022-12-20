@@ -9,7 +9,7 @@ namespace atech::srv::io
 
 	FactoryDDS::FactoryDDS()
 	{
-		log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
+		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 		return;
 	};
 

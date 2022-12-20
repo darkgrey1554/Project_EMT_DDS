@@ -1,6 +1,6 @@
 #pragma once
 #include <Module_CTRL/UnitAid/UnitAid.hpp>
-#include <LoggerScada.hpp>
+#include <LoggerScada.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
@@ -28,7 +28,7 @@ namespace atech::srv::io::ctrl
 
 	protected:
 
-		LoggerSpaceScada::ILoggerScada_ptr log = nullptr;
+		atech::logger::ILoggerScada_ptr log = nullptr;
 		ConfigUnitAid_DDS config;
 
 		std::shared_ptr<atech::srv::io::FactoryDDS> _factory_dds = nullptr;
