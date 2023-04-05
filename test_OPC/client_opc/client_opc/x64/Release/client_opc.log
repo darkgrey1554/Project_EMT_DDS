@@ -13,7 +13,7 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.3162
               _InIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<__int64>>>,
               _Fn=std::plus<void>
           ]
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_OPC\client_opc\client_opc\main.cpp(513): message : выполняется компиляция ссылки на экземпляр шаблон функции "_Ty std::accumulate<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<__int64>>>,int>(const _InIt,const _InIt,_Ty)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_OPC\client_opc\client_opc\main.cpp(511): message : выполняется компиляция ссылки на экземпляр шаблон функции "_Ty std::accumulate<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<__int64>>>,int>(const _InIt,const _InIt,_Ty)"
           with
           [
               _Ty=int,
@@ -21,7 +21,6 @@ D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_OPC\client_opc\client_opc\main.cp
           ]
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_OPC\client_opc\client_opc\main.cpp(226): warning C4715: test_read_variable: значение возвращается не при всех путях выполнения
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_OPC\client_opc\client_opc\main.cpp(324): warning C4715: test_read_request_sec: значение возвращается не при всех путях выполнения
-LINK : warning LNK4044: нераспознанный параметр "/DUA_ARCHITECTURE_WIN32"; игнорируется
 LINK : warning LNK4098: библиотека по умолчанию "LIBCMT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
   LINK : указан параметр /LTCG, но не требуется создание кода; удалите /LTCG из командной строки компоновки для повышения производительности компоновщика
   client_opc.vcxproj -> D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\test_OPC\client_opc\x64\Release\client_opc.exe

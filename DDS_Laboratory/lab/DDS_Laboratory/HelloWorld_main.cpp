@@ -183,7 +183,7 @@ void test_sub()
 {
 	CustomDataReaderListener* listener_ = new CustomDataReaderListener();
 	DomainParticipant* participant_sub;
-	participant_sub = DomainParticipantFactory::get_instance()->create_participant(0, PARTICIPANT_QOS_DEFAULT);
+	participant_sub = DomainParticipantFactory::get_instance()->create_participant_with_profile();
 
 	Subscriber* subcriber_ = participant_sub->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
 	

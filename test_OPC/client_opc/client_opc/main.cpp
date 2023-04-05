@@ -22,8 +22,7 @@
  *
  * @param  path               specifies the file name given in argv[]
  * @return Returns the file content after parsing */
-UA_ByteString
-loadFile(const char* const path) {
+UA_ByteString loadFile(const char* const path) {
 	UA_ByteString fileContents = UA_STRING_NULL;
 
 	/* Open the file */
@@ -51,8 +50,7 @@ loadFile(const char* const path) {
 	return fileContents;
 }
 
-UA_ByteString
-loadFile_new(const char* const path) {
+UA_ByteString loadFile_new(const char* const path) {
 
 	UA_ByteString fileContents = UA_STRING_NULL;
 	std::ifstream file;
@@ -72,9 +70,7 @@ loadFile_new(const char* const path) {
 	{
 		fileContents.length = 0;
 	}
-
 	file.close();
-
 	return fileContents;
 }
 
@@ -97,7 +93,7 @@ int test_request_write_scalar();
 int main()
 {	
 	//test_read_request_sec();
-	test_request_write();
+	//test_request_write();
 	//test_request_read_mass1000_();
 	//check_connent_session();
 	//test_request_read_mass1000_onetoone();
@@ -236,7 +232,8 @@ int test_read_request_sec()
 
 	//UA_ByteString* trustList;
 	UA_STACKARRAY(UA_ByteString, trustList, trustListSize);
-	trustList[0] = loadFile("uagateway.der");
+	trustList[0] = loadFile("regul.der");
+	//trustList[0] = loadFile("uagateway.der");
 	//trustList[0] = loadFile("SimulationServer@LAPTOP-SMDMIQSL_2048.der");
 	UA_ByteString* revocationList = NULL;
 	size_t revocationListSize = 0;
@@ -334,16 +331,16 @@ int test_request_write()
 	//UA_ByteString* trustList;
 	UA_STACKARRAY(UA_ByteString, trustList, trustListSize);
 	//trustList[0] = loadFile("uaservercpp.der");
-	trustList[0] = loadFile("uagateway.der");
+	trustList[0] = loadFile("regul.der");
 	//trustList[0] = loadFile("SimulationServer@LAPTOP-SMDMIQSL_2048.der");
 	UA_ByteString* revocationList = NULL;
 	size_t revocationListSize = 0;
 
 	UA_Client* client = UA_Client_new();
 	UA_ClientConfig* cc = UA_Client_getConfig(client);
-	cc->securityMode = UA_MESSAGESECURITYMODE_SIGN; /* require encryption */
-	//cc->securityMode = UA_MESSAGESECURITYMODE_NONE; /* require encryption */
-	//cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#None");
+	//cc->securityMode = UA_MESSAGESECURITYMODE_SIGN; /* require encryption */
+	cc->securityMode = UA_MESSAGESECURITYMODE_NONE; /* require encryption */
+	cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#None");
 	//cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#Basic256Sha256");
 	//cc->securityPolicyUri = UA_STRING_ALLOC("http://opcfoundation.org/UA/SecurityPolicy#Basic256");
 	UA_StatusCode retVal = UA_ClientConfig_setDefaultEncryption(cc, certificate, privateKey,
@@ -360,7 +357,7 @@ int test_request_write()
 	UA_ByteString_clear(&trustList[0]);
 
 	//UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://LAPTOP-SMDMIQSL:53530/OPCUA/SimulationServer");
-	UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://192.168.0.120:48050");
+	UA_StatusCode retval = UA_Client_connect(client, "opc.tcp://192.168.8.40:48010");
 	if (retval != UA_STATUSCODE_GOOD) {
 		UA_Client_delete(client);
 		return (int)retval;
@@ -377,7 +374,7 @@ int test_request_write()
 
 	UA_Variant value;
 	UA_Variant_init(&value);
-	int16_t v[100]; for (int i = 0; i < 99; i++) v[i] = 100;
+	int16_t v[20]; for (int i = 0; i < 20; i++) v[i] = 30;
 	float f = 300;
 	UA_Variant_setArrayCopy(&value, &v,1,&UA_TYPES[UA_TYPES_INT16]);
 	//UA_Variant_setScalarCopy(&value, &f, &UA_TYPES[UA_TYPES_FLOAT]);
@@ -388,9 +385,9 @@ int test_request_write()
 	_request.nodesToWriteSize = 1;
 	_request.nodesToWrite = vv;
 	//_request.nodesToWrite[0].nodeId = UA_NODEID_STRING_ALLOC(2, "Demo.Static.Arrays.Int16");
-	_request.nodesToWrite[0].nodeId = UA_NODEID_STRING_ALLOC(7, "MAIN.mass_int_opc");
-	//_request.nodesToWrite[0].nodeId = UA_NODEID_NUMERIC(3, 1007);
-	_request.nodesToWrite[0].indexRange = UA_STRING_ALLOC("1");
+	_request.nodesToWrite[0].nodeId = UA_NODEID_STRING_ALLOC(2, "Application.PLC_PRG.mass_int");//UA_NODEID_STRING_ALLOC(7, "MAIN.mass_int_opc");
+	//_request.nodesToWrite[0].nodeId = UA_NODEID_NUMERIC(3, 1008);
+	_request.nodesToWrite[0].indexRange = UA_STRING_ALLOC("");
 	_request.nodesToWrite[0].attributeId = UA_AttributeId::UA_ATTRIBUTEID_VALUE;
 	_request.nodesToWrite[0].value.hasValue = true;
 	_request.nodesToWrite[0].value.hasServerPicoseconds = false;
@@ -410,11 +407,9 @@ int test_request_write()
 
 	for (;;)
 	{
-
 		_respone = UA_Client_Service_write(client, _request);
 		UA_WriteResponse_clear(&_respone);
 		break;
-		
 	}
 
 	UA_WriteRequest_clear(&_request);

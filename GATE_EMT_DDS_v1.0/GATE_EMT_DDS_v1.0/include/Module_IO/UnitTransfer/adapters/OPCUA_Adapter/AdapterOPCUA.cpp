@@ -2,6 +2,7 @@
 
 namespace  scada_ate::gate::adapter::opc
 {
+
 	AdapterOPCUA::AdapterOPCUA(std::shared_ptr<IConfigAdapter> config)
 	{
 		std::shared_ptr<ConfigAdapterOPCUA> config_point = std::reinterpret_pointer_cast<ConfigAdapterOPCUA>(config);
@@ -14,7 +15,6 @@ namespace  scada_ate::gate::adapter::opc
 		UA_ReadRequest_init(&_read_request);
 		UA_WriteRequest_init(&_write_request);
 		data.clear();
-
 		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	};
 
@@ -128,11 +128,6 @@ namespace  scada_ate::gate::adapter::opc
 
 		try
 		{
-			/*if (!std::filesystem::exists("certificate"))
-			{
-				std::filesystem::create_directory("certificate");
-				throw 1;
-			}*/
 			this->certificate = loadFile(path_certificate.c_str());
 			this->privateKey = loadFile(path_privatekey.c_str());
 
@@ -332,12 +327,62 @@ namespace  scada_ate::gate::adapter::opc
 	void AdapterOPCUA::init_deque()
 	{
 		data.clear();
+
+		size_t size_int = 0;
+		size_t size_float = 0;
+		size_t size_double = 0;
+		size_t size_char = 0;
+		size_t size_string = 0;
+
+		auto cmp = [](InfoTag& lft, InfoTag& rgh) 
+		{
+			return lft.tag < rgh.tag || lft.id_tag < rgh.id_tag;
+		};
+
+		std::set<InfoTag, decltype(cmp)> set(cmp);
+
+		for (auto& itag : config.vec_tags_source)
+		{
+			if (itag.type == TypeValue::INT)
+			{
+				itag.offset_store = size_int;
+				size_int++;
+			}
+			else if (itag.type == TypeValue::FLOAT)
+			{
+				itag.offset_store = size_float;
+				size_float++;
+			}
+			else if (itag.type == TypeValue::CHAR)
+			{
+				itag.offset_store = size_char;
+				size_char++;
+			}
+			else if (itag.type == TypeValue::DOUBLE)
+			{
+				itag.offset_store = size_double;
+				size_double ++;
+			}
+			else if (itag.type == TypeValue::STRING)
+			{
+				itag.offset_store = size_string;
+				size_string++;
+			}
+		}
+
 		data.push_back({});
+		data.begin()->data_int.resize(size_int);
+		data.begin()->data_float.resize(size_float);
+		data.begin()->data_doub.resize(size_double);
+		data.begin()->data_char.resize(size_char);
+		data.begin()->data_str.resize(size_string);
+
+		/*data.push_back({});
 		auto _data_unit = data.begin();
 		for (auto& itag : config.vec_tags_source)
 		{
 			_data_unit->map_data[itag] = init_value(itag.type);
-		}
+		}*/
 	}
 
 	void AdapterOPCUA::destroy()

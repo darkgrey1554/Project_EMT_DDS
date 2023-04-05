@@ -111,12 +111,11 @@ namespace scada_ate::gate::adapter::sem
 		size_t offset_char = 0;
 		size_t offset_str = 0;
 
-		void set_data(TypeValue& type, const Value& value, const LinkTags& link);
-		void set_data_int(const Value& value, const LinkTags& link);
-		void set_data_float(const Value& value, const LinkTags& link);
-		void set_data_double(const Value& value, const LinkTags& link);
-		void set_data_char(const Value& value, const LinkTags& link);
-		void set_data_string(const Value& value, const LinkTags& link);
+		void set_data(const ValueT<int>& value, const LinkTags& link);
+		void set_data(const ValueT<float>& value, const LinkTags& link);
+		void set_data(const ValueT<double>& value, const LinkTags& link);
+		void set_data(const ValueT<char>& value, const LinkTags& link);
+		void set_data(const ValueT<std::string>& value, const LinkTags& link);
 
 	public:
 
@@ -135,58 +134,5 @@ namespace scada_ate::gate::adapter::sem
 		~AdapterSharedMemory();
 
 	};
-
-	//#endif
-
-	/*#ifdef __linux__
-	class AdapterSharedMemory : public IAdapter
-	{
-		/// --- ���������� shared memory (Linux)--- ///
-		
-
-		std::mutex mutex_init;
-		std::atomic<StatusAdapter> current_status = StatusAdapter::Null; /// ���������� ������� �������� 
-		std::shared_ptr<LoggerSpaceScada::ILoggerScada> log; /// ������
-
-		/// --- ������� ������������ ��������� ������ �� ������ HeaderData --- ///
-		std::shared_ptr<AnswerSharedMemoryHeaderData> AnswerRequestHeaderData();
-
-
-		std::string CreateSMName();
-		std::string CreateSMMutexName();
-		size_t GetSizeMemory();
-		size_t TakeOffset(const TypeValue& type_value, const size_t& ofs) const;
-		int demask(const int& value, int mask_source, const int& value_target, const int& mask_target);
-
-		size_t offset_int = 0;
-		size_t offset_float = 0;
-		size_t offset_double = 0;
-		size_t offset_char = 0;
-		size_t offset_str = 0;
-
-		void set_data(const int& value, const LinkTags& link);
-		void set_data(const float& value, const LinkTags& link);
-		void set_data(const double& value, const LinkTags& link);
-		void set_data(const char& value, const LinkTags& link);
-		void set_data(const std::string& value, const LinkTags& link);
-
-	public:
-
-		ResultReqest InitAdapter() override;
-		ResultReqest ReadData(std::deque<SetTags>** buf) override;
-		ResultReqest WriteData(const std::deque<SetTags>& buf) override;
-		TypeAdapter GetTypeAdapter() override;
-		uint32_t GetId() override;
-		atech::common::Status GetStatus() override;
-		ResultReqest Start() override;
-		ResultReqest Stop() override;
-		ResultReqest ReInit() override;
-		std::shared_ptr<IAnswer> GetInfo(ParamInfoAdapter param) override;
-
-		AdapterSharedMemory(std::shared_ptr<IConfigAdapter> config);
-		~AdapterSharedMemory();
-
-};
-	#endif*/
 }
 

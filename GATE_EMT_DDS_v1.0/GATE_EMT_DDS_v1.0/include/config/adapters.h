@@ -19,9 +19,6 @@ namespace atech
 {
     namespace common 
     {
-
-      
-
         class Topic {
         public:
             Topic() = default;
@@ -41,7 +38,11 @@ namespace atech
             void set_tag_ids(const std::vector<size_t>& value) { this->tag_ids = value; }
         };
 
-        class Config { /*virtual ~Config() { }*/ };
+        class Config 
+        { 
+            public:
+            virtual ~Config(){}; 
+        };
 
         class DdsConfig : public Config {
         public:

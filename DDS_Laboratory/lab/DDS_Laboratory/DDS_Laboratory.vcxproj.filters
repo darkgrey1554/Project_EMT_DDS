@@ -30,6 +30,12 @@
     <ClInclude Include="DdsPubSubTypes.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="HelloWorld.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="HelloWorldPubSubTypes.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HelloWorldPublisher.cpp">
@@ -38,13 +44,19 @@
     <ClCompile Include="HelloWorldSubscriber.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="HelloWorld_main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="DdsData.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="DdsDataPubSubTypes.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="test_tcp.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="HelloWorld.cxx">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="HelloWorldPubSubTypes.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

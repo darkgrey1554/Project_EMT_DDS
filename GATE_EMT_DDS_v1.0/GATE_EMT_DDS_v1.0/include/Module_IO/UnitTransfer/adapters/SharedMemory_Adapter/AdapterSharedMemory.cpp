@@ -7,12 +7,7 @@ namespace scada_ate::gate::adapter::sem
 	////////////////////////////////////////
 	/// --- ������ ��� shared memory --- ///
 	///////////////////////////////////////
-	/// <param>
-	/// source - ���������� ����� ����� ������
-	/// </param>
-	/// <result> 
-	/// - ��� shared memory
-	/// 
+
 	std::string AdapterSharedMemory::CreateSMName()
 	{
 		std::string str;
@@ -28,19 +23,18 @@ namespace scada_ate::gate::adapter::sem
 		str += config.NameChannel;
 		return str;
 	}
-	/////////////////////////////////////////////////
-	/// --- ����������� �������� SharedMemory --- ///
-	/////////////////////////////////////////////////
-
-	/////////////////////////////////////////////////
-	/// --- ���������� �������� SharedMemory --- ///
-	////////////////////////////////////////////////
 
 	ResultReqest AdapterSharedMemory::ReadData(std::deque<SetTags>** _data)
 	{	
+		ResultReqest res = ResultReqest::OK;
+		#ifdef WIN32
 		DWORD mutex_win32 = 0;
 		DWORD err_win32 = 0;
-		ResultReqest res = ResultReqest::OK;
+		#endif // WIN32
+		#ifdef __linux__
+		bool status_lock = false;
+		#endif // __linux__
+
 
 		try
 		{
@@ -58,51 +52,74 @@ namespace scada_ate::gate::adapter::sem
 			size_t offset=0;
 			long long time_data;
 
+			#ifdef WIN32
 			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
 			if (mutex_win32 != WAIT_OBJECT_0)
 			{
 				err_win32 = GetLastError();
 				throw 1;
 			}
+			#endif // WIN32
+			#ifdef __linux__
+			if (lock_semaphore() != ResultReqest::OK) throw 1;
+			status_lock = true;
+			#endif // __linux__	 			
 
 			SetTags& set_data = *data.begin();
+			ValueT<int>* value_int;
+			ValueT<float>* value_float;
+			ValueT<double>* value_double;
+			ValueT<char>* value_char;
+			ValueT<std::string>* value_str;
 
 			time_data = head->TimeLastWrite;
 
-			for (auto it = set_data.map_data.begin(); it != set_data.map_data.end(); it++)
+			for (const auto& it : config.vec_tags_source)
 			{
-				offset = TakeOffset(it->first.type, it->first.offset);
+				offset = TakeOffset(it.type, it.offset);
 				if (offset == 0) continue;
 				_buf = buf_data + offset;
 				
-				if (it->first.type == TypeValue::INT)
+				if (it.type == TypeValue::INT)
 				{
-					it->second.value = *(int*)_buf;
+					value_int = &set_data.data_int[it.offset_store];
+					value_int->value = *(int*)_buf;
 					_buf += sizeof(int);
+					value_int->quality = *_buf;
+					value_int->time = time_data;
 				}
-				else if (it->first.type == TypeValue::FLOAT)
+				else if (it.type == TypeValue::FLOAT)
 				{
-					it->second.value = *(float*)_buf;
+					value_float = &set_data.data_float[it.offset_store];
+					value_float->value = *(float*)_buf;
 					_buf += sizeof(float);
+					value_float->quality = *_buf;
+					value_float->time = time_data;
 				}
-				else if (it->first.type == TypeValue::DOUBLE)
+				else if (it.type == TypeValue::DOUBLE)
 				{
-					it->second.value = *(double*)_buf;
+					value_double = &set_data.data_double[it.offset_store];
+					value_double->value = *(double*)_buf;
 					_buf += sizeof(double);
+					value_double->quality = *_buf;
+					value_double->time = time_data;
 				}
-				else if (it->first.type == TypeValue::CHAR)
+				else if (it.type == TypeValue::CHAR)
 				{
-					it->second.value = *(char*)_buf;
+					value_char = &set_data.data_char[it.offset_store];
+					value_char->value = *_buf;
 					_buf += sizeof(char);
+					value_char->quality = *_buf;
+					value_char->time = time_data;
 				}
-				else if (it->first.type == TypeValue::STRING)
+				else if (it.type == TypeValue::STRING)
 				{
-					it->second.value = *(char*)_buf;
+					value_str = &set_data.data_str[it.offset_store];
+					value_str->value = std::string(_buf);
 					_buf = _buf + config.size_str+1;
+					value_str->quality = *_buf;
+					value_str->time = time_data;
 				}
-
-				it->second.quality = *_buf;
-				it->second.time = time_data;
 			} 			
 
 			/// --- write time in header --- /// 
@@ -125,19 +142,32 @@ namespace scada_ate::gate::adapter::sem
 			res = ResultReqest::ERR;
 		}
 
-		try 
+	#ifdef WIN32
+		try
 		{
 			if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
 		}
 		catch (...) {};
-		return res;
+		#endif // WIN32
+		#ifdef __linux__
+		if (status_lock == true) unlock_semaphore();
+		#endif // __linux__
+
+		return res;	
 	}
 
 	ResultReqest AdapterSharedMemory::WriteData(const std::deque<SetTags>& _data)
 	{	
+		ResultReqest res = ResultReqest::OK;
+
+		#ifdef WIN32
 		DWORD mutex_win32 = 0;
 		DWORD err_win32 = 0;
-		ResultReqest res = ResultReqest::OK;
+		#endif // WIN32
+		#ifdef __linux__
+		bool status_lock = false;
+		#endif // __linux
+
 
 		try
 		{
@@ -149,22 +179,45 @@ namespace scada_ate::gate::adapter::sem
 
 			log->Debug("AdapterSharedMemory {}: WriteData START", config.NameChannel);
 
+			#ifdef WIN32
 			mutex_win32 = WaitForSingleObject(Mutex_SM, 5000);
 			if (mutex_win32 != WAIT_OBJECT_0)
 			{
 				err_win32 = GetLastError();
 				throw 1;
-			}		
-
+			}
+			#endif // WIN32
 			
+			#ifdef __linux__
+			if (lock_semaphore() != ResultReqest::OK) throw 1;
+			status_lock = true;
+			#endif // __linux__				
+
 			if (data.empty()) throw 2;
-			for (const auto& data_in : _data)
+			for (auto& data_in : _data)
 			{
 				for (LinkTags& link_tag : this->config.vec_link_tags)
 				{
-					auto it = data_in.map_data.find(link_tag.source);
-					if (it == data_in.map_data.end()) continue;
-					set_data(link_tag.source.type, it->second, link_tag);
+					if (link_tag.source.type == TypeValue::INT)
+					{
+						set_data(data_in.data_int[link_tag.source.offset_store], link_tag);
+					}
+					else if (link_tag.source.type == TypeValue::FLOAT)
+					{
+						set_data(data_in.data_float[link_tag.source.offset_store], link_tag);
+					}
+					else if (link_tag.source.type == TypeValue::DOUBLE)
+					{
+						set_data(data_in.data_double[link_tag.source.offset_store], link_tag);
+					}
+					else if (link_tag.source.type == TypeValue::CHAR)
+					{
+						set_data(data_in.data_char[link_tag.source.offset_store], link_tag);
+					}
+					else if (link_tag.source.type == TypeValue::STRING)
+					{
+						set_data(data_in.data_str[link_tag.source.offset_store], link_tag);
+					}
 				}
 			}
 
@@ -185,11 +238,17 @@ namespace scada_ate::gate::adapter::sem
 			res = ResultReqest::ERR;
 		}		
 
+		#ifdef WIN32
 		try
 		{
 			if (mutex_win32 == WAIT_OBJECT_0) ReleaseMutex(Mutex_SM);
 		}
 		catch (...) {};
+		#endif // WIN32
+		#ifdef __linux__
+		if (status_lock) unlock_semaphore();
+		#endif // __linux__
+		
 		return res;
 	}
 
@@ -285,7 +344,7 @@ namespace scada_ate::gate::adapter::sem
 			buf_data = (char*)MapViewOfFile(SM_Handle, FILE_MAP_ALL_ACCESS, 0, 0, size_memory);
 			if (buf_data == NULL)
 			{
-				sys_error = GetLastError();
+				sys_error = GetLastError();	  
 				throw 6;
 			}
 
@@ -626,169 +685,6 @@ namespace scada_ate::gate::adapter::sem
 		current_status.store(atech::common::Status::NONE);
 	}
 
-	///////////////////////////////////////////////////////////////////
-	/// --- ������ ������������ ��������� �������� SharedMemory --- ///
-	//////////////////////////////////////////////////////////////////
-	/// <param>
-	/// param - ������������� �������� (enum ParamInfoAdapter) 
-	/// </param>
-	/// <result> 
-	/// - ���������� ���������� � ���� std::shared_ptr<BaseAnswer>, ������� �������� ������������ ��� ���� std::shared_ptr<HeaderDataAnswerSM>
-
-	
-
-	//////////////////////////////////////////////////////
-	/// --- ������� ������ ������ �� SharedMemory --- ///
-	/////////////////////////////////////////////////////
-
-	ResultReqest AdapterSharedMemory::ReadData(std::deque<SetTags>** _data)
-	{
-		ResultReqest res = ResultReqest::OK;
-		bool status_lock = false;
-		try
-		{
-			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
-			{
-				log->Warning("AdapterSharedMemory {}: ReadData IGNOR: error {}", config.NameChannel, 1);
-				return ResultReqest::IGNOR;
-			}
-
-			log->Debug("AdapterSharedMemory {}: ReadData START", config.NameChannel);
-
-			HeaderSharedMemory* head = reinterpret_cast<HeaderSharedMemory*>(buf_data);
-			char* _buf = buf_data;
-
-			int int_value = 0;
-			float float_value = 0;
-			double double_value = 0;
-			char char_value = 0;
-			std::string str_value;
-			char quality = 0;
-			size_t offset = 0;
-			long long time_data;
-
-			if (lock_semaphore() != ResultReqest::OK) throw 1;
-			status_lock = true;
-
-			SetTags& set_data = *data.begin();
-
-			time_data = head->TimeLastWrite;
-
-			for (auto it = set_data.map_data.begin(); it != set_data.map_data.end(); it++)
-			{
-				offset = TakeOffset(it->first.type, it->first.offset);
-				if (offset == 0) continue;
-				_buf = buf_data + offset;
-
-				if (it->first.type == TypeValue::INT)
-				{
-					it->second.value = *(int*)_buf;
-					_buf += sizeof(int);
-				}
-				else if (it->first.type == TypeValue::FLOAT)
-				{
-					it->second.value = *(float*)_buf;
-					_buf += sizeof(float);
-				}
-				else if (it->first.type == TypeValue::DOUBLE)
-				{
-					it->second.value = *(double*)_buf;
-					_buf += sizeof(double);
-				}
-				else if (it->first.type == TypeValue::CHAR)
-				{
-					it->second.value = *(char*)_buf;
-					_buf += sizeof(char);
-				}
-				else if (it->first.type == TypeValue::STRING)
-				{
-					it->second.value = *(char*)_buf;
-					_buf = _buf + config.size_str;
-				}
-
-				it->second.quality = *_buf;
-				it->second.time = time_data;
-			}
-
-			/// --- write time in header --- /// 
-			set_data.time_source = head->TimeLastWrite;
-			head->TimeLastRead = TimeConverter::GetTime_LLmcs();
-			head->count_read++;
-
-			*_data = &data;
-		}
-		catch (int& e)
-		{
-
-			log->Critical("AdapterSharedMemory {}: ERROR ReadData: error: {}, syserror: {}", config.NameChannel, e, 0);
-			res = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("AdapterSharedMemory {}: ERROR ReadData: error: {}, syserror: {}", config.NameChannel, 0, 0);
-			res = ResultReqest::ERR;
-		}
-
-		if (status_lock == true) unlock_semaphore();
-		return res;
-	}
-
-	//////////////////////////////////////////////////////
-	/// --- ������� ������ ������ � SharedMemory --- ///
-	/////////////////////////////////////////////////////
-
-	ResultReqest AdapterSharedMemory::WriteData(const std::deque<SetTags>& _data)
-	{
-		ResultReqest res = ResultReqest::OK;
-		bool status_lock = false;
-
-		try
-		{
-			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
-			{
-				log->Debug("AdapterSharedMemory {}: WriteData IGNOR", config.NameChannel);
-				return ResultReqest::IGNOR;
-			}
-
-			log->Debug("AdapterSharedMemory {}: WriteData START", config.NameChannel);
-
-			if (lock_semaphore() != ResultReqest::OK) throw 1;
-			status_lock = true;
-
-
-			if (data.empty()) throw 2;
-			for (const auto& data_in : _data)
-			{
-				for (LinkTags& link_tag : this->config.vec_link_tags)
-				{
-					auto it = data_in.map_data.find(link_tag.source);
-					if (it == data_in.map_data.end()) continue;
-					set_data(link_tag.source.type, it->second, link_tag);
-				}
-			}
-			HeaderSharedMemory* head = (HeaderSharedMemory*)buf_data;
-			head->count_write++;
-			head->TimeLastWrite = TimeConverter::GetTime_LLmcs();
-
-		}
-		catch (int& e)
-		{
-
-			log->Critical("AdapterSharedMemory {}: ERROR WriteData: error: {}, syserror: {}", config.NameChannel, e, 0);
-			res = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("AdapterSharedMemory {}: ERROR WriteData: error: {}, syserror: {}", config.NameChannel, 0, 0);
-			res = ResultReqest::ERR;
-		}
-
-		if (status_lock) unlock_semaphore();
-
-		return res;
-	}
-
-}
 #endif
 
 
@@ -803,7 +699,7 @@ namespace scada_ate::gate::adapter::sem
 			this->config = *config_point;
 		}
 
-		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
+		log = atech::logger::ILoggerScada::GetInstance();
 	};
 
 	AdapterSharedMemory::~AdapterSharedMemory()
@@ -821,37 +717,7 @@ namespace scada_ate::gate::adapter::sem
 		return result;
 	}
 
-	void AdapterSharedMemory::set_data(TypeValue& type, const Value& value, const LinkTags& link)
-	{
-		if (type == TypeValue::INT)
-		{
-			set_data_int(value, link);
-			return;
-		}
-		if (type == TypeValue::FLOAT)
-		{
-			set_data_float(value, link);
-			return;
-		}
-		if (type == TypeValue::DOUBLE)
-		{
-			set_data_double(value, link);
-			return;
-		}
-		if (type == TypeValue::CHAR)
-		{
-			set_data_char(value, link);
-			return;
-		}
-		if (type == TypeValue::STRING)
-		{
-			set_data_string(value, link);
-			return;
-		}
-		return;
-	}
-
-	void AdapterSharedMemory::set_data_int(const Value& value, const LinkTags& link)
+	void AdapterSharedMemory::set_data(const ValueT<int>& value, const LinkTags& link)
 	{
 		char* buf;
 		int val_last;
@@ -862,11 +728,11 @@ namespace scada_ate::gate::adapter::sem
 
 		if (link.source.mask != 0)
 		{
-			val_current = demask(std::get<int>(value.value), link.source.mask, val_last, link.target.mask);
+			val_current = demask(value.value, link.source.mask, val_last, link.target.mask);
 		}
 		else
 		{
-			val_current = std::get<int>(value.value);
+			val_current = value.value;
 		}
 
 		if (link.type_registration == TypeRegistration::RECIVE)
@@ -899,7 +765,7 @@ namespace scada_ate::gate::adapter::sem
 		}
 	}
 
-	void AdapterSharedMemory::set_data_float(const Value& value, const LinkTags& link)
+	void AdapterSharedMemory::set_data(const ValueT<float>& value, const LinkTags& link)
 	{
 		char* buf;
 		float val_last;
@@ -910,7 +776,7 @@ namespace scada_ate::gate::adapter::sem
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
 
-			*((float*)buf) = std::get<float>(value.value);
+			*((float*)buf) = value.value;
 			buf += sizeof(float);
 			*buf = value.quality;
 			return;
@@ -918,8 +784,8 @@ namespace scada_ate::gate::adapter::sem
 
 		if (link.type_registration == TypeRegistration::UPDATE)
 		{
-			if (val_last == std::get<float>(value.value)) return;
-			*((float*)buf) = std::get<float>(value.value);
+			if (val_last == value.value) return;
+			*((float*)buf) = value.value;
 			buf += sizeof(float);
 			*buf = value.quality;
 			return;
@@ -927,9 +793,9 @@ namespace scada_ate::gate::adapter::sem
 
 		if (link.type_registration == TypeRegistration::DELTA)
 		{
-			if (fabs(val_last - std::get<float>(value.value)) > link.delta)
+			if (fabs(val_last - value.value) > link.delta)
 			{
-				*((float*)buf) = std::get<float>(value.value);
+				*((float*)buf) = value.value;
 				buf += sizeof(float);
 				*buf = value.quality;
 				return;
@@ -937,7 +803,7 @@ namespace scada_ate::gate::adapter::sem
 		}
 	}
 
-	void AdapterSharedMemory::set_data_double(const Value& value, const LinkTags& link)
+	void AdapterSharedMemory::set_data(const ValueT<double>& value, const LinkTags& link)
 	{
 		char* buf;
 		double val_last;
@@ -948,7 +814,7 @@ namespace scada_ate::gate::adapter::sem
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
 
-			*((double*)buf) = std::get<double>(value.value);
+			*((double*)buf) = value.value;
 			buf += sizeof(double);
 			*buf = value.quality;
 			return;
@@ -956,8 +822,8 @@ namespace scada_ate::gate::adapter::sem
 
 		if (link.type_registration == TypeRegistration::UPDATE)
 		{
-			if (val_last == std::get<double>(value.value)) return;
-			*((double*)buf) = std::get<double>(value.value);
+			if (val_last == value.value) return;
+			*((double*)buf) = value.value;
 			buf += sizeof(double);
 			*buf = value.quality;
 			return;
@@ -965,9 +831,9 @@ namespace scada_ate::gate::adapter::sem
 
 		if (link.type_registration == TypeRegistration::DELTA)
 		{
-			if (fabs(val_last - std::get<double>(value.value)) > link.delta)
+			if (fabs(val_last - value.value) > link.delta)
 			{
-				*((double*)buf) = std::get<double>(value.value);
+				*((double*)buf) = value.value;
 				buf += sizeof(double);
 				*buf = value.quality;
 				return;
@@ -975,7 +841,7 @@ namespace scada_ate::gate::adapter::sem
 		}
 	}
 
-	void AdapterSharedMemory::set_data_char(const Value& value, const LinkTags& link)
+	void AdapterSharedMemory::set_data(const ValueT<char>& value, const LinkTags& link)
 	{
 		char* buf;
 		char val_last;
@@ -986,7 +852,7 @@ namespace scada_ate::gate::adapter::sem
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
 
-			*((char*)buf) = std::get<char>(value.value);
+			*((char*)buf) = value.value;
 			buf += sizeof(char);
 			*buf = value.quality;
 			return;
@@ -994,8 +860,8 @@ namespace scada_ate::gate::adapter::sem
 
 		if (link.type_registration == TypeRegistration::UPDATE)
 		{
-			if (val_last == std::get<char>(value.value)) return;
-			*((char*)buf) = std::get<char>(value.value);
+			if (val_last == value.value) return;
+			*((char*)buf) = value.value;
 			buf += sizeof(char);
 			*buf = value.quality;
 			return;
@@ -1003,9 +869,9 @@ namespace scada_ate::gate::adapter::sem
 
 		if (link.type_registration == TypeRegistration::DELTA)
 		{
-			if (fabs(val_last - std::get<char>(value.value)) > link.delta)
+			if (fabs(val_last - value.value) > link.delta)
 			{
-				*((char*)buf) = std::get<char>(value.value);
+				*((char*)buf) = value.value;
 				buf += sizeof(char);
 				*buf = value.quality;
 				return;
@@ -1013,7 +879,7 @@ namespace scada_ate::gate::adapter::sem
 		}
 	}
 
-	void AdapterSharedMemory::set_data_string(const Value& value, const LinkTags& link)
+	void AdapterSharedMemory::set_data(const ValueT<std::string>& value, const LinkTags& link)
 	{
 		char* buf;
 		std::string val_last;
@@ -1024,8 +890,8 @@ namespace scada_ate::gate::adapter::sem
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
 			size_t i = 0;
-			const char* str = std::get<std::string>(value.value).c_str();
-			while (i < config.size_str && i < std::get<std::string>(value.value).size())
+			const char* str = value.value.c_str();
+			while (i < config.size_str && i < value.value.size())
 			{
 				*((char*)buf) = *(str + i);
 				buf += sizeof(char);
@@ -1037,10 +903,10 @@ namespace scada_ate::gate::adapter::sem
 
 		if (link.type_registration == TypeRegistration::UPDATE)
 		{
-			if (val_last.compare(std::get<std::string>(value.value)) == 0) return;
+			if (val_last.compare(value.value) == 0) return;
 			size_t i = 0;
-			const char* str = std::get<std::string>(value.value).c_str();
-			while (i < config.size_str && i < std::get<std::string>(value.value).size())
+			const char* str = value.value.c_str();
+			while (i < config.size_str && i < value.value.size())
 			{
 				*((char*)buf) = *(str + i);
 				buf += sizeof(char);
@@ -1251,41 +1117,42 @@ namespace scada_ate::gate::adapter::sem
 		data.resize(1);
 		SetTags& set_data = *data.begin();
 
+		size_t size_vector_int = 0;
+		size_t size_vector_float = 0;
+		size_t size_vector_double = 0;
+		size_t size_vector_char = 0;
+		size_t size_vector_str = 0;
+
 		for (InfoTag& tag : this->config.vec_tags_source)
 		{
-			set_data.map_data[tag];
-			auto it = set_data.map_data.find(tag);
-			it->second.time = 0;
-			it->second.quality = 0;
-
 			if (tag.type == TypeValue::INT)
 			{
-				it->second.value = 0;
-				continue;
+				size_vector_int = std::max(size_vector_int, tag.offset_store + 1);
 			}
-
-			if (tag.type == TypeValue::FLOAT)
+			else if (tag.type == TypeValue::FLOAT)
 			{
-				it->second.value = (float).0;
-				continue;
+				size_vector_float = std::max(size_vector_float, tag.offset_store + 1);
 			}
-
-			if (tag.type == TypeValue::DOUBLE)
+			else if (tag.type == TypeValue::DOUBLE)
 			{
-				it->second.value = (double).0;
-				continue;
+				size_vector_double = std::max(size_vector_double, tag.offset_store + 1);
 			}
-			if (tag.type == TypeValue::CHAR)
+			else if (tag.type == TypeValue::CHAR)
 			{
-				it->second.value = (char)0;
-				continue;
+				size_vector_char = std::max(size_vector_char, tag.offset_store + 1);
 			}
-			if (tag.type == TypeValue::STRING)
+			else if (tag.type == TypeValue::STRING)
 			{
-				it->second.value = "";
-				continue;
+				size_vector_str = std::max(size_vector_str, tag.offset_store + 1);
 			}
 		}
+
+		set_data.data_int.resize(size_vector_int);
+		set_data.data_float.resize(size_vector_float);
+		set_data.data_double.resize(size_vector_double);
+		set_data.data_char.resize(size_vector_char);
+		set_data.data_str.resize(size_vector_str);
+		set_data.time_source = 0;	
 
 		return;
 	}

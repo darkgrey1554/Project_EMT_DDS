@@ -11,12 +11,12 @@
 #include <open62541/plugin/pki_default.h>
 #include <stdlib.h>
 #include <fstream>;
+#include <set>
 
 
 
 namespace scada_ate::gate::adapter::opc
 {
-
 	enum class SecurityMode
 	{
 		None,
@@ -124,10 +124,10 @@ namespace scada_ate::gate::adapter::opc
 		ResultReqest init_UA_Variant(UA_Variant* variant, InfoTag& tag);
 		void update_last_data(const SetTags& data);
 		
-		template<class T> void update_value(Value& target, const Value& source, const LinkTags& link)
+		template<class T> void update_value(ValueT<T>& target, const ValueT<T>& source, const LinkTags& link)
 		{
-				const T& val_current = std::get<T>(source.value);
-				const T& val_last = std::get<T>(target.value);
+				const T& val_current = source.value;
+				const T& val_last = target.value;
 
 				if (link.type_registration == TypeRegistration::RECIVE)
 				{
@@ -160,19 +160,20 @@ namespace scada_ate::gate::adapter::opc
 				}
 			return ;
 		};
-		template<> void update_value<int>(Value& target, const Value& source, const LinkTags& link)
+
+		template<> void update_value<int>(ValueT<int>& target, const ValueT<int>& source, const LinkTags& link)
 		{
 			int val_current = 0;
-			int& val_last = std::get<int>(target.value);
+			int& val_last = target.value;
 
 			if (link.target.mask != 0)
 			{
-				val_last = std::get<int>(target.value);
-				val_current = demask(std::get<int>(source.value), link.source.mask, val_last, link.target.mask);
+				val_last = target.value;
+				val_current = demask(source.value, link.source.mask, val_last, link.target.mask);
 			}
 			else
 			{
-				val_current = std::get<int>(source.value);
+				val_current = source.value;
 			}
 
 			if (link.type_registration == TypeRegistration::RECIVE)
@@ -207,11 +208,12 @@ namespace scada_ate::gate::adapter::opc
 
 			return;
 		}
-		template<> void update_value<std::string>(Value& target, const Value& source, const LinkTags& link)
+
+		template<> void update_value<std::string>(ValueT<std::string>& target, const ValueT<std::string>& source, const LinkTags& link)
 		{
 
-			const std::string& val_current = std::get<std::string>(source.value);
-			const std::string& val_last = std::get<std::string>(target.value);
+			const std::string& val_current = source.value;
+			const std::string& val_last = target.value;
 
 			if (link.type_registration == TypeRegistration::RECIVE)
 			{

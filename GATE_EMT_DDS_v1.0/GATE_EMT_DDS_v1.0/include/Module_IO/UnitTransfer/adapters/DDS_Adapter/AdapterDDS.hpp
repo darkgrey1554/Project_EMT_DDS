@@ -39,11 +39,6 @@ namespace scada_ate::gate::adapter::dds
 		std::string str_config_ddslayer;
 	};
 
-	struct StoreLastValue
-	{
-		std::unordered_map<int, Value> _map;
-	};
-
 	template<typename T>
 	class AdapterDDS : public IAdapter
 	{
@@ -58,9 +53,14 @@ namespace scada_ate::gate::adapter::dds
 		_dds::DataWriter* _datawriter = nullptr;
 		std::shared_ptr<T> _data_dds;
 
-		SetTags template_settags;
-		std::map<unsigned int, InfoTag> map_infotag_to_idtag;
-		StoreLastValue _storage;
+		size_t size_vector_int_settags = 0;
+		size_t size_vector_float_settags = 0;
+		size_t size_vector_double_settags = 0;
+		size_t size_vector_char_settags = 0;
+		size_t size_vector_str_settags = 0;
+
+		std::unordered_map<unsigned int, InfoTag> map_infotag_to_idtag;
+		SetTags _storage;
 
 		size_t count_read_packets = 10;
 
@@ -70,7 +70,7 @@ namespace scada_ate::gate::adapter::dds
 		ResultReqest init_transport();
 		ResultReqest init_publisher();
 		ResultReqest init_subscriber();
-		ResultReqest init_template_settags();
+		ResultReqest init_zero_buffer();
 		ResultReqest init_map_infotags_to_idtag();
 		ResultReqest init_buffer(DDSData* buf);
 		ResultReqest init_buffer(DDSDataEx* buf);
@@ -108,30 +108,30 @@ namespace scada_ate::gate::adapter::dds
 		void update_head(const long long& time_sourse, DDSAlarm* buf);
 		void update_head(const long long& time_sourse, DDSAlarmEx* buf);
 
-		void set_data_int(const Value& value, const LinkTags& link, DDSData* out_buf);
-		void set_data_int(const Value& value, const LinkTags& link, DDSDataEx* out_buf);
-		void set_data_int(const Value& value, const LinkTags& link, DDSAlarm* out_buf);
-		void set_data_int(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf);
+		void set_data(const ValueT<int>& value, const LinkTags& link, DDSData* out_buf);
+		void set_data(const ValueT<int>& value, const LinkTags& link, DDSDataEx* out_buf);
+		void set_data(const ValueT<int>& value, const LinkTags& link, DDSAlarm* out_buf);
+		void set_data(const ValueT<int>& value, const LinkTags& link, DDSAlarmEx* out_buf);
 
-		void set_data_float(const Value& value, const LinkTags& link, DDSData* out_buf);
-		void set_data_float(const Value& value, const LinkTags& link, DDSDataEx* out_buf);
-		void set_data_float(const Value& value, const LinkTags& link, DDSAlarm* out_buf);
-		void set_data_float(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf);
+		void set_data(const ValueT<float>& value, const LinkTags& link, DDSData* out_buf);
+		void set_data(const ValueT<float>& value, const LinkTags& link, DDSDataEx* out_buf);
+		void set_data(const ValueT<float>& value, const LinkTags& link, DDSAlarm* out_buf);
+		void set_data(const ValueT<float>& value, const LinkTags& link, DDSAlarmEx* out_buf);
 
-		void set_data_double(const Value& value, const LinkTags& link, DDSData* out_buf);
-		void set_data_double(const Value& value, const LinkTags& link, DDSDataEx* out_buf);
-		void set_data_double(const Value& value, const LinkTags& link, DDSAlarm* out_buf);
-		void set_data_double(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf);
+		void set_data(const ValueT<double>& value, const LinkTags& link, DDSData* out_buf);
+		void set_data(const ValueT<double>& value, const LinkTags& link, DDSDataEx* out_buf);
+		void set_data(const ValueT<double>& value, const LinkTags& link, DDSAlarm* out_buf);
+		void set_data(const ValueT<double>& value, const LinkTags& link, DDSAlarmEx* out_buf);
 
-		void set_data_char(const Value& value, const LinkTags& link, DDSData* out_buf);
-		void set_data_char(const Value& value, const LinkTags& link, DDSDataEx* out_buf);
-		void set_data_char(const Value& value, const LinkTags& link, DDSAlarm* out_buf);
-		void set_data_char(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf);
+		void set_data(const ValueT<char>& value, const LinkTags& link, DDSData* out_buf);
+		void set_data(const ValueT<char>& value, const LinkTags& link, DDSDataEx* out_buf);
+		void set_data(const ValueT<char>& value, const LinkTags& link, DDSAlarm* out_buf);
+		void set_data(const ValueT<char>& value, const LinkTags& link, DDSAlarmEx* out_buf);
 
-		void set_data_string(const Value& value, const LinkTags& link, DDSData* out_buf);
-		void set_data_string(const Value& value, const LinkTags& link, DDSDataEx* out_buf);
-		void set_data_string(const Value& value, const LinkTags& link, DDSAlarm* out_buf);
-		void set_data_string(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf);
+		void set_data(const ValueT<std::string>& value, const LinkTags& link, DDSData* out_buf);
+		void set_data(const ValueT<std::string>& value, const LinkTags& link, DDSDataEx* out_buf);
+		void set_data(const ValueT<std::string>& value, const LinkTags& link, DDSAlarm* out_buf);
+		void set_data(const ValueT<std::string>& value, const LinkTags& link, DDSAlarmEx* out_buf);
 
 		void copy_str_to_vchar(std::vector<char>& vchar, const std::string& str);
 		bool is_equal_str_with_vchar(std::vector<char>& vchar, const std::string& str);
@@ -211,7 +211,9 @@ namespace scada_ate::gate::adapter::dds
 
 			if (init_transport() != ResultReqest::OK) throw 5;
 
-			if (init_template_settags() != ResultReqest::OK) throw 6;
+			if (init_map_infotags_to_idtag() != ResultReqest::OK) throw 9;
+
+			if (init_zero_buffer() != ResultReqest::OK) throw 6;
 
 			_data_dds = std::make_shared<T>(T());
 
@@ -328,7 +330,7 @@ namespace scada_ate::gate::adapter::dds
 		return result;
 	}
 
-	template<typename T> ResultReqest AdapterDDS<T>::init_template_settags()
+	template<typename T> ResultReqest AdapterDDS<T>::init_zero_buffer()
 	{
 		ResultReqest result = ResultReqest::OK;
 
@@ -336,34 +338,35 @@ namespace scada_ate::gate::adapter::dds
 		{
 			for (InfoTag& tag : this->config.vec_tags_source)
 			{
-				template_settags.map_data[tag];
-				auto it = template_settags.map_data.find(tag);
 				if (tag.type == TypeValue::INT)
 				{
-					it->second.value = (int)0;
+					size_vector_int_settags = std::max(size_vector_int_settags, tag.offset_store + 1);
 				}
 				else if (tag.type == TypeValue::FLOAT)
 				{
-					it->second.value = (float).0;
+					size_vector_float_settags = std::max(size_vector_float_settags, tag.offset_store + 1);
 				}
 				else if (tag.type == TypeValue::DOUBLE)
 				{
-					it->second.value = (double).0;
+					size_vector_double_settags = std::max(size_vector_double_settags, tag.offset_store + 1);
 				}
 				else if (tag.type == TypeValue::CHAR)
 				{
-					it->second.value = (char)0;
+					size_vector_char_settags = std::max(size_vector_char_settags, tag.offset_store + 1);
 				}
 				else if (tag.type == TypeValue::STRING)
 				{
-					it->second.value = "";
+					size_vector_str_settags = std::max(size_vector_str_settags, tag.offset_store + 1);
 				}
-				it->second.time = 0;
-				it->second.quality = 0;
 			}
 
-			data.resize(0);
-			data.push_back(template_settags);
+			data.resize(1);
+			data[0].data_int.resize(size_vector_int_settags);
+			data[0].data_float.resize(size_vector_float_settags);
+			data[0].data_double.resize(size_vector_double_settags);
+			data[0].data_char.resize(size_vector_char_settags);
+			data[0].data_str.resize(size_vector_str_settags);
+
 
 		}
 		catch (int& e)
@@ -387,7 +390,7 @@ namespace scada_ate::gate::adapter::dds
 
 		try
 		{
-			for (InfoTag& tag : this->config.vec_link_tasg)
+			for (InfoTag& tag : this->config.vec_tags_source)
 			{
 				map_infotag_to_idtag[tag.id_tag] = tag;
 			}
@@ -403,53 +406,51 @@ namespace scada_ate::gate::adapter::dds
 			result = ResultReqest::ERR;
 		}
 
-
+		return result;
 	}
 
 	template<typename T> ResultReqest AdapterDDS<T>::init_StoreLastValue()
 	{
 		ResultReqest result = ResultReqest::OK;
 
-		if (config.type_data == TypeDDSData::DDSData || config.type_data == TypeDDSData::DDSAlarm) return result;
-
-		if (config.type_data == TypeDDSData::DDSDataEx)
+		if (config.type_data == TypeDDSData::DDSDataEx || config.type_data == TypeDDSData::DDSAlarmEx)
 		{
+			size_t size_int_vector = 0;
+			size_t size_float_vector = 0;
+			size_t size_double_vector = 0;
+			size_t size_char_vector = 0;
+			size_t size_str_vector = 0;
+
 			for (LinkTags& link : this->config.vec_link_tags)
 			{
-				_storage._map[link.target.id_tag];
-				auto it = _storage._map.find(link.target.id_tag);
 				if (link.target.type == TypeValue::INT)
 				{
-					it->second.value = (int)0;
+					size_int_vector = std::max(size_int_vector, link.target.offset_store);
 				}
 				else if (link.target.type == TypeValue::FLOAT)
 				{
-					it->second.value = (float).0;
+					size_float_vector = std::max(size_float_vector, link.target.offset_store);
 				}
 				else if (link.target.type == TypeValue::DOUBLE)
 				{
-					it->second.value = (double).0;
+					size_double_vector = std::max(size_double_vector, link.target.offset_store);
 				}
 				else if (link.target.type == TypeValue::CHAR)
 				{
-					it->second.value = (char)0;
+					size_char_vector = std::max(size_char_vector, link.target.offset_store);
 				}
 				else if (link.target.type == TypeValue::STRING)
 				{
-					it->second.value = "";
+					size_str_vector = std::max(size_str_vector, link.target.offset_store);
 				}
-				it->second.time = 0;
-				it->second.quality = 0;
 			}
-		}
 
-		if (config.type_data == TypeDDSData::DDSAlarmEx)
-		{
-			for (LinkTags& link : this->config.vec_link_tags)
-			{
-				_storage._map[link.target.id_tag] = { 0 ,(char)0,0};
-			}
-		}
+			_storage.data_int.resize(size_int_vector);
+			_storage.data_float.resize(size_float_vector);
+			_storage.data_double.resize(size_double_vector);
+			_storage.data_char.resize(size_char_vector);
+			_storage.data_str.resize(size_str_vector);
+		}			
 
 		return result;
 	}
@@ -475,7 +476,7 @@ namespace scada_ate::gate::adapter::dds
 			size_t count_read = 0;
 			_dds::SampleInfo info;
 
-			if (data.size() > 1) data.resize(1);
+			while (data.size() > 1) data.pop_front();
 
 			while (_datareader->get_unread_count() != 0 && count_read < count_read_packets)
 			{
@@ -510,6 +511,12 @@ namespace scada_ate::gate::adapter::dds
 			return result;
 		}
 
+		if (config.type_transfer != TypeTransfer::PUBLISHER)
+		{
+			log->Debug("AdapterDDS id-{}: Error WriteData : not supported", this->config.id_adapter);
+			return ResultReqest::ERR;
+		}
+
 		try
 		{  
 			for (const SetTags& tags : _data)
@@ -538,63 +545,76 @@ namespace scada_ate::gate::adapter::dds
 	template<typename T> ResultReqest AdapterDDS<T>::write_to_deque(DDSData* buf, size_t& count)
 	{
 		ResultReqest result = ResultReqest::OK;
+		SetTags* box;
+
+		if (count == 1)
+		{
+			box = &data[0];
+		}
+		else
+		{
+			data.push_back({});
+			data.back().data_int.resize(size_vector_int_settags);
+			data.back().data_float.resize(size_vector_float_settags);
+			data.back().data_double.resize(size_vector_double_settags);
+			data.back().data_char.resize(size_vector_char_settags);
+			data.back().data_str.resize(size_vector_str_settags);
+			box = data.back();
+		}
 
 		try
 		{
-			template_settags.time_source = buf->time_source();
+			box->time_source = buf->time_source();
 			long long time_packet = buf->time_source();
 
-			std::vector<int>& value_int = buf->data_int().value();
-			std::vector<char>& quality_int = buf->data_int().quality();
-			std::vector<float>& value_float = buf->data_float().value();
-			std::vector<char>& quality_float = buf->data_float().quality();
-			std::vector<double>& value_double = buf->data_double().value();
-			std::vector<char>& quality_double = buf->data_double().quality();
-			std::vector<DataChar>& value_char = buf->data_char().value();
-			std::vector<char>& quality_char = buf->data_char().quality();
+			std::vector<int>& value_int_source = buf->data_int().value();
+			std::vector<char>& quality_int_source = buf->data_int().quality();
+			std::vector<float>& value_float_source = buf->data_float().value();
+			std::vector<char>& quality_float_source = buf->data_float().quality();
+			std::vector<double>& value_double_source = buf->data_double().value();
+			std::vector<char>& quality_double_source = buf->data_double().quality();
+			std::vector<DataChar>& value_char_source = buf->data_char().value();
+			std::vector<char>& quality_char_source = buf->data_char().quality();
 
-			for (auto it = template_settags.map_data.begin(); it != template_settags.map_data.end(); it++)
-			{
-				if (it->first.type == TypeValue::INT)
-				{
-					it->second.value = value_int[it->first.offset];
-					it->second.quality = quality_int[it->first.offset];
-					it->second.time = time_packet;
-					continue;
-				}
-				if (it->first.type == TypeValue::FLOAT)
-				{
-					it->second.value = value_float[it->first.offset];
-					it->second.quality = quality_float[it->first.offset];
-					it->second.time = time_packet;
-					continue;
-				}
-				if (it->first.type == TypeValue::DOUBLE)
-				{
-					it->second.value = value_double[it->first.offset];
-					it->second.quality = quality_double[it->first.offset];
-					it->second.time = time_packet;
-					continue;
-				}
-				if (it->first.type == TypeValue::CHAR)
-				{
-					continue;
-				}
-				if (it->first.type == TypeValue::STRING)
-				{
-					it->second.value = std::string(&value_char[it->first.offset].value()[0], value_char[it->first.offset].value().size());
-					it->second.quality = quality_char[it->first.offset];
-					it->second.time = time_packet;
-				}
-			}
+			std::vector<ValueT<int>>& value_int_target = box->data_int;
+			std::vector<ValueT<float>>& value_float_target = box->data_float;
+			std::vector<ValueT<double>>& value_double_target = box->data_double;
+			std::vector<ValueT<char>>& value_char_target = box->data_char;
+			std::vector<ValueT<std::string>>& value_str_target = box->data_str;
 
-			if (count == 1)
+			for (auto& it : config.vec_tags_source)
 			{
-				data[0] = template_settags; /// need escape copy !!!
-			}
-			else
-			{
-				data.push_back(template_settags);
+				if (it.type == TypeValue::INT)
+				{
+					value_int_target[it.offset_store].value = value_int_source[it.offset];
+					value_int_target[it.offset_store].quality = quality_int_source[it.offset];
+					value_int_target[it.offset_store].time = time_packet;
+					continue;
+				}
+				if (it.type == TypeValue::FLOAT)
+				{
+					value_float_target[it.offset_store].value = value_float_source[it.offset];
+					value_float_target[it.offset_store].quality = quality_float_source[it.offset];
+					value_float_target[it.offset_store].time = time_packet;
+					continue;
+				}
+				if (it.type == TypeValue::DOUBLE)
+				{
+					value_double_target[it.offset_store].value = value_double_source[it.offset];
+					value_double_target[it.offset_store].quality = quality_double_source[it.offset];
+					value_double_target[it.offset_store].time = time_packet;
+					continue;
+				}
+				if (it.type == TypeValue::CHAR)
+				{
+					continue;
+				}
+				if (it.type == TypeValue::STRING)
+				{
+					value_str_target[it.offset_store].value = std::string(&value_char_source[it.offset].value()[0], value_char_source[it.offset].value().size());
+					value_str_target[it.offset_store].quality = quality_char_source[it.offset];
+					value_str_target[it.offset_store].time = time_packet;
+				}
 			}
 
 		}
@@ -615,19 +635,29 @@ namespace scada_ate::gate::adapter::dds
 	template<typename T> ResultReqest AdapterDDS<T>::write_to_deque(DDSDataEx* buf, size_t& count)
 	{
 		ResultReqest result = ResultReqest::OK;
+		SetTags* box;
+		std::unordered_map<int, InfoTag>::iterator it;
+
+		if (count != 1)
+		{
+			data.push_back(data.back());
+		}
+		
+		box = &data.back();
 		
 		try
 		{
-			template_settags.time_source = buf->time_service();
+			box->time_source = buf->time_service();
 
 			{	
 				std::vector<DataExInt>& vec = buf->data_int();
 				for (DataExInt& source: vec)
 				{
-					if (map_infotag_to_idtag.count(source.id_tag()))
+					it = map_infotag_to_idtag.find(source.id_tag());
+					if (it != map_infotag_to_idtag.end())
 					{
-						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
-						Value& target = template_settags.map_data[infotag];
+						InfoTag& infotag = (*it).second;
+						ValueT<int>& target = box->data_int[infotag.offset_store];
 						target.value = source.value();
 						target.quality = source.quality();
 						target.time = target.time;
@@ -639,10 +669,11 @@ namespace scada_ate::gate::adapter::dds
 				std::vector<DataExFloat>& vec = buf->data_float();
 				for (DataExFloat& source : vec)
 				{
-					if (map_infotag_to_idtag.count(source.id_tag()))
+					it = map_infotag_to_idtag.find(source.id_tag());
+					if (it != map_infotag_to_idtag.end())
 					{
-						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
-						Value& target = template_settags.map_data[infotag];
+						InfoTag& infotag = (*it).second;
+						ValueT<float>& target = box->data_float[infotag.offset_store];
 						target.value = source.value();
 						target.quality = source.quality();
 						target.time = target.time;
@@ -655,10 +686,11 @@ namespace scada_ate::gate::adapter::dds
 				std::vector<DataExDouble>& vec = buf->data_double();
 				for (DataExDouble& source : vec)
 				{
-					if (map_infotag_to_idtag.count(source.id_tag()))
+					it = map_infotag_to_idtag.find(source.id_tag());
+					if (it != map_infotag_to_idtag.end())
 					{
-						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
-						Value& target = template_settags.map_data[infotag];
+						InfoTag& infotag = (*it).second;
+						ValueT<double>& target = box->data_double[infotag.offset_store];
 						target.value = source.value();
 						target.quality = source.quality();
 						target.time = target.time;
@@ -670,24 +702,16 @@ namespace scada_ate::gate::adapter::dds
 				std::vector<DataExChar>& vec = buf->data_char();
 				for (DataExChar& source : vec)
 				{
-					if (map_infotag_to_idtag.count(source.id_tag()))
+					it = map_infotag_to_idtag.find(source.id_tag());
+					if (it != map_infotag_to_idtag.end())
 					{
 						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
-						Value& target = template_settags.map_data[infotag];
+						ValueT<std::string>& target = box->data_str[infotag.offset_store];
 						target.value = std::string(&source.value()[0], source.value().size());
 						target.quality = source.quality();
 						target.time = target.time;
 					}
 				}
-			}
-
-			if (count == 1)
-			{
-				data[0] = template_settags; // need escape copy
-			}
-			else
-			{
-				data.push_back(template_settags);
 			}
 
 		}
@@ -709,31 +733,39 @@ namespace scada_ate::gate::adapter::dds
 	template<typename T> ResultReqest AdapterDDS<T>::write_to_deque(DDSAlarm* buf, size_t& count)
 	{
 		ResultReqest result = ResultReqest::OK;
+		SetTags* box;
 
 		try
 		{
-			template_settags.time_source = buf->time_source();
-			long long time_packet = buf->time_source();
-
-			{
-				std::vector<unsigned int>& value = buf->alarms();
-				std::vector<unsigned int>& quality = buf->quality();
-
-				for (auto it = template_settags.map_data.begin(); it != template_settags.map_data.end(); it++)
-				{
-					it->second.value = (int)value[it->first.offset];
-					it->second.quality = quality[it->first.offset];
-					it->second.time = time_packet;
-				}
-			}
-
 			if (count == 1)
 			{
-				data[0] = template_settags; // need escape copy
+				box = &data[0];
 			}
 			else
 			{
-				data.push_back(template_settags);
+				data.push_back({});
+				data.back().data_int.resize(size_vector_int_settags);
+				data.back().data_float.resize(size_vector_float_settags);
+				data.back().data_double.resize(size_vector_double_settags);
+				data.back().data_char.resize(size_vector_char_settags);
+				data.back().data_str.resize(size_vector_str_settags);
+				box = data.back();
+			}
+
+			box.time_source = buf->time_source();
+			long long time_packet = buf->time_source();
+
+			{
+				std::vector<unsigned int>& value_source = buf->alarms();
+				std::vector<unsigned int>& quality_source = buf->quality();
+				std::vector<ValueT<int>>& target = box->data_int;
+
+				for (auto it : config.vec_tags_source)
+				{
+					target[it.offset_store].value = (int)value_source[it.offset];
+					target[it.offset_store].quality = quality_source[it.offset];
+					target[it.offset_store].time = time_packet;
+				}
 			}
 
 		}
@@ -754,35 +786,34 @@ namespace scada_ate::gate::adapter::dds
 	template<typename T> ResultReqest AdapterDDS<T>::write_to_deque(DDSAlarmEx* buf, size_t& count)
 	{
 		ResultReqest result = ResultReqest::OK;
+		SetTags* box;
+		std::unordered_map<int, InfoTag>::iterator it;
 
 		try
 		{
-			template_settags.time_source = buf->time_service();
+			if (count != 1)
+			{
+				data.push_back(data.back());
+			}
+			box = &data.back();
+
+			box->time_source = buf->time_service();
 
 			{
 				std::vector<Alarm>& vec = buf->alarms();
 				for (Alarm& source : vec)
 				{
-					if (map_infotag_to_idtag.count(source.id_tag()))
+					it = map_infotag_to_idtag.find(source.id_tag());
+					if (it != map_infotag_to_idtag.end())
 					{
-						InfoTag& infotag = map_infotag_to_idtag[source.id_tag()];
-						Value& target = template_settags.map_data[infotag];
+						InfoTag& infotag = (*it).second;
+						ValueT<char>& target = box->data_char[infotag.offset_store];
 						target.value = source.value();
 						target.quality = source.quality();
-						target.time = target.time;
+						target.time = source.time_source();
 					}
 				}
 			}
-
-			if (count == 1)
-			{
-				data[0] = template_settags; // need escape copy
-			}
-			else
-			{
-				data.push_back(template_settags);
-			}
-
 		}
 		catch (int& e)
 		{
@@ -804,81 +835,74 @@ namespace scada_ate::gate::adapter::dds
 	{
 		for (LinkTags& link : this->config.vec_link_tags)
 		{
-			auto value = in_data.map_data.find(link.source);
-			if (value != in_data.map_data.end())
+			if (link.source.type == TypeValue::INT)
 			{
-				if (link.source.type == TypeValue::INT)
-				{
-					set_data_int(value->second, link, _data_dds.get());
-					continue;
-				}
+				set_data(in_data.data_int[link.source.offset_store], link, _data_dds.get());
+				continue;
+			}
 
-				if (link.source.type == TypeValue::FLOAT)
-				{
-					set_data_float(value->second, link, _data_dds.get());
-					continue;
-				}
+			if (link.source.type == TypeValue::FLOAT)
+			{
+				set_data(in_data.data_float[link.source.offset_store], link, _data_dds.get());
+				continue;
+			}
 
-				if (link.source.type == TypeValue::DOUBLE)
-				{
-					set_data_double(value->second, link, _data_dds.get());
-					continue;
-				}
+			if (link.source.type == TypeValue::DOUBLE)
+			{
+				set_data(in_data.data_double[link.source.offset_store], link, _data_dds.get());
+				continue;
+			}
 
-				if (link.source.type == TypeValue::CHAR)
-				{
-					set_data_char(value->second, link, _data_dds.get());
-					continue;
-				}
+			if (link.source.type == TypeValue::CHAR)
+			{
+				set_data(in_data.data_char[link.source.offset_store], link, _data_dds.get());
+				continue;
+			}
 
-				if (link.source.type == TypeValue::STRING)
-				{
-					set_data_string(value->second, link, _data_dds.get());
-					continue;
-				}
-			};
+			if (link.source.type == TypeValue::STRING)
+			{
+				set_data(in_data.data_str[link.source.offset_store], link, _data_dds.get());
+				continue;
+			}
 		}
 
 		return ResultReqest::OK;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_int(const Value& value, const LinkTags& link, DDSData* out_buf) 
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<int>& value, const LinkTags& link, DDSData* out_buf) 
 	{
 		int val_current = 0;
-		int val_last = 0;
+		int& val_last = out_buf->data_int().value()[link.target.offset];
+		char& quality_last = out_buf->data_int().quality()[link.target.offset];
 
 		if (link.target.mask != 0)
 		{
 			val_last = out_buf->data_int().value()[link.target.offset];
-			val_current = demask(std::get<int>(value.value), link.source.mask, val_last, link.target.mask);
+			val_current = demask(value.value, link.source.mask, val_last, link.target.mask);
 		}
 		else
 		{
-			val_current = std::get<int>(value.value);
+			val_current = value.value;
 		}
 
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
-			out_buf->data_int().value()[link.target.offset] = val_current;
-			out_buf->data_int().quality()[link.target.offset] = value.quality;
-			return;
+			val_last = val_current;
+			quality_last = value.quality;
 		}
-
-		char& quality_last = out_buf->data_int().quality()[link.target.offset];
-
-		if (link.type_registration == TypeRegistration::UPDATE)
+		else if (link.type_registration == TypeRegistration::UPDATE)
 		{
-			if (val_last == val_current && quality_last == value.quality) return;
-			out_buf->data_int().value()[link.target.offset] = val_current;
-			out_buf->data_int().quality()[link.target.offset] = value.quality;
+			if (val_last == val_current && quality_last == value.quality) 
+				return;
+			val_last = val_current;
+			quality_last = value.quality;
 		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
+		else if (link.type_registration == TypeRegistration::DELTA)
 		{
 			if (abs(val_last - val_current) > (int)link.delta || quality_last != value.quality)
 			{
-				out_buf->data_int().value()[link.target.offset] = val_current;
-				out_buf->data_int().quality()[link.target.offset] = value.quality;;
+				val_last = val_current;
+				quality_last = value.quality;
 				return;
 			}
 		}
@@ -886,108 +910,97 @@ namespace scada_ate::gate::adapter::dds
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_float(const Value& value, const LinkTags& link, DDSData* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<float>& value, const LinkTags& link, DDSData* out_buf)
 	{
 		char& quality_last = out_buf->data_float().quality()[link.target.offset];
 		float& val_last = out_buf->data_float().value()[link.target.offset];
 
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
-			val_last = std::get<float>(value.value);
-			quality_last = value.quality;
-			return;
-		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
-		{
-			if (val_last == std::get<float>(value.value) && quality_last == value.quality) return;
-			val_last = std::get<float>(value.value);
+			val_last = value.value;
 			quality_last = value.quality;
 		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
+		else if (link.type_registration == TypeRegistration::UPDATE)
 		{
-			if (abs(val_last - std::get<float>(value.value)) > (float)link.delta || quality_last != value.quality)
-			{
-				val_last = std::get<float>(value.value);
-				quality_last = value.quality;;
+			if (val_last == value.value && quality_last == value.quality)
 				return;
+			val_last = value.value;
+			quality_last = value.quality;
+		}
+		else if (link.type_registration == TypeRegistration::DELTA)
+		{
+			if (abs(val_last - value.value) > (float)link.delta || quality_last != value.quality)
+			{
+				val_last = value.value;
+				quality_last = value.quality;;
 			}
 		}
 
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_double(const Value& value, const LinkTags& link, DDSData* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<double>& value, const LinkTags& link, DDSData* out_buf)
 	{
 		double& val_last = out_buf->data_double().value()[link.target.offset];
 		char& quality_last = out_buf->data_double().quality()[link.target.offset];
 
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
-			val_last = std::get<double>(value.value);
+			val_last = value.value;
 			quality_last = value.quality;
-			return;
 		}
-
-		if (link.type_registration == TypeRegistration::UPDATE)
+		else if (link.type_registration == TypeRegistration::UPDATE)
 		{
-			if (val_last == std::get<double>(value.value) && quality_last == value.quality) return;
-			val_last = std::get<double>(value.value);
+			if (val_last == value.value && quality_last == value.quality) 
+				return;
+			val_last = value.value;
 			quality_last = value.quality;
-			return;
 		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
+		else if (link.type_registration == TypeRegistration::DELTA)
 		{
-			if (abs(val_last - std::get<double>(value.value)) > link.delta || quality_last != value.quality)
+			if (abs(val_last - value.value) > link.delta || quality_last != value.quality)
 			{
-				val_last = std::get<double>(value.value);
+				val_last = value.value;
 				quality_last = value.quality;;
 				
 			}
-			return;
 		}
-
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_char(const Value& value, const LinkTags& link, DDSData* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<char>& value, const LinkTags& link, DDSData* out_buf)
 	{
-		Value val;
-		val.value = (int)std::get<char>(value.value);
+		ValueT<int> val;
+		val.value = value.value;
 		val.time = value.time;
 		val.quality = value.quality;
-		
-		set_data_int(val, link, out_buf);
+		set_data(val, link, out_buf);
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_string(const Value& value, const LinkTags& link, DDSData* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<std::string>& value, const LinkTags& link, DDSData* out_buf)
 	{
 
 		std::vector<char>& vchar = out_buf->data_char().value()[link.target.offset].value();
 
 		if (link.type_registration == TypeRegistration::RECIVE)
 		{
-			copy_str_to_vchar(vchar, std::get<std::string>(value.value));
+			copy_str_to_vchar(vchar, value.value);
 			out_buf->data_char().quality()[link.target.offset] = value.quality;
 		}
-
-		if (link.type_registration == TypeRegistration::UPDATE || link.type_registration == TypeRegistration::DELTA)
+		else if (link.type_registration == TypeRegistration::UPDATE || link.type_registration == TypeRegistration::DELTA)
 		{			
-			if (!is_equal_str_with_vchar(vchar, std::get<std::string>(value.value)) || out_buf->data_char().quality()[link.target.offset] != value.quality)
+			if (!is_equal_str_with_vchar(vchar, value.value) || out_buf->data_char().quality()[link.target.offset] != value.quality)
 			{
-				copy_str_to_vchar(vchar, std::get<std::string>(value.value));
+				copy_str_to_vchar(vchar, value.value);
 				out_buf->data_char().quality()[link.target.offset] = value.quality;
 			}
 		}
-
 		return;
 	}
 
 
-	template<typename T> void AdapterDDS<T>::set_data_int(const Value& value, const LinkTags& link, DDSDataEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<int>& value, const LinkTags& link, DDSDataEx* out_buf)
 	{
 		DataExInt dds_value;
 
@@ -995,20 +1008,20 @@ namespace scada_ate::gate::adapter::dds
 		{
 			dds_value.time_source() = value.time;
 			dds_value.quality() = value.quality;
-			dds_value.value() = std::get<int>(value.value);
+			dds_value.value() = value.value;
 			dds_value.id_tag() = link.target.id_tag;
 			out_buf->data_int().push_back(dds_value);
 			return;
 		}
 
-		Value& _last = _storage._map[link.target.id_tag];
+		ValueT<int>& _last = _storage.data_int[link.target.offset_store];
 		
 		if (link.type_registration == TypeRegistration::UPDATE)
 		{
 			if (value.value == _last.value && value.quality == _last.quality) return;
 			dds_value.time_source() = value.time;
 			dds_value.quality() = value.quality;
-			dds_value.value() = std::get<int>(value.value);
+			dds_value.value() = value.value;
 			dds_value.id_tag() = link.target.id_tag;
 			out_buf->data_int().push_back(dds_value);
 
@@ -1016,14 +1029,13 @@ namespace scada_ate::gate::adapter::dds
 			_last.quality = value.quality;
 			_last.time = value.time;
 		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
+		else if (link.type_registration == TypeRegistration::DELTA)
 		{
-			if (abs(std::get<int>(value.value) - std::get<int>(_last.value)) > (int)link.delta || value.quality == _last.quality)
+			if (abs(value.value - _last.value) > link.delta || value.quality == _last.quality)
 			{
 				dds_value.time_source() = value.time;
 				dds_value.quality() = value.quality;
-				dds_value.value() = std::get<int>(value.value);
+				dds_value.value() = value.value;
 				dds_value.id_tag() = link.target.id_tag;
 				out_buf->data_int().push_back(dds_value);
 
@@ -1032,11 +1044,10 @@ namespace scada_ate::gate::adapter::dds
 				_last.time = value.time;
 			}
 		}	
-
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_float(const Value& value, const LinkTags& link, DDSDataEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<float>& value, const LinkTags& link, DDSDataEx* out_buf)
 	{
 		DataExFloat dds_value;
 
@@ -1044,50 +1055,46 @@ namespace scada_ate::gate::adapter::dds
 		{
 			dds_value.time_source() = value.time;
 			dds_value.quality() = value.quality;
-			dds_value.value() = std::get<float>(value.value);
+			dds_value.value() = value.value;
 			dds_value.id_tag() = link.target.id_tag;
 			out_buf->data_float().push_back(dds_value);
 			return;
 		}
 
-		Value& _last = _storage._map[link.target.id_tag];
+		ValueT<float>& _last = _storage.data_float[link.target.offset_store];
 
 		if (link.type_registration == TypeRegistration::UPDATE)
 		{
 			if (value.value == _last.value && value.quality == _last.quality) return;
 			dds_value.time_source() = value.time;
 			dds_value.quality() = value.quality;
-			dds_value.value() = std::get<float>(value.value);
+			dds_value.value() = value.value;
 			dds_value.id_tag() = link.target.id_tag;
 			out_buf->data_float().push_back(dds_value);
 
 			_last.value = value.value;
 			_last.quality = value.quality;
 			_last.time = value.time;
-			return;
 		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
+		else if (link.type_registration == TypeRegistration::DELTA)
 		{
-			if (abs(std::get<float>(value.value) - std::get<float>(_last.value)) > (int)link.delta || value.quality == _last.quality)
+			if (abs(value.value - _last.value) > link.delta || value.quality == _last.quality)
 			{
 				dds_value.time_source() = value.time;
 				dds_value.quality() = value.quality;
-				dds_value.value() = std::get<float>(value.value);
+				dds_value.value() = value.value;
 				dds_value.id_tag() = link.target.id_tag;
 				out_buf->data_float().push_back(dds_value);
 
 				_last.value = value.value;
 				_last.quality = value.quality;
 				_last.time = value.time;
-				return;
 			}
 		}
-
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_double(const Value& value, const LinkTags& link, DDSDataEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<double>& value, const LinkTags& link, DDSDataEx* out_buf)
 	{
 		DataExDouble dds_value;
 
@@ -1095,62 +1102,57 @@ namespace scada_ate::gate::adapter::dds
 		{
 			dds_value.time_source() = value.time;
 			dds_value.quality() = value.quality;
-			dds_value.value() = std::get<double>(value.value);
+			dds_value.value() = value.value;
 			dds_value.id_tag() = link.target.id_tag;
 			out_buf->data_double().push_back(dds_value);
 			return;
 		}
 
-		Value& _last = _storage._map[link.target.id_tag];
+		ValueT<double>& _last = _storage.data_double[link.target.offset_store];
 
 		if (link.type_registration == TypeRegistration::UPDATE)
 		{
 			if (value.value == _last.value && value.quality == _last.quality) return;
 			dds_value.time_source() = value.time;
 			dds_value.quality() = value.quality;
-			dds_value.value() = std::get<double>(value.value);
+			dds_value.value() = value.value;
 			dds_value.id_tag() = link.target.id_tag;
 			out_buf->data_double().push_back(dds_value);
 
 			_last.value = value.value;
 			_last.quality = value.quality;
 			_last.time = value.time;
-			return;
 		}
-
-		if (link.type_registration == TypeRegistration::DELTA)
+		else if (link.type_registration == TypeRegistration::DELTA)
 		{
-			if (abs(std::get<double>(value.value) - std::get<double>(_last.value)) > (int)link.delta || value.quality == _last.quality)
+			if (abs(value.value - _last.value) > (int)link.delta || value.quality == _last.quality)
 			{
 				dds_value.time_source() = value.time;
 				dds_value.quality() = value.quality;
-				dds_value.value() = std::get<double>(value.value);
+				dds_value.value() = value.value;
 				dds_value.id_tag() = link.target.id_tag;
 				out_buf->data_double().push_back(dds_value);
 
 				_last.value = value.value;
 				_last.quality = value.quality;
 				_last.time = value.time;
-				return;
 			}
 		}
-
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_char(const Value& value, const LinkTags& link, DDSDataEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<char>& value, const LinkTags& link, DDSDataEx* out_buf)
 	{
-		Value val;
-		val.value = (int)std::get<char>(value.value);
+		ValueT<int> val;
+		val.value = value.value;
 		val.time = value.time;
 		val.quality = value.quality;
 
-		set_data_int(val, link, out_buf);
-
+		set_data(val, link, out_buf);
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_string(const Value& value, const LinkTags& link, DDSDataEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<std::string>& value, const LinkTags& link, DDSDataEx* out_buf)
 	{
 		DataExChar dds_value;
 		dds_value.value().resize(atech::common::SizeTopics::GetMaxSizeDataExVectorChar());
@@ -1159,7 +1161,7 @@ namespace scada_ate::gate::adapter::dds
 		{
 			dds_value.time_source() = value.time;
 			dds_value.quality() = value.quality;
-			copy_str_to_vchar(dds_value.value(), std::get<std::string>(value.value));
+			copy_str_to_vchar(dds_value.value(), value.value);
 			dds_value.id_tag() = link.target.id_tag;
 			out_buf->data_char().push_back(dds_value);
 			return;
@@ -1167,28 +1169,26 @@ namespace scada_ate::gate::adapter::dds
 
 		if (link.type_registration == TypeRegistration::UPDATE || link.type_registration == TypeRegistration::DELTA)
 		{
-			Value& _last = _storage._map[link.target.id_tag];
+			ValueT<std::string>& _last = _storage.data_int[link.target.offset_store];
 
-			if (std::get<std::string>(_last.value).compare(std::get<std::string>(value.value).c_str()) != 0 || _last.quality != value.quality)
+			if (_last.value.compare(value.value.c_str()) != 0 || _last.quality != value.quality)
 			{
 				dds_value.time_source() = value.time;
 				dds_value.quality() = value.quality;
 				dds_value.id_tag() = link.target.id_tag;
-				copy_str_to_vchar(dds_value.value(), std::get<std::string>(value.value));
+				copy_str_to_vchar(dds_value.value(), value.value);
 				out_buf->data_char().push_back(dds_value);
 
 				_last.time = value.time;
 				_last.quality = value.quality;
 				_last.value = value.value;
-
-				return;
 			}
 		}
 		
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_int(const Value& value, const LinkTags& link, DDSAlarm* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<int>& value, const LinkTags& link, DDSAlarm* out_buf)
 	{
 		int val_current = 0;
 		int val_last = 0;
@@ -1199,12 +1199,12 @@ namespace scada_ate::gate::adapter::dds
 		{
 			val_last = out_buf->alarms()[link.target.offset];
 			quality_last = out_buf->quality()[link.target.offset];
-			val_current = demask(std::get<int>(value.value), link.source.mask, val_last, link.target.mask);
+			val_current = demask(value.value, link.source.mask, val_last, link.target.mask);
 			quality_current = demask(value.quality, link.source.mask, quality_last, link.target.mask);
 		}
 		else
 		{
-			val_current = std::get<int>(value.value);
+			val_current = value.value;
 			quality_current = value.quality;
 		}
 
@@ -1225,17 +1225,17 @@ namespace scada_ate::gate::adapter::dds
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_float(const Value& value, const LinkTags& link, DDSAlarm* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<float>& value, const LinkTags& link, DDSAlarm* out_buf)
 	{
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_double(const Value& value, const LinkTags& link, DDSAlarm* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<double>& value, const LinkTags& link, DDSAlarm* out_buf)
 	{
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_char(const Value& value, const LinkTags& link, DDSAlarm* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<char>& value, const LinkTags& link, DDSAlarm* out_buf)
 	{
 		uint32_t& alarm = out_buf->alarms()[link.target.offset];
 		uint32_t& quality = out_buf->quality()[link.target.offset];
@@ -1243,12 +1243,12 @@ namespace scada_ate::gate::adapter::dds
 		uint32_t quality_out = 0;
 		if (link.target.mask != 0)
 		{
-			value_out = demask(std::get<int>(value.value), link.source.mask, alarm, link.target.mask);
+			value_out = demask(value.value, link.source.mask, alarm, link.target.mask);
 			quality_out = demask(value.quality, link.source.mask, quality, link.target.mask);
 		}
 		else
 		{
-			value_out = (uint32_t)std::get<int>(value.value);
+			value_out = (uint32_t)value.value;
 			quality_out = value.quality;
 		}
 
@@ -1268,25 +1268,25 @@ namespace scada_ate::gate::adapter::dds
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_string(const Value& value, const LinkTags& link, DDSAlarm* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<std::string>& value, const LinkTags& link, DDSAlarm* out_buf)
 	{
 		return;
 	}
 
-	template<typename T> void AdapterDDS<T>::set_data_int(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<int>& value, const LinkTags& link, DDSAlarmEx* out_buf)
 	{
 		int val_current = 0;
 
-		Value& _last = _storage._map[link.target.id_tag];
+		ValueT<int>& _last = _storage.data_int[link.target.id_tag];
 		Alarm val_alarm;
 
 		if (link.target.mask != 0)
 		{
-			val_current = demask(std::get<int>(value.value), link.source.mask, std::get<int>(_last.value), link.target.mask);
+			val_current = demask(value.value, link.source.mask, _last.value, link.target.mask);
 		}
 		else
 		{
-			val_current = std::get<int>(value.value);
+			val_current = value.value;
 		}
 		
 		if (link.type_registration == TypeRegistration::RECIVE)
@@ -1300,12 +1300,13 @@ namespace scada_ate::gate::adapter::dds
 			_last.value = (char)val_current;
 			_last.quality = (char)value.quality;
 			_last.time = value.time;
+			
 			return;
 		}
 
 		if (link.type_registration == TypeRegistration::UPDATE || link.type_registration == TypeRegistration::DELTA)
 		{
-			if (std::get<int>(_last.value) == (char)val_current && _last.quality == value.quality) return;
+			if (_last.value == (char)val_current && _last.quality == value.quality) return;
 
 			val_alarm.value() = (char)val_current;
 			val_alarm.quality() = (char)value.quality;
@@ -1322,30 +1323,30 @@ namespace scada_ate::gate::adapter::dds
 		return;
 	}
 	
-	template<typename T> void AdapterDDS<T>::set_data_float(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<float>& value, const LinkTags& link, DDSAlarmEx* out_buf)
 	{
 		return;
 	};
 
-	template<typename T> void AdapterDDS<T>::set_data_double(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<double>& value, const LinkTags& link, DDSAlarmEx* out_buf)
 	{
 		return;
 	};
 
-	template<typename T> void AdapterDDS<T>::set_data_char(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<char>& value, const LinkTags& link, DDSAlarmEx* out_buf)
 	{
 		char val_current = 0;
 
-		Value& _last = _storage._map[link.target.id_tag];
+		ValueT<char>& _last = _storage.data_char[link.target.id_tag];
 		Alarm val_alarm;
 
 		if (link.target.mask != 0)
 		{
-			val_current = demask((int)std::get<char>(value.value), link.source.mask, (int)std::get<char>(_last.value), link.target.mask);
+			val_current = demask(value.value, link.source.mask, _last.value, link.target.mask);
 		}
 		else
 		{
-			val_current = std::get<char>(value.value);
+			val_current = value.value;
 		}
 
 		if (link.type_registration == TypeRegistration::RECIVE)
@@ -1364,7 +1365,7 @@ namespace scada_ate::gate::adapter::dds
 
 		if (link.type_registration == TypeRegistration::UPDATE || link.type_registration == TypeRegistration::DELTA)
 		{
-			if (std::get<char>(_last.value) == val_current && _last.quality == value.quality) return;
+			if (_last.value == val_current && _last.quality == value.quality) return;
 
 			val_alarm.value() = (char)val_current;
 			val_alarm.quality() = (char)value.quality;
@@ -1381,7 +1382,7 @@ namespace scada_ate::gate::adapter::dds
 		return;
 	};
 
-	template<typename T> void AdapterDDS<T>::set_data_string(const Value& value, const LinkTags& link, DDSAlarmEx* out_buf)
+	template<typename T> void AdapterDDS<T>::set_data(const ValueT<std::string>& value, const LinkTags& link, DDSAlarmEx* out_buf)
 	{
 		return;
 	};

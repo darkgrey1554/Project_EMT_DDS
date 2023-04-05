@@ -132,7 +132,6 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExceptionHandling>Async</ExceptionHandling>
       <Optimization>Disabled</Optimization>
-      <AdditionalOptions>-DUA_ARCHITECTURE_WIN32 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
@@ -142,7 +141,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libcrypto.lib;openssl.lib;open62541.lib;ws2_32.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions>-DUA_ARCHITECTURE_WIN32 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <HeapReserveSize>4000000</HeapReserveSize>
       <HeapCommitSize>2000000</HeapCommitSize>
     </Link>

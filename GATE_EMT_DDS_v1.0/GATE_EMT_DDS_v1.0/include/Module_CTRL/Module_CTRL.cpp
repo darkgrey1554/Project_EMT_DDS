@@ -1438,15 +1438,22 @@ namespace atech::srv::io::ctrl
 
 		try
 		{
-			proc_info.set_hname(atech::Process::GetHostName());
-			proc_info.set_pcpu(atech::Process::GetProcessCpuUsage(500));
-			proc_info.set_pid(atech::Process::GetProcessID());
-			proc_info.set_pinfo("srv");
-			proc_info.set_pmemory(atech::Process::GetProcessMemory());
-			proc_info.set_pname(atech::Process::GetProcessName());
-			proc_info.set_pparam(atech::Process::GetProcessParameter());
-			proc_info.set_state(0);
-
+			try 
+			{
+				proc_info.set_hname(atech::Process::GetHostName());
+				proc_info.set_pcpu(atech::Process::GetProcessCpuUsage(500));
+				proc_info.set_pid(atech::Process::GetProcessID());
+				proc_info.set_pinfo("srv");
+				proc_info.set_pmemory(atech::Process::GetProcessMemory());
+				proc_info.set_pname(atech::Process::GetProcessName());
+				proc_info.set_pparam(atech::Process::GetProcessParameter());
+				proc_info.set_state(0);
+			}
+			catch(...)
+			{
+				throw 1;
+			}
+			
 			nlohmann::ordered_json json;
 			json["process"];
 			nlohmann::adl_serializer<atech::common::ProcessInfo>::to_json(json["process"], proc_info);
@@ -1456,7 +1463,7 @@ namespace atech::srv::io::ctrl
 			if (mass.size() < str.size())
 			{
 				std::cout << str << std::endl;
-				throw 1;
+				throw 2;
 			}
 
 			volatile int i = 0;
@@ -1471,6 +1478,11 @@ namespace atech::srv::io::ctrl
 		catch (int& e)
 		{
 			log->Critical("Module_CTRL node-{}: Error command request process info: error {}: syserror {}", _node_id, e, 0);
+			answer.st_code((uint32_t)atech::common::Status::ERR);
+		}
+		catch (nlohmann::json::exception& e)
+		{
+			log->Critical("Module_CTRL node-{}: Error command request process info: error {}: syserror {}", _node_id, e.what(), 0);
 			answer.st_code((uint32_t)atech::common::Status::ERR);
 		}
 		catch (...)

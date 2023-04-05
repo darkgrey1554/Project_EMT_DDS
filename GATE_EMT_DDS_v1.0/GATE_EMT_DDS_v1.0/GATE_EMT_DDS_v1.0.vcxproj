@@ -24,26 +24,21 @@
     <ClCompile Include="include\config\tinyxml2.cpp" />
     <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmEx.cxx" />
     <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmExPubSubTypes.cxx" />
-    <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmExTypeObject.cxx" />
     <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarm.cxx" />
     <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarmPubSubTypes.cxx" />
-    <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarmTypeObject.cxx" />
     <ClCompile Include="include\ddsformat\DdsCommand\DdsCommand.cxx" />
     <ClCompile Include="include\ddsformat\DdsCommand\DdsCommandPubSubTypes.cxx" />
-    <ClCompile Include="include\ddsformat\DdsCommand\DdsCommandTypeObject.cxx" />
     <ClCompile Include="include\ddsformat\DdsConfig\DdsConfig.cxx" />
     <ClCompile Include="include\ddsformat\DdsConfig\DdsConfigPubSubTypes.cxx" />
-    <ClCompile Include="include\ddsformat\DdsConfig\DdsConfigTypeObject.cxx" />
     <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataEx.cxx" />
     <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataExPubSubTypes.cxx" />
-    <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataExTypeObject.cxx" />
     <ClCompile Include="include\ddsformat\DDSData\DDSData.cxx" />
     <ClCompile Include="include\ddsformat\DDSData\DDSDataPubSubTypes.cxx" />
-    <ClCompile Include="include\ddsformat\DDSData\DDSDataTypeObject.cxx" />
     <ClCompile Include="include\ddsformat\DdsStatus\DdsStatus.cxx" />
     <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.cxx" />
-    <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.cxx" />
     <ClCompile Include="include\ddsformat\SizeTopics.cpp" />
+    <ClCompile Include="include\logger\LoggerScadaInterface.cpp" />
+    <ClCompile Include="include\logger\LoggerScadaNone.cpp" />
     <ClCompile Include="include\logger\LoggerScadaSpdDDS.cpp" />
     <ClCompile Include="include\Module_CTRL\Module_CTRL.cpp" />
     <ClCompile Include="include\Module_CTRL\UnitAid\UnitAid.cpp" />
@@ -61,7 +56,7 @@
     <ClCompile Include="include\structs\FactoryDds.cpp" />
     <ClCompile Include="include\structs\struct.cpp" />
     <ClCompile Include="include\structs\TimeConverter.cpp" />
-    <ClCompile Include="main_test_command.cpp" />
+    <ClCompile Include="main_test_adapterSM.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json" />
@@ -78,25 +73,18 @@
     <ClInclude Include="include\config\topics.h" />
     <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmEx.h" />
     <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmExPubSubTypes.h" />
-    <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmExTypeObject.h" />
     <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarm.h" />
     <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarmPubSubTypes.h" />
-    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarmTypeObject.h" />
     <ClInclude Include="include\ddsformat\DdsCommand\DdsCommand.h" />
     <ClInclude Include="include\ddsformat\DdsCommand\DdsCommandPubSubTypes.h" />
-    <ClInclude Include="include\ddsformat\DdsCommand\DdsCommandTypeObject.h" />
     <ClInclude Include="include\ddsformat\DdsConfig\DdsConfig.h" />
     <ClInclude Include="include\ddsformat\DdsConfig\DdsConfigPubSubTypes.h" />
-    <ClInclude Include="include\ddsformat\DdsConfig\DdsConfigTypeObject.h" />
     <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataEx.h" />
     <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataExPubSubTypes.h" />
-    <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataExTypeObject.h" />
     <ClInclude Include="include\ddsformat\DDSData\DDSData.h" />
     <ClInclude Include="include\ddsformat\DDSData\DDSDataPubSubTypes.h" />
-    <ClInclude Include="include\ddsformat\DDSData\DDSDataTypeObject.h" />
     <ClInclude Include="include\ddsformat\DdsStatus\DdsStatus.h" />
     <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.h" />
-    <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.h" />
     <ClInclude Include="include\ddsformat\SizeTopics.h" />
     <ClInclude Include="include\ddsformat\TypeTopics.h" />
     <ClInclude Include="include\logger\fmt\bin_to_hex.h" />
@@ -120,6 +108,7 @@
     <ClInclude Include="include\logger\fmt\xchar.h" />
     <ClInclude Include="include\logger\LoggerScada.h" />
     <ClInclude Include="include\logger\LoggerScadaInterface.h" />
+    <ClInclude Include="include\logger\LoggerScadaNone.h" />
     <ClInclude Include="include\logger\LoggerScadaSpdDDS.h" />
     <ClInclude Include="include\logger\spdlog\async.h" />
     <ClInclude Include="include\logger\spdlog\async_logger-inl.h" />
@@ -251,6 +240,7 @@
     <ClInclude Include="include\structs\structs.h" />
     <ClInclude Include="include\structs\structs.hpp" />
     <ClInclude Include="include\structs\struct_unit_cp.h" />
+    <ClInclude Include="include\structs\struct_unit_cp.hpp" />
     <ClInclude Include="include\structs\TimeConverter.hpp" />
     <ClInclude Include="include\TypeTopicDDS\TopicSize.h" />
   </ItemGroup>
@@ -387,7 +377,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)\include\logger;$(ProjectDir)\include;C:\Program Files\eProsima\fastrtps 2.7.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <ExceptionHandling>Async</ExceptionHandling>
       <LanguageStandard_C>stdc17</LanguageStandard_C>

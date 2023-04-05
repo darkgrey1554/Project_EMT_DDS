@@ -56,16 +56,10 @@
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\security_handle.cpp">
       <Filter>File\Module_IO\DDSUnit\Adapters\SharedMemory_adapter</Filter>
     </ClCompile>
-    <ClCompile Include="include\structs\TimeConverter.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\Adapters.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\structs\struct.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.cpp">
@@ -104,16 +98,10 @@
     <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarmPubSubTypes.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\ddsformat\DDSAlarm\DDSAlarmTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmEx.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmExPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\ddsformat\DDSAlarmEx\DDSAlarmExTypeObject.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\ddsformat\DdsCommand\DdsCommand.cxx">
@@ -122,16 +110,10 @@
     <ClCompile Include="include\ddsformat\DdsCommand\DdsCommandPubSubTypes.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\ddsformat\DdsCommand\DdsCommandTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="include\ddsformat\DdsConfig\DdsConfig.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\ddsformat\DdsConfig\DdsConfigPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\ddsformat\DdsConfig\DdsConfigTypeObject.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\ddsformat\DDSData\DDSData.cxx">
@@ -140,16 +122,10 @@
     <ClCompile Include="include\ddsformat\DDSData\DDSDataPubSubTypes.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\ddsformat\DDSData\DDSDataTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataEx.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataExPubSubTypes.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\ddsformat\DDSDataEx\DDSDataExTypeObject.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\ddsformat\DdsStatus\DdsStatus.cxx">
@@ -158,16 +134,7 @@
     <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.cxx">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.cxx">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="include\ddsformat\SizeTopics.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="main_test_command.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="include\structs\FactoryDds.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\monitor_process\atechlib\mon\src\scd_global_accessors.cpp">
@@ -180,6 +147,24 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="include\logger\LoggerScadaSpdDDS.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\structs\FactoryDds.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\structs\struct.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\structs\TimeConverter.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\logger\LoggerScadaInterface.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="include\logger\LoggerScadaNone.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="main_test_adapterSM.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -219,16 +204,10 @@
     <ClInclude Include="include\Module_CP\Unit_CP\Unit_TCP_CP\Unit_TCP_CP.h">
       <Filter>File\Module_CP\Unit_CP\Unit_CP_TCP</Filter>
     </ClInclude>
-    <ClInclude Include="include\structs\TimeConverter.hpp">
-      <Filter>File</Filter>
-    </ClInclude>
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\SharedMemory_Adapter\AdapterSharedMemory.hpp">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\Adapters.hpp">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\structs\structs.hpp">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp">
@@ -276,16 +255,7 @@
     <ClInclude Include="include\TypeTopicDDS\TopicSize.h">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\structs\ServiceType.h">
-      <Filter>File</Filter>
-    </ClInclude>
     <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarm.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarmPubSubTypes.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarmTypeObject.h">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmEx.h">
@@ -294,16 +264,10 @@
     <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmExPubSubTypes.h">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmExTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
     <ClInclude Include="include\ddsformat\DdsCommand\DdsCommand.h">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\ddsformat\DdsCommand\DdsCommandPubSubTypes.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ddsformat\DdsCommand\DdsCommandTypeObject.h">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\ddsformat\DdsConfig\DdsConfig.h">
@@ -312,16 +276,7 @@
     <ClInclude Include="include\ddsformat\DdsConfig\DdsConfigPubSubTypes.h">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\ddsformat\DdsConfig\DdsConfigTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ddsformat\DDSData\DDSData.h">
-      <Filter>File</Filter>
-    </ClInclude>
     <ClInclude Include="include\ddsformat\DDSData\DDSDataPubSubTypes.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ddsformat\DDSData\DDSDataTypeObject.h">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataEx.h">
@@ -330,28 +285,16 @@
     <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataExPubSubTypes.h">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\ddsformat\DDSDataEx\DDSDataExTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
     <ClInclude Include="include\ddsformat\DdsStatus\DdsStatus.h">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.h">
       <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.h">
-      <Filter>File</Filter>
-    </ClInclude>
     <ClInclude Include="include\ddsformat\SizeTopics.h">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\ddsformat\TypeTopics.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\structs\interfaces.h">
-      <Filter>File</Filter>
-    </ClInclude>
-    <ClInclude Include="include\structs\FactoryDds.h">
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\monitor_process\atechlib\mon\src\ecal_win_main.h">
@@ -745,6 +688,33 @@
       <Filter>File</Filter>
     </ClInclude>
     <ClInclude Include="include\logger\LoggerScada.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\FactoryDds.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\interfaces.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\ServiceType.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\struct_unit_cp.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\structs.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\structs\TimeConverter.hpp">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSAlarm\DDSAlarmPubSubTypes.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logger\LoggerScadaNone.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ddsformat\DDSData\DDSData.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,12 +1,12 @@
-#include <Module_IO/DDSUnit/adapters/SharedMemory_Adapter/AdapterSharedMemory.hpp>
-#include <LoggerScada.hpp>
+#include <Module_IO/UnitTransfer/adapters/SharedMemory_Adapter/AdapterSharedMemory.hpp>
 #include <algorithm>
 #include <numeric>
 #include <string>
 #include <functional>
 
-using namespace scada_ate::gate::adapter::sem;
+using namespace scada_ate;
 using namespace scada_ate::gate::adapter;
+using namespace scada_ate::gate::adapter::sem;
 
 class TT
 {
@@ -22,15 +22,10 @@ long long TT::time = 0;
 int main()
 {
 
-	std::shared_ptr<LoggerSpaceScada::ILoggerScada> log;
-	log = LoggerSpaceScada::GetLoggerScada(LoggerSpaceScada::TypeLogger::SPDLOG);
-
-	log->Info("Rhtfnt {} {}", 1, 2);
-
 	std::shared_ptr<scada_ate::gate::adapter::IAdapter> adapt_in;
 	std::shared_ptr<scada_ate::gate::adapter::IAdapter> adapt_out;
 
-	size_t size_data = 10000;
+	size_t size_data = 100000;
 
 	std::vector<InfoTag> _tags_in{size_data};
 	std::vector<InfoTag> _tags_out{ size_data };
@@ -82,7 +77,7 @@ int main()
 	config_out->size_double_data = 0;
 	config_out->size_char_data = 0;
 	config_out->size_str_data = 0;
-	config_out->vec_link_tasg = link_tags;
+	config_out->vec_link_tags = link_tags;
 
 	adapt_in = CreateAdapter(config_in);
 	adapt_out = CreateAdapter(config_out);
@@ -90,36 +85,36 @@ int main()
 	adapt_in->InitAdapter();
 	adapt_out->InitAdapter();
 
-	std::vector<SetTags> data_send(1);
-	std::vector<SetTags>* data_recive = &data_send;// = data_send;
+	std::deque<SetTags> data_send(1);
+	std::deque<SetTags>* data_recive = &data_send;// = data_send;
 	int count = 0;
 
 	for (InfoTag& tag : _tags_in)
 	{
 		if (tag.type == scada_ate::gate::adapter::TypeValue::FLOAT)
 		{
-			data_send[0].map_float_data[tag] = {0, count * 0.1f , 1};
+			data_send[0].map_data[tag] = {0, count * 0.1f , 1};
 		}
 		else if (tag.type == scada_ate::gate::adapter::TypeValue::INT)
 		{
-			data_send[0].map_int_data[tag] = {0, count, 1};
+			data_send[0].map_data[tag] = {0, count, 1};
 		}
 
 		count++;
 	}
 
 	adapt_out->WriteData(data_send);
-	adapt_in->ReadData(data_recive);
+	adapt_in->ReadData(&data_recive);
 
 
-	ValueFloat val_f;
-	ValueInt val_i;
+	//ValueFloat val_f;
+	//ValueInt val_i;
 
 	int c =0;
-	size_t count_iter = 1000;
+	size_t count_iter = 40000;
 	size_t count_ = 0;
-	std::vector<long long> time_read(count_iter);
-	std::vector<long long> time_write(count_iter);
+	long long time_read = 0;
+	long long time_write = 0;
 	TT time_master;
 
 	while (1)
@@ -146,28 +141,13 @@ int main()
 
 		c = 0;
 
-		for (auto& tag : _tags_in)
-		{
-			if (tag.type == scada_ate::gate::adapter::TypeValue::FLOAT)
-			{
-				data_send[0].map_float_data[tag].value++;
-			}
-			else if (tag.type == scada_ate::gate::adapter::TypeValue::INT)
-			{
-				data_send[0].map_int_data[tag].value++;
-			}
-
-			c++;
-			if (c > 100) break;
-		}
-
 		time_master.FiksTime();
 		adapt_out->WriteData(data_send);
-		time_write[count_] = time_master.GetTicks();
+		time_write += time_master.GetTicks();
 		
 		time_master.FiksTime();
-		adapt_in->ReadData(data_recive);
-		time_read[count_] = time_master.GetTicks();
+		adapt_in->ReadData(&data_recive);
+		time_read += time_master.GetTicks();
 
 		count_++;
 
@@ -179,8 +159,8 @@ int main()
 	}
 
 
-	std::cout << "time read : " << std::accumulate(time_read.begin(), time_read.end(), 0) * 1. / time_read.size() << " mcs" << std::endl;
-	std::cout << "time write : " << std::accumulate(time_write.begin(), time_write.end(), 0) * 1. / time_write.size() << " mcs" << std::endl;
+	std::cout << "time read : " << time_read * 1. / count_iter << " mcs" << std::endl;
+	std::cout << "time write : " << time_write * 1. / count_iter << " mcs" << std::endl;
 	
 
 	return 0;

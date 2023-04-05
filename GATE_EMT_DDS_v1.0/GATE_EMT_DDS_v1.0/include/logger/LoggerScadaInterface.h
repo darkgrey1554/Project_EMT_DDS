@@ -33,10 +33,15 @@ namespace atech::logger
 		virtual ~ConfigLogger() = default;
 	};
 
+	class ILoggerScada;
+
+	using ILoggerScada_ptr = std::shared_ptr<ILoggerScada>;
+
 	class ILoggerScada
 	{
-	protected:
+		protected:
 
+		static std::atomic<TypeLogger> default_type_logger;
 		virtual void call_info_logger(std::string& str) = 0;
 		virtual void call_debug_logger(std::string& str) = 0;
 		virtual void call_warning_logger(std::string& str) = 0;
@@ -45,7 +50,7 @@ namespace atech::logger
 		ILoggerScada() = default;
 		virtual ~ILoggerScada() = default;
 
-	public:
+		public:
 
 		template<typename... Args> void Info(std::string_view str, Args&&... args)
 		{
@@ -82,10 +87,14 @@ namespace atech::logger
 			return;
 		}
 
+		static ResultRequest SetTypeDefaultLogger(TypeLogger type);
+		static TypeLogger GetTypeDefaultLogger();
+		static ILoggerScada_ptr GetInstance(TypeLogger type = TypeLogger::NONE);
+
 		virtual ResultRequest SetLevel(const LevelLog& level) = 0;
 		virtual ResultRequest ClearLogger() = 0;
 		virtual ResultRequest Init(std::shared_ptr<ConfigLogger> config) = 0;
 	};
 
-	using ILoggerScada_ptr = std::shared_ptr<ILoggerScada>;
+	
 }

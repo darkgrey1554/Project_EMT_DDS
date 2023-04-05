@@ -39,7 +39,7 @@ int main()
 			std::shared_ptr<atech::common::WsConfig> ws_unit = std::make_shared<atech::common::WsConfig>();
 			std::vector<atech::common::Topic> vec_topic(1);
 			std::vector<size_t> vec_tag(3000);
-			std::iota(vec_tag.begin(), vec_tag.end(), 0);
+			std::iota(vec_tag.begin(), vec_tag.end(), 1);
 			vec_topic[0].set_tag_ids(vec_tag);
 			vec_topic[0].set_topic_name("from_emt");
 			 
@@ -74,14 +74,14 @@ int main()
 					datum.set_type_registration("");
 
 					in_data.set_tag("");
-					in_data.set_id_tag(i);
+					in_data.set_id_tag(i+1);
 					in_data.set_is_array(false);
 					in_data.set_mask(0);
 					in_data.set_offset(i);
 					in_data.set_type("DATA_INT");
 
 					out_data.set_tag("");
-					out_data.set_id_tag(i);
+					out_data.set_id_tag(i+1);
 					out_data.set_is_array(false);
 					out_data.set_mask(0);
 					out_data.set_offset(i);
@@ -102,14 +102,14 @@ int main()
 					datum.set_type_registration("");
 
 					in_data.set_tag("");
-					in_data.set_id_tag(1000 + i);
+					in_data.set_id_tag(1000 + i + 1);
 					in_data.set_is_array(false);
 					in_data.set_mask(0);
 					in_data.set_offset(i);
 					in_data.set_type("DATA_FLOAT");
 
 					out_data.set_tag("");
-					out_data.set_id_tag(1000 + i);
+					out_data.set_id_tag(1000 + i + 1);
 					out_data.set_is_array(false);
 					out_data.set_mask(0);
 					out_data.set_offset(i);

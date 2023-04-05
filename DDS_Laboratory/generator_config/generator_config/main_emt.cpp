@@ -67,14 +67,14 @@ int main()
 					datum.set_type_registration("");
 
 					in_data.set_tag("");
-					in_data.set_id_tag(i);
+					in_data.set_id_tag(i+1);
 					in_data.set_is_array(true);
 					in_data.set_mask(0);
 					in_data.set_offset(i);
 					in_data.set_type("i");
 
 					out_data.set_tag("");
-					out_data.set_id_tag(i);
+					out_data.set_id_tag(i+1);
 					out_data.set_is_array(true);
 					out_data.set_mask(0);
 					out_data.set_offset(i);
@@ -95,14 +95,14 @@ int main()
 					datum.set_type_registration("");
 
 					in_data.set_tag("");
-					in_data.set_id_tag(1000 + i);
+					in_data.set_id_tag(1000 + i + 1);
 					in_data.set_is_array(true);
 					in_data.set_mask(0);
 					in_data.set_offset(i);
 					in_data.set_type("f");
 
 					out_data.set_tag("");
-					out_data.set_id_tag(1000 + i);
+					out_data.set_id_tag(1000 + i + 1);
 					out_data.set_is_array(true);
 					out_data.set_mask(0);
 					out_data.set_offset(i);
@@ -140,7 +140,7 @@ int main()
 			atech::common::InputUnit unit_in;
 			std::shared_ptr<atech::common::DdsConfig> dds_unit = std::make_shared<atech::common::DdsConfig>();
 			dds_unit->set_topic_name("to_emt");
-			dds_unit->set_type_name("DDSData");
+			dds_unit->set_type_name("DDSDataEx");
 			unit_in.set_id(201);
 			unit_in.set_id_map(0);
 			unit_in.set_type_adapter("DDS");
@@ -182,14 +182,14 @@ int main()
 					datum.set_type_registration("");
 
 					in_data.set_tag("");
-					in_data.set_id_tag(3000 + i);
+					in_data.set_id_tag(3000 + i + 1);
 					in_data.set_is_array(true);
 					in_data.set_mask(0);
 					in_data.set_offset(i);
 					in_data.set_type("i");
 
 					out_data.set_tag("");
-					out_data.set_id_tag(3000 + i);
+					out_data.set_id_tag(3000 + i + 1);
 					out_data.set_is_array(true);
 					out_data.set_mask(0);
 					out_data.set_offset(i);

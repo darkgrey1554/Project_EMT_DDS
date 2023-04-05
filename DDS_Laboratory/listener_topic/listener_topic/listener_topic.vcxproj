@@ -154,7 +154,8 @@
     <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusPubSubTypes.cxx" />
     <ClCompile Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.cxx" />
     <ClCompile Include="include\ddsformat\SizeTopics.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="include\TimeConverter.cpp" />
+    <ClCompile Include="test_ddsdataex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ddsformat\DDSAlarmEx\DDSAlarmEx.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="include\ddsformat\DdsStatus\DdsStatusTypeObject.h" />
     <ClInclude Include="include\ddsformat\SizeTopics.h" />
     <ClInclude Include="include\ddsformat\TypeTopics.h" />
+    <ClInclude Include="include\TimeConverter.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

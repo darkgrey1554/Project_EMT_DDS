@@ -70,6 +70,7 @@ namespace scada_ate::gate::adapter
 		size_t offset = 0;
 		TypeValue type;
 		unsigned int mask = 0;
+		size_t offset_store = 0;
 		StatusTag status = StatusTag::NONE;
 
 		bool operator == (const InfoTag& tag)
@@ -84,32 +85,10 @@ namespace scada_ate::gate::adapter
 		};
 	};
 
-	
-
-	struct InfoTagHash {
-		std::size_t operator()(const InfoTag& k) const
-		{
-			std::size_t h1 = std::hash<std::string>{}(k.tag);
-			std::size_t h2 = std::hash<size_t>{}(k.offset);
-			std::size_t h3 = std::hash<int>{}(k.id_tag);
-			return ((h1 ^ (h2 << 1)) >> 1) ^ (h3 << 1);
-		}
-	};
-
-	struct InfoTagEqual {
-		bool operator()(const InfoTag& lhs, const InfoTag& rhs) const
-		{
-			if (lhs.id_tag != rhs.id_tag) return false;
-			if (lhs.offset != rhs.offset) return false;
-			if (lhs.tag != rhs.tag) return false;
-			return true;
-		}
-	};
-
-	struct Value
+	template<typename T> struct ValueT
 	{
 		long long time = 0;
-		std::variant<int, float, double, char, std::string> value;
+		T value;
 		char quality = 0;
 	};
 
@@ -141,7 +120,11 @@ namespace scada_ate::gate::adapter
 	struct SetTags
 	{
 		long long time_source;
-		std::unordered_map<InfoTag, Value , InfoTagHash, InfoTagEqual> map_data;
+		std::vector<ValueT<int>> data_int{};
+		std::vector<ValueT<float>> data_float{};
+		std::vector<ValueT<double>> data_double{};
+		std::vector<ValueT<char>> data_char{};
+		std::vector<ValueT<std::string>> data_str;
 	};
 
 	class IAdapter : public atech::common::IControl
