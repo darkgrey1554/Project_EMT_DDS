@@ -15,7 +15,8 @@ namespace  scada_ate::gate::adapter::opc
 		UA_ReadRequest_init(&_read_request);
 		UA_WriteRequest_init(&_write_request);
 		data.clear();
-		log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
+		log = atech::logger::ILoggerScada::GetInstance(atech::logger::TypeLogger::SPDDDS);
+		//log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	};
 
 	AdapterOPCUA::~AdapterOPCUA() 
