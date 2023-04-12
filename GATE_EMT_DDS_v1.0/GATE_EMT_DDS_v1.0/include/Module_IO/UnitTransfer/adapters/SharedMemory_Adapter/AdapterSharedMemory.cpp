@@ -375,13 +375,13 @@ namespace scada_ate::gate::adapter::sem
 		unsigned int result = 0;
 		int sys_error = 0;
 
-		StatusAdapter status = current_status.load(std::memory_order::memory_order_relaxed);
-		if (status == StatusAdapter::INITIALIZATION || status == StatusAdapter::OK)
+		atech::common::Status status = current_status.load(std::memory_order::memory_order_relaxed);
+		if (status == atech::common::Status::INIT || status == atech::common::Status::OK)
 		{
 			ResultReqest res = ResultReqest::IGNOR;
 			return res;
 		}
-		current_status.store(StatusAdapter::INITIALIZATION, std::memory_order_relaxed);
+		current_status.store(atech::common::Status::INIT, std::memory_order_relaxed);
 
 		std::string namememory;
 		std::string namemutex;
@@ -647,7 +647,7 @@ namespace scada_ate::gate::adapter::sem
 		bool status_lock = false;
 		try
 		{
-			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+			if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
 			{
 				log->Warning("AdapterSharedMemory {}: ReadData IGNOR: error {}", config.NameChannel, 1);
 				return ResultReqest::IGNOR;
@@ -744,12 +744,13 @@ namespace scada_ate::gate::adapter::sem
 
 		try
 		{
-			if (current_status.load(std::memory_order_relaxed) != StatusAdapter::OK)
+
+			if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
 			{
-				log->Debug("AdapterSharedMemory {}: WriteData IGNOR", config.NameChannel);
+				log->Warning("AdapterSharedMemory {}: WriteData IGNOR: error {}", config.NameChannel, 1);
 				return ResultReqest::IGNOR;
 			}
-
+			
 			log->Debug("AdapterSharedMemory {}: WriteData START", config.NameChannel);
 
 			if (lock_semaphore() != ResultReqest::OK) throw 1;

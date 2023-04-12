@@ -1,0 +1,2126 @@
+{
+  "adapters": {
+    "hash": 123214,
+    "units": [
+      {
+        "frequency": 1000,
+        "id": 100,
+        "input_units": [
+          {
+            "id": 101,
+            "version": "",
+            "type_adapter": "SM",
+            "config": {
+              "name_point_sm": "test_sm",
+              "size_float_data": 100,
+              "size_int_data": 100,
+              "size_double_data": 0,
+              "size_char_data": 0,
+              "size_str": 0
+            },
+            "id_map": 0
+          }
+        ],
+        "output_units": [
+          {
+            "id": 102,
+            "version": "",
+            "type_adapter": "DDS",
+            "id_map": 1,
+            "config": {
+              "topic_name": "test_1_data",
+              "type_name": "DDSData"
+            }
+          }
+        ],
+        "mapping": [
+          {
+            "id_map": 1,
+            "frequency": 1000,
+            "data": [
+              {
+                "inputdata": {
+                  "id_tag": 0,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 0,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1000,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 0,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 1,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 1,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1001,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 1,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 2,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 2,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1002,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 2,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 3,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 3,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1003,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 3,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 4,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 4,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1004,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 4,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 5,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 5,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1005,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 5,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 6,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 6,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1006,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 6,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 7,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 7,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1007,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 7,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 8,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 8,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1008,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 8,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 9,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 9,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1009,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 9,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 10,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 10,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1010,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 10,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 11,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 11,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1011,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 11,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 12,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 12,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1012,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 12,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 13,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 13,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1013,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 13,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 14,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 14,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1014,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 14,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 15,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 15,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1015,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 15,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 16,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 16,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1016,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 16,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 17,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 17,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1017,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 17,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 18,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 18,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1018,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 18,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 19,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 19,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1019,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 19,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 20,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 20,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1020,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 20,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 21,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 21,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1021,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 21,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 22,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 22,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1022,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 22,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 23,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 23,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1023,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 23,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 24,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 24,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1024,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 24,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 25,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 25,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1025,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 25,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 26,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 26,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1026,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 26,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 27,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 27,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1027,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 27,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 28,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 28,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1028,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 28,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 29,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 29,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1029,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 29,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 30,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 30,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1030,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 30,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 31,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 31,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1031,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 31,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 32,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 32,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1032,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 32,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 33,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 33,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1033,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 33,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 34,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 34,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1034,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 34,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 35,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 35,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1035,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 35,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 36,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 36,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1036,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 36,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 37,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 37,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1037,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 37,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 38,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 38,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1038,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 38,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 39,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 39,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1039,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 39,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 40,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 40,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1040,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 40,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 41,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 41,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1041,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 41,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 42,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 42,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1042,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 42,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 43,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 43,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1043,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 43,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 44,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 44,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1044,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 44,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 45,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 45,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1045,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 45,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 46,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 46,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1046,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 46,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 47,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 47,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1047,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 47,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 48,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 48,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1048,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 48,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 49,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 49,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1049,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 49,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 50,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 50,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1050,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 50,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 51,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 51,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1051,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 51,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 52,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 52,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1052,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 52,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 53,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 53,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1053,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 53,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 54,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 54,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1054,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 54,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 55,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 55,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1055,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 55,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 56,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 56,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1056,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 56,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 57,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 57,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1057,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 57,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 58,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 58,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1058,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 58,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 59,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 59,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1059,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 59,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 60,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 60,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1060,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 60,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 61,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 61,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1061,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 61,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 62,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 62,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1062,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 62,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 63,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 63,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1063,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 63,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 64,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 64,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1064,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 64,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 65,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 65,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1065,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 65,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 66,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 66,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1066,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 66,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 67,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 67,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1067,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 67,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 68,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 68,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1068,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 68,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 69,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 69,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1069,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 69,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 70,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 70,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1070,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 70,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 71,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 71,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1071,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 71,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 72,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 72,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1072,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 72,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 73,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 73,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1073,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 73,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 74,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 74,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1074,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 74,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 75,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 75,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1075,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 75,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 76,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 76,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1076,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 76,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 77,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 77,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1077,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 77,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 78,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 78,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1078,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 78,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 79,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 79,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1079,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 79,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 80,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 80,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1080,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 80,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 81,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 81,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1081,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 81,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 82,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 82,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1082,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 82,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 83,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 83,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1083,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 83,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 84,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 84,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1084,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 84,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 85,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 85,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1085,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 85,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 86,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 86,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1086,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 86,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 87,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 87,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1087,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 87,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 88,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 88,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1088,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 88,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 89,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 89,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1089,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 89,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 90,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 90,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1090,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 90,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 91,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 91,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1091,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 91,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 92,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 92,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1092,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 92,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 93,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 93,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1093,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 93,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 94,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 94,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1094,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 94,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 95,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 95,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1095,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 95,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 96,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 96,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1096,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 96,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 97,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 97,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1097,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 97,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 98,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 98,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1098,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 98,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              },
+              {
+                "inputdata": {
+                  "id_tag": 99,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 99,
+                  "mask": 0
+                },
+                "outputdata": {
+                  "id_tag": 1099,
+                  "tag": "",
+                  "type": "i",
+                  "is_array": true,
+                  "offset": 99,
+                  "mask": 0
+                },
+                "type_registration": "",
+                "delta": 0.0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "dds": {
+    "hash": 123123,
+    "profiles": {}
+  },
+  "node_source": 0,
+  "node_target": 65793,
+  "topic_max_size": {
+    "dds_type_size": [
+      {
+        "type_name": "DDSData",
+        "type_sizes": [
+          {
+            "size": 100,
+            "type_name": "float"
+          },
+          {
+            "size": 100,
+            "type_name": "int"
+          },
+          {
+            "size": 100,
+            "type_name": "double"
+          },
+          {
+            "size": 100,
+            "type_name": "char_vector"
+          },
+          {
+            "size": 100,
+            "type_name": "char"
+          }
+        ]
+      },
+      {
+        "type_name": "DDSDataEx",
+        "type_sizes": [
+          {
+            "size": 100,
+            "type_name": "float"
+          },
+          {
+            "size": 100,
+            "type_name": "int"
+          },
+          {
+            "size": 100,
+            "type_name": "double"
+          },
+          {
+            "size": 100,
+            "type_name": "char_vector"
+          },
+          {
+            "size": 100,
+            "type_name": "char"
+          }
+        ]
+      },
+      {
+        "type_name": "DDSAlarm",
+        "type_sizes": [
+          {
+            "size": 100,
+            "type_name": "long"
+          }
+        ]
+      },
+      {
+        "type_name": "DDSAlarmEx",
+        "type_sizes": [
+          {
+            "size": 100,
+            "type_name": "char"
+          }
+        ]
+      }
+    ],
+    "hash": 12345
+  }
+}
