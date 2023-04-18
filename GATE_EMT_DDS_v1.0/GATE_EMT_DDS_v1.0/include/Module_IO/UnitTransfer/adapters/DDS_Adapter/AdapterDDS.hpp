@@ -749,10 +749,10 @@ namespace scada_ate::gate::adapter::dds
 				data.back().data_double.resize(size_vector_double_settags);
 				data.back().data_char.resize(size_vector_char_settags);
 				data.back().data_str.resize(size_vector_str_settags);
-				box = data.back();
+				box = &data.back();
 			}
 
-			box.time_source = buf->time_source();
+			box->time_source = buf->time_source();
 			long long time_packet = buf->time_source();
 
 			{

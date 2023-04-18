@@ -1,11 +1,5 @@
 ﻿  Module_CTRL.cpp
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(13,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,9): error C3646: init_value: неизвестный спецификатор переопределения
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,19): error C2059: синтаксическая ошибка: (
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,42): error C2238: непредвиденные лексемы перед ";"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,9): error C3646: get_opc_value: неизвестный спецификатор переопределения
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,22): error C2059: синтаксическая ошибка: (
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,61): error C2238: непредвиденные лексемы перед ";"
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.hpp(21,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(99,30): warning C4244: =: преобразование "int64_t" в "uint32_t", возможна потеря данных
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(254,38): warning C4244: аргумент: преобразование "int64_t" в "uint32_t", возможна потеря данных
@@ -15,420 +9,357 @@ D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\in
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(648,59): warning C4244: =: преобразование "const int64_t" в "int", возможна потеря данных
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(652,55): warning C4244: =: преобразование "const int64_t" в "unsigned int", возможна потеря данных
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(888,21): warning C4244: аргумент: преобразование "int64_t" в "uint32_t", возможна потеря данных
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.cpp(902,15): warning C4101: e: неиспользованная локальная переменная
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(44): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::adl_serializer<T,void>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::from_json_function<nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::detected_t<nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(3474): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::is_detected_exact<T,nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18918): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::has_non_default_from_json<nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,ValueType,void>"
+          with
+          [
+              ValueType=std::shared_ptr<atech::common::FtConfig>
+          ]
   UnitAid_DDS.cpp
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(13,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,9): error C3646: init_value: неизвестный спецификатор переопределения
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,19): error C2059: синтаксическая ошибка: (
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,42): error C2238: непредвиденные лексемы перед ";"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,9): error C3646: get_opc_value: неизвестный спецификатор переопределения
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,22): error C2059: синтаксическая ошибка: (
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,61): error C2238: непредвиденные лексемы перед ";"
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_CTRL\Module_CTRL.hpp(21,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46,21): warning C4834: отмена возвращаемого значения функции с атрибутом "nodiscard"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(44): message : во время компиляции функции-члена класс шаблон "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18782): message : выполняется компиляция ссылки на экземпляр шаблон функции "void nlohmann::adl_serializer<T,void>::from_json(const nlohmann::ordered_json &,std::shared_ptr<atech::common::FtConfig> &)"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::adl_serializer<T,void>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\MessageSerializer.h(46): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::from_json_function<nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(2295): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::detected_t<nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(3474): message : выполняется компиляция ссылки на экземпляр псевдоним шаблон функции "nlohmann::detail::is_detected_exact<T,nlohmann::detail::from_json_function,nlohmann::adl_serializer<T,void>,const BasicJsonType&>"
+          with
+          [
+              T=std::shared_ptr<atech::common::FtConfig>,
+              BasicJsonType=nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\config\json.hpp(18918): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "nlohmann::detail::has_non_default_from_json<nlohmann::basic_json<nlohmann::ordered_map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>,ValueType,void>"
+          with
+          [
+              ValueType=std::shared_ptr<atech::common::FtConfig>
+          ]
   Adapters.cpp
 D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(13,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,9): error C3646: init_value: неизвестный спецификатор переопределения
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,19): error C2059: синтаксическая ошибка: (
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,42): error C2238: непредвиденные лексемы перед ";"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,9): error C3646: get_opc_value: неизвестный спецификатор переопределения
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,22): error C2059: синтаксическая ошибка: (
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,61): error C2238: непредвиденные лексемы перед ";"
-  AdapterOPCUA.cpp
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(13,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,9): error C3646: init_value: неизвестный спецификатор переопределения
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,19): error C2059: синтаксическая ошибка: (
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(119,42): error C2238: непредвиденные лексемы перед ";"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,9): error C3646: get_opc_value: неизвестный спецификатор переопределения
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,22): error C2059: синтаксическая ошибка: (
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(120,61): error C2238: непредвиденные лексемы перед ";"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(376,17): error C2039: "data_doub": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(520,16): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(520,33): error C3861: init_value: идентификатор не найден
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(524,15): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(524,32): error C3861: get_opc_value: идентификатор не найден
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(627,23): error C2039: "init_value": не является членом "scada_ate::gate::adapter::opc::AdapterOPCUA".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(80): message : см. объявление "scada_ate::gate::adapter::opc::AdapterOPCUA"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(627,33): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(627,33): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "init_value"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(628,2): error C2143: синтаксическая ошибка: отсутствие ";" перед "{"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(628,2): error C2447: {: отсутствует заголовок функции (возможно, используется формальный список старого типа)
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(640,23): error C2039: "get_opc_value": не является членом "scada_ate::gate::adapter::opc::AdapterOPCUA".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.h(80): message : см. объявление "scada_ate::gate::adapter::opc::AdapterOPCUA"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(640,36): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(640,2): error C2086: int scada_ate::gate::adapter::opc::Value: переопределение
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(627): message : см. объявление "scada_ate::gate::adapter::opc::Value"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(640,36): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "get_opc_value"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(641,2): error C2143: синтаксическая ошибка: отсутствие ";" перед "{"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(641,2): error C2447: {: отсутствует заголовок функции (возможно, используется формальный список старого типа)
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(776,11): error C2065: last: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(776,28): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(777,13): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(778,15): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(778,15): error C2143: синтаксическая ошибка: отсутствие ";" перед "&"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(778,17): error C2065: current: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(778,32): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(782,23): error C2065: last: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(782,29): error C2065: current: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(785,25): error C2065: last: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(785,31): error C2065: current: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(788,26): error C2065: last: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(788,32): error C2065: current: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(791,24): error C2065: last: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(791,30): error C2065: current: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(794,31): error C2065: last: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(794,37): error C2065: current: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(809,15): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(809,15): error C2143: синтаксическая ошибка: отсутствие ";" перед "&"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(809,17): error C2065: value: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(809,35): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(811,54): error C2065: value: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(813,32): error C2065: value: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,49): error C2065: value: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,60): error C2672: "std::get": не найдена соответствующая перегруженная функция
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1299,37): message : может быть "decltype(auto) std::get(const std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1291,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1283,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1275,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086,34): message : или       "const _Ty &&std::get(const std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083,28): message : или       "_Ty &&std::get(std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080,33): message : или       "const _Ty &std::get(const std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077,27): message : или       "_Ty &std::get(std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1031,34): message : или       "const _Ty &&std::get(const std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1025,28): message : или       "_Ty &&std::get(std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1019,33): message : или       "const _Ty &std::get(const std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1013,27): message : или       "_Ty &std::get(std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998,72): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(const std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991,66): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985,71): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &std::get(const std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979,65): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &std::get(std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(716,35): message : или       "const _Ty2 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(710,35): message : или       "const _Ty1 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703,70): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(697,29): message : или       "_Ty2 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(691,29): message : или       "_Ty1 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684,64): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(678,34): message : или       "const _Ty2 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(672,34): message : или       "const _Ty1 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665,69): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(659,28): message : или       "_Ty2 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(653,28): message : или       "_Ty1 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646,63): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(818,44): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646): message : см. объявление "std::get"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,53): error C2065: value: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,64): error C2672: "std::get": не найдена соответствующая перегруженная функция
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1299,37): message : может быть "decltype(auto) std::get(const std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1291,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1283,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1275,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086,34): message : или       "const _Ty &&std::get(const std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083,28): message : или       "_Ty &&std::get(std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080,33): message : или       "const _Ty &std::get(const std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077,27): message : или       "_Ty &std::get(std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1031,34): message : или       "const _Ty &&std::get(const std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1025,28): message : или       "_Ty &&std::get(std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1019,33): message : или       "const _Ty &std::get(const std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1013,27): message : или       "_Ty &std::get(std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998,72): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(const std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991,66): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985,71): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &std::get(const std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979,65): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &std::get(std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(716,35): message : или       "const _Ty2 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(710,35): message : или       "const _Ty1 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703,70): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(697,29): message : или       "_Ty2 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(691,29): message : или       "_Ty1 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684,64): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(678,34): message : или       "const _Ty2 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(672,34): message : или       "const _Ty1 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665,69): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(659,28): message : или       "_Ty2 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(653,28): message : или       "_Ty1 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646,63): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(821,46): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646): message : см. объявление "std::get"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,55): error C2065: value: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,66): error C2672: "std::get": не найдена соответствующая перегруженная функция
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1299,37): message : может быть "decltype(auto) std::get(const std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1291,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1283,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1275,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086,34): message : или       "const _Ty &&std::get(const std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083,28): message : или       "_Ty &&std::get(std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080,33): message : или       "const _Ty &std::get(const std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077,27): message : или       "_Ty &std::get(std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1031,34): message : или       "const _Ty &&std::get(const std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1025,28): message : или       "_Ty &&std::get(std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1019,33): message : или       "const _Ty &std::get(const std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1013,27): message : или       "_Ty &std::get(std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998,72): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(const std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991,66): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985,71): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &std::get(const std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979,65): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &std::get(std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(716,35): message : или       "const _Ty2 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(710,35): message : или       "const _Ty1 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703,70): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(697,29): message : или       "_Ty2 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(691,29): message : или       "_Ty1 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684,64): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(678,34): message : или       "const _Ty2 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(672,34): message : или       "const _Ty1 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665,69): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(659,28): message : или       "_Ty2 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(653,28): message : или       "_Ty1 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646,63): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(824,47): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646): message : см. объявление "std::get"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,51): error C2065: value: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,62): error C2672: "std::get": не найдена соответствующая перегруженная функция
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1299,37): message : может быть "decltype(auto) std::get(const std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1291,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1283,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1275,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086,34): message : или       "const _Ty &&std::get(const std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083,28): message : или       "_Ty &&std::get(std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080,33): message : или       "const _Ty &std::get(const std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077,27): message : или       "_Ty &std::get(std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1031,34): message : или       "const _Ty &&std::get(const std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1025,28): message : или       "_Ty &&std::get(std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1019,33): message : или       "const _Ty &std::get(const std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1013,27): message : или       "_Ty &std::get(std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998,72): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(const std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991,66): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985,71): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &std::get(const std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979,65): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &std::get(std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(716,35): message : или       "const _Ty2 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(710,35): message : или       "const _Ty1 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703,70): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(697,29): message : или       "_Ty2 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(691,29): message : или       "_Ty1 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684,64): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(678,34): message : или       "const _Ty2 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(672,34): message : или       "const _Ty1 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665,69): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(659,28): message : или       "_Ty2 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(653,28): message : или       "_Ty1 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646,63): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(827,45): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646): message : см. объявление "std::get"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,63): error C2065: value: необъявленный идентификатор
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,74): error C2672: "std::get": не найдена соответствующая перегруженная функция
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1299,37): message : может быть "decltype(auto) std::get(const std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1291,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1283,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1275,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1264): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254,37): message : или       "decltype(auto) std::get(const std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1254): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &&)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1244): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234,37): message : или       "decltype(auto) std::get(std::variant<_Types...> &)"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1234): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086,34): message : или       "const _Ty &&std::get(const std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1086): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083,28): message : или       "_Ty &&std::get(std::array<_Ty,_Size> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1083): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080,33): message : или       "const _Ty &std::get(const std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1080): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077,27): message : или       "_Ty &std::get(std::array<_Ty,_Size> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1077): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1031,34): message : или       "const _Ty &&std::get(const std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1025,28): message : или       "_Ty &&std::get(std::tuple<_Types...> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1019,33): message : или       "const _Ty &std::get(const std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(1013,27): message : или       "_Ty &std::get(std::tuple<_Types...> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998,72): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(const std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(998): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991,66): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &&std::get(std::tuple<_Types...> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(991): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985,71): message : или       "const tuple_element<_Index,std::tuple<_Types...>>::type &std::get(const std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(985): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979,65): message : или       "tuple_element<_Index,std::tuple<_Types...>>::type &std::get(std::tuple<_Types...> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Index", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\tuple(979): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(716,35): message : или       "const _Ty2 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(710,35): message : или       "const _Ty1 &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703,70): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(const std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(703): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(697,29): message : или       "_Ty2 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(691,29): message : или       "_Ty1 &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684,64): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &&std::get(std::pair<_Ty1,_Ty2> &&) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(684): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(678,34): message : или       "const _Ty2 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(672,34): message : или       "const _Ty1 &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665,69): message : или       "const tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(const std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(665): message : см. объявление "std::get"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(659,28): message : или       "_Ty2 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(653,28): message : или       "_Ty1 &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646,63): message : или       "tuple_element<_Idx,std::pair<_Ty1,_Ty2>>::type &std::get(std::pair<_Ty1,_Ty2> &) noexcept"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831,55): message : std::get: недопустимый аргумент шаблона для "_Idx", требуется константное выражение времени компиляции
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\utility(646): message : см. объявление "std::get"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(834,4): error C2361: пропуск инициализации "str" из-за метки "default"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(831): message : см. объявление "str"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(845,13): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(848,14): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\OPCUA_Adapter\AdapterOPCUA.cpp(848,36): error C3861: init_value: идентификатор не найден
-  main_test_adapterSM.cpp
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main_test_adapterSM.cpp(96,17): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\main_test_adapterSM.cpp(100,17): error C2039: "map_data": не является членом "scada_ate::gate::adapter::SetTags".
-D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.hpp(120): message : см. объявление "scada_ate::gate::adapter::SetTags"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(562,1): error C2440: =: невозможно преобразовать "_Ty" в "scada_ate::gate::adapter::SetTags *"
+          with
+          [
+              _Ty=scada_ate::gate::adapter::SetTags
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(562,19): message : Для выполнения данного преобразования нет доступного оператора преобразования, определенного пользователем, или вызов оператора невозможен
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(546): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSData>::write_to_deque(DDSData *,size_t &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(485): message : выполняется компиляция ссылки на экземпляр шаблон функции "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSData>::write_to_deque(DDSData *,size_t &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(177): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSData>::InitAdapter(void)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\type_traits(327): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "scada_ate::gate::adapter::dds::AdapterDDS<DDSData>"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\memory(1443): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_convertible<_Yty *,_Ty *>"
+          with
+          [
+              _Yty=scada_ate::gate::adapter::dds::AdapterDDS<DDSData>,
+              _Ty=scada_ate::gate::adapter::IAdapter
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.cpp(45): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_SP_pointer_compatible<scada_ate::gate::adapter::dds::AdapterDDS<DDSData>,scada_ate::gate::adapter::IAdapter>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(806,1): error C2679: бинарный "=": не найден оператор, принимающий правый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : может быть "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &&)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : или       "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(const std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(806,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(787): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarmEx>::write_to_deque(DDSAlarmEx *,size_t &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(485): message : выполняется компиляция ссылки на экземпляр шаблон функции "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarmEx>::write_to_deque(DDSAlarmEx *,size_t &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(177): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarmEx>::InitAdapter(void)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\type_traits(327): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarmEx>"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\memory(1443): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_convertible<_Yty *,_Ty *>"
+          with
+          [
+              _Yty=scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarmEx>,
+              _Ty=scada_ate::gate::adapter::IAdapter
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.cpp(47): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_SP_pointer_compatible<scada_ate::gate::adapter::dds::AdapterDDS<DDSAlarmEx>,scada_ate::gate::adapter::IAdapter>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(807,1): error C2678: бинарный "!=": не найден оператор, принимающий левый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(202,21): message : может быть "bool std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator !=(const std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &) noexcept const"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\guiddef.h(197,15): message : или       "bool operator !=(const GUID &,const GUID &)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(253,24): message : или       "bool std::operator !=(std::thread::id,std::thread::id) noexcept" [найдено при поиске с зависимостью от аргументов]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1691,27): message : или       "bool std::operator !=(std::monostate,std::monostate) noexcept" [найдено при поиске с зависимостью от аргументов]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(807,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(656,1): error C2679: бинарный "=": не найден оператор, принимающий правый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : может быть "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &&)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : или       "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(const std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(656,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(636): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSDataEx>::write_to_deque(DDSDataEx *,size_t &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(485): message : выполняется компиляция ссылки на экземпляр шаблон функции "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSDataEx>::write_to_deque(DDSDataEx *,size_t &)"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(177): message : во время компиляции функции-члена класс шаблон "ResultReqest scada_ate::gate::adapter::dds::AdapterDDS<DDSDataEx>::InitAdapter(void)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\type_traits(327): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "scada_ate::gate::adapter::dds::AdapterDDS<DDSDataEx>"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\memory(1443): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::is_convertible<_Yty *,_Ty *>"
+          with
+          [
+              _Yty=scada_ate::gate::adapter::dds::AdapterDDS<DDSDataEx>,
+              _Ty=scada_ate::gate::adapter::IAdapter
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\Adapters.cpp(49): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "std::_SP_pointer_compatible<scada_ate::gate::adapter::dds::AdapterDDS<DDSDataEx>,scada_ate::gate::adapter::IAdapter>"
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(657,1): error C2678: бинарный "!=": не найден оператор, принимающий левый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(202,21): message : может быть "bool std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator !=(const std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &) noexcept const"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\guiddef.h(197,15): message : или       "bool operator !=(const GUID &,const GUID &)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(253,24): message : или       "bool std::operator !=(std::thread::id,std::thread::id) noexcept" [найдено при поиске с зависимостью от аргументов]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1691,27): message : или       "bool std::operator !=(std::monostate,std::monostate) noexcept" [найдено при поиске с зависимостью от аргументов]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(657,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(672,1): error C2679: бинарный "=": не найден оператор, принимающий правый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : может быть "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &&)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : или       "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(const std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(672,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(673,1): error C2678: бинарный "!=": не найден оператор, принимающий левый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(202,21): message : может быть "bool std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator !=(const std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &) noexcept const"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\guiddef.h(197,15): message : или       "bool operator !=(const GUID &,const GUID &)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(253,24): message : или       "bool std::operator !=(std::thread::id,std::thread::id) noexcept" [найдено при поиске с зависимостью от аргументов]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1691,27): message : или       "bool std::operator !=(std::monostate,std::monostate) noexcept" [найдено при поиске с зависимостью от аргументов]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(673,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(689,1): error C2679: бинарный "=": не найден оператор, принимающий правый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : может быть "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &&)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : или       "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(const std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(689,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(690,1): error C2678: бинарный "!=": не найден оператор, принимающий левый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(202,21): message : может быть "bool std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator !=(const std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &) noexcept const"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\guiddef.h(197,15): message : или       "bool operator !=(const GUID &,const GUID &)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(253,24): message : или       "bool std::operator !=(std::thread::id,std::thread::id) noexcept" [найдено при поиске с зависимостью от аргументов]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1691,27): message : или       "bool std::operator !=(std::monostate,std::monostate) noexcept" [найдено при поиске с зависимостью от аргументов]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(690,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(705,1): error C2679: бинарный "=": не найден оператор, принимающий правый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : может быть "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &&)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(273,1): message : или       "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator =(const std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(705,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(706,1): error C2678: бинарный "!=": не найден оператор, принимающий левый операнд типа "std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>" (или приемлемое преобразование отсутствует)
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\list(202,21): message : может быть "bool std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>>::operator !=(const std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> &) noexcept const"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\guiddef.h(197,15): message : или       "bool operator !=(const GUID &,const GUID &)"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\thread(253,24): message : или       "bool std::operator !=(std::thread::id,std::thread::id) noexcept" [найдено при поиске с зависимостью от аргументов]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\variant(1691,27): message : или       "bool std::operator !=(std::monostate,std::monostate) noexcept" [найдено при поиске с зависимостью от аргументов]
+D:\CATE_WORK\GATE_EMT_DDS\Project_EMT_DDS\GATE_EMT_DDS_v1.0\GATE_EMT_DDS_v1.0\include\Module_IO\UnitTransfer\adapters\DDS_Adapter\AdapterDDS.hpp(706,1): message : при попытке сопоставить список аргументов "(std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>, std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>)"
+          with
+          [
+              _Ty=std::pair<const int,scada_ate::gate::adapter::InfoTag>
+          ]
+          and
+          [
+              _Ty=std::pair<const unsigned int,scada_ate::gate::adapter::InfoTag>
+          ]
   Создание кода...

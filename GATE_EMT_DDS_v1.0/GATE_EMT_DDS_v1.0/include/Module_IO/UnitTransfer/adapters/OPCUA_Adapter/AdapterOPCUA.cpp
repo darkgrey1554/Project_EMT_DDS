@@ -12,11 +12,10 @@ namespace  scada_ate::gate::adapter::opc
 			this->config = *config_point;
 		}
 
-		UA_ReadRequest_init(&_read_request);
-		UA_WriteRequest_init(&_write_request);
+		//UA_ReadRequest_init(&_read_request);
+		//UA_WriteRequest_init(&_write_request);
 		data.clear();
 		log = atech::logger::ILoggerScada::GetInstance(atech::logger::TypeLogger::SPDDDS);
-		//log = std::make_shared<atech::logger::LoggerScadaSpdDds>();
 	};
 
 	AdapterOPCUA::~AdapterOPCUA() 
@@ -31,7 +30,7 @@ namespace  scada_ate::gate::adapter::opc
 		return init_adapter();
 	}
 
-	UA_ByteString AdapterOPCUA::loadFile(const char* const path) 
+	UA_ByteString AdapterOPCUA::loadFile(const char* path) 
 	{
 
 		UA_ByteString fileContents = UA_STRING_NULL;
@@ -104,12 +103,12 @@ namespace  scada_ate::gate::adapter::opc
 		}			  
 		catch (int& e)
 		{
-			log->Warning("AdapterOPCUA id-{}: error read_trust_list: error: {}, syserror: {} ", config.id_adapter, e, 0);
+			log->Warning("AdapterOPCUA id-{}: Error read_trust_list: error: {}, syserror: {} ", config.id_adapter, e, 0);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterOPCUA id-{}: error read_trust_list: error: {}, syserror: {} ", config.id_adapter,0,0);
+			log->Critical("AdapterOPCUA id-{}: Error read_trust_list: error: {}, syserror: {} ", config.id_adapter,0,0);
 			result = ResultReqest::ERR;
 		}
 
@@ -167,12 +166,12 @@ namespace  scada_ate::gate::adapter::opc
 		}
 		catch(int& e)
 		{
-			log->Warning("AdapterOPCUA id-{}: error create_client: error: {}, syserror: {} ", config.id_adapter, e, 0);
+			log->Warning("AdapterOPCUA id-{}: Error create_client: error: {}, syserror: {} ", config.id_adapter, e, 0);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Warning("AdapterOPCUA id-{}: error create_client: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			log->Warning("AdapterOPCUA id-{}: Error create_client: error: {}, syserror: {} ", config.id_adapter, 0, 0);
 			result = ResultReqest::ERR;
 		}
 
@@ -203,12 +202,12 @@ namespace  scada_ate::gate::adapter::opc
 		}
 		catch (int& e)
 		{
-			log->Warning("AdapterOPCUA id-{}: error establishing_connection: error: {}, syserror: {} ", config.id_adapter, e, retval);
+			log->Warning("AdapterOPCUA id-{}: Error establishing_connection: error: {}, syserror: {} ", config.id_adapter, e, retval);
 			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Warning("AdapterOPCUA id-{}: error establishing_connection: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			log->Warning("AdapterOPCUA id-{}: Error establishing_connection: error: {}, syserror: {} ", config.id_adapter, 0, 0);
 			result = ResultReqest::ERR;
 		}  
 
@@ -254,167 +253,7 @@ namespace  scada_ate::gate::adapter::opc
 		}
 
 		return str;
-	}
-
-	ResultReqest AdapterOPCUA::create_request_to_read()
-	{
-		ResultReqest result{ ResultReqest::OK };
-
-		try
-		{			
-			if (config.vec_tags_source.empty()) return result;
-
-			map_index_request_read.clear();
-			size_t counter_iter = 0;
-			for (auto& iter : config.vec_tags_source)
-			{
-				if (map_index_request_read.count(iter) > 0) continue;
-
-				map_index_request_read[iter] = counter_iter;
-				counter_iter++;
-			}
-
-			_read_request.nodesToReadSize = map_index_request_read.size();
-			_read_request.nodesToRead = (UA_ReadValueId*)UA_Array_new(map_index_request_read.size(), &UA_TYPES[UA_TYPES_READVALUEID]);
-
-			for (auto& iter : map_index_request_read)
-			{
-				UA_ReadValueId& value = _read_request.nodesToRead[iter.second];
-				UA_ReadValueId_init(&value);
-				value.nodeId = tag_to_nodeid(iter.first);
-				value.attributeId = UA_ATTRIBUTEID_VALUE;
-			}
-		}
-		catch (int& e)
-		{
-			log->Warning("AdapterOPCUA id-{}: error creat_request_to_read: error: {}, syserror: {} ", config.id_adapter, e, 0);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Warning("AdapterOPCUA id-{}: error creat_request_to_read: error: {}, syserror: {} ", config.id_adapter, 0, 0);
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	}
-
-	ResultReqest AdapterOPCUA::create_request_to_write()
-	{
-		ResultReqest result{ ResultReqest::OK };
-		
-		try
-		{
-			if (config.vec_link_tags.empty()) return result;
-
-			if (init_last_data() != ResultReqest::OK) throw 1;
-			if (init_write_request() != ResultReqest::OK) throw 2;
-
-		}
-		catch (int& e)
-		{
-			log->Warning("AdapterOPCUA id-{}: error create_request_to_write: error: {}, syserror: {} ", config.id_adapter, e, 0);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Warning("AdapterOPCUA id-{}: error create_request_to_write: error: {}, syserror: {} ", config.id_adapter, 0, 0);
-			result = ResultReqest::ERR;
-		}
-
-		return result;
-	};
-
-	void AdapterOPCUA::init_deque()
-	{
-		data.clear();
-
-		size_t size_int = 0;
-		size_t size_float = 0;
-		size_t size_double = 0;
-		size_t size_char = 0;
-		size_t size_string = 0;
-
-		auto cmp = [](InfoTag& lft, InfoTag& rgh) 
-		{
-			return lft.tag < rgh.tag || lft.id_tag < rgh.id_tag;
-		};
-
-		std::set<InfoTag, decltype(cmp)> set(cmp);
-
-		for (auto& itag : config.vec_tags_source)
-		{
-			if (itag.type == TypeValue::INT)
-			{
-				itag.offset_store = size_int;
-				size_int++;
-			}
-			else if (itag.type == TypeValue::FLOAT)
-			{
-				itag.offset_store = size_float;
-				size_float++;
-			}
-			else if (itag.type == TypeValue::CHAR)
-			{
-				itag.offset_store = size_char;
-				size_char++;
-			}
-			else if (itag.type == TypeValue::DOUBLE)
-			{
-				itag.offset_store = size_double;
-				size_double ++;
-			}
-			else if (itag.type == TypeValue::STRING)
-			{
-				itag.offset_store = size_string;
-				size_string++;
-			}
-		}
-
-		data.push_back({});
-		data.begin()->data_int.resize(size_int);
-		data.begin()->data_float.resize(size_float);
-		data.begin()->data_doub.resize(size_double);
-		data.begin()->data_char.resize(size_char);
-		data.begin()->data_str.resize(size_string);
-
-		/*data.push_back({});
-		auto _data_unit = data.begin();
-		for (auto& itag : config.vec_tags_source)
-		{
-			_data_unit->map_data[itag] = init_value(itag.type);
-		}*/
-	}
-
-	void AdapterOPCUA::destroy()
-	{
-		try
-		{
-			log->Debug("AdapterOPCUA id-{}: Start destroy", config.id_adapter);
-			UA_ByteString_clear(&certificate);
-			UA_ByteString_clear(&privateKey);
-			for (size_t i = 0; i < trustListSize; i++)
-			{
-				UA_ByteString_clear(&trustList[i]);
-			}
-			UA_ReadRequest_clear(&_read_request);
-			UA_WriteRequest_clear(&_write_request);
-			UA_Client_delete(_client);
-			_client = nullptr;
-			current_status.store(atech::common::Status::NONE);
-			log->Debug("AdapterOPCUA id-{}: Destroy done", this->config.id_adapter);
-		}
-		catch (int& e)
-		{
-			log->Critical("AdapterOPCUA id-{}: Error destroy: error {}: syserror {} ", config.id_adapter, e, 0);
-		}
-		catch (...)
-		{
-			log->Critical("AdapterOPCUA id-{}: Error destroy: error {}: syserror {} ", config.id_adapter, 0, 0);
-		} 	
-		
-		return;
-	}
+	}	
 
 	ResultReqest AdapterOPCUA::init_adapter()
 	{
@@ -452,9 +291,9 @@ namespace  scada_ate::gate::adapter::opc
 
 			if (establishing_connection() == ResultReqest::ERR) throw 5;
 
-			if (create_request_to_read() == ResultReqest::ERR) {};
+			if (create_requests_to_read() == ResultReqest::ERR) throw 6;
 
-			if (create_request_to_write() == ResultReqest::ERR) {};
+			if (create_requests_to_write() == ResultReqest::ERR) throw 7;
 
 			current_status.store(atech::common::Status::OK);
 			log->Debug("AdapterOPCUA id-{}: Init DONE", config.id_adapter);
@@ -475,433 +314,188 @@ namespace  scada_ate::gate::adapter::opc
 		return res;
 	}
 
-
-
-	ResultReqest AdapterOPCUA::ReadData(std::deque<SetTags>** data) 
+	void AdapterOPCUA::destroy()
 	{
-		UA_ReadResponse _respone;
-		auto data_opc = this->data.begin();
-		ResultReqest result = ResultReqest::OK;
-		uint32_t syserror = 0;
-
-		if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
-		{
-			log->Debug("AdapterOPCUA id-{} : ReadData IGNOR", config.id_adapter);
-			result = ResultReqest::IGNOR;
-			return result;
-		}
-		log->Debug("AdapterOPCUA id-{} : ReadData START", config.id_adapter);
-
 		try
 		{
-			_respone = UA_Client_Service_read(_client, _read_request);
-			if (_respone.responseHeader.serviceResult != UA_STATUSCODE_GOOD)
+			log->Debug("AdapterOPCUA id-{}: Start destroy", config.id_adapter);
+			UA_ByteString_clear(&certificate);
+			UA_ByteString_clear(&privateKey);
+			for (size_t i = 0; i < trustListSize; i++)
 			{
-				UA_ReadResponse_clear(&_respone);
-				UA_SecureChannelState _state_channel;
-				UA_SessionState _state_session;
-				UA_StatusCode _state_connect;
-				UA_Client_getState(_client, &_state_channel, &_state_session, &_state_connect);
-				if (_state_channel == UA_SecureChannelState::UA_SECURECHANNELSTATE_CLOSED || _state_channel != UA_STATUSCODE_GOOD)
-				{
-					syserror = _state_connect;
-					current_status.store(atech::common::Status::ERROR_CONNECTING);
-					//destroy();
-					throw 1;
-				}
-				throw 2;
-			};
-
-			for (auto& itag : config.vec_tags_source)
-			{
-				auto index_tag = map_index_request_read.find(itag);
-				UA_DataValue& value = _respone.results[index_tag->second];
-				if (validation_data(itag, value) != ResultReqest::OK)
-				{
-					data_opc->map_data[itag] = init_value(itag.type);
-					continue;
-				};
-
-				data_opc->map_data[itag] = get_opc_value(itag, value);
-				itag.status = StatusTag::OK;
+				UA_ByteString_clear(&trustList[i]);
 			}
-			UA_ReadResponse_clear(&_respone);
+			UA_Client_delete(_client);
+			_client = nullptr;
+			current_status.store(atech::common::Status::NONE);
+			log->Debug("AdapterOPCUA id-{}: Destroy done", this->config.id_adapter);
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterOPCUA id-{} : Error ReadData: error: {} syserror: {}", config.id_adapter, e, syserror);
-			ResultReqest result = ResultReqest::ERR;
-			*data = nullptr;
+			log->Critical("AdapterOPCUA id-{}: Error destroy: error {}: syserror {} ", config.id_adapter, e, 0);
 		}
 		catch (...)
 		{
-			log->Critical("AdapterOPCUA id-{} : Error ReadData: error: {} syserror: {}", config.id_adapter, 0, 0);
-			ResultReqest result = ResultReqest::ERR;
-			*data = nullptr;
+			log->Critical("AdapterOPCUA id-{}: Error destroy: error {}: syserror {} ", config.id_adapter, 0, 0);
 		}
 
-		*data = &this->data;
+		return;
+	}
 
-		return result;
-	};
+	void AdapterOPCUA::init_deque()
+	{
+		data.clear();
 
-	ResultReqest AdapterOPCUA::validation_data(InfoTag& tag, UA_DataValue& value)
+		size_t size_int = 0;
+		size_t size_float = 0;
+		size_t size_double = 0;
+		size_t size_char = 0;
+		size_t size_string = 0;
+
+		for (auto& itag : config.vec_tags_source)
+		{
+			if (itag.type == TypeValue::INT)
+			{
+				itag.offset_store = size_int;
+				size_int++;
+			}
+			else if (itag.type == TypeValue::FLOAT)
+			{
+				itag.offset_store = size_float;
+				size_float++;
+			}
+			else if (itag.type == TypeValue::CHAR)
+			{
+				itag.offset_store = size_char;
+				size_char++;
+			}
+			else if (itag.type == TypeValue::DOUBLE)
+			{
+				itag.offset_store = size_double;
+				size_double++;
+			}
+			else if (itag.type == TypeValue::STRING)
+			{
+				itag.offset_store = size_string;
+				size_string++;
+			}
+		}
+
+		data.push_back({});
+		data.front().data_int.resize(size_int);
+		data.front().data_float.resize(size_float);
+		data.front().data_double.resize(size_double);
+		data.front().data_char.resize(size_char);
+		data.front().data_str.resize(size_string);
+	}
+
+	ResultReqest  AdapterOPCUA::build_vector_requests_to_read(std::vector<std::unique_ptr<OPC_UA_ReadRequest>>& target,
+															  std::vector<std::vector<scada_ate::gate::adapter::InfoTag>>& source)
 	{
 		ResultReqest result{ ResultReqest::OK };
-
-		if (value.status == UA_STATUSCODE_BADNODEIDUNKNOWN || value.hasValue == false)
-		{
-			if (tag.status != StatusTag::NOTDETECTED)
-			{
-				log->Warning("AdapterOPCUA id-{} : tag {} {} not detected", config.id_adapter, tag.tag, tag.id_tag);
-				tag.status = StatusTag::NOTDETECTED;
-			}
-			return ResultReqest::ERR;
-		}
-
-		if (!isequil_type(tag.type, value.value.type->typeKind))
-		{
-			if (tag.status != StatusTag::BADTYPE)
-			{
-				log->Warning("AdapterOPCUA id-{} : tag {} {} bad type", config.id_adapter, tag.tag, tag.id_tag);
-				tag.status = StatusTag::BADTYPE;
-			}
-			return ResultReqest::ERR;
-		}
-
-		if (tag.is_array != (value.value.arrayLength > 0))
-		{
-			if (tag.status != StatusTag::BADDIMENSION)
-			{
-				log->Warning("AdapterOPCUA id-{} : tag {} {} bad dimension", config.id_adapter, tag.tag, tag.id_tag);
-				tag.status = StatusTag::BADDIMENSION;
-			}
-			return ResultReqest::ERR;
-		}
-		
-		if (tag.offset > value.value.arrayLength)
-		{
-			if (tag.status != StatusTag::BADINDEX)
-			{
-				log->Warning("AdapterOPCUA id-{} : tag {} {} bad index", config.id_adapter, tag.tag, tag.id_tag);
-				tag.status = StatusTag::BADINDEX;
-			}
-			return ResultReqest::ERR;
-		} 
-
-		return result;
-	}
-
-	bool AdapterOPCUA::isequil_type(const TypeValue& type_scada,const UA_Int32& type_opc)
-	{
-		bool result = false;
-
-		switch (type_scada)						  
-		{
-			case TypeValue::INT:
-				if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_INT16 ||
-					type_opc == UA_DataTypeKind::UA_DATATYPEKIND_INT32 ||
-					type_opc == UA_DataTypeKind::UA_DATATYPEKIND_UINT16 ||
-					type_opc == UA_DataTypeKind::UA_DATATYPEKIND_UINT32) result = true;
-			break;
-			case TypeValue::FLOAT:
-				if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_FLOAT) result = true;
-			break;
-			case TypeValue::DOUBLE:
-				if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_DOUBLE) result = true;
-			break;
-			case TypeValue::CHAR:
-				if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_BYTE ||
-					type_opc == UA_DataTypeKind::UA_DATATYPEKIND_SBYTE) result = true;
-			break;
-			case TypeValue::STRING:
-				if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_STRING) result = true;
-			break;
-			default:
-				result = false;
-			break;
-		}
-
-		return result;
-	}
-
-	Value  AdapterOPCUA::init_value(const TypeValue& type)
-	{
-		Value value;
-		value.quality = 0;
-		value.time = 0;
-		if (type == TypeValue::INT) { value.value = 0; }
-		else if (type == TypeValue::FLOAT) { value.value = (float).0; }
-		else if (type == TypeValue::DOUBLE) { value.value = (double).0; }
-		else if (type == TypeValue::CHAR) { value.value = (char)0; }
-		else if (type == TypeValue::STRING) { value.value = std::string{}; }
-		return value;
-	}
-
-	Value  AdapterOPCUA::get_opc_value(InfoTag& tag, UA_DataValue& value_opc)
-	{
-		Value value;
-
-		if (value_opc.hasSourceTimestamp)
-		{
-			value.time = value_opc.sourceTimestamp - UA_DATETIME_UNIX_EPOCH;
-		}
-		else
-		{
-			value.time = 0;
-		}
-
-		if (value_opc.hasStatus == true)
-		{
-			value.quality = convert_UAStatus_toScadaStatus(value_opc.status);
-		}
-		else
-		{
-			value.quality = 0;
-		}
-
-		if (tag.is_array)
-		{
-			value.value = get_value(value_opc.value.data, value_opc.value.type->typeKind,tag.offset);
-		}
-		else
-		{
-			value.value = get_value(value_opc.value.data, value_opc.value.type->typeKind,0);
-		}
-
-		return value;
-	}
-
-	std::variant<int, float, double, char, std::string> AdapterOPCUA::get_value(void* ptr_value, const UA_Int32& type_opc, size_t offset)
-	{
-		std::variant<int, float, double, char, std::string> value;
-
-		switch (type_opc)
-		{
-		case  UA_DataTypeKind::UA_DATATYPEKIND_INT16:
-			value = (int)*((int16_t*)ptr_value + offset);
-			break;
-		case  UA_DataTypeKind::UA_DATATYPEKIND_UINT16:
-			value = (int)*((uint16_t*)ptr_value + offset);
-			break;
-		case  UA_DataTypeKind::UA_DATATYPEKIND_INT32:
-			value = (int)*((int32_t*)ptr_value + offset);
-			break;
-		case  UA_DataTypeKind::UA_DATATYPEKIND_UINT32:
-			value = (int)*((uint32_t*)ptr_value + offset);
-			break;
-		case  UA_DataTypeKind::UA_DATATYPEKIND_FLOAT:
-			value = *((float*)ptr_value + offset);
-			break;
-		case  UA_DataTypeKind::UA_DATATYPEKIND_DOUBLE:
-			value = *((double*)ptr_value + offset);
-			break;
-		case  UA_DataTypeKind::UA_DATATYPEKIND_BYTE:
-			value = *(char*)((uint8_t*)ptr_value + offset);
-			break;
-		case  UA_DataTypeKind::UA_DATATYPEKIND_SBYTE:
-			value = *(char*)((int8_t*)ptr_value + offset);
-			break;
-		case  UA_DataTypeKind::UA_DATATYPEKIND_STRING:
-			value = std::string((const char*)((UA_String*)ptr_value + offset)->data, ((UA_String*)ptr_value + offset)->length);
-			break;
-		default:
-			break;
-		}
-
-		return std::move(value);
-	};
-
-
-
-	ResultReqest AdapterOPCUA::WriteData(const std::deque<SetTags>& data)
-	{
-		ResultReqest result = ResultReqest::OK;
-		uint32_t syserror = 0;
-
-		if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
-		{
-			log->Debug("AdapterOPCUA id-{} : WriteData IGNOR", config.id_adapter);
-			result = ResultReqest::IGNOR;
-			return result;
-		}
-		log->Debug("AdapterOPCUA id-{} : WriteData START", config.id_adapter);
+		size_t full_size_read = _v_tags_to_read.size();
+		size_t counter_read = 0;
 
 		try
 		{
-			for (auto& it_data : data)
+			target.clear();
+
+			for (auto tags : source)
 			{
-				update_last_data(it_data);
-				update_write_respone();
+				_vector_request_to_read.push_back({});
+				
+				UA_ReadRequest* request = &_vector_request_to_read.back()->request;
+				request->nodesToReadSize = tags.size();
+				request->nodesToRead = (UA_ReadValueId*)UA_Array_new(tags.size(), &UA_TYPES[UA_TYPES_READVALUEID]);
+
+				for (int i = 0; i < tags.size(); i++)
 				{
-					UA_WriteResponse respone;
-					respone = UA_Client_Service_write(_client, _write_request);
-					if (respone.responseHeader.serviceResult != UA_STATUSCODE_GOOD)
-					{
-						UA_WriteResponse_clear(&respone);
-						UA_SecureChannelState _state_channel;
-						UA_SessionState _state_session;
-						UA_StatusCode _state_connect;
-						UA_Client_getState(_client, &_state_channel, &_state_session, &_state_connect);
-						if (_state_channel == UA_SecureChannelState::UA_SECURECHANNELSTATE_CLOSED || _state_channel != UA_STATUSCODE_GOOD)
-						{
-							syserror = _state_connect;
-							current_status.store(atech::common::Status::ERROR_CONNECTING);
-							//destroy();
-							throw 1;
-						}
-						throw 2;
-					}
-					UA_WriteResponse_clear(&respone);
+					InfoTag& tag = tags[i];
+					request->nodesToRead[i].nodeId = tag_to_nodeid(tag);
+					request->nodesToRead[i].attributeId = UA_ATTRIBUTEID_VALUE;
+					if (tag.is_array) request->nodesToRead[i].indexRange = UA_STRING_ALLOC(std::to_string(tag.offset).c_str());
 				}
-			};	
+			}
 		}
 		catch (int& e)
 		{
-			log->Critical("AdapterOPCUA id-{} : Error ReadData: error: {} syserror: {}", config.id_adapter, e, syserror);
-			ResultReqest result = ResultReqest::ERR;
+			log->Warning("AdapterOPCUA id-{}: Error build_vector_requests_to_read: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			result = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			log->Critical("AdapterOPCUA id-{} : Error ReadData: error: {} syserror: {}", config.id_adapter, 0, 0);
-			ResultReqest result = ResultReqest::ERR;
+			log->Warning("AdapterOPCUA id-{}: Error build_vector_requests_to_read: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			result = ResultReqest::ERR;
 		}
 
 		return result;
-	};
+	}
 
-	void AdapterOPCUA::update_last_data(const SetTags& data)
+	ResultReqest  AdapterOPCUA::build_vector_requests_to_write(std::vector<std::unique_ptr<OPC_UA_WriteRequest>>& target,
+												 std::vector<std::vector<scada_ate::gate::adapter::LinkTags>>& source)
 	{
-		for (auto& it : config.vec_link_tags)
+		ResultReqest result{ ResultReqest::OK };
+		size_t full_size_write = source.size();
+		size_t counter_write = 0;
+
+		try
 		{
-			Value& last = last_data.map_data[it.target];
-			if (data.map_data.count(it.source) == 0) continue;
-			const Value& current = data.map_data.at(it.source);
-			switch (it.target.type)
+			target.clear();
+
+			for (auto vector : source)
 			{
-			case TypeValue::INT:
-				update_value<int>(last, current, it);
-				break;
-			case TypeValue::FLOAT:
-				update_value<float>(last, current, it);
-				break;
-			case TypeValue::DOUBLE:
-				update_value<double>(last, current, it);
-				break;
-			case TypeValue::CHAR:
-				update_value<char>(last, current, it);
-				break;
-			case TypeValue::STRING:
-				update_value<std::string>(last, current, it);
-				break;
-			default:
-				break;
+				target.push_back({});
+				UA_WriteRequest* request = &target.back()->request;
+				request->nodesToWriteSize = vector.size();
+				request->nodesToWrite = (UA_WriteValue*)UA_Array_new(vector.size(), &UA_TYPES[UA_TYPES_WRITEVALUE]);
+
+				for (int i = 0; i < vector.size(); i++)
+				{
+					InfoTag& tag = vector[i].target;
+					UA_WriteValue* pointer = request->nodesToWrite + i;
+					pointer->nodeId = tag_to_nodeid(tag);
+					pointer->attributeId = UA_ATTRIBUTEID_VALUE;
+					if (tag.is_array) pointer->indexRange = UA_STRING_ALLOC(std::to_string(tag.offset).c_str());
+					pointer->value.hasValue = UA_TRUE;
+					pointer->value.hasStatus = UA_TRUE;
+					pointer->value.status = UA_STATUSCODE_BAD;
+					//pointer->value.hasSourceTimestamp = true;
+
+					UA_Variant* variant = UA_Variant_new();
+					UA_Variant_init(variant);
+					init_UA_Variant(variant, tag);
+					variant->storageType = UA_VARIANT_DATA_NODELETE;
+					pointer->value.value = *variant;
+				}
 			}
 		}
-
-		last_data.time_source = data.time_source;
-	}
-
-	void AdapterOPCUA::update_write_respone()
-	{
-		int counter = 0;
-		for (auto& it : config.vec_link_tags)
+		catch (int& e)
 		{
-			const Value& value = last_data.map_data[it.target];
-			UA_WriteValue* wv = _write_request.nodesToWrite + counter;
-			wv->value.status = convert_ScadaStatus_toUAStatus(value.quality);
-			wv->value.serverTimestamp = TimeConverter::GetTime_LLmcs()*10LL + UA_DATETIME_UNIX_EPOCH;
-			wv->value.sourceTimestamp = value.time*10LL + UA_DATETIME_UNIX_EPOCH;
-
-			switch (it.target.type)
-			{
-			case TypeValue::INT:
-				*(int*)wv->value.value.data = std::get<int>(value.value);
-				break;
-			case TypeValue::FLOAT:
-				*(float*)wv->value.value.data = std::get<float>(value.value);
-				break;
-			case TypeValue::DOUBLE:
-				*(double*)wv->value.value.data = std::get<double>(value.value);
-				break;
-			case TypeValue::CHAR:
-				*(char*)wv->value.value.data = std::get<char>(value.value);
-				break;
-			case TypeValue::STRING:
-				UA_String_delete((UA_String*)wv->value.value.data);
-				UA_String str = UA_String_fromChars(std::get<std::string>(value.value).c_str());
-				wv->value.value.data = &str;
-				break;
-			default:
-				break;
-			} 
-			counter++;
+			log->Warning("AdapterOPCUA id-{}: Error build_vector_requests_to_write: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			result = ResultReqest::ERR;
 		}
+		catch (...)
+		{
+			log->Warning("AdapterOPCUA id-{}: Error build_vector_requests_to_write: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
 	}
+
 
 	ResultReqest AdapterOPCUA::init_last_data()
 	{
 		ResultReqest result{ ResultReqest::OK };
 
-		last_data.map_data.clear();
-		for (auto it : this->config.vec_link_tags)
-		{
-			last_data.map_data[it.target] = init_value(it.target.type);
-		};
-
-		return result;
-	}
-
-	ResultReqest AdapterOPCUA::init_write_request()
-	{
-		ResultReqest result = ResultReqest::OK;
-
-		try 
-		{
-			if (this->config.vec_link_tags.empty()) return result;
-
-			UA_WriteValue* wv = (UA_WriteValue*)UA_Array_new(config.vec_link_tags.size(), &UA_TYPES[UA_TYPES_WRITEVALUE]);
-
-			size_t counter = 0;
-			for (auto it : config.vec_link_tags)
-			{
-				UA_WriteValue* pointer = wv + counter;
-
-				pointer->nodeId = tag_to_nodeid(it.target);
-				pointer->attributeId = UA_ATTRIBUTEID_VALUE;
-				if (it.target.is_array) pointer->indexRange = UA_STRING_ALLOC(std::to_string(it.target.offset).c_str());
-				pointer->value.hasValue = UA_TRUE;
-				pointer->value.hasStatus = UA_TRUE;
-				//pointer->value.hasSourceTimestamp = true;	// €блоко раздора 
-				pointer->value.status = UA_STATUSCODE_BAD;
-
-				UA_Variant* variant = UA_Variant_new();
-				UA_Variant_init(variant);
-				init_UA_Variant(variant, it.target);
-				variant->storageType = UA_VARIANT_DATA_NODELETE;
-				pointer->value.value = *variant;
-				counter++;
-			}
-			_write_request.nodesToWriteSize = config.vec_link_tags.size();
-			_write_request.nodesToWrite = wv;
-		}
-		catch (int& e)
-		{
-			log->Warning("AdapterOPCUA id-{}: error init_write_request: error: {}, syserror: {} ", config.id_adapter, e, 0);
-			result = ResultReqest::ERR;
-		}
-		catch (...)
-		{
-			log->Critical("AdapterOPCUA id-{}: error init_write_request: error: {}, syserror: {} ", config.id_adapter, 0, 0);
-			result = ResultReqest::ERR;
-		}
+		last_data = data.back();
 
 		return result;
 	}
 
 	ResultReqest AdapterOPCUA::init_UA_Variant(UA_Variant* variant, InfoTag& tag)
 	{
-		ResultReqest result {ResultReqest::OK};
+		ResultReqest result{ ResultReqest::OK };
 
 		int v_i = 0;
 		float v_f = 0.;
@@ -933,7 +527,7 @@ namespace  scada_ate::gate::adapter::opc
 			default:
 				break;
 			}
-			
+
 		}
 		else
 		{
@@ -962,7 +556,349 @@ namespace  scada_ate::gate::adapter::opc
 		return result;
 	}
 
+	ResultReqest AdapterOPCUA::create_requests_to_read()
+	{
+		ResultReqest result{ ResultReqest::OK };
 
+		try
+		{
+			if (take_actual_vector_tags(config.vec_tags_source, _v_tags_to_read) != ResultReqest::OK)  throw 1;
+			if (build_vector_requests_to_read(_vector_request_to_read, _v_tags_to_read) != ResultReqest::OK) throw 2;
+		}
+		catch (int& e)
+		{
+			log->Warning("AdapterOPCUA id-{}: Error create_requests_to_read: error: {}, syserror: {} ", config.id_adapter, e, 0);
+			result = ResultReqest::ERR;
+		}
+		catch(...)
+		{
+			log->Warning("AdapterOPCUA id-{}: Error create_requests_to_read: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+
+	ResultReqest AdapterOPCUA::create_requests_to_write()
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			if (take_actual_vector_tags(config.vec_link_tags, _v_tags_to_write) != ResultReqest::OK) throw 1;
+			if (build_vector_requests_to_write(_vector_request_to_write, _v_tags_to_write) != ResultReqest::OK) throw 2;
+		}
+		catch (int& e)
+		{
+			log->Warning("AdapterOPCUA id-{}: Error create_requests_to_write: error: {}, syserror: {} ", config.id_adapter, e, 0);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Warning("AdapterOPCUA id-{}: Error create_requests_to_write: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+	
+
+	ResultReqest AdapterOPCUA::ReadData(std::deque<SetTags>** data) 
+	{
+		auto data_opc = this->data.begin();
+		ResultReqest result = ResultReqest::OK;
+		uint32_t syserror = 0;
+
+		if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
+		{
+			log->Debug("AdapterOPCUA id-{} : ReadData IGNOR", config.id_adapter);
+			result = ResultReqest::IGNOR;
+			return result;
+		}
+		log->Debug("AdapterOPCUA id-{} : ReadData START", config.id_adapter);
+
+		try
+		{
+			for (int i = 0; i < _v_tags_to_read.size(); i++)
+			{
+				std::unique_ptr<OPC_UA_ReadResponse> response = std::make_unique<OPC_UA_ReadResponse>();
+				if (request_to_opc_server(_vector_request_to_read[i]->request, response->response) != ResultReqest::OK) throw 1;
+				update_outdata(response->response, _v_tags_to_read[i]);
+			}
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterOPCUA id-{} : Error ReadData: error: {} syserror: {}", config.id_adapter, e, syserror);
+			ResultReqest result = ResultReqest::ERR;
+			*data = nullptr;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterOPCUA id-{} : Error ReadData: error: {} syserror: {}", config.id_adapter, 0, 0);
+			ResultReqest result = ResultReqest::ERR;
+			*data = nullptr;
+		}
+
+		*data = &this->data;
+
+		return result;
+	};
+
+	ResultReqest AdapterOPCUA::update_outdata(UA_ReadResponse& respone, std::vector<scada_ate::gate::adapter::InfoTag>& tags)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+		try
+		{
+			for (int i = 0; i < respone.resultsSize; i++)
+			{
+				if (validation_data(tags[i], respone.results[i]) != ResultReqest::OK)
+				{
+					switch (tags[i].type)
+					{
+					case TypeValue::INT:
+						registration_value(&respone.results[i], data.front().data_int[tags[i].offset_store]);
+						break;
+					case TypeValue::FLOAT:
+						registration_value(&respone.results[i], data.front().data_float[tags[i].offset_store]);
+						break;
+					case TypeValue::DOUBLE:
+						registration_value(&respone.results[i], data.front().data_double[tags[i].offset_store]);
+						break;
+					case TypeValue::CHAR:
+						registration_value(&respone.results[i], data.front().data_char[tags[i].offset_store]);
+						break;
+					case TypeValue::STRING:
+						registration_value(&respone.results[i], data.front().data_str[tags[i].offset_store]);
+						break;
+					}
+
+					continue;
+				};
+				
+			}
+		}
+		catch(int& e)
+		{
+			log->Warning("AdapterOPCUA id-{}: Error update_outdata: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Warning("AdapterOPCUA id-{}: Error update_outdata: error: {}, syserror: {} ", config.id_adapter, 0, 0);
+			result = ResultReqest::ERR;
+		}
+
+		return result;
+	}
+
+	void AdapterOPCUA::registration_value(InfoTag& tag, UA_DataValue* value)
+	{
+		switch (tag.type)
+		{
+		case TypeValue::INT:
+			registration_value(value, data.front().data_int[tag.offset_store]);
+			break;
+		case TypeValue::FLOAT:
+			registration_value(value, data.front().data_float[tag.offset_store]);
+			break;
+		case TypeValue::DOUBLE:
+			registration_value(value, data.front().data_double[tag.offset_store]);
+			break;
+		case TypeValue::CHAR:
+			registration_value(value, data.front().data_char[tag.offset_store]);
+			break;
+		case TypeValue::STRING:
+			registration_value<std::string>(value, data.front().data_str[tag.offset_store]);
+			break;
+		}
+	}
+
+
+
+
+	ResultReqest AdapterOPCUA::WriteData(const std::deque<SetTags>& data)
+	{
+		ResultReqest result = ResultReqest::OK;
+		uint32_t syserror = 0;
+
+		if (current_status.load(std::memory_order_relaxed) != atech::common::Status::OK)
+		{
+			log->Debug("AdapterOPCUA id-{} : WriteData IGNOR", config.id_adapter);
+			result = ResultReqest::IGNOR;
+			return result;
+		}
+		log->Debug("AdapterOPCUA id-{} : WriteData START", config.id_adapter);
+
+		try
+		{
+			for (auto& it_data : data)
+			{
+
+				update_last_data(it_data);
+
+				for (int i = 0; i < _v_tags_to_write.size(); i++)
+				{
+					std::unique_ptr<OPC_UA_WriteResponse> response = std::make_unique<OPC_UA_WriteResponse>();
+					update_write_respone(&_vector_request_to_write[i]->request, _v_tags_to_write[i]);
+					request_to_opc_server(_vector_request_to_write[i]->request, response->response);
+				}
+			}
+	
+		}
+		catch (int& e)
+		{
+			log->Critical("AdapterOPCUA id-{} : Error ReadData: error: {} syserror: {}", config.id_adapter, e, syserror);
+			ResultReqest result = ResultReqest::ERR;
+		}
+		catch (...)
+		{
+			log->Critical("AdapterOPCUA id-{} : Error ReadData: error: {} syserror: {}", config.id_adapter, 0, 0);
+			ResultReqest result = ResultReqest::ERR;
+		}
+
+		return result;
+	};
+
+	void AdapterOPCUA::update_last_data(const SetTags& data)
+	{
+		for (auto& it : config.vec_link_tags)
+		{
+			switch (it.target.type)
+			{
+			case TypeValue::INT:
+				update_value(last_data.data_int[it.target.offset_store], data.data_int[it.source.offset_store], it);
+				break;
+			case TypeValue::FLOAT:
+				update_value(last_data.data_float[it.target.offset_store], data.data_float[it.source.offset_store], it);
+				break;
+			case TypeValue::DOUBLE:
+				update_value(last_data.data_double[it.target.offset_store], data.data_double[it.source.offset_store], it);
+				break;
+			case TypeValue::CHAR:
+				update_value(last_data.data_char[it.target.offset_store], data.data_char[it.source.offset_store], it);
+				break;
+			case TypeValue::STRING:
+				update_value(last_data.data_str[it.target.offset_store], data.data_str[it.source.offset_store], it);
+				break;
+			default:
+				break;
+			}
+		}
+
+		last_data.time_source = data.time_source;
+	}
+
+	void AdapterOPCUA::update_write_respone(UA_WriteRequest* request, std::vector<LinkTags>& tags)
+	{
+		int counter = 0;
+		LinkTags* tag;
+		for (int i = 0; i < tags.size(); i++)
+		{
+			tag = &tags[i];
+			switch (tag->target.type)
+			{
+			case TypeValue::INT:
+				update_write_value(&request->nodesToWrite[i], last_data.data_int[tag->target.offset_store]);
+				break;
+			case TypeValue::FLOAT:
+				update_write_value(&request->nodesToWrite[i], last_data.data_float[tag->target.offset_store]);
+				break;
+			case TypeValue::DOUBLE:
+				update_write_value(&request->nodesToWrite[i], last_data.data_double[tag->target.offset_store]);
+				break;
+			case TypeValue::CHAR:
+				update_write_value(&request->nodesToWrite[i], last_data.data_char[tag->target.offset_store]);
+				break;
+			case TypeValue::STRING:
+				update_write_value(&request->nodesToWrite[i], last_data.data_str[tag->target.offset_store]);
+				break;
+			}
+		}
+	}
+
+
+
+	ResultReqest AdapterOPCUA::validation_data(InfoTag& tag, UA_DataValue& value)
+	{
+		ResultReqest result{ ResultReqest::OK };
+
+
+		if (value.status == UA_STATUSCODE_BADNODEIDUNKNOWN || value.hasValue == false)
+		{
+			if (tag.status != StatusTag::NOTDETECTED)
+			{
+				log->Warning("AdapterOPCUA id-{} : tag {} {} not detected", config.id_adapter, tag.tag, tag.id_tag);
+				tag.status = StatusTag::NOTDETECTED;
+			}
+			return ResultReqest::ERR;
+		}
+
+		if (!isequil_type(tag.type, value.value.type->typeKind))
+		{
+			if (tag.status != StatusTag::BADTYPE)
+			{
+				log->Warning("AdapterOPCUA id-{} : tag {} {} bad type", config.id_adapter, tag.tag, tag.id_tag);
+				tag.status = StatusTag::BADTYPE;
+			}
+			return ResultReqest::ERR;
+		}
+
+		if (tag.is_array != (value.value.arrayLength > 0))
+		{
+			if (tag.status != StatusTag::BADDIMENSION)
+			{
+				log->Warning("AdapterOPCUA id-{} : tag {} {} bad dimension", config.id_adapter, tag.tag, tag.id_tag);
+				tag.status = StatusTag::BADDIMENSION;
+			}
+			return ResultReqest::ERR;
+		}
+
+		if (tag.offset > value.value.arrayLength)
+		{
+			if (tag.status != StatusTag::BADINDEX)
+			{
+				log->Warning("AdapterOPCUA id-{} : tag {} {} bad index", config.id_adapter, tag.tag, tag.id_tag);
+				tag.status = StatusTag::BADINDEX;
+			}
+			return ResultReqest::ERR;
+		}
+
+		return result;
+	}
+	
+	bool AdapterOPCUA::isequil_type(const TypeValue& type_scada, const UA_Int32& type_opc)
+	{
+		bool result = false;
+
+		switch (type_scada)
+		{
+		case TypeValue::INT:
+			if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_INT16 ||
+				type_opc == UA_DataTypeKind::UA_DATATYPEKIND_INT32 ||
+				type_opc == UA_DataTypeKind::UA_DATATYPEKIND_UINT16 ||
+				type_opc == UA_DataTypeKind::UA_DATATYPEKIND_UINT32) result = true;
+			break;
+		case TypeValue::FLOAT:
+			if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_FLOAT) result = true;
+			break;
+		case TypeValue::DOUBLE:
+			if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_DOUBLE) result = true;
+			break;
+		case TypeValue::CHAR:
+			if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_BYTE ||
+				type_opc == UA_DataTypeKind::UA_DATATYPEKIND_SBYTE) result = true;
+			break;
+		case TypeValue::STRING:
+			if (type_opc == UA_DataTypeKind::UA_DATATYPEKIND_STRING) result = true;
+			break;
+		default:
+			result = false;
+			break;
+		}
+
+		return result;
+	}
 
 	int AdapterOPCUA::demask(const int& value, int mask_source, const int& value_target, const int& mask_target)
 	{
