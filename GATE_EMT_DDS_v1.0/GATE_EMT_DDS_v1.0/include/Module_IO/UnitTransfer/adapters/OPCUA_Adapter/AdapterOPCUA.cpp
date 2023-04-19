@@ -276,6 +276,7 @@ namespace  scada_ate::gate::adapter::opc
 			log_info_config();
 
 			init_deque();
+			init_last_data();
 
 			if (take_trust_list() == ResultReqest::ERR)
 			{
@@ -350,34 +351,29 @@ namespace  scada_ate::gate::adapter::opc
 		size_t size_float = 0;
 		size_t size_double = 0;
 		size_t size_char = 0;
-		size_t size_string = 0;
+		size_t size_str = 0;
 
 		for (auto& itag : config.vec_tags_source)
 		{
 			if (itag.type == TypeValue::INT)
 			{
-				itag.offset_store = size_int;
-				size_int++;
+				size_int = std::max(size_int, itag.offset_store);
 			}
 			else if (itag.type == TypeValue::FLOAT)
 			{
-				itag.offset_store = size_float;
-				size_float++;
+				size_float = std::max(size_float, itag.offset_store);
 			}
 			else if (itag.type == TypeValue::CHAR)
 			{
-				itag.offset_store = size_char;
-				size_char++;
+				size_char = std::max(size_char, itag.offset_store);
 			}
 			else if (itag.type == TypeValue::DOUBLE)
 			{
-				itag.offset_store = size_double;
-				size_double++;
+				size_double = std::max(size_double, itag.offset_store);
 			}
 			else if (itag.type == TypeValue::STRING)
 			{
-				itag.offset_store = size_string;
-				size_string++;
+				size_str = std::max(size_str, itag.offset_store);
 			}
 		}
 
@@ -386,7 +382,7 @@ namespace  scada_ate::gate::adapter::opc
 		data.front().data_float.resize(size_float);
 		data.front().data_double.resize(size_double);
 		data.front().data_char.resize(size_char);
-		data.front().data_str.resize(size_string);
+		data.front().data_str.resize(size_str);
 	}
 
 	ResultReqest  AdapterOPCUA::build_vector_requests_to_read(std::vector<std::unique_ptr<OPC_UA_ReadRequest>>& target,
@@ -402,7 +398,7 @@ namespace  scada_ate::gate::adapter::opc
 
 			for (auto tags : source)
 			{
-				_vector_request_to_read.push_back({});
+				_vector_request_to_read.push_back(std::make_unique<OPC_UA_ReadRequest>());
 				
 				UA_ReadRequest* request = &_vector_request_to_read.back()->request;
 				request->nodesToReadSize = tags.size();
@@ -444,7 +440,7 @@ namespace  scada_ate::gate::adapter::opc
 
 			for (auto vector : source)
 			{
-				target.push_back({});
+				target.push_back(std::make_unique<OPC_UA_WriteRequest>());
 				UA_WriteRequest* request = &target.back()->request;
 				request->nodesToWriteSize = vector.size();
 				request->nodesToWrite = (UA_WriteValue*)UA_Array_new(vector.size(), &UA_TYPES[UA_TYPES_WRITEVALUE]);
@@ -488,7 +484,43 @@ namespace  scada_ate::gate::adapter::opc
 	{
 		ResultReqest result{ ResultReqest::OK };
 
-		last_data = data.back();
+		last_data = {};
+
+		size_t size_int = 0;
+		size_t size_float = 0;
+		size_t size_double = 0;
+		size_t size_char = 0;
+		size_t size_str = 0;
+
+		for (auto& itag : config.vec_link_tags)
+		{
+			if (itag.target.type == TypeValue::INT)
+			{
+				size_int = std::max(size_int, itag.target.offset_store);
+			}
+			else if (itag.target.type == TypeValue::FLOAT)
+			{
+				size_float = std::max(size_float, itag.target.offset_store);
+			}
+			else if (itag.target.type == TypeValue::CHAR)
+			{
+				size_char = std::max(size_char, itag.target.offset_store);
+			}
+			else if (itag.target.type == TypeValue::DOUBLE)
+			{
+				size_double = std::max(size_double, itag.target.offset_store);
+			}
+			else if (itag.target.type == TypeValue::STRING)
+			{
+				size_str = std::max(size_str, itag.target.offset_store);
+			}
+		}
+
+		last_data.data_int.resize(size_int);
+		last_data.data_float.resize(size_float);
+		last_data.data_double.resize(size_double);
+		last_data.data_char.resize(size_char);
+		last_data.data_str.resize(size_str);
 
 		return result;
 	}
@@ -652,7 +684,7 @@ namespace  scada_ate::gate::adapter::opc
 		{
 			for (int i = 0; i < respone.resultsSize; i++)
 			{
-				if (validation_data(tags[i], respone.results[i]) != ResultReqest::OK)
+				if (validation_data(tags[i], respone.results[i]) == ResultReqest::OK)
 				{
 					switch (tags[i].type)
 					{
@@ -854,7 +886,7 @@ namespace  scada_ate::gate::adapter::opc
 			return ResultReqest::ERR;
 		}
 
-		if (tag.offset > value.value.arrayLength)
+		/*if (tag.offset > value.value.arrayLength)
 		{
 			if (tag.status != StatusTag::BADINDEX)
 			{
@@ -862,7 +894,7 @@ namespace  scada_ate::gate::adapter::opc
 				tag.status = StatusTag::BADINDEX;
 			}
 			return ResultReqest::ERR;
-		}
+		}*/
 
 		return result;
 	}

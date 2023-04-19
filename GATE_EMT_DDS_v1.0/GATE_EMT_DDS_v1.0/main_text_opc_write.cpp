@@ -398,20 +398,20 @@ int main()
 	vec_link_tags.reserve(23);
 	for (size_t i = 0; i < 10; i++)
 	{
-		vec_tag_target.push_back({ "", 1001, 1, i, ate::TypeValue::INT });
-		vec_tag_source.push_back({ "", (int)i, 1, i, ate::TypeValue::INT });
-		vec_tag_target.push_back({ "", 1003, 1, i, ate::TypeValue::FLOAT });
-		vec_tag_source.push_back({ "", (int)i+10, 1, i, ate::TypeValue::FLOAT });
+		vec_tag_target.push_back({ "", 1008, 1, i, ate::TypeValue::INT,0,i });
+		vec_tag_source.push_back({ "", (int)i, 1, i, ate::TypeValue::INT,0,i });
+		vec_tag_target.push_back({ "", 1009, 1, i, ate::TypeValue::FLOAT,0,i });
+		vec_tag_source.push_back({ "", (int)i+10, 1, i, ate::TypeValue::FLOAT,0,i });
 	}
 
-	vec_tag_target.push_back({ "", 1007, 0, 0, ate::TypeValue::INT });
-	vec_tag_source.push_back({ "", 100, 0, 0, ate::TypeValue::INT });
-	vec_tag_target.push_back({ "", 1008, 0, 0, ate::TypeValue::INT });
-	vec_tag_source.push_back({ "", 101, 0, 0, ate::TypeValue::INT });
-	vec_tag_target.push_back({ "", 1009, 0, 0, ate::TypeValue::INT });
-	vec_tag_source.push_back({ "", 102, 0, 0, ate::TypeValue::INT });
+	//vec_tag_target.push_back({ "", 1007, 0, 0, ate::TypeValue::INT });
+	//vec_tag_source.push_back({ "", 100, 0, 0, ate::TypeValue::INT });
+	//vec_tag_target.push_back({ "", 1008, 0, 0, ate::TypeValue::INT });
+	//vec_tag_source.push_back({ "", 101, 0, 0, ate::TypeValue::INT });
+	//vec_tag_target.push_back({ "", 1009, 0, 0, ate::TypeValue::INT });
+	//vec_tag_source.push_back({ "", 102, 0, 0, ate::TypeValue::INT });
 
-	for (int i=0; i<23;i++)
+	for (int i=0; i<20;i++)
 	{
 		vec_link_tags.push_back({ vec_tag_source[i], vec_tag_target[i], ate::TypeRegistration::RECIVE, 0.});
 	}
@@ -435,25 +435,12 @@ int main()
 	adapte_opc->InitAdapter();
 
 
-	std::deque<ate::SetTags> data;
+    std::deque<ate::SetTags> data{};
+    data.push_back({});
 	{
-		ate::SetTags _d{};
-		for (auto& it : vec_tag_source)
-		{
-			if (it.type == ate::TypeValue::INT)
-			{
-				_d.map_data[it].value = 0;
-				_d.map_data[it].quality = 0;
-			}
-
-			if (it.type == ate::TypeValue::FLOAT)
-			{
-				_d.map_data[it].value = 0.f;
-				_d.map_data[it].quality = 0;
-			}
-		}
-
-		data.push_back(_d);
+		ate::SetTags& _d = data.back();
+        _d.data_int.resize(10);
+        _d.data_float.resize(10);
 	}
 
 	int counter = 0;
@@ -461,24 +448,22 @@ int main()
 	while (1)
 	{
 
-		for (auto& it : data.begin()->map_data)
+		for (auto& it : data.back().data_int)
 		{
-			if (it.first.type == ate::TypeValue::INT)
-			{
-				it.second.value = std::get<int>(it.second.value) + 1;
-				it.second.quality = 0;
-				it.second.time = TimeConverter::GetTime_LLmcs();
-			}
-
-			if (it.first.type == ate::TypeValue::FLOAT)
-			{
-				it.second.value = std::get<float>(it.second.value) + 0.1f;
-				it.second.quality = 0;
-				it.second.time = TimeConverter::GetTime_LLmcs();
-			}
+            it.value = counter;
+            it.time = TimeConverter::GetTime_LLmcs();
+            it.quality = 0;
 		}
 
+        for (auto& it : data.back().data_float)
+        {
+            it.value = counter*0.1;
+            it.time = TimeConverter::GetTime_LLmcs();
+            it.quality = 0;
+        }
+
 		adapte_opc->WriteData(data);
+        counter++;
 
 		Sleep(2000);
 		if (q == 'q') break;

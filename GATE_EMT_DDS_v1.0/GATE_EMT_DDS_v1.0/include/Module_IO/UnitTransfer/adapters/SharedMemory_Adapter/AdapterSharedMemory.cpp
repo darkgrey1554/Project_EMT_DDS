@@ -434,13 +434,13 @@ namespace scada_ate::gate::adapter::sem
 		unsigned int result = 0;
 		int sys_error = 0;
 
-		StatusAdapter status = current_status.load(std::memory_order::memory_order_relaxed);
-		if (status == StatusAdapter::INITIALIZATION || status == StatusAdapter::OK)
+		atech::common::Status status = current_status.load(std::memory_order::memory_order_relaxed);
+		if (status == atech::common::Status::INIT || status == atech::common::Status::OK)
 		{
 			ResultReqest res = ResultReqest::IGNOR;
 			return res;
 		}
-		current_status.store(StatusAdapter::INITIALIZATION, std::memory_order_relaxed);
+		current_status.store(atech::common::Status::INIT, std::memory_order_relaxed);
 
 		std::string namememory;
 		std::string namemutex;
@@ -492,20 +492,20 @@ namespace scada_ate::gate::adapter::sem
 			/// --- init vector GetTags --- /// 
 			init_deque();
 
-			current_status.store(StatusAdapter::OK, std::memory_order_relaxed);
+			current_status.store(atech::common::Status::OK, std::memory_order_relaxed);
 			log->Info("AdapterSharedMemory {} : Init DONE", this->config.NameChannel);
 
 		}
 		catch (int& e)
 		{
-			current_status.store(StatusAdapter::ERROR_INIT, std::memory_order_relaxed);
+			current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
 			log->Critical("AdapterSharedMemory {}: Error Init : error: {}, syserror: {}", this->config.NameChannel, e, sys_error);
 			destroy();
 			res = ResultReqest::ERR;
 		}
 		catch (...)
 		{
-			current_status.store(StatusAdapter::ERROR_INIT, std::memory_order_relaxed);
+			current_status.store(atech::common::Status::ERROR_INIT, std::memory_order_relaxed);
 			log->Critical("AdapterSharedMemory {}: Error Init : error: {}, syserror: {}", this->config.NameChannel, 0, 0);
 			destroy();
 			res = ResultReqest::ERR;

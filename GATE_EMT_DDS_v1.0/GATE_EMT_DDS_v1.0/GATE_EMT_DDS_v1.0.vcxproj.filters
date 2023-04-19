@@ -164,7 +164,7 @@
     <ClCompile Include="include\logger\LoggerScadaNone.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="main_test_adapterSM.cpp">
+    <ClCompile Include="main_test_command.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

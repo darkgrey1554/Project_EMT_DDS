@@ -56,7 +56,7 @@
     <ClCompile Include="include\structs\FactoryDds.cpp" />
     <ClCompile Include="include\structs\struct.cpp" />
     <ClCompile Include="include\structs\TimeConverter.cpp" />
-    <ClCompile Include="main_test_adapterSM.cpp" />
+    <ClCompile Include="main_test_command.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\config\config.json" />

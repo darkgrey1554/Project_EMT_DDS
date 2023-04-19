@@ -50,7 +50,7 @@ namespace scada_ate::gate::adapter::opc
 		std::string user_name;
 		std::string password;
 		size_t namespaceindex;
-		size_t partition_size;
+		size_t partition_size = 1000;
 	};
 
 	struct AnswerOPCUAHeaderData : public IAnswer
@@ -488,7 +488,7 @@ namespace scada_ate::gate::adapter::opc
 				for (int i = 0; i < current_size_read; i++)
 				{
 					UA_ReadValueId& value = ptr_request->request.nodesToRead[i];
-					InfoTag& tag = take_tags_target(source, i + (counter_read - 1) * size_window);;
+					InfoTag& tag = take_tags_target(source, i + counter_read * size_window);;
 					UA_ReadValueId_init(&value);
 					value.nodeId = tag_to_nodeid(tag);
 					value.attributeId = UA_ATTRIBUTEID_VALUE;
@@ -498,7 +498,7 @@ namespace scada_ate::gate::adapter::opc
 
 				for (int i = 0;; i++)
 				{
-					std::unique_ptr ptr_response = std::make_unique<OPC_UA_ReadResponse>();
+					std::unique_ptr<OPC_UA_ReadResponse> ptr_response = std::make_unique<OPC_UA_ReadResponse>();
 					if (request_to_opc_server(ptr_request->request, ptr_response->response) != ResultReqest::OK)
 					{
 						if (i >= 2) throw 1;
@@ -506,6 +506,7 @@ namespace scada_ate::gate::adapter::opc
 					}
 
 					fill_vector_request(target, source, ptr_response->response, counter_read);
+					break;
 				}
 
 				counter_read++;

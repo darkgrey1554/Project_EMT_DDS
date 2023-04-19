@@ -39,7 +39,7 @@ namespace scada_ate::gate
 		return result;
 	};
 
-	ResultReqest Module_IO::AddUnit(const adapter::ConfigUnitTransfer& config)
+	ResultReqest Module_IO::AddUnit(adapter::ConfigUnitTransfer& config)
 	{
 		ResultReqest result{ ResultReqest::OK };
 
@@ -52,19 +52,22 @@ namespace scada_ate::gate
 			if (builder->CreateUnit(config.id) != ResultReqest::OK) throw 2;
 			if (builder->SetFrqTransfer(config.frequency) != ResultReqest::OK) throw 3;
 
-			auto& source = config.config_input_unit[0];
+			auto& source = config.config_input_unit.front();
 			source->vec_tags_source.clear();
 
-			for (auto& map : config.mapping)
+			build_vector_tag(source->vec_tags_source, config.mapping);
+			
+			/*for (auto& map : config.mapping)
 			{
 				for (auto& tag : map.vec_links)
 				{
 					if (std::find(source->vec_tags_source.begin(), source->vec_tags_source.end(), tag.source) == source->vec_tags_source.end())
 					{
 						source->vec_tags_source.push_back(tag.source);
+						source->vec_tags_source.back().offset_store
 					}
 				}
-			}
+			}*/
 
 			if (builder->SetAdapterSource(source) != ResultReqest::OK) throw 4;
 
@@ -162,6 +165,98 @@ namespace scada_ate::gate
 		}
 
 		return result;
+	}
+
+	void Module_IO::build_vector_tag(std::vector<scada_ate::gate::adapter::InfoTag>& vector_source, std::vector<scada_ate::gate::adapter::Mapping>& mapping)
+	{
+		size_t offset_int_source = 0;
+		size_t offset_float_source = 0;
+		size_t offset_char_source = 0;
+		size_t offset_double_source = 0;
+		size_t offset_str_source = 0;
+		std::vector<scada_ate::gate::adapter::InfoTag>::iterator it;
+
+		vector_source.clear();
+
+		for (auto& map : mapping)
+		{
+			size_t offset_int_target = 0;
+			size_t offset_float_target = 0;
+			size_t offset_char_target = 0;
+			size_t offset_double_target = 0;
+			size_t offset_str_target = 0;
+			for (auto& tag : map.vec_links)
+			{
+				it = std::find(vector_source.begin(), vector_source.end(), tag.source);
+				if (it == vector_source.end())
+				{
+					switch (tag.source.type)
+					{
+					case scada_ate::gate::adapter::TypeValue::INT:
+						tag.source.offset_store = offset_int_source;
+						tag.target.offset_store = offset_int_target;
+						offset_int_source++;
+						offset_int_target++;
+						break;
+					case scada_ate::gate::adapter::TypeValue::FLOAT:
+						tag.source.offset_store = offset_float_source;
+						tag.target.offset_store = offset_float_target;
+						offset_float_source++;
+						offset_float_target++;
+						break;
+					case scada_ate::gate::adapter::TypeValue::DOUBLE:
+						tag.source.offset_store = offset_double_source;
+						tag.target.offset_store = offset_double_target;
+						offset_double_source++;
+						offset_double_target++;
+						break;
+					case scada_ate::gate::adapter::TypeValue::CHAR:
+						tag.source.offset_store = offset_char_source;
+						tag.target.offset_store = offset_char_target;
+						offset_char_source++;
+						offset_char_target++;
+						break;
+					case scada_ate::gate::adapter::TypeValue::STRING:
+						tag.source.offset_store = offset_str_source;
+						tag.target.offset_store = offset_str_target;
+						offset_str_source++;
+						offset_str_target++;
+						break;
+					}
+					vector_source.push_back(tag.source);
+				}
+				else
+				{
+					switch (tag.source.type)
+					{
+					case scada_ate::gate::adapter::TypeValue::INT:
+						tag.target.offset_store = offset_int_target;
+						offset_int_target++;
+						break;
+					case scada_ate::gate::adapter::TypeValue::FLOAT:
+						tag.target.offset_store = offset_float_target;
+						offset_float_target++;
+						break;
+					case scada_ate::gate::adapter::TypeValue::DOUBLE:
+						tag.target.offset_store = offset_double_target;
+						offset_double_target++;
+						break;
+					case scada_ate::gate::adapter::TypeValue::CHAR:
+						tag.target.offset_store = offset_char_target;
+						offset_char_target++;
+						break;
+					case scada_ate::gate::adapter::TypeValue::STRING:
+						tag.target.offset_store = offset_str_target;
+						offset_str_target++;
+						break;
+					}
+
+					tag.target.offset_store = it->offset_store;
+				}
+			}
+		}
+
+		return;
 	}
 
 	uint32_t Module_IO::GetId()

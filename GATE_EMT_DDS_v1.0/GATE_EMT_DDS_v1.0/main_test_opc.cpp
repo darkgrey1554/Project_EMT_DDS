@@ -30,20 +30,15 @@ int main()
 	vec_link_tags.reserve(20);
 	for (size_t i = 0; i < 10; i++)
 	{
-		vec_tag_source.push_back({ "", 1001, 1, i, ate::TypeValue::INT });
-		vec_tag_source.push_back({ "", 1003, 1, i, ate::TypeValue::FLOAT });
+		vec_tag_source.push_back({ "", 1001, 1, i, ate::TypeValue::INT,0,i });
+		vec_tag_source.push_back({ "", 1003, 1, i, ate::TypeValue::FLOAT,0,i });
 	}
-
-	/*for (size_t i = 0; i < size_data_float; i++)
-	{
-		
-	}*/
 
 	int counter_tag = 0;
 
 	for (auto it : vec_tag_source)
 	{
-		vec_link_tags.push_back({ it, { "", counter_tag, 0, it.offset, it.type}, ate::TypeRegistration::RECIVE, 0. });
+		vec_link_tags.push_back({ it, { "", counter_tag, 0, it.offset, it.type,0,it.offset_store}, ate::TypeRegistration::RECIVE, 0. });
 		counter_tag++;
 	}
 
@@ -58,8 +53,8 @@ int main()
 	std::shared_ptr<ate::dds::ConfigAdapterDDS> config_dds_pub = std::make_shared<ate::dds::ConfigAdapterDDS>();
 	std::shared_ptr<ate::dds::ConfigAdapterDDS> config_dds_sub = std::make_shared<ate::dds::ConfigAdapterDDS>();
 
-	scada_ate::typetopics::SetMaxSizeDataCollectionInt(100);
-	scada_ate::typetopics::SetMaxSizeDataCollectionFloat(100);
+	atech::common::SizeTopics::SetMaxSizeDataCollectionInt(100);
+	atech::common::SizeTopics::SetMaxSizeDataCollectionFloat(100);
 
 	config_dds_pub->id_adapter = 11;
 	config_dds_pub->str_config_ddslayer = "";
@@ -112,7 +107,7 @@ int main()
 																							   
 		a = *data;
 
-		for (auto it = a.begin(); it != a.end(); it++)
+		/*for (auto it = a.begin(); it != a.end(); it++)
 		{
 			for (auto& it_map : it->map_data)
 			{
@@ -130,7 +125,7 @@ int main()
 					std::cout << std::get<double>(it_map.second.value) << std::endl;
 				}
 			}
-		}
+		}*/
 
 		Sleep(1000);
 		if (q == 'q') break;

@@ -42774,3 +42774,188 @@
 [19/01/23 16:38:29.750] [debug]	FactoryDDS node-0: Unregistration of datarwriter dds_status done
 [19/01/23 16:38:29.752] [debug]	FactoryDDS node-0: unregistration of topic dds_command done
 [19/01/23 16:38:29.752] [debug]	FactoryDDS node-0: unregistration of topic dds_status done
+[19/04/23 14:59:50.731] [critical]	FactoryDDS node-0: Error registration of config: error 1 : syserror 0
+[19/04/23 14:59:50.733] [warning]	Module_CTRL node-65793: Error registration profiles dds layer
+[19/04/23 14:59:50.802] [debug]	FactoryDDS node-0: Init participant done : defualt
+[19/04/23 14:59:50.803] [debug]	FactoryDDS node-0: Init subscriber done : defualt
+[19/04/23 14:59:50.803] [debug]	FactoryDDS node-0: Init publisher done : defualt
+[19/04/23 14:59:50.804] [debug]	FactoryDDS node-0: registration types dds done
+[19/04/23 14:59:50.804] [debug]	FactoryDDS node-0: Init dds done
+[19/04/23 14:59:51.827] [debug]	FactoryDDS node-0: Registration of topic dds_command : default 
+[19/04/23 14:59:51.827] [debug]	UnitAid_DDS node-65793: Init topic of command done
+[19/04/23 14:59:51.827] [debug]	FactoryDDS node-0: Registration of topic dds_status : default 
+[19/04/23 14:59:51.828] [debug]	UnitAid_DDS node-65793: Init topic of status done
+[19/04/23 14:59:51.836] [debug]	FactoryDDS node-0: Registration of datareader topic dds_command: default
+[19/04/23 14:59:51.836] [debug]	UnitAid_DDS node-65793: Init datareader done
+[19/04/23 14:59:51.837] [debug]	FactoryDDS node-0: Registration of datawriter topic dds_status: default
+[19/04/23 14:59:51.838] [debug]	UnitAid_DDS node-65793: Init datawriter done
+[19/04/23 14:59:51.838] [info]	UnitAdi_DDS node_id-65793 : Initialization done
+[19/04/23 14:59:51.951] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 14:59:51.953] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:51.954] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 14:59:51.955] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:51.957] [debug]	AdapterDDS id-102: Start init
+[19/04/23 14:59:51.957] [debug]	FactoryDDS node-0: registration types dds done
+[19/04/23 14:59:51.957] [debug]	FactoryDDS node-0: Init dds done
+[19/04/23 14:59:51.958] [debug]	FactoryDDS node-0: Registration of topic from_emt : default 
+[19/04/23 14:59:51.958] [debug]	FactoryDDS node-0: Registration of datawriter topic from_emt: default
+[19/04/23 14:59:51.959] [info]	AdapterDDS id - 102: Init done
+[19/04/23 14:59:51.960] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 14:59:51.960] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:51.961] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 14:59:51.962] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:51.962] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 14:59:51.964] [debug]	AdapterDDS id-201: Start init
+[19/04/23 14:59:51.964] [debug]	FactoryDDS node-0: registration types dds done
+[19/04/23 14:59:51.966] [debug]	FactoryDDS node-0: Init dds done
+[19/04/23 14:59:51.967] [debug]	FactoryDDS node-0: Registration of topic to_emt : default 
+[19/04/23 14:59:51.970] [debug]	FactoryDDS node-0: Registration of datareader topic to_emt: default
+[19/04/23 14:59:51.972] [info]	AdapterDDS id - 201: Init done
+[19/04/23 14:59:51.973] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 14:59:51.974] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:51.974] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 14:59:51.976] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:51.976] [warning]	BuilderUnitTransfer: Error initional adapter id-202
+[19/04/23 14:59:51.978] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 14:59:51.978] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:51.980] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 14:59:51.981] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:51.982] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 14:59:52.949] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 14:59:52.950] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 14:59:52.966] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 14:59:52.979] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 14:59:52.980] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:52.981] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 14:59:52.983] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:52.983] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 14:59:52.995] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 14:59:52.997] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:52.999] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 14:59:53.000] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:53.000] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 14:59:53.928] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 14:59:53.929] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 14:59:53.943] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 14:59:53.989] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 14:59:53.990] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:53.991] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 14:59:53.993] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:53.993] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 14:59:54.004] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 14:59:54.005] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:54.006] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 14:59:54.007] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:54.008] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 14:59:54.909] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 14:59:54.910] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 14:59:54.925] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 14:59:55.002] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 14:59:55.003] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:55.004] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 14:59:55.006] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:55.006] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 14:59:55.018] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 14:59:55.019] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:55.020] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 14:59:55.021] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:55.022] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 14:59:55.888] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 14:59:55.889] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 14:59:55.905] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 14:59:56.013] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 14:59:56.014] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:56.015] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 14:59:56.017] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:56.017] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 14:59:56.028] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 14:59:56.031] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:56.031] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 14:59:56.033] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:56.033] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 14:59:56.864] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 14:59:56.865] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 14:59:56.880] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 14:59:57.022] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 14:59:57.022] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:57.023] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 14:59:57.025] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:57.025] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 14:59:57.036] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 14:59:57.038] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:57.039] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 14:59:57.040] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:57.040] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 14:59:57.844] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 14:59:57.846] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 14:59:57.861] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 14:59:58.029] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 14:59:58.030] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:58.031] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 14:59:58.034] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:58.035] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 14:59:58.045] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 14:59:58.047] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:58.048] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 14:59:58.049] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:58.050] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 14:59:58.822] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 14:59:58.823] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 14:59:58.838] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 14:59:59.040] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 14:59:59.040] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:59.041] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 14:59:59.043] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:59.043] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 14:59:59.055] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 14:59:59.057] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 14:59:59.061] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 14:59:59.063] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 14:59:59.064] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 14:59:59.802] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 14:59:59.804] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 14:59:59.819] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 15:00:00.052] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 15:00:00.053] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 15:00:00.054] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 15:00:00.055] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 15:00:00.056] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 15:00:00.068] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 15:00:00.069] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 15:00:00.070] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 15:00:00.071] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 15:00:00.071] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 15:00:00.779] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 15:00:00.780] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 15:00:00.795] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 15:00:01.059] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 15:00:01.060] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 15:00:01.061] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 15:00:01.063] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 15:00:01.063] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 15:00:01.074] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 15:00:01.076] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 15:00:01.077] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 15:00:01.078] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 15:00:01.078] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 15:00:01.756] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 15:00:01.757] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 15:00:01.771] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 15:00:02.069] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 15:00:02.070] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 15:00:02.071] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 15:00:02.072] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 15:00:02.073] [critical]	UnitTransfer id - 100: Error ReInit adapter source: error: 0 syserror: 0
+[19/04/23 15:00:02.084] [info]	AdapterSharedMemory from_scada: Init START
+[19/04/23 15:00:02.086] [debug]	AdapterSharedMemory from_scada : InitSecurityAttributs DONE
+[19/04/23 15:00:02.086] [debug]	AdapterSharedMemory from_scada : CreateMutex DONE
+[19/04/23 15:00:02.088] [critical]	AdapterSharedMemory from_scada: Error Init : error: 5, syserror: 5
+[19/04/23 15:00:02.088] [warning]	UnitTransfer id - 200: Error ReInit adapter target id-202: error: 0 syserror: 0
+[19/04/23 15:00:02.733] [warning]	AdapterSharedMemory to_scada: ReadData IGNOR: error 1
+[19/04/23 15:00:02.734] [warning]	UnitTransfer id - 100: Error recive data
+[19/04/23 15:00:02.748] [debug]	AdapterSharedMemory from_scada: WriteData IGNOR
+[19/04/23 15:00:03.075] [info]	AdapterSharedMemory to_scada: Init START
+[19/04/23 15:00:03.076] [debug]	AdapterSharedMemory to_scada : InitSecurityAttributs DONE
+[19/04/23 15:00:03.080] [debug]	AdapterSharedMemory to_scada : CreateMutex DONE
+[19/04/23 15:00:03.082] [critical]	AdapterSharedMemory to_scada: Error Init : error: 5, syserror: 5
+[19/04/23 15:00:03.082] [critical]	UnitTra

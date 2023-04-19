@@ -12,6 +12,8 @@ namespace scada_ate::gate
 		int _node_id = 0;
 
 		ResultReqest verification_config_unit(const adapter::ConfigUnitTransfer& config);
+		void build_vector_tag(std::vector<scada_ate::gate::adapter::InfoTag>& vector_source, std::vector<scada_ate::gate::adapter::Mapping>& mapping);
+
 		public:
 
 		Module_IO();
@@ -21,7 +23,7 @@ namespace scada_ate::gate
 		ResultReqest SetNodeID(int64_t id);
 		ResultReqest RemoveUnit(int64_t id);
 		ResultReqest ClearModule();
-		ResultReqest AddUnit(const adapter::ConfigUnitTransfer& config);
+		ResultReqest AddUnit(adapter::ConfigUnitTransfer& config);
 		uint32_t GetId() override;
 		ResultReqest GetStatus(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
 		ResultReqest Start(std::deque<std::pair<uint32_t, atech::common::Status>>& st, uint32_t id = 0) override;
